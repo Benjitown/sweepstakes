@@ -24,6 +24,7 @@
 <link rel="stylesheet" href="css/fruity.css">
 <link rel="stylesheet" href="css/storm.css">
 <link rel="stylesheet" href="css/kevcoin.css">
+<link rel="stylesheet" href="css/seasons.css">
 <link rel="stylesheet" href="css/animations.css">
 </head>
 <body>
@@ -41,6 +42,7 @@
       <div class="streak" id="streak" hidden title="Win streak: bonus on profit"><svg aria-hidden="true"><use href="#i-flame"/></svg><span class="long"></span><span class="short"></span></div>
       <div class="goldchip" id="goldChip" hidden title="Golden boards waiting for you"><svg aria-hidden="true"><use href="#i-crown"/></svg><span class="long"></span><span class="short"></span></div>
       <div class="sugarchip" id="sugarChip" hidden title="Sugar rush: +25% on the profit of your next winning cash-out"><svg aria-hidden="true"><use href="#i-cone"/></svg><span class="long"></span><span class="short"></span></div>
+      <button class="darechip" id="dareChip" type="button" hidden><svg aria-hidden="true"><use href="#i-dare"/></svg><span class="long"></span><span class="short"></span></button>
       <button class="chirpchip" id="chirpChip" type="button" hidden title="The smoke detector wants a new battery"><svg aria-hidden="true"><use href="#i-battery"/></svg><span class="long">Change the battery</span><span class="short">Fix</span></button></div>
     <div class="inset goal" id="goal"><span class="lbl goal-l"></span><span class="goal-bar"><i></i></span></div>
     <div class="run-actions">
@@ -291,6 +293,68 @@
 </symbol>
 <symbol id="i-bone" viewBox="0 0 64 64">
  <g transform="rotate(-30 32 32)"><path d="M18 26 a7 7 0 1 1 6 -9 h16 a7 7 0 1 1 6 9 a7 7 0 1 1 -6 9 h-16 a7 7 0 1 1 -6 -9 z" fill="#fff8e6" stroke="#141b1d" stroke-width="4" stroke-linejoin="round" transform="translate(0 6)"/></g>
+</symbol>
+<symbol id="i-dart" viewBox="0 0 64 64">
+ <path d="M7 57 L28 36" stroke="#c9d6da" stroke-width="4" stroke-linecap="round"/>
+ <path d="M26 38 L42 22" stroke="#141b1d" stroke-width="9" stroke-linecap="round"/><path d="M26 38 L42 22" stroke="#ffd23f" stroke-width="5" stroke-linecap="round"/>
+ <path d="M41 23 L49 5 L54 17 Z M41 23 L59 15 L47 10 Z" fill="#fe5f55" stroke="#141b1d" stroke-width="3" stroke-linejoin="round"/>
+</symbol>
+<symbol id="i-boot" viewBox="0 0 64 64">
+ <path d="M6 44 V32 q0 -4 4 -5 l9 -2 l8 -9 h18 l6 9 q8 1 8 7 v12 z" fill="#009dff" stroke="#141b1d" stroke-width="3.5" stroke-linejoin="round"/>
+ <path d="M45 16 l14 -8 l2 4 l-12 9" fill="#00609f" stroke="#141b1d" stroke-width="3" stroke-linejoin="round"/>
+ <path d="M29 19 h14 l4 7 h-21 z" fill="#c9e8ff" stroke="#141b1d" stroke-width="2.5" stroke-linejoin="round"/>
+ <rect x="45" y="22" width="12" height="9" fill="#e0a85a" stroke="#141b1d" stroke-width="2.5"/>
+ <g fill="#3a5159" stroke="#141b1d" stroke-width="3"><circle cx="17" cy="45" r="7"/><circle cx="48" cy="45" r="7"/></g>
+ <g fill="#c9d6da"><circle cx="17" cy="45" r="2.5"/><circle cx="48" cy="45" r="2.5"/></g>
+ <path d="M2 56 h60" stroke="#141b1d" stroke-width="3" stroke-linecap="round" opacity=".5"/>
+</symbol>
+<symbol id="i-claw" viewBox="0 0 64 64">
+ <path d="M32 2 v14" stroke="#c9d6da" stroke-width="4" stroke-linecap="round"/>
+ <rect x="24" y="14" width="16" height="11" rx="3" fill="#c9d6da" stroke="#141b1d" stroke-width="3.5"/>
+ <path d="M26 23 Q10 31 14 52 l7 -2 Q19 35 30 27 z M38 23 Q54 31 50 52 l-7 -2 Q45 35 34 27 z" fill="#93b3bd" stroke="#141b1d" stroke-width="3.5" stroke-linejoin="round"/>
+ <circle cx="32" cy="50" r="9" fill="#ffd23f" stroke="#141b1d" stroke-width="3.5"/><path d="M28 47 q2 -3 5 -3" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+</symbol>
+<!-- the seasons -->
+<symbol id="i-pumpkin" viewBox="0 0 64 64">
+ <path d="M32 18 q-2 -9 5 -12" fill="none" stroke="#2f7d3a" stroke-width="5" stroke-linecap="round"/>
+ <ellipse cx="32" cy="39" rx="27" ry="20" fill="#ffa31a" stroke="#141b1d" stroke-width="4"/>
+ <path d="M32 19 q-8 20 0 40 M32 19 q8 20 0 40 M19 22 q-7 17 0 34 M45 22 q7 17 0 34" fill="none" stroke="#c46f00" stroke-width="2.5"/>
+ <path d="M18 35 l6 -8 l6 8 z M34 35 l6 -8 l6 8 z" fill="#3b2400"/>
+ <path d="M17 43 q15 12 30 0 l-4 4 l-3 -3 l-4 4 l-4 -4 l-4 4 l-4 -4 l-3 3 z" fill="#3b2400"/>
+</symbol>
+<symbol id="i-bat" viewBox="0 0 64 40">
+ <path d="M32 15 C25 4 11 2 2 9 C8 11 10 17 8 23 C14 19 18 21 20 27 C24 21 28 21 32 25 C36 21 40 21 44 27 C46 21 50 19 56 23 C54 17 56 11 62 9 C53 2 39 4 32 15 Z" fill="#2a1f3d" stroke="#141b1d" stroke-width="2" stroke-linejoin="round"/>
+ <path d="M28 12 l1 -6 l3 4 l3 -4 l1 6" fill="#2a1f3d" stroke="#141b1d" stroke-width="2" stroke-linejoin="round"/>
+ <circle cx="29.5" cy="15" r="1.6" fill="#ffa31a"/><circle cx="34.5" cy="15" r="1.6" fill="#ffa31a"/>
+</symbol>
+<symbol id="i-splat" viewBox="0 0 64 64">
+ <path d="M32 5 c6 1 7 9 13 7 c7 -2 12 5 8 11 c-3 5 7 9 4 16 c-3 7 -11 3 -13 10 c-2 6 -8 10 -14 7 c-6 -3 -10 1 -15 -4 c-5 -5 1 -10 -4 -15 c-4 -6 -1 -13 5 -14 c6 -1 4 -9 10 -13 c2 -2 4 -5 6 -5 z" fill="#fffdf2" fill-opacity=".88" stroke="#d9d2bd" stroke-width="2"/>
+ <circle cx="31" cy="32" r="10" fill="#ffc21a" stroke="#e09a00" stroke-width="2"/><circle cx="27.5" cy="28.5" r="3" fill="#fff" opacity=".7"/>
+</symbol>
+<symbol id="i-firework" viewBox="0 0 64 64">
+ <path d="M29 42 L15 61" stroke="#7a4a1e" stroke-width="3.5" stroke-linecap="round"/>
+ <g transform="rotate(32 36 26)"><rect x="30" y="15" width="12" height="26" rx="2" fill="#fe5f55" stroke="#141b1d" stroke-width="3.5"/>
+  <path d="M30 15 L36 4 L42 15 z" fill="#ffd23f" stroke="#141b1d" stroke-width="3.5" stroke-linejoin="round"/><path d="M30 27 h12" stroke="#fff" stroke-width="3"/></g>
+ <g fill="#ffd23f" stroke="#141b1d" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><circle cx="55" cy="46" r="2.5"/><circle cx="9" cy="31" r="2"/></g>
+</symbol>
+<symbol id="i-holly" viewBox="0 0 64 64">
+ <path d="M30 34 q-10 -16 -26 -14 q4 4 2 8 q5 0 6 5 q4 -2 7 2 q3 -3 11 -1 z" fill="#3fc18a" stroke="#141b1d" stroke-width="3.5" stroke-linejoin="round"/>
+ <path d="M34 34 q10 -16 26 -14 q-4 4 -2 8 q-5 0 -6 5 q-4 -2 -7 2 q-3 -3 -11 -1 z" fill="#3fc18a" stroke="#141b1d" stroke-width="3.5" stroke-linejoin="round"/>
+ <g fill="#fe5f55" stroke="#141b1d" stroke-width="3"><circle cx="26" cy="43" r="7"/><circle cx="38" cy="43" r="7"/><circle cx="32" cy="33" r="7"/></g>
+</symbol>
+<symbol id="i-dare" viewBox="0 0 64 64">
+ <circle cx="28" cy="36" r="23" fill="#fe5f55" stroke="#141b1d" stroke-width="4"/>
+ <circle cx="28" cy="36" r="14.5" fill="#fff8e6" stroke="#141b1d" stroke-width="3"/>
+ <circle cx="28" cy="36" r="6.5" fill="#fe5f55" stroke="#141b1d" stroke-width="3"/>
+ <path d="M29 35 L51 13" stroke="#141b1d" stroke-width="4.5" stroke-linecap="round"/>
+ <path d="M48 16 l2 -11 l5 5 z M48 16 l11 -2 l-5 -5 z" fill="#ffd23f" stroke="#141b1d" stroke-width="2.5" stroke-linejoin="round"/>
+</symbol>
+<symbol id="i-tin" viewBox="0 0 64 64">
+ <path d="M7 23 v23 a25 8.5 0 0 0 50 0 v-23 z" fill="#3a74d6" stroke="#141b1d" stroke-width="4" stroke-linejoin="round"/>
+ <path d="M9 35 q5.75 5 11.5 0 t11.5 0 t11.5 0 t11.5 0" fill="none" stroke="#ffd23f" stroke-width="2.5" stroke-linecap="round"/>
+ <ellipse cx="32" cy="23" rx="25" ry="8.5" fill="#5b8ff0" stroke="#141b1d" stroke-width="4"/>
+ <ellipse cx="32" cy="23" rx="11" ry="3.6" fill="none" stroke="#ffd23f" stroke-width="2.5"/>
+ <path d="M15 19 q7 -4 15 -4.5" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".6"/>
 </symbol>
 <!-- the Fruity's reel symbols -->
 <symbol id="i-cherry" viewBox="0 0 64 64">

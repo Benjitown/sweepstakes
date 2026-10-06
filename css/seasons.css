@@ -1,0 +1,24 @@
+/* The seasons (src/ui/season-view.js): Halloween turns the room purple and lets a bat in now and then, dug-up
+   pumpkins sit on their tiles, eggs on the window, snow at Christmas, and a little something by the logo. */
+body[data-season="halloween"] #bg{filter:hue-rotate(118deg) saturate(.95) brightness(.8)}
+body[data-season="xmas"] #bg{filter:saturate(.75) brightness(.95)}
+.seasondeco{width:26px;height:26px;margin-left:6px;flex:none;filter:drop-shadow(0 2px 0 rgba(0,0,0,.4));animation:decobob 3s ease-in-out infinite alternate}
+@media (max-width:760px){.seasondeco{width:20px;height:20px;margin-left:4px}}
+
+/* a pumpkin on its tile */
+.c.o.pk{background:#5a3410;box-shadow:inset 0 0 0 2px var(--orange)}
+.c.o.pk svg{width:78%;height:78%}
+
+/* a bat, flapping across the room */
+.bat{position:fixed;left:-90px;z-index:60;pointer-events:none;width:64px;height:40px;animation:batfly 8s linear forwards}
+.bat svg{width:100%;height:100%;animation:batflap .18s ease-in-out infinite alternate;transform-origin:50% 40%}
+.bat.back{left:auto;right:-90px;animation-name:batback}
+
+/* eggs on the window */
+.eggs{position:fixed;inset:0;z-index:55;pointer-events:none}
+.egg{position:absolute;width:min(22vw,150px);height:min(22vw,150px);transform:rotate(var(--r));opacity:.85;animation:eggsplat .35s cubic-bezier(.2,1.6,.4,1) var(--d) both}
+.eggs.wiped .egg{transition:opacity 1s;opacity:0}
+
+/* snow past the window */
+.snow{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.snow i{position:absolute;top:-12px;width:var(--s);height:var(--s);background:#fff;border-radius:1px;opacity:.75;animation:snowfall linear infinite}

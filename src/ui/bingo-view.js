@@ -70,7 +70,7 @@ export const BingoView = {
         <div class="bgrid">${g.ticket.map((row, r) => row.map(n => n ? `<span class="bn" data-n="${n}" data-r="${r}">${n}</span>` : '<span class="bx"></span>').join('')).join('')}</div>
         <p class="bsweat" id="bSweat" aria-live="polite"></p></div>
       <div class="duckres" id="bingoRes" aria-live="polite"><span>Line ×${BINGO_PAYS[1]} · two lines ×${BINGO_PAYS[2]} · full house ×${BINGO_PAYS[3]}</span></div>
-      <div class="row"><button class="btn gold" type="button" id="bingoFast">Hurry up, Nan</button>
+      <div class="row"><button class="btn gold" type="button" id="bingoFast">Faster please, Nan</button>
         <button class="btn ghost" type="button" id="bingoShelf" hidden>Back to the shelf</button><button class="btn ghost" type="button" data-a="close" disabled>Leave</button></div>`,
       { close: () => UI.closeModal() }, true);
     $$('.booth button', UI.el.box).forEach(b => { b.disabled = true; });
@@ -127,14 +127,17 @@ export const BingoView = {
     st.done = true; UI.modalLocked = false; Voice.hush();
     const { g } = st, again = Bingo.price(g.kind);
     Bingo.settle();
-    $$('.booth button, [data-a="close"]', UI.el.box).forEach(b => { b.disabled = false; });
+    // the result in the hall (if the hall's still on screen: something else may have closed the window)
     const res = $('#bingoRes');
-    if (g.prize) { res.className = 'duckres'; res.innerHTML = `<b>${RESULT[g.lines]}! +${fmt(g.prize)}</b><span>×${g.x} your money · ${esc(rnd(BINGO_END[g.lines]))}</span>`; }
-    else { res.className = 'duckres lose'; res.innerHTML = `<b>No luck</b><span>${esc(rnd(BINGO_END[0]))}</span>`; }
-    const go = $('#bingoFast');
-    go.disabled = S.coins < again; go.textContent = `Another ticket (${fmt(again)})`; go.onclick = () => this.buy(g.kind.id);
-    const shelf = $('#bingoShelf'); shelf.hidden = false; shelf.onclick = () => this.shelf();
-    Game.setCoins(S.coins, !!g.prize, g.prize ? { from: $('.bcard', UI.el.box), amount: g.prize } : null);
+    if (res) {
+      $$('.booth button, [data-a="close"]', UI.el.box).forEach(b => { b.disabled = false; });
+      if (g.prize) { res.className = 'duckres'; res.innerHTML = `<b>${RESULT[g.lines]}! +${fmt(g.prize)}</b><span>×${g.x} your money · ${esc(rnd(BINGO_END[g.lines]))}</span>`; }
+      else { res.className = 'duckres lose'; res.innerHTML = `<b>No luck</b><span>${esc(rnd(BINGO_END[0]))}</span>`; }
+      const go = $('#bingoFast');
+      go.disabled = S.coins < again; go.textContent = `Another ticket (${fmt(again)})`; go.onclick = () => this.buy(g.kind.id);
+      const shelf = $('#bingoShelf'); shelf.hidden = false; shelf.onclick = () => this.shelf();
+    }
+    Game.setCoins(S.coins, !!g.prize, g.prize && res ? { from: $('.bcard', UI.el.box), amount: g.prize } : null);
     bus.emit('bingo', { lines: g.lines, x: g.x, prize: g.prize, price: g.price, kind: g.kind.id });
     if (S.coins < TABLES[0].min && !Game.slots.some(Boolean)) setTimeout(() => { if (this.st === st && !UI.modalClosed()) UI.closeModal(); }, 1800);
   },

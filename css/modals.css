@@ -37,6 +37,13 @@
 .betrow input{width:9ch;font-family:var(--big);font-size:1.6rem;line-height:1;padding:4px 8px;border:0;border-radius:9px;background:var(--panel-in);color:var(--ink);text-align:right}
 .betrow .btn{font-size:.85rem;padding:.35em .6em}
 .roast{display:grid;gap:8px;width:100%;text-align:left}
+/* Nan's biscuit tin, on the bust screen */
+.tincard{display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:var(--purple-lo);border-radius:12px;padding:10px 12px;box-shadow:0 0 0 3px var(--purple),0 5px 0 3px var(--shadow);animation:tinin .6s cubic-bezier(.2,1.5,.4,1) both}
+.tincard svg{width:58px;height:58px;flex:none;filter:drop-shadow(0 3px 0 rgba(0,0,0,.4))}
+.tincard p{margin:0}
+.tincard b.num{color:var(--gold);font-family:var(--big);font-weight:400;font-size:1.45rem;line-height:1}
+.tincard q{display:block;margin-top:4px;color:#f3e9ff}
+.tincard q::before{content:"“"}.tincard q::after{content:"”"}
 
 /* the free spin wheel */
 .wheel{width:min(300px,76vw)}

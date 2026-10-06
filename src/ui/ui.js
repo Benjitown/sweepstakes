@@ -31,7 +31,7 @@ export const UI = {
   // the tabs at the top of the Flip Booth: coin flip | duck race | scratchcards | bingo | the Fruity (wiring.js switches on the 'booth' event)
   boothTabs(on) {
     return `<div class="booth" role="tablist" aria-label="The booth">${[['flip', 'coin', 'Coin flip', 'Flip'], ['ducks', 'duck', 'Duck race', 'Ducks'],
-      ['scratch', 'ticket', 'Scratchcards', 'Scratch'], ['bingo', 'bingo', 'Bingo', 'Bingo'], ['fruity', 'cherry', 'The Fruity (fruit machine)', 'Fruity']].map(([k, icon, label, short]) =>
+      ['scratch', 'ticket', 'Scratchcards', 'Scratch'], ['bingo', 'bingo', 'Bingo', 'Bingo'], ['fruity', 'cherry', 'The Fruity (fruit machine)', 'Fruity'], ['claw', 'claw', 'The claw machine', 'Claw']].map(([k, icon, label, short]) =>
       `<button type="button" role="tab" aria-selected="${k === on}" data-booth="${k}" title="${label}" aria-label="${label}">${ico(icon)}<span>${short}</span></button>`).join('')}</div>`;
   },
   toast(msg) {
@@ -66,10 +66,14 @@ export const UI = {
     const roast = [rnd(LINES.don_lose), rnd(LINES.bust)].filter((x, i, a) => a.findIndex(y => y[0] === x[0]) === i);
     bus.emit('bust', { reason });
     this.moodLock = 'bust';
-    this.modal(`${ico('skull', 'bigicon')}<h3 class="red">Stuffed.</h3><p>${why} Your rank survives. Everything else is gone.</p>
+    // Nan's biscuit tin (game/biscuit-tin.js): on a real bust she brings round what she's put by
+    const tin = reason === 'manual' ? 0 : Game.lastTin || 0;
+    this.modal(`${ico('skull', 'bigicon')}<h3 class="red">Stuffed.</h3><p>${why} Your rank survives. ${tin ? 'And Nan’s been round.' : 'Everything else is gone.'}</p>
       <div class="odds"><div><small>Lasted</small><b class="num">${dur(r.time)}</b></div><div><small>Peak</small><b class="num">${fmt(r.peak)}</b></div><div><small>Boards</small><b class="num">${r.boards}</b></div></div>
+      ${tin ? `<div class="tincard">${ico('tin')}<p><b>Nan’s biscuit tin.</b> It isn’t biscuits. It’s <b class="num">${fmt(tin)}</b> she’s been putting by for you, a little every time you won.
+        <q>For a rainy day, love. I’m always here x</q></p></div>` : ''}
       <div class="roast">${roast.map(([w, t]) => Chat.bubble(w, t)).join('')}</div>
-      <button class="btn green big" type="button" data-a="again">Start again with ${fmt(START)}</button>`,
+      <button class="btn green big" type="button" data-a="again">Start again with ${fmt(START + tin)}</button>`,
       { again: () => { this.closeModal(); bus.emit('reset'); } }, true);
     bus.emit('reset', { keepModal: true });
   },

@@ -4,7 +4,7 @@
    Risky digs multiply the pot by the odds taken: × (1 + BOOST·p/(1−p)). Gems multiply it again. Clearing adds × CLEAR. */
 export const START = 1000;
 export const TABLES = [
-  { id: 'penny',  name: 'Penny Patch',  w: 6,  h: 6,  m: 5,  gems: 1, lim: 3,   prog: .4,  min: 10,    cap: 1e3,   cost: 0,     col: '#3fc18a', blurb: 'Training wheels. Nan plays here.' },
+  { id: 'penny',  name: 'Penny Patch',  w: 6,  h: 6,  m: 5,  gems: 1, lim: 3,   prog: .4,  min: 10,    cap: 1e3,   cost: 0,     col: '#3fc18a', blurb: 'Training wheels. Nan says start here, love.' },
   { id: 'den',    name: 'Dodgy Den',    w: 8,  h: 8,  m: 11, gems: 2, lim: 6,   prog: .3,  min: 200,   cap: 2e4,   cost: 18e3,  col: '#009dff', blurb: 'Sticky floor. Sticky tiles.' },
   { id: 'alley',  name: 'Back Alley',   w: 9,  h: 9,  m: 17, gems: 2, lim: 12,  prog: .25, min: 4e3,   cap: 4e5,   cost: 1.2e6, col: '#ffd23f', blurb: 'Cash only. No questions.' },
   { id: 'roller', name: 'High Rollers', w: 10, h: 10, m: 24, gems: 3, lim: 25,  prog: .2,  min: 8e4,   cap: 8e6,   cost: 75e6,  col: '#fe5f55', blurb: 'Velvet rope, velvet mines.' },

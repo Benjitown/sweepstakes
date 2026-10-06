@@ -19,12 +19,12 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **Nan's bingo,** a fourth tab in the Flip Booth (or press B). Buy one of three 90-ball tickets and Nan calls 60 balls,
   with the old calls ("two little ducks, 22", and the ducks quack). Your ticket dabs itself; a line pays ×1.5, two lines
   ×5 and a full house ×250 (about 1 in 860), so it pays back about 91%. Nan reads the calls out with your browser's own
-  voice (switch it off in Stats), "Hurry up, Nan" skips to the end, and like the ducks and scratchcards the result is
+  voice (switch it off in Stats), "Faster please, Nan" skips to the end, and like the ducks and scratchcards the result is
   settled the moment you buy, so leaving mid-game still pays. Now and then she invites the group chat. New
   achievements: Eyes Down and Full House. The booth's tabs now have short names (Flip, Ducks, Scratch, Bingo).
 - **Go outside.** A button in Stats (or press G) takes you to a little park for three minutes: birds, a breeze, the
   duck from the pond. The whole game waits while you're out (the clock, the bots, the house), and staying out the
-  whole time pays a fresh air bonus. Come back early and you get nothing but a look from Nan. After an hour of play in
+  whole time pays a fresh air bonus. Come back early and there's no bonus, but Nan's glad you went. After an hour of play in
   one go, she suggests it herself. New achievement: Touched Grass.
 - **The Fruity,** a fruit machine in the corner of the Flip Booth (its fifth tab, or press P). Three reels, one win
   line: three of a kind pays from ×6 (lemons) to ×250 (sevens), and two cherries on the left pay ×2. A go that loses
@@ -57,7 +57,45 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **Biscuit, next door's dog.** If you hear barking, he trots in along the bottom of the screen and waits ("Woof?").
   Give him a biscuit (3% of the top table's max stake) and he sniffs out a mine on your board and sits on it: flagged,
   glowing orange for a moment. Ignore him and he wanders off. New achievement: Good Boy.
-- The Flip Booth's five tabs now show their icon above the name at every screen size.
+- **Darts at the Red Lion.** Now and then Big Dave challenges you in the group chat: three darts each, best total
+  wins the pot. Dave throws first (he aims for treble 20, give or take), then your aim wanders round a proper
+  dartboard and you press Throw (or Space) when it's where you want it. Beat him for double your stake, draw for
+  your stake back, or walk away and he keeps it. "Dares from the chat" in Stats switches him off too. New
+  achievements: Arrows and One Hundred and Eighty!
+- **The car boot sale.** Every so often a bloke sets up a pasting table at the end of the road with three add-on
+  cards you haven't got, at his prices (anywhere from 45% to 135% of the shop's, so check), and a mystery box. You
+  get two goes at haggling over each card: a cheeky offer at 60% first, then a fair one at 80%. He might take it, say
+  no, or sell it to someone else while you dither. He packs up after a minute and a bit. New achievement: Haggler.
+- **The claw machine,** the Flip Booth's sixth tab. The claw swings along the top of a glass case of prizes and you
+  press Grab to drop it: a rubber duck (×1.5), a kitten plushie (×2), a googly-eyed bomb (×3 and a shield), a big
+  glass gem (×5) or the golden crown (×10 and a golden board). Dead centre grips best, the dearer prizes are
+  slippery, and it can still drop it on the way to the chute. Even perfect timing pays back a little less than a go
+  costs (90 to 96%); grabbing blind, about half. Leave mid-grab and the prize still pays. New achievements: Claw
+  Blimey and Heavy Is the Head.
+- **The seasons,** by your device's calendar. **Halloween (all October):** the room goes purple, a pumpkin sits by
+  the logo and the odd bat flaps past. Half the boards hide a pumpkin under a safe tile the opening didn't reach: dig
+  it up and the pot goes ×1.15. Trick or treaters come to the door: give them sweets and they give you a sugar rush
+  back (+25% on your next winning cash-out), or pretend you're out and they egg the window. **Bonfire Night (1–7
+  November):** fireworks over every win of ×5 or more, and a few in the distance. **Christmas (1–26 December):** snow
+  past the window, holly by the logo, and a card from Nan through the door with something in it. Try one out any
+  time with `?season=halloween` (or `bonfire`, `xmas`, `none`) on the address, or switch them off with "Seasonal
+  bits" in Stats. New achievements: Pumpkin Patch and Trick or Treat.
+- **Dares.** Now and then someone in the group chat dares you: Tash bets 5,000 you can't cash out a board at ×3 in
+  three minutes, Dave that you can't clear one without a single flag, Priya that you can't win three in a row. Say
+  "You're on" and your stake goes in the pot (a tenth of your coins); do it before the clock in the header runs out
+  and you get double back. Say "Nah" and you get clucked at. The clock stops while you're outside, Nan never bets
+  against you (she cheers), and "Dares from the chat" in Stats switches them off. New achievements: Dared and Done
+  and Triple Dog Dare.
+- **Nan is always lovely.** Every one of her lines is warm and signs off with a kiss, she's out of the rude chat, and
+  nobody in the group chat has a go at her any more (the old digs at her, and at Grandad, are gone). When you lose she's
+  there with a kind word, and when you win she's told the whole street.
+- **Nan's biscuit tin.** Every time a board cashes out in profit, Nan puts a little of her own money by for you (3% of
+  the profit, never out of your winnings, up to 2,500). Go bust and she brings the tin round: the fresh run starts
+  with what's in it. Starting a fresh run yourself doesn't count. Stats shows what's in the tin. New achievement:
+  Rainy Day.
+- The Flip Booth's tabs (six of them now) show their icon above the name at every screen size.
+- **More to talk about:** a dozen new pub quiz questions, ten new group chat conversations (Nan's put a fiver in
+  every coat you own), more quips and more of Nan's horoscopes.
 - `tools/build.py` now stops with a clear message on `import { x as y }`, which the bundler can't do.
 
 ## 4.4.0 (6 Oct 2026)

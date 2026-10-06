@@ -9,7 +9,8 @@ export const FX = (() => {
     ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0); ctx.clearRect(0, 0, innerWidth, innerHeight);
     parts = parts.filter(p => p.life-- > 0 && p.y < innerHeight + 40);
     for (const p of parts) {
-      p.vy += .45; p.vx *= .985; p.x += p.vx; p.y += p.vy;
+      if (p.wait > 0) { p.wait--; continue; }
+      p.vy += p.g ?? .45; p.vx *= p.drag ?? .985; if (p.drag) p.vy *= p.drag; p.x += p.vx; p.y += p.vy;
       const s = Math.round(p.r); ctx.fillStyle = '#141b1d'; ctx.fillRect(Math.round(p.x) - 1, Math.round(p.y) - 1, s + 2, s + 2);
       ctx.fillStyle = p.c; ctx.fillRect(Math.round(p.x), Math.round(p.y), s, s);
     }
@@ -32,6 +33,18 @@ export const FX = (() => {
       if (reduced) return; size();
       const ox = from ? from.x : innerWidth / 2, oy = from ? from.y : innerHeight * .45;
       for (let k = 0; k < n; k++) parts.push({ x: ox + (Math.random() - .5) * 200, y: oy, vx: (Math.random() - .5) * 16, vy: -Math.random() * 15 - 4, r: Math.random() * 5 + 4, c: rnd(cols), life: 90 + Math.random() * 50 });
+      go();
+    },
+    // Bonfire Night: n bursts across the top of the screen, one after another
+    fireworks(n = 3) {
+      if (reduced) return; size();
+      for (let k = 0; k < n; k++) {
+        const x = innerWidth * (.15 + Math.random() * .7), y = innerHeight * (.12 + Math.random() * .28), c = rnd(cols), m = 36 + Math.floor(Math.random() * 18), wait = k * 22;
+        for (let j = 0; j < m; j++) {
+          const a = j / m * Math.PI * 2 + Math.random() * .2, v = 2.5 + Math.random() * 3.5;
+          parts.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, r: Math.random() * 2 + 3, c, g: .06, drag: .955, wait, life: wait + 55 + Math.random() * 30 });
+        }
+      }
       go();
     },
     // Coins fly from an element (or point) to the bank. Returns how long until the first and last land.

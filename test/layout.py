@@ -1,5 +1,5 @@
 """Layout suite: desktop, tablet and phone screenshots (mid-game, the tutorial, the wheel, the daily, the duck race, a knock at
-the door, a seagull, a power cut, Nan's bingo, the park, the Fruity); nothing may overflow sideways, and every header chip must fit on a 360px phone."""
+the door, a seagull, a power cut, Nan's bingo, the park, the Fruity, going bust with Nan's biscuit tin, the claw machine, the car boot sale); nothing may overflow sideways, and every header chip must fit on a 360px phone."""
 from common import Results, open_page
 
 MID_GAME = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.coins = 4.2e8; S.unlocked = ['penny', 'den', 'alley', 'roller'];
@@ -8,7 +8,7 @@ MID_GAME = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.coins = 4.2e8; S
   S.life.lvl = 14; S.life.xp = 300; __sw.renderAll(); document.querySelector('#dealAll').click();
   setTimeout(() => { for (const b of __sw.slots) if (b) __sw.invoke(new __sw.DigCommand(b, Math.floor(b.t.h / 2) * b.t.w + Math.floor(b.t.w / 2))); }, 200); })()'''
 ALL_CHIPS = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.asc = 2; S.streak = 7; S.goldNext = 3; S.life.lvl = 23; S.coins = 4.2e12; __sw.renderAll();
-  __sw.HouseholdView.chirp(true); })()'''
+  __sw.HouseholdView.chirp(true); S.dare = { id: 'x3', who: 'tash', stake: 100, secs: 180, left: 175, task: 'cash out a board at ×3 or more' }; __sw.DareView.chip(); })()'''
 HOUSE = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.coins = 50000; __sw.renderAll(); __sw.Household.answerDoor(0); __sw.HouseholdView.walkKitten(); __sw.HouseholdView.swoopGull();
   __sw.UI.toast('A toast, to check it clears the card'); })()'''
 POWER = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.coins = 50000; __sw.renderAll(); __sw.PowerCut.start(); })()'''
@@ -16,6 +16,9 @@ BINGO = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.coins = 50000; S.up
   document.querySelector('#modalBox .bticket[data-kind="big"]').click(); })()'''
 FRUITY = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.coins = 50000; S.upg.flip = 1; __sw.renderAll(); __sw.FruityView.open(); })()'''
 GRASS = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.coins = 50000; __sw.renderAll(); __sw.OutsideView.open(); })()'''
+TIN = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.life.tin = 2500; S.coins = 3; __sw.Game.slots.fill(null); __sw.renderAll(); __sw.Game.checkBust(); })()'''
+CLAWM = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.coins = 50000; S.upg.flip = 1; __sw.renderAll(); __sw.ClawView.open(); })()'''
+BOOTS = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.coins = 1e6; __sw.renderAll(); __sw.CarBoot.open(); __sw.CarBootView.open(); })()'''
 DUCKS = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.coins = 50000; S.upg.flip = 1; __sw.renderAll(); __sw.DuckRaceView.open(); })()'''
 
 
@@ -31,12 +34,16 @@ async def shot(R, browser, url, shots, name, w, h, setup=None, mobile=False, wai
     if name.startswith('phone_chips'):
         clipped = await pg.evaluate('''(() => { const c = document.querySelector('#chips').getBoundingClientRect();
           return [...document.querySelectorAll('#chips > *')].filter(e => !e.hidden && getComputedStyle(e).display !== 'none')
-            .filter(e => e.id !== 'chirpChip')
+            .filter(e => e.id !== 'chirpChip' && e.id !== 'dareChip')
             .filter(e => { const r = e.getBoundingClientRect(); return r.right > c.right + .5 || r.bottom > c.bottom + .5; }).map(e => e.id); })()''')
         R.ok(not clipped, f'{name}: every header chip fits ({clipped or "none clipped"})')
         tab = await pg.evaluate('''(() => { const r = document.querySelector('#chirpChip').getBoundingClientRect(), h = document.querySelector('.run').getBoundingClientRect();
           return r.width > 0 && r.left >= 0 && r.right <= innerWidth && r.top >= h.bottom - 1; })()''')
         R.ok(tab, f'{name}: the smoke detector chip hangs below the header, on screen')
+        dare = await pg.evaluate('''(() => { const r = document.querySelector('#dareChip').getBoundingClientRect(), h = document.querySelector('.run').getBoundingClientRect(),
+          c = document.querySelector('#chirpChip').getBoundingClientRect();
+          return r.width > 0 && r.left >= 0 && r.right <= innerWidth && r.top >= h.bottom - 1 && r.right <= c.left; })()''')
+        R.ok(dare, f'{name}: so does a dare’s clock, on the left, clear of it')
     await ctx.close()
 
 
@@ -57,6 +64,9 @@ async def run(browser, url, shots):
     await shot(R, browser, url, shots, 'phone_bingo.png', 360, 640, BINGO, mobile=True, wait=3000)
     await shot(R, browser, url, shots, 'phone_outside.png', 360, 640, GRASS, mobile=True, wait=800)
     await shot(R, browser, url, shots, 'phone_fruity.png', 360, 640, FRUITY, mobile=True, wait=500)
+    await shot(R, browser, url, shots, 'phone_bust_tin.png', 360, 640, TIN, mobile=True, wait=900)
+    await shot(R, browser, url, shots, 'phone_claw.png', 360, 640, CLAWM, mobile=True, wait=600)
+    await shot(R, browser, url, shots, 'phone_car_boot.png', 360, 640, BOOTS, mobile=True, wait=500)
     await shot(R, browser, url, shots, 'desktop_duck_race.png', 1366, 900, DUCKS, wait=500)
     await shot(R, browser, url, shots, 'desktop_fruity.png', 1366, 900, FRUITY, wait=500)
     return R

@@ -53,6 +53,18 @@ import { Stars } from './game/horoscope.js';
 import { StarsView } from './ui/stars-view.js';
 import { Banker } from './game/banker.js';
 import { Dog } from './game/dog.js';
+import { Tin } from './game/biscuit-tin.js';
+import { Dares } from './game/dares.js';
+import { DareView } from './ui/dare-view.js';
+import { Seasons } from './game/seasons.js';
+import { ClawView } from './ui/claw-view.js';
+import { CarBoot } from './game/car-boot.js';
+import { Darts } from './game/darts.js';
+import { DartsView } from './ui/darts-view.js';
+import { CarBootView } from './ui/car-boot-view.js';
+import { SeasonView } from './ui/season-view.js';
+import { PUMPKIN } from './data/seasons.js';
+import { TREAT_CARD, EGGED_CARD } from './content/seasons.js';
 
 const RED = 'var(--red)', GOLD = 'var(--gold)', GREEN = 'var(--green)', PURPLE = 'var(--purple)';
 export function renderAll(keepModal) {
@@ -278,7 +290,7 @@ bus.on('storm:flash', e => {
   } else if (Math.random() < .15) Chat.say('storm_flash', {}, 1);
 });
 /* ---------- the Flip Booth: coin flip, duck race, scratchcards, bingo, the Fruity ---------- */
-bus.on('booth', k => { FruityView.away(); ({ ducks: DuckRaceView, scratch: ScratchView, bingo: BingoView, fruity: FruityView }[k] || FlipView).open(); });
+bus.on('booth', k => { FruityView.away(); ClawView.away(); ({ ducks: DuckRaceView, scratch: ScratchView, bingo: BingoView, fruity: FruityView, claw: ClawView }[k] || FlipView).open(); });
 bus.on('duck:start', () => Chat.say('duck_start'));
 bus.on('duck', ({ win, prize, bet, pay }) => {
   if (win) {
@@ -310,6 +322,54 @@ bus.on('bingo', ({ lines, prize }) => {
   Chat.say(['bingo_lose', 'bingo_line', 'bingo_two', 'bingo_house'][lines], {}, lines ? 1 : .4);
   Rank.award(lines ? 4 + 6 * lines : 2); RunPanel.render();
 });
+
+/* ---------- Nan's biscuit tin: a little put by on every winning cash-out, handed over when you go bust ---------- */
+bus.on('board:cashout', ({ profit }) => Tin.put(profit));
+bus.on('tin', ({ was, full }) => { if (!was || full) setTimeout(() => Chat.say(full ? 'tin_full' : 'tin_first', {}, 1), 1600); });
+
+/* ---------- dares from the group chat: a friend bets you can't do something in time ---------- */
+bus.on('dare:due', () => { if (pref('dares') && !document.hidden && UI.modalClosed() && !Coach.active && !Outside.on && Dares.canOffer()) Dares.make(); });
+bus.on('dare:offer', o => DareView.offer(o));
+bus.on('dare:on', d => DareView.on(d));
+bus.on('dare:won', d => DareView.won(d));
+bus.on('dare:lost', d => DareView.lost(d));
+bus.on('dare:declined', o => DareView.declined(o));
+bus.on('board:cashout', e => Dares.check('cashout', e));
+bus.on('board:boom', e => Dares.check('boom', e));
+bus.on('board:gem', e => Dares.check('gem', e));
+bus.on('flag', ({ b, on: isOn }) => { if (isOn) b.flagged = true; });
+bus.on('tick', () => { if (S.dare) { Dares.second(); DareView.chip(); } });
+bus.on('reset', () => DareView.chip());
+
+/* ---------- the seasons: pumpkins and trick or treaters at Halloween, fireworks on Bonfire Night, Nan's card at Christmas ---------- */
+bus.on('pumpkin', ({ b, i }) => {
+  BoardsView.cell(b, i); BoardsView.float(b, i, `PUMPKIN ×${PUMPKIN.X}`, 'var(--orange)', true); BoardsView.hud(b);
+  Sound.gem('ruby'); Haptics.buzz([15, 25, 15]); Chat.say('pumpkin', {}, .6);
+});
+bus.on('treat', () => {
+  HouseholdView.show({ ...TREAT_CARD, buttons: [['Aww', 'green']] }); RunPanel.render(); Sound.buy();
+  setTimeout(() => Chat.say('treat', {}, .9), 900);
+});
+bus.on('trick', () => {
+  SeasonView.eggs(); HouseholdView.show({ ...EGGED_CARD, buttons: [['Charming', 'ghost']] });
+  setTimeout(() => Chat.say('egged', {}, .9), 1200);
+});
+bus.on('household', ({ o }) => { if (o.fx === 'xmas') setTimeout(() => Chat.say('xmas_card', {}, .8), 1400); });
+bus.on('board:cashout', ({ mult }) => { if (mult >= 5 && Seasons.is('bonfire')) { SeasonView.fireworks(mult >= 50 ? 5 : mult >= 15 ? 3 : 2); setTimeout(() => Chat.say('fireworks', {}, .5), 1600); } });
+
+/* ---------- darts at the Red Lion: Dave challenges you (the dares switch covers it) ---------- */
+bus.on('darts:due', () => { if (pref('dares') && !document.hidden && UI.modalClosed() && !Coach.active && !Outside.on && Darts.canOffer()) Darts.make(); });
+bus.on('darts:offer', o => DartsView.offer(o));
+bus.on('darts:declined', o => DartsView.declined(o));
+bus.on('darts:done', m => { DartsView.done(m); RunPanel.render(); Rank.award(m.result === 'won' ? 6 : 2); });
+
+/* ---------- the car boot sale ---------- */
+bus.on('boot:due', () => { if (pref('odd') && !document.hidden && HouseholdView.free() && !Outside.on && S.coins >= 50) { CarBootView.invite(); setTimeout(() => Chat.say('boot_open', {}, .8), 1200); } });
+bus.on('boot:bought', () => setTimeout(() => Chat.say('boot_bought', {}, .5), 800));
+bus.on('boot:box', () => setTimeout(() => Chat.say('boot_box', {}, .8), 800));
+
+/* ---------- the claw machine ---------- */
+bus.on('claw:grab', ({ won, fx }) => { Rank.award(won ? 5 : 1); if (won) { RunPanel.render(); if (fx === 'golden') UI.toast('The golden crown! Your next board is golden.'); } });
 
 /* ---------- the Fruity ---------- */
 bus.on('fruity', ({ x, win, nudged, holds, dry }) => {

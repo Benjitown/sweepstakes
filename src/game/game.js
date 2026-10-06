@@ -17,6 +17,9 @@ import { buildPayout } from '../board/payout.js';
 import { DigCommand, invoke } from './commands.js';
 import { Rack } from './rack.js';
 import { Stars } from './horoscope.js';
+import { Tin } from './biscuit-tin.js';
+import { Seasons } from './seasons.js';
+import { PUMPKIN } from '../data/seasons.js';
 import { UI } from '../ui/ui.js';
 
 /* =====================================================================================
@@ -68,7 +71,7 @@ export const Game = {
     if (src === 'you' || src === 'probe') b.human = true;
     if (!b.started) {
       b.placeMines(i); b.started = true; const opened = b.flood(i); b.base = b.revealed; b.t0 = Date.now();
-      b.placeGems(b.gemsTotal);
+      b.placeGems(b.gemsTotal); b.pumpkin = Seasons.pumpkinFor(b);
       bus.emit('board:cells', { b, cells: opened });
       this.tileAddons(b, i, opened, 0);
       bus.emit('dig', { b, i, src, risk: 0 });
@@ -109,6 +112,8 @@ export const Game = {
     // Nan's stars: the first time a board uncovers today's lucky number, ×1.25 (game/horoscope.js)
     const lucky = b.starred ? 0 : Stars.luckyToday(), hit = lucky ? opened.find(j => b.num[j] === lucky) : undefined;
     if (hit !== undefined) { b.starred = true; fire('stars', hit, Stars.BONUS, `Written in the stars ×${Stars.BONUS}`); }
+    // Halloween: this board's pumpkin, dug up (game/seasons.js)
+    if (b.pumpkin >= 0 && opened.includes(b.pumpkin)) { const j = b.pumpkin; b.pumpkin = -1; b.pumpkinAt = j; b.G *= PUMPKIN.X; Seasons.found(b, j); }
   },
   defuse(b, i, by) {
     b.flag[i] = 1; b.defused.add(i);
@@ -254,12 +259,15 @@ export const Game = {
   },
 
   /* busting */
-  lastRun: null,
+  lastRun: null, lastTin: 0,
   bust(reason, deferModal) {
     this.lastRun = { ...S.run, reason };
     S.life.busts++; S.life.time += S.run.time;
     this.slots.fill(null);
-    setState(freshRun(S.life, { muted: S.muted, crt: pref('crt'), quips: pref('quips'), odd: pref('odd'), vibe: pref('vibe'), rude: pref('rude'), quiz: pref('quiz'), nanvoice: pref('nanvoice'), vol: S.vol, noiseVol: S.noiseVol }));
+    setState(freshRun(S.life, { muted: S.muted, crt: pref('crt'), quips: pref('quips'), odd: pref('odd'), vibe: pref('vibe'), rude: pref('rude'), quiz: pref('quiz'), nanvoice: pref('nanvoice'), dares: pref('dares'), seasons: pref('seasons'), vol: S.vol, noiseVol: S.noiseVol }));
+    // a real rainy day (not when you pull the plug yourself): Nan brings her biscuit tin round
+    const tin = this.lastTin = reason === 'manual' ? 0 : Tin.open();
+    if (tin) { S.coins += tin; S.run.peak = S.coins; S.run.hist = [[0, S.coins]]; bus.emit('tin:open', { coins: tin }); }
     Rack.roll(); SaveGame.saveNow();
     if (!deferModal) UI.showBust(reason);
   },

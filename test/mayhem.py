@@ -124,10 +124,10 @@ async def run(browser, url, shots):
     ok(await pg.evaluate("__sw.BingoView.st.k >= 1 && document.querySelectorAll('#modalBox .trail i').length >= 0 && /Call [1-9]/.test(document.querySelector('#bCount').textContent)"), 'Nan starts calling')
     await pg.screenshot(path=str(shots / 'bingo_calling.png'))
     await pg.evaluate("(() => { __sw.BingoView.FAST_MS = 15; })()")
-    await pg.click('#bingoFast'); await pg.wait_for_timeout(2000)
+    await pg.click('#bingoFast'); await pg.wait_for_function('__sw.BingoView.st && __sw.BingoView.st.done', timeout=10000); await pg.wait_for_timeout(300)
     daubed = await pg.evaluate("[...document.querySelectorAll('#modalBox .bn.daub')].map(e => +e.dataset.n).sort((a, b) => a - b).join()")
     want = await pg.evaluate("(() => { const g = __sw.BingoView.st.g; return g.ticket.flat().filter(n => n && g.calls.includes(n)).sort((a, b) => a - b).join(); })()")
-    ok(daubed == want and await pg.evaluate("__sw.BingoView.st.done"), f'“Hurry up, Nan” rattles through the rest; exactly the called numbers get dabbed ({len(want.split(",")) if want else 0})')
+    ok(daubed == want and await pg.evaluate("__sw.BingoView.st.done"), f'“Faster please, Nan” rattles through the rest; exactly the called numbers get dabbed ({len(want.split(",")) if want else 0})')
     ok(await pg.evaluate('__sw.S.coins') == c0 - 100 + g['prize'] and not await pg.evaluate('__sw.S.bingoOwed'), f"the result pays what it said it would (+{g['prize']:,})")
     # a fixed full house: the ticket's numbers come up early
     await pg.evaluate("(() => { delete __sw.S.life.ach.house; delete __sw.S.life.ach.bingo; })()")
@@ -135,7 +135,7 @@ async def run(browser, url, shots):
     await pg.evaluate("""(() => { const g = __sw.Bingo.buy('proper'), nums = g.ticket.flat().filter(Boolean), rest = [...Array(90)].map((_, k) => k + 1).filter(n => !nums.includes(n));
       g.calls = [...rest.slice(0, 20), ...nums, ...rest.slice(20, 45)]; Object.assign(g, __sw.Bingo.score(g.ticket, g.calls));
       const prize = Math.floor(g.price * g.x); __sw.S.bingoOwed += prize - g.prize; g.prize = prize; __sw.BingoView.FAST_MS = 15; __sw.BingoView.play(g); })()""")
-    await pg.click('#bingoFast'); await pg.wait_for_timeout(2200)
+    await pg.click('#bingoFast'); await pg.wait_for_function('__sw.BingoView.st && __sw.BingoView.st.done', timeout=10000); await pg.wait_for_timeout(300)
     res = await text(pg, '#bingoRes')
     ok(await pg.evaluate('__sw.S.coins') == c0 - 100 + 25000 + bonus and 'Full house' in res, f'a full house pays ×250 (+25,000): “{res[:40]}”')
     ok(await pg.evaluate("__sw.Achievements.has('house') && __sw.Achievements.has('bingo') && document.querySelectorAll('#modalBox .bn.lined').length === 15"),
@@ -189,7 +189,7 @@ async def run(browser, url, shots):
     c0 = await pg.evaluate('__sw.S.coins')
     await pg.click('#grassIn'); await pg.wait_for_timeout(250)
     early = await pg.evaluate(f"[__sw.UI.modalClosed(), __sw.Outside.on, [...document.querySelectorAll('.toast')].map(t => t.textContent).join(' | '), __sw.S.coins - {c0}, __sw.Achievements.has('grass')]")
-    ok(early[0] and not early[1] and 'doesn’t count' in early[2] and early[3] == 0 and not early[4], f'back in early: no bonus (“{early[2][:60]}”)')
+    ok(early[0] and not early[1] and 'every little helps' in early[2] and early[3] == 0 and not early[4], f'back in early: no bonus (“{early[2][:60]}”)')
     await pg.wait_for_timeout(1350)
     back = await pg.evaluate(snap)
     ok(back[0] > after[0] and back[2] > after[2], f'the goblin picks his flags back up and the clock runs again ({after} → {back})')

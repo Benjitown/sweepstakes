@@ -26,7 +26,7 @@ import { Keys } from './ui/keys.js';
 import { CoinChart } from './ui/coin-chart.js';
 import { seeded, hashString } from './core/random.js';
 import { Household, DOOR, GULL } from './game/household.js';
-import { LINES, RUDE } from './content/chat-lines.js';
+import { LINES, RUDE, SURE } from './content/chat-lines.js';
 import { HouseholdView } from './ui/household-view.js';
 import { DuckRace } from './game/duck-race.js';
 import { DuckRaceView } from './ui/duck-race-view.js';
@@ -58,12 +58,35 @@ import { FruityView } from './ui/fruity-view.js';
 import { FRUITY_REELS, FRUITY_PAYS, FRUITY_STAKES, FRUITY_FEATURES } from './data/fruity.js';
 import { PowerView } from './ui/power-view.js';
 import { SCRATCH_CARDS, SCRATCH_PRIZES } from './data/scratchcards.js';
+import { Tin } from './game/biscuit-tin.js';
+import { Dares } from './game/dares.js';
+import { DareView } from './ui/dare-view.js';
+import { DARES, DARE } from './data/dares.js';
+import { Seasons } from './game/seasons.js';
+import { Claw } from './game/claw.js';
+import { CarBoot } from './game/car-boot.js';
+import { Darts } from './game/darts.js';
+import { DartsView } from './ui/darts-view.js';
+import { DARTS, DARTBOARD } from './data/darts.js';
+import { CarBootView } from './ui/car-boot-view.js';
+import { BOOT } from './data/car-boot.js';
+import { ClawView } from './ui/claw-view.js';
+import { CLAW, CLAW_PRIZES, CLAW_BY } from './data/claw.js';
+import { SeasonView } from './ui/season-view.js';
+import { SEASONS, PUMPKIN, TRICK, XMAS } from './data/seasons.js';
+import { TIN } from './data/biscuit-tin.js';
+import { THREADS, RUDE_THREADS } from './content/chat-threads.js';
+import { QUIPS, RUDE_QUIPS } from './content/quips.js';
+import { BINGO_END } from './content/bingo-calls.js';
 
 export function exposeForTests() {
   // no random knocks at the door mid-test (they'd pop up over what the tests click); the tests start them by hand
   clearTimeout(WeirdNoises.timer); WeirdNoises.schedule = () => {};
   clearTimeout(Quiz.timer); Quiz.schedule = () => {};
   clearTimeout(Bingo.timer); Bingo.schedule = () => {};
+  clearTimeout(Dares.timer); Dares.schedule = () => {}; // nobody dares you mid-test unless a test asks
+  clearTimeout(CarBoot.timer); CarBoot.schedule = () => {}; // nor does a car boot sale turn up
+  clearTimeout(Darts.timer); Darts.schedule = () => {}; // or Dave with his darts
   Kev.second = () => {}; // KEVCOIN neither launches nor moves on its own; the tests call Kev.launch() and Kev.tick()
   Stars.second = () => {}; // and Nan doesn't read the stars unless a test asks
   clearTimeout(Chat.ambientT); Chat.ambient = () => {}; // nor do the friends start chatting among themselves mid-check (Chat.thread() still works)
@@ -73,6 +96,7 @@ export function exposeForTests() {
     Daily, Achievements, ACHIEVEMENTS, DailyView, Keys, CoinChart, seeded, hashString, Household, HouseholdView, DuckRace, DuckRaceView, DOOR, GULL, LINES, RUDE,
     Scratchcards, ScratchView, SCRATCH_CARDS, SCRATCH_PRIZES, Quiz, QUIZ, PowerCut, PowerView, Storm, StormView, Kev, KevView, KEV, IceCream, VanView, Stars, StarsView, Banker, Dog, DogView, Bingo, BingoView, makeTicket, Outside, OutsideView, BINGO_TICKETS, BINGO_PAYS, BINGO_CALLS,
     Fruity, FruityRules, FruityView, FRUITY_REELS, FRUITY_PAYS, FRUITY_STAKES, FRUITY_FEATURES,
+    Tin, TIN, Dares, DareView, DARES, DARE, Seasons, SeasonView, SEASONS, PUMPKIN, TRICK, XMAS, Claw, ClawView, CLAW, CLAW_PRIZES, CLAW_BY, CarBoot, CarBootView, BOOT, Darts, DartsView, DARTS, DARTBOARD, THREADS, RUDE_THREADS, QUIPS, RUDE_QUIPS, SURE, BINGO_END,
     get slots() { return Game.slots; },
   };
 }

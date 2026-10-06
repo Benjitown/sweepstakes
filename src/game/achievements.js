@@ -68,6 +68,13 @@ export const Achievements = {
     bus.on('levelup', ({ lvl }) => { if (lvl >= 10) u('lvl10'); if (lvl >= 30) u('lvl30'); });
     bus.on('daily:done', ({ streak, top }) => { u('daily'); if (streak >= 7) u('daily7'); if (top) u('dailytop'); });
     bus.on('tutorial:done', ({ completed }) => { if (completed) u('nan'); });
+    bus.on('tin:open', () => u('tin'));
+    bus.on('pumpkin', ({ n }) => { if (n >= 5) u('pumpkin'); });
+    bus.on('treat', () => u('treat'));
+    bus.on('boot:haggled', () => u('haggle'));
+    bus.on('darts:done', ({ result, total }) => { if (result === 'won') u('darts'); if (total === 180) u('ton80'); });
+    bus.on('claw:grab', ({ won, prize }) => { if (won) { u('claw'); if (prize.id === 'crown') u('crown'); } });
+    bus.on('dare:won', () => { u('dare'); if ((S.life.dares && S.life.dares.won || 0) >= 3) u('dare3'); });
     bus.on('addon:fired', ({ id }) => { if (id === 'dark') u('dark'); });
     bus.on('kev:trade', ({ buy, x }) => { if (!buy && x >= 2) u('moon'); });
     bus.on('icecream', () => u('cone'));

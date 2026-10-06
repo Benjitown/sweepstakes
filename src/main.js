@@ -49,9 +49,16 @@ import { Scratchcards } from './game/scratchcards.js';
 import { Quiz } from './game/quiz.js';
 import { Bingo } from './game/bingo.js';
 import { Fruity } from './game/fruity.js';
+import { Claw } from './game/claw.js';
+import { CarBoot } from './game/car-boot.js';
+import { Darts } from './game/darts.js';
 import { FruityView } from './ui/fruity-view.js';
 import { KevView } from './ui/kevcoin-view.js';
 import { Outside } from './game/outside.js';
+import { Dares } from './game/dares.js';
+import { DareView } from './ui/dare-view.js';
+import { Seasons } from './game/seasons.js';
+import { SeasonView } from './ui/season-view.js';
 import { exposeForTests } from './debug.js';
 
 $('#btnDon').onclick = () => DonLadder.start();
@@ -65,19 +72,27 @@ setInterval(() => { if (document.hidden || Outside.on) return; S.run.time++; Out
 
 (S.boards || []).forEach(o => { if (o && o.slot < boardCount()) { const b = Board.fromMemento(o); if (b) Game.slots[o.slot] = b; } });
 if (!TBY[S.sel] || !S.unlocked.includes(S.sel)) S.sel = 'penny';
-DuckRace.settle(); Scratchcards.settle(); Bingo.settle(); Fruity.settle(); // a duck race, scratchcard, bingo ticket or Fruity win you left behind still pays out
+DuckRace.settle(); Scratchcards.settle(); Bingo.settle(); Fruity.settle(); Claw.settle(); // a duck race, scratchcard, bingo ticket, Fruity win or claw prize you left behind still pays out
 if (!S.rack || !S.rack.length || S.rackAt > S.run.time) Rack.roll();
 renderAll();
-KevView.bind();
+KevView.bind(); DareView.bind();
+// the season (?season=halloween / bonfire / xmas / none tries one out; the tests pick their own)
+const trySeason = new URLSearchParams(location.search).get('season');
+if (trySeason !== null) Seasons.force = trySeason; else if (new URLSearchParams(location.search).has('test')) Seasons.force = 'none';
+const season = SeasonView.apply();
 TablesView.reveal();
 Bots.timer = setTimeout(() => Bots.tick(), Bots.delay());
 WeirdNoises.schedule();
 Quiz.schedule();
 Bingo.schedule();
+Dares.schedule();
+CarBoot.schedule();
+Darts.schedule();
 Chat.ambient();
 const hi = LINES.hello.slice().sort(() => Math.random() - .5);
 setTimeout(() => Chat.post(...hi[0]), 600);
 setTimeout(() => Chat.post(...hi[1]), 2000);
+if (season) { const sh = LINES[season + '_hi'].slice().sort(() => Math.random() - .5); setTimeout(() => Chat.post(...sh[0]), 3800); setTimeout(() => Chat.post(...sh[1]), 5600); }
 if (!S.life.tut) setTimeout(() => Coach.start(), 900);
 WhatsNew.maybe();
 if (S.life.tut) {
