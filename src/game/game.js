@@ -17,6 +17,7 @@ import { buildPayout } from '../board/payout.js';
 import { DigCommand, invoke } from './commands.js';
 import { Rack } from './rack.js';
 import { Stars } from './horoscope.js';
+import { Tin } from './biscuit-tin.js';
 import { UI } from '../ui/ui.js';
 
 /* =====================================================================================
@@ -254,12 +255,15 @@ export const Game = {
   },
 
   /* busting */
-  lastRun: null,
+  lastRun: null, lastTin: 0,
   bust(reason, deferModal) {
     this.lastRun = { ...S.run, reason };
     S.life.busts++; S.life.time += S.run.time;
     this.slots.fill(null);
     setState(freshRun(S.life, { muted: S.muted, crt: pref('crt'), quips: pref('quips'), odd: pref('odd'), vibe: pref('vibe'), rude: pref('rude'), quiz: pref('quiz'), nanvoice: pref('nanvoice'), vol: S.vol, noiseVol: S.noiseVol }));
+    // a real rainy day (not when you pull the plug yourself): Nan brings her biscuit tin round
+    const tin = this.lastTin = reason === 'manual' ? 0 : Tin.open();
+    if (tin) { S.coins += tin; S.run.peak = S.coins; S.run.hist = [[0, S.coins]]; bus.emit('tin:open', { coins: tin }); }
     Rack.roll(); SaveGame.saveNow();
     if (!deferModal) UI.showBust(reason);
   },

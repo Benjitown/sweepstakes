@@ -53,6 +53,7 @@ import { Stars } from './game/horoscope.js';
 import { StarsView } from './ui/stars-view.js';
 import { Banker } from './game/banker.js';
 import { Dog } from './game/dog.js';
+import { Tin } from './game/biscuit-tin.js';
 
 const RED = 'var(--red)', GOLD = 'var(--gold)', GREEN = 'var(--green)', PURPLE = 'var(--purple)';
 export function renderAll(keepModal) {
@@ -310,6 +311,10 @@ bus.on('bingo', ({ lines, prize }) => {
   Chat.say(['bingo_lose', 'bingo_line', 'bingo_two', 'bingo_house'][lines], {}, lines ? 1 : .4);
   Rank.award(lines ? 4 + 6 * lines : 2); RunPanel.render();
 });
+
+/* ---------- Nan's biscuit tin: a little put by on every winning cash-out, handed over when you go bust ---------- */
+bus.on('board:cashout', ({ profit }) => Tin.put(profit));
+bus.on('tin', ({ was, full }) => { if (!was || full) setTimeout(() => Chat.say(was ? 'tin_full' : 'tin_first', {}, 1), 1600); });
 
 /* ---------- the Fruity ---------- */
 bus.on('fruity', ({ x, win, nudged, holds, dry }) => {

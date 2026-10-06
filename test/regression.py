@@ -136,7 +136,7 @@ async def run(browser, url, shots):
     ok(await pg.evaluate("__sw.S.upg.boards===4 && document.querySelectorAll('#boards > div').length===5"), 'bought board 5 after Ascension I')
     # 13. double or nothing: win the flip, then lose a pick -> bust, rank survives
     lv=await pg.evaluate('__sw.S.life.lvl')
-    await fresh(pg, "__sw.S.coins=1000")
+    await fresh(pg, "__sw.S.coins=1000; __sw.S.life.tin=0")  # (an empty biscuit tin: Nan's has its own suite)
     await pg.click('#btnDon'); await pg.wait_for_timeout(300); await pg.click('[data-a="go"]'); await pg.wait_for_timeout(200)
     await pg.evaluate("Math._r=Math.random; Math.random=()=>0.001")
     await hold(pg); await pg.wait_for_timeout(3800)

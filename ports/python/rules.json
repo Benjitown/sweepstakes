@@ -25,7 +25,7 @@
    "min": 10,
    "cap": 1000,
    "cost": 0,
-   "blurb": "Training wheels. Nan plays here."
+   "blurb": "Training wheels. Nan says start here, love."
   },
   {
    "id": "den",
@@ -201,7 +201,7 @@
    ],
    [
     "dave",
-    "×{x}? I’ve seen better. from Nan"
+    "×{x}? I’ve seen better. from me. once"
    ],
    [
     "tash",
@@ -363,7 +363,7 @@
    ],
    [
     "nan",
-    "Was that thunder love? x"
+    "Oh love! Never mind, you’ll get the next one x"
    ],
    [
     "dave",
@@ -388,10 +388,6 @@
    [
     "tash",
     "oh you plonker"
-   ],
-   [
-    "nan",
-    "Oh bugger x"
    ],
    [
     "kev",
@@ -515,7 +511,7 @@
    ],
    [
     "nan",
-    "I wouldn’t love"
+    "I wouldn’t, love. But I’ll love you either way x"
    ],
    [
     "kev",
@@ -571,7 +567,7 @@
    ],
    [
     "nan",
-    "Never mind love. Money is just paper with ghosts in x"
+    "Never mind love. It’s only money, and you’re worth more than all of it x"
    ],
    [
     "kev",
@@ -643,7 +639,7 @@
    ],
    [
     "nan",
-    "Is that one of those NFTs love? x"
+    "Treat yourself love, you deserve it x"
    ],
    [
     "tash",
@@ -674,6 +670,10 @@
    [
     "dave",
     "is that one of them lucky cards"
+   ],
+   [
+    "nan",
+    "Ooh what a pretty card love x"
    ]
   ],
   "unlock": [
@@ -710,6 +710,10 @@
    [
     "tash",
     "the tables look angrier already"
+   ],
+   [
+    "nan",
+    "Look at you, all grown up. Be careful up there love x"
    ]
   ],
   "streak": [
@@ -730,6 +734,10 @@
     "statistically this has to end. not my problem though"
    ],
    [
+    "nan",
+    "Look at you go love! x"
+   ],
+   [
     "dave",
     "don’t get cocky"
    ]
@@ -741,7 +749,7 @@
    ],
    [
     "nan",
-    "The robot has more sense than your grandad x"
+    "Good sensible robot. I like that one x"
    ]
   ],
   "yolo": [
@@ -761,7 +769,7 @@
    ],
    [
     "nan",
-    "I always pick heads love. Or tails. One of them x"
+    "Lucky you! I always said you were born lucky x"
    ]
   ],
   "flip_lose": [
@@ -772,6 +780,10 @@
    [
     "kev",
     "it was always going to be the other side"
+   ],
+   [
+    "nan",
+    "Never mind love, the next one’s yours x"
    ],
    [
     "dave",
@@ -790,6 +802,10 @@
    [
     "dave",
     "plot armour"
+   ],
+   [
+    "nan",
+    "Oh thank goodness for that x"
    ]
   ],
   "fuse": [
@@ -850,6 +866,10 @@
    [
     "kev",
     "everything is shiny and I’m scared"
+   ],
+   [
+    "nan",
+    "All gold, like you love x"
    ]
   ],
   "levelup": [
@@ -882,6 +902,10 @@
    [
     "kev",
     "the wheel is my higher power now"
+   ],
+   [
+    "nan",
+    "Give it a good spin love x"
    ]
   ],
   "casino": [
@@ -1129,7 +1153,7 @@
    ],
    [
     "nan",
-    "Is somebody there? x"
+    "Just the house settling love, nothing to worry about x"
    ]
   ],
   "odd_meow": [
@@ -1254,6 +1278,10 @@
    [
     "priya",
     "the dark suits you"
+   ],
+   [
+    "nan",
+    "In the dark and everything! Clever thing x"
    ]
   ],
   "gull_shoo": [
@@ -1345,7 +1373,7 @@
    ],
    [
     "nan",
-    "Your grandad never changed one in forty years x"
+    "That’s my clever grandchild x"
    ],
    [
     "kev",
@@ -1410,6 +1438,10 @@
     "lesson learned: never open the door"
    ],
    [
+    "nan",
+    "Never mind love, it’s only things. I’ve got a spare lamp x"
+   ],
+   [
     "dave",
     "absolute pillocks"
    ],
@@ -1443,7 +1475,7 @@
    ],
    [
     "nan",
-    "Was it me? I can’t remember if I rang x"
+    "Hope it was someone nice love x"
    ],
    [
     "tash",
@@ -1538,6 +1570,10 @@
    [
     "priya",
     "it’s for the kids. the kids won"
+   ],
+   [
+    "nan",
+    "It all goes to a good cause love. That’s what matters x"
    ]
   ],
   "scratch_buy": [
@@ -1602,6 +1638,10 @@
    [
     "dave",
     "should’ve bought a meal deal"
+   ],
+   [
+    "nan",
+    "Never mind love, have a biscuit x"
    ],
    [
     "dave",
@@ -1675,7 +1715,7 @@
    ],
    [
     "nan",
-    "The answer was {answer} love. I got it straight away x"
+    "It was {answer} love. You’ll get the next one x"
    ]
   ],
   "grass_back": [
@@ -1703,7 +1743,7 @@
   "grass_early": [
    [
     "nan",
-    "That wasn’t three minutes love x"
+    "Every bit of fresh air helps love. Proud of you for going x"
    ],
    [
     "dave",
@@ -1920,6 +1960,10 @@
    [
     "kev",
     "he sounded nervous tbh"
+   ],
+   [
+    "nan",
+    "Ooh you’re brave love x"
    ]
   ],
   "banker_beat": [
@@ -1940,10 +1984,26 @@
     "Clever clogs! x"
    ]
   ],
+  "tin_first": [
+   [
+    "nan",
+    "I’m putting a little bit by in the biscuit tin for you love. Just in case x"
+   ],
+   [
+    "nan",
+    "A bit more in the biscuit tin for you love. For a rainy day x"
+   ]
+  ],
+  "tin_full": [
+   [
+    "nan",
+    "The biscuit tin’s full love! I’ve had to sit on the lid x"
+   ]
+  ],
   "stars_re": [
    [
     "priya",
-    "nan you know that’s just made up by a man called Derek"
+    "nan’s stars are the only news I trust"
    ],
    [
     "kev",
@@ -1951,11 +2011,11 @@
    ],
    [
     "tash",
-    "nan’s stars are never wrong. except always"
+    "nan’s stars are never wrong"
    ],
    [
     "dave",
-    "my stars said I’d come into money. I came into debt"
+    "nan can you have a word with my stars. they keep saying debt"
    ]
   ],
   "stars_hit": [
@@ -2097,7 +2157,7 @@
   "kev_rug_re": [
    [
     "priya",
-    "he rugged you. he rugged his own nan"
+    "he rugged you. he rugged his own mates"
    ],
    [
     "nan",
@@ -2142,6 +2202,10 @@
    [
     "priya",
     "sell everything and never speak of this again"
+   ],
+   [
+    "nan",
+    "Well done love! Now put it somewhere safe x"
    ]
   ],
   "kev_loss": [
@@ -2341,7 +2405,7 @@
    ],
    [
     "dave",
-    "bingo? what are you, 80?"
+    "bingo with nan? save me a seat"
    ],
    [
     "kev",
@@ -2349,7 +2413,7 @@
    ],
    [
     "priya",
-    "bingo is just minesweeper for nans"
+    "nan’s bingo is the best night out in town"
    ]
   ],
   "bingo_line": [
@@ -2409,7 +2473,7 @@
    ],
    [
     "dave",
-    "not even a line. the nans are laughing at you"
+    "not even a line. next week though"
    ],
    [
     "kev",
@@ -2417,11 +2481,11 @@
    ],
    [
     "priya",
-    "bingo’s rigged. ask any nan"
+    "nan says it’s the taking part that counts"
    ],
    [
     "dave",
-    "beaten at bingo by a load of pensioners. pathetic"
+    "not one sodding line. unreal"
    ],
    [
     "tash",
@@ -2508,7 +2572,7 @@
   "Are you SURE sure?",
   "Mate. Are you actually sure?",
   "This is where sensible people stop.",
-  "Nan is crying. Are you sure?"
+  "Nan’s put the kettle on. Are you sure?"
  ],
  "quips": [
   "my mum plays this game",
@@ -2538,7 +2602,7 @@
   "the 3 and the 5 are dating",
   "the 8 is going through a divorce",
   "the number 4 owes me money",
-  "your nan is watching. wave.",
+  "nan says you’re doing lovely x",
   "the cat is the house edge",
   "the floor is lava. the lava is mines.",
   "do not perceive the bomb",
@@ -2592,7 +2656,7 @@
   "today’s lucky number is a mine",
   "this game is gluten free",
   "your fbi agent just cashed out",
-  "nan is speedrunning",
+  "nan’s put the kettle on",
   "vote boom, get boom",
   "the mines have a better manifesto than your lot",
   "thou shalt cash out",
@@ -2613,7 +2677,7 @@
   "what a pillock",
   "cash out, you muppet",
   "bollocks to the odds",
-  "your nan could do better (she does)",
+  "my cat could do better (she does)",
   "arse",
   "you jammy git",
   "proper mugged off",

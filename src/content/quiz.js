@@ -50,8 +50,8 @@ export const QUIZ = [
   ['Who taught you to play this game?', 'Fuse the bomb', 'Nan', 'Big Dave'],
   ['What did Big Dave borrow in 2019?', 'A tenner', 'A lawnmower', 'A fiver'],
   ['What’s the yoghurt in Kev’s office fridge called?', 'Gary', 'Kevin', 'Steve'],
-  ['Where does Grandad live now?', 'Margate', 'Skegness', 'Bognor'],
-  ['What wants a new battery at 3am?', 'The smoke detector', 'The kettle', 'Nan'],
+  ['What’s in Nan’s biscuit tin?', 'Her sewing things', 'Biscuits', 'Buttons and a tenner'],
+  ['What wants a new battery at 3am?', 'The smoke detector', 'The kettle', 'The telly remote'],
   ['What’s a jackpot gem worth?', '×5', '×10', '×3'],
 ];
 // how a friend opens the round
