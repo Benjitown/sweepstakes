@@ -2,6 +2,14 @@
 
 // Little conversations the group chat has on its own, unprompted. Nobody asked for them.
 export const THREADS = [
+  [['dave', 'my marrow is 4kg. FOUR'], ['priya', 'is that a lot'], ['dave', 'it is MASSIVE priya'], ['nan', 'Lovely marrow Dave. I’ll make chutney x']],
+  [['kev', 'put my own song on the jukebox at the Red Lion'], ['tash', 'Insert Coin?'], ['kev', 'royalties incoming'], ['tash', 'it’s on free play kev']],
+  [['priya', 'did anyone do Spot the Mine in the paper'], ['dave', 'got it in one'], ['priya', 'you did not'], ['dave', 'I got it in four']],
+  [['nan', 'I’ve saved you the puzzle page out of the paper love. And the coupons x']],
+  [['tash', 'who keeps putting Nan’s Wireless on the jukebox'], ['nan', 'That’s me love. It’s our song x'], ['tash', 'ok it is now']],
+  [['dave', 'karaoke tonight. I’m doing Last Orders'], ['priya', 'you do Last Orders every week'], ['dave', 'and every week I get closer to the words']],
+  [['kev', 'bought five lines on the Sweepstake'], ['priya', 'and?'], ['kev', 'one number. ONE'], ['nan', 'Better luck next time love. I’ll put the kettle on x']],
+  [['nan', 'Saved you some seeds from my garden love. Carrots and a few radishes. Plant them in nice straight rows x']],
   [['kev', 'anyone know how to get a seagull out of a car'], ['dave', 'why is there a seagull in your car'], ['kev', 'that is not what I asked']],
   [['nan', 'Made too much shepherd’s pie again. Come round tomorrow love, I’ll save you the crispy bit x']],
   [['tash', 'my sourdough starter just said my name'], ['priya', 'what did it sound like'], ['tash', 'yeasty']],
