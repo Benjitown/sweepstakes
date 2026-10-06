@@ -118,6 +118,11 @@ export const LINES = {
   storm_flash:   [['tash', 'DID YOU SEE THAT'], ['kev', 'one Mississippi… two Mississippi…'], ['priya', 'did you get them? the mines? tell me you got them'], ['nan', 'Ooh that was a big one x']],
   storm_strike:  [['tash', 'THAT WAS RIGHT ON TOP OF US'], ['kev', 'it hit the substation. I heard it'], ['nan', 'Oh my days, the lights! x'], ['priya', 'zero Mississippi. that’s not great']],
   storm_end:     [['nan', 'That’s blown over now love x'], ['kev', 'sun’s out. there’s a rainbow over the bins'], ['tash', 'storm’s gone. the drama isn’t'], ['priya', 'and just like that, the mines are invisible again']],
+  // the ice cream van
+  odd_icecream:  [['kev', 'when the van plays music it means they’ve run out of ice cream. my dad told me'], ['nan', 'Ooh is that the ice cream van? Get me a 99 love x'],
+    ['tash', 'ICE CREAM VAN. RUN'], ['priya', 'it’s October. who is buying ice cream in October'], ['dave', 'he only comes round when it’s raining']],
+  icecream_bought: [['nan', 'Did you get me one? x'], ['tash', 'sprinkles? you absolute legend'], ['kev', 'you caught it! he never stops for me'],
+    ['priya', 'sugar rush incoming. stand back']],
   // KEVCOIN (Kev's own posts, then the chat's reactions)
   kev_launch:    [['kev', 'right. I’ve made a cryptocurrency. KEVCOIN. it’s on the ticker up there. get in early'],
     ['kev', 'big news. I’ve launched my own coin. KEVCOIN. it’s up there by the chat. early investors get rich, that’s just maths']],

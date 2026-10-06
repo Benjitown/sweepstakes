@@ -9,6 +9,7 @@ import { Game } from '../game/game.js';
 import { Household, MISSED } from '../game/household.js';
 import { PowerCut } from '../game/power-cut.js';
 import { Storm } from '../game/storm.js';
+import { VanView } from './van-view.js';
 import { UI } from './ui.js';
 import { Coach } from './tutorial.js';
 
@@ -61,12 +62,13 @@ export const HouseholdView = {
   GULL_MS: 3600, // how long the seagull pecks at your coins before it flies off with some
   bind() { $('#chirpChip').onclick = () => this.fixBattery(); },
   // is now a good time for something to happen? Never in a window, in the tutorial, or while something else is happening.
-  free() { return UI.modalClosed() && !Coach.active && !this.card && !this.kitten && !this.gull && !Storm.on; },
+  free() { return UI.modalClosed() && !Coach.active && !this.card && !this.kitten && !this.gull && !VanView.van && !Storm.on; },
   start(kind, k, handle) {
     if (kind === 'kitten') this.walkKitten();
     else if (kind === 'gull') this.swoopGull();
     else if (kind === 'powercut') this.powerCut();
     else if (kind === 'storm') this.storm();
+    else if (kind === 'van') VanView.drive(handle);
     else if (ASK[kind]) this.ask(kind, k, handle);
   },
 
@@ -95,6 +97,7 @@ export const HouseholdView = {
   clear() {
     this.close(); if (this.kitten) { this.kitten.remove(); this.kitten = null; }
     if (this.gull) { this.gull.leave(); this.gull = null; }
+    VanView.clear();
   },
 
   ask(kind, k, handle) {

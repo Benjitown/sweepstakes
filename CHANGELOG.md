@@ -42,6 +42,10 @@ Each version is also a save in the built-in version control. Run `python tools/v
   trading suspended, and later KEVCOIN 2.0 without your old coins. Kev takes 5% of every buy and sell, and his exchange
   won't let you hold more than twice the top table's max stake. Holding it for five minutes loses about a third on
   average (`node tools/sim/kevcoin.mjs` plays a few strategies). New achievements: To the Moon and Rugged.
+- **The ice cream van.** Now and then you'll hear Greensleeves (tinny, warbling, louder as it comes up the road and a
+  touch flat as it goes) and the van drives along the bottom of the screen. Tap it before it's gone and it stops to
+  hand you a cone: a sugar rush, +25% on the profit of your next winning cash-out (a pink chip in the header shows it's
+  waiting). New achievement: Brain Freeze.
 - The Flip Booth's five tabs now show their icon above the name at every screen size.
 - `tools/build.py` now stops with a clear message on `import { x as y }`, which the bundler can't do.
 
