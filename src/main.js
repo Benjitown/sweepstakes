@@ -47,6 +47,7 @@ import { PowerView } from './ui/power-view.js';
 import { DuckRace } from './game/duck-race.js';
 import { Scratchcards } from './game/scratchcards.js';
 import { Quiz } from './game/quiz.js';
+import { Bingo } from './game/bingo.js';
 import { exposeForTests } from './debug.js';
 
 $('#btnDon').onclick = () => DonLadder.start();
@@ -60,13 +61,14 @@ setInterval(() => { if (document.hidden) return; S.run.time++; bus.emit('tick');
 
 (S.boards || []).forEach(o => { if (o && o.slot < boardCount()) { const b = Board.fromMemento(o); if (b) Game.slots[o.slot] = b; } });
 if (!TBY[S.sel] || !S.unlocked.includes(S.sel)) S.sel = 'penny';
-DuckRace.settle(); Scratchcards.settle(); // a duck race or scratchcard you left half-way still pays out
+DuckRace.settle(); Scratchcards.settle(); Bingo.settle(); // a duck race, scratchcard or bingo ticket you left half-way still pays out
 if (!S.rack || !S.rack.length || S.rackAt > S.run.time) Rack.roll();
 renderAll();
 TablesView.reveal();
 Bots.timer = setTimeout(() => Bots.tick(), Bots.delay());
 WeirdNoises.schedule();
 Quiz.schedule();
+Bingo.schedule();
 Chat.ambient();
 const hi = LINES.hello.slice().sort(() => Math.random() - .5);
 setTimeout(() => Chat.post(...hi[0]), 600);

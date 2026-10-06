@@ -28,10 +28,11 @@ export const UI = {
     this.el.modal.hidden = true; this.el.box.innerHTML = ''; this.modalLocked = false; this.moodLock = null;
     RunPanel.render(); Background.refresh(); Game.checkBust(); bus.emit('modal:closed');
   },
-  // the tabs at the top of the Flip Booth: coin flip | duck race | scratchcards (wiring.js switches on the 'booth' event)
+  // the tabs at the top of the Flip Booth: coin flip | duck race | scratchcards | bingo (wiring.js switches on the 'booth' event)
   boothTabs(on) {
-    return `<div class="booth" role="tablist" aria-label="The booth">${[['flip', 'coin', 'Coin flip'], ['ducks', 'duck', 'Duck race'], ['scratch', 'ticket', 'Scratchcards']].map(([k, icon, label]) =>
-      `<button type="button" role="tab" aria-selected="${k === on}" data-booth="${k}">${ico(icon)}<span>${label}</span></button>`).join('')}</div>`;
+    return `<div class="booth" role="tablist" aria-label="The booth">${[['flip', 'coin', 'Coin flip', 'Flip'], ['ducks', 'duck', 'Duck race', 'Ducks'],
+      ['scratch', 'ticket', 'Scratchcards', 'Scratch'], ['bingo', 'bingo', 'Bingo', 'Bingo']].map(([k, icon, label, short]) =>
+      `<button type="button" role="tab" aria-selected="${k === on}" data-booth="${k}" title="${label}" aria-label="${label}">${ico(icon)}<span>${short}</span></button>`).join('')}</div>`;
   },
   toast(msg) {
     const d = document.createElement('div'); d.className = 'toast'; d.textContent = msg; $('#toasts').appendChild(d);

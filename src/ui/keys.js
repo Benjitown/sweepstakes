@@ -9,6 +9,7 @@ import { Tabs } from './tabs.js';
 import { Coach } from './tutorial.js';
 import { DailyView } from './daily-view.js';
 import { DuckRaceView } from './duck-race-view.js';
+import { BingoView } from './bingo-view.js';
 
 // the board a shortcut acts on: the first one you've been playing by hand, else the first live one
 const liveBoard = () => Game.slots.find(b => b && b.started && !b.over && b.human) || Game.slots.find(b => b && b.started && !b.over);
@@ -19,6 +20,7 @@ const KEYS = [
   ['S', 'Free spin (when it’s ready)', () => { if (Game.spinIn() <= 0) SpinView.open(); }],
   ['T', 'Today’s Daily Challenge', () => DailyView.open()],
   ['R', 'Duck race (out back of the Flip Booth)', () => DuckRaceView.open()],
+  ['B', 'Nan’s bingo (out back of the Flip Booth)', () => BingoView.open()],
   ['M', 'Mute / unmute', () => $('#btnMute').click()],
   ['1 2 3', 'Upgrades / Add-ons / Stats', null],
   ['?', 'This list', () => Keys.help()],

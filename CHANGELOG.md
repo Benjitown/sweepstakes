@@ -16,6 +16,12 @@ Each version is also a save in the built-in version control. Run `python tools/v
   lights go off. You play by torchlight (the beam follows your pointer, or your keyboard focus), and every board you
   cash out in the dark pays +50% danger money on its profit. Top the meter up from the bar at the top of the screen,
   or wait for the emergency credit to kick in. New achievement: Danger Money.
+- **Nan's bingo,** a fourth tab in the Flip Booth (or press B). Buy one of three 90-ball tickets and Nan calls 60 balls,
+  with the old calls ("two little ducks, 22", and the ducks quack). Your ticket dabs itself; a line pays ×1.5, two lines
+  ×5 and a full house ×250 (about 1 in 860), so it pays back about 91%. Nan reads the calls out with your browser's own
+  voice (switch it off in Stats), "Hurry up, Nan" skips to the end, and like the ducks and scratchcards the result is
+  settled the moment you buy, so leaving mid-game still pays. Now and then she invites the group chat. New
+  achievements: Eyes Down and Full House. The booth's tabs now have short names (Flip, Ducks, Scratch, Bingo).
 
 ## 4.4.0 (6 Oct 2026)
 

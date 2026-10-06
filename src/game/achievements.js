@@ -70,6 +70,7 @@ export const Achievements = {
     bus.on('addon:fired', ({ id }) => { if (id === 'dark') u('dark'); });
     bus.on('duck', ({ win, pay }) => { if (win) { u('duck'); if (pay >= 8) u('longshot'); } });
     bus.on('scratch', ({ win, x }) => { if (win && x >= 20) u('scratch'); });
+    bus.on('bingo', ({ lines }) => { if (lines) u('bingo'); if (lines >= 3) u('house'); });
     bus.on('quiz:answer', ({ correct }) => { if (correct && S.life.quiz && S.life.quiz.right >= 10) u('quiz'); });
     bus.on('household', ({ kind, ok, win }) => { if (kind === 'kitten') u('kitten'); if (kind === 'battery' && ok) u('battery'); if (kind === 'raffle' && win) u('raffle'); if (kind === 'gull') u('gull'); });
   },

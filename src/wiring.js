@@ -3,7 +3,7 @@ import { ico, fmt, fmtX, dur } from './core/util.js';
 import { START, TABLES, SPIN_EVERY, ROMAN } from './data/economy.js';
 import { ABY } from './data/addons.js';
 import { bus } from './core/bus.js';
-import { SaveGame, S, lvl, asc, pref } from './core/state.js';
+import { SaveGame, S, lvl, asc, pref, has } from './core/state.js';
 import { Sound } from './audio/sound.js';
 import { Game } from './game/game.js';
 import { Rack } from './game/rack.js';
@@ -35,6 +35,7 @@ import { HouseholdView } from './ui/household-view.js';
 import { FlipView } from './ui/flip-view.js';
 import { DuckRaceView } from './ui/duck-race-view.js';
 import { ScratchView } from './ui/scratch-view.js';
+import { BingoView } from './ui/bingo-view.js';
 import { Quiz } from './game/quiz.js';
 import { QuizView } from './ui/quiz-view.js';
 import { AudioEngine } from './audio/engine.js';
@@ -210,7 +211,7 @@ bus.on('power', ({ on: isOn, why }) => {
 });
 bus.on('addon:fired', ({ id }) => { if (id === 'dark') Chat.say('power_win', {}, .5); });
 /* ---------- the Flip Booth: coin flip and duck race ---------- */
-bus.on('booth', k => ({ ducks: DuckRaceView, scratch: ScratchView }[k] || FlipView).open());
+bus.on('booth', k => ({ ducks: DuckRaceView, scratch: ScratchView, bingo: BingoView }[k] || FlipView).open());
 bus.on('duck:start', () => Chat.say('duck_start'));
 bus.on('duck', ({ win, prize, bet, pay }) => {
   if (win) {
@@ -231,6 +232,16 @@ bus.on('scratch', ({ win, x, prize, price }) => {
     Chat.say(x > 1 ? 'scratch_win' : 'scratch_evens', {}, x >= 20 ? 1 : .6); Haptics.buzz([25, 30, 25]);
   } else Chat.say('scratch_lose', {}, .35);
   Rank.award(win ? 4 + Math.min(20, x) : 2); RunPanel.render();
+});
+
+/* ---------- Nan's bingo ---------- */
+bus.on('bingo:due', () => { if (has('flip') && pref('quips') && !document.hidden && UI.modalClosed() && !Coach.active) BingoView.invite(); });
+bus.on('bingo:bought', () => Chat.say('bingo_buy', {}, .5));
+bus.on('bingo:line', ({ lines }) => { if (lines >= 3) { Banner.show('HOUSE!', 'Full house at Nan’s bingo', 'red', true); FX.confetti(200); } else if (lines === 2) FX.confetti(70); });
+bus.on('bingo', ({ lines, prize }) => {
+  if (lines) { UI.toast(`+${fmt(prize)}! ${['', 'A line', 'Two lines', 'A full house'][lines]} at Nan’s bingo.`); Haptics.buzz([25, 30, 25]); }
+  Chat.say(['bingo_lose', 'bingo_line', 'bingo_two', 'bingo_house'][lines], {}, lines ? 1 : .4);
+  Rank.award(lines ? 4 + 6 * lines : 2); RunPanel.render();
 });
 
 /* ---------- the pub quiz ---------- */

@@ -56,6 +56,8 @@ export const ACHIEVEMENTS = [
   { id: 'dark',     tier: 2, icon: 'bulb',      name: 'Danger Money',        desc: 'Cash out a board in a power cut.' },
   { id: 'scratch',  tier: 2, icon: 'ticket',    name: 'Scratch That Itch',   desc: 'Win ×20 or more on a scratchcard.' },
   { id: 'quiz',     tier: 2, icon: 'brain',     name: 'Know-It-All',         desc: 'Get 10 pub quiz questions right.' },
+  { id: 'bingo',    tier: 1, icon: 'bingo',     name: 'Eyes Down',           desc: 'Get a line at Nan’s bingo.' },
+  { id: 'house',    tier: 3, icon: 'bingo',     name: 'Full House',          desc: 'Get a full house at Nan’s bingo.' },
 ];
 export const ACH_BY = Object.fromEntries(ACHIEVEMENTS.map(a => [a.id, a]));
 export const ACH_REWARD = [0, .2, .5, 1];

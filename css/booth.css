@@ -1,0 +1,35 @@
+/* The Flip Booth's newer tabs: Nan's bingo (the caller, the ticket that daubs itself). */
+/* Nan's bingo: the caller (the ball, the call, a trail of the last few balls) */
+.caller{width:100%;display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-areas:"ball text" "ball trail";gap:4px 12px;align-items:center;
+  text-align:left;background:var(--panel-in);border-radius:14px;padding:10px 12px}
+.ball{grid-area:ball;--bc:var(--red);width:74px;height:74px;border-radius:50%;display:grid;place-items:center;
+  background:radial-gradient(circle at 34% 28%,rgba(255,255,255,.55) 0,transparent 30%),var(--bc);box-shadow:inset 0 -6px 0 rgba(0,0,0,.2),0 0 0 3px #141b1d,0 5px 0 3px rgba(0,0,0,.35)}
+.ball .num{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:#fff;color:#141b1d;font-family:var(--big);font-size:1.9rem;
+  line-height:1;text-shadow:none;box-shadow:0 0 0 2px #141b1d}
+.ball.roll{animation:ballroll .45s cubic-bezier(.2,1.4,.4,1)}
+.ctext{grid-area:text;display:grid;min-width:0}
+.ctext b{font-family:var(--big);font-weight:400;font-size:1.7rem;line-height:1;color:var(--gold);text-wrap:balance}
+.ctext small{font-size:.75rem;color:var(--ink-dim);text-shadow:none}
+.trail{grid-area:trail;display:flex;gap:5px;min-height:24px;overflow:hidden}
+.trail i{--bc:var(--red);flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:.68rem;font-weight:700;
+  color:#141b1d;text-shadow:none;background:var(--bc);box-shadow:0 0 0 2px #141b1d;opacity:.85}
+.trail i:first-child{animation:pop .25s}
+/* your ticket: 3 rows of 9; called numbers get a pink dab, a finished row goes gold */
+.bcard{--tc:var(--blue);position:relative;width:100%;background:var(--tc);border-radius:16px;padding:8px 10px 6px;box-shadow:0 0 0 3px #141b1d,0 7px 0 3px var(--shadow);
+  display:grid;gap:6px;color:#141b1d;text-shadow:none}
+.bhead{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.bhead b{font-family:var(--big);font-weight:400;font-size:1.5rem;line-height:1}
+.bhead .num{font-weight:700;background:rgba(255,255,255,.55);border-radius:6px;padding:0 6px}
+.bgrid{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:3px;background:#141b1d;border-radius:8px;padding:3px}
+.bgrid > span{aspect-ratio:1;display:grid;place-items:center;border-radius:4px;font-family:var(--big);font-size:1.3rem;line-height:1}
+.bn{position:relative;background:#fff8e6}
+.bx{background:rgba(255,255,255,.2)}
+.bn.daub::after{content:"";position:absolute;inset:9%;border-radius:50%;background:rgba(255,64,129,.6);animation:daub .3s cubic-bezier(.2,1.4,.4,1)}
+.bn.lined{background:#fff3b0;box-shadow:inset 0 0 0 2px var(--gold-lo)}
+.bsweat{margin:0;min-height:1.2em;font-size:.8rem;font-weight:700;text-align:center}
+.bstamp{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-8deg);font-family:var(--big);font-weight:400;font-size:3.2rem;line-height:1;
+  color:var(--gold);text-shadow:0 3px 0 #141b1d,0 0 12px rgba(0,0,0,.6);white-space:nowrap;pointer-events:none;animation:bstamp 1.6s ease-out forwards}
+.bpays li span{font-size:.85rem}
+/* Nan's invite in the group chat */
+.msg.invite .bubble{box-shadow:inset 0 0 0 2px var(--purple)}
+.msg.invite .qopt{display:flex;align-items:center;gap:6px}
