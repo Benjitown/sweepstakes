@@ -67,6 +67,12 @@ const VOICES = {
     const end = t + len + .12, lp = mFilter(a, 'lowpass', 900, out), g = mEnv(a, t, v, .008, end); g.connect(lp);
     mOsc(a, 'sine', f, t, end, g); mOsc(a, 'triangle', f, t, end, g, .5);
   },
+  theremin(a, out, f, t, len, v) { // a theremin: a sine that swoops in and wobbles
+    const g = mHold(a, t, v, .08, t + len, .25); g.connect(out);
+    const o = mOsc(a, 'sine', f * .97, t, t + len + .25, g); o.frequency.exponentialRampToValueAtTime(f, t + .09);
+    const lfo = a.createOscillator(), depth = a.createGain(); lfo.frequency.value = 5.5; depth.gain.value = f * .012;
+    lfo.connect(depth).connect(o.frequency); lfo.start(t); lfo.stop(t + len + .3);
+  },
   soft(a, out, f, t, len, v) { const end = t + 1, g = mEnv(a, t, v, .02, end); g.connect(out); mOsc(a, 'sine', f, t, end, g); mOsc(a, 'sine', f * 2, t, end, g, .25); },
 };
 const DRUMS = {
@@ -90,10 +96,13 @@ const MIX = {
   lounge: { keys: .055, lead: .1, low: .2, drums: 1 },
   pub: { keys: .05, lead: .085, low: .12, drums: 1 },
   chip: { arp: .016, lead: .036, low: .12, drums: .8 },
+  haunted: { keys: .06, lead: .11, low: .2, drums: 1 },
+  xmas: { keys: .05, lead: .14, low: .22, drums: 1 },
   waltz: { keys: .065, lead: .15, low: .26, drums: 1 },
 };
 
 export const Music = {
+  available: () => TRACKS, // the records on the jukebox right now (wiring.js adds the seasonal one in its season)
   holds: new Set(), ducked: false, ctx: null, out: null, lp: null, timer: 0, at: 0, k: 0, loop: 0, id: '', notes: 0, live: [], heard: false,
   // should a record be playing? (your Music switch, the mute button, and nothing holding it: outside, a power cut, the tests)
   want() { const e = AudioEngine.get(); return pref('music') && !S.muted && e.unlocked && !document.hidden && !this.holds.size; },
@@ -101,8 +110,8 @@ export const Music = {
   sync() { if (!this.want()) { if (this.timer) this.stop(); return; } if (!this.timer) this.start(); },
   // the record that's on: yours, or shuffle's pick (never the same one twice running)
   pick(prev = this.id) {
-    const t = S.track || 'lounge'; if (t !== 'shuffle') return TRACK_BY[t] ? t : 'lounge';
-    const ids = TRACKS.map(x => x.id).filter(x => x !== prev); return ids[Math.floor(Math.random() * ids.length)];
+    const on = this.available(), t = S.track || 'lounge'; if (t !== 'shuffle') return on.some(x => x.id === t) ? t : 'lounge';
+    const ids = on.map(x => x.id).filter(x => x !== prev); return ids[Math.floor(Math.random() * ids.length)];
   },
   volume: () => MUSIC.LEVEL * (typeof S.musicVol === 'number' ? Math.max(0, Math.min(1, S.musicVol)) : MUSIC.VOL),
   applyVolume() { if (this.out) this.out.gain.setTargetAtTime(this.volume() * (this.ducked ? .25 : 1), this.ctx.currentTime, .05); },

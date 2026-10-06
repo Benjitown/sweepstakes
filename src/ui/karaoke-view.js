@@ -56,6 +56,7 @@ export const KaraokeView = {
     document.addEventListener('keydown', this.keyFn);
     Music.hold('karaoke', true); // the jukebox waits
     const e = AudioEngine.get(); this.audio = !S.muted && e.unlocked ? e.ready() : null;
+    if (this.audio && this.audio.state !== 'running') this.audio = null; // a sleeping audio clock would freeze the notes: sing to the page's clock instead
     this.t0 = this.clock() + .6;
     if (this.audio) this.backing(this.audio, this.t0);
     this.loop();

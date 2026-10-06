@@ -65,6 +65,15 @@ export const QUIZ = [
   ['Which month does the room go purple?', 'October', 'December', 'November'],
   ['What wants a new battery at 3am?', 'The smoke detector', 'The kettle', 'The telly remote'],
   ['What’s a jackpot gem worth?', '×5', '×10', '×3'],
+  ['How many strings does a standard guitar have?', 'Six', 'Five', 'Seven'],
+  ['What do you call a group of crows?', 'A murder', 'A parliament', 'A gaggle'],
+  ['How many squares are there on a chessboard?', '64', '81', '100'],
+  ['What’s the most you can score with three darts?', '180', '150', '200'],
+  ['How many keys does a standard piano have?', '88', '76', '92'],
+  ['A marrow is a grown-up version of which vegetable?', 'A courgette', 'A cucumber', 'An aubergine'],
+  ['What colour is the ring around the bullseye on a dartboard?', 'Green', 'Red', 'Black'],
+  ['What’s the old nickname for a fruit machine?', 'A one-armed bandit', 'A money pit', 'A cherry picker'],
+  ['On the Sweepstake, how many numbers do you need for ×200?', 'Four', 'Three', 'Five'],
 ];
 // how a friend opens the round
 export const QUIZ_INTROS = ['QUIZ TIME.', 'pub quiz, round one.', 'quick one for you:', 'settle an argument:', 'right, general knowledge:', 'Quiz question love x'];

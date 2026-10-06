@@ -15,6 +15,8 @@ export const STORIES = {
   rug: [['KEVCOIN DEVS VANISH', 'RUG PULLED ON KEVCOIN'], ['Kev says KEVCOIN {v}.0 will be “completely different”.']],
   whopper: [['GIANT {veg} WINS VILLAGE SHOW'], ['Big Dave, on the next plot, declined to comment. Then commented at length.']],
   night_full: [['QUIZ NIGHT WHIZZ: FIVE OUT OF FIVE'], ['Priya has asked for a recount.']],
+  karaoke_ovation: [['STANDING OVATION AT THE RED LION', 'LAST ORDERS, SUNG PROPERLY'], ['{score}% of the notes. Big Dave says he’s retiring from karaoke. He isn’t.']],
+  karaoke_booed: [['BOOED OFF AT THE RED LION'], ['{score}% of the notes. The landlord has asked for the microphone back.']],
   scratch_big: [['SCRATCHCARD WIN: ×{x}'], ['The newsagent shrugged.']],
   duck_long: [['RUBBER DUCK ROMPS HOME AT ×{x}'], ['The long shot came good. The other ducks are said to be furious.']],
   boom_big: [['{stake} GONE IN ONE DIG', 'BOOM AT {table}'], ['“The odds were with me,” said the player. They weren’t.']],
@@ -38,7 +40,7 @@ export const STORIES = {
 // what the "photo" on the front page shows (an icon from the sheet, printed in newsprint grey)
 export const STORY_ART = {
   casino: 'casino', bust: 'skull', bust_don: 'dice', lotto_jackpot: 'ticket', lotto_four: 'ticket', jackpot: 'gem', bingo_house: 'bingo', fruity_jackpot: 'lucky7', ascend: 'asc', don_win: 'dice',
-  cashout_big: 'coin', rug: 'kevcoin', whopper: 'veg', night_full: 'brain', scratch_big: 'ticket', duck_long: 'duck', boom_big: 'bomb', darts_won: 'dart',
+  cashout_big: 'coin', rug: 'kevcoin', whopper: 'veg', night_full: 'brain', karaoke_ovation: 'juke', karaoke_booed: 'juke', scratch_big: 'ticket', duck_long: 'duck', boom_big: 'bomb', darts_won: 'dart',
   banker_beat: 'phone', unlock: 'crown', clear: 'flag', rainbow: 'clover', claw_win: 'claw', banker_deal: 'phone', dare_won: 'dare', storm: 'bolt',
   power: 'bulb', kev_launch: 'kevcoin', darts_lost: 'dart', levelup: 'trophy', gull: 'gull', slugs: 'veg', quiet: 'coin',
 };

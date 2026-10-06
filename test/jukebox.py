@@ -69,6 +69,19 @@ async def run(browser, url, shots):
     st = await pg.evaluate(STATE)
     ok(st['on'] and st['id'] != was, f'after a few times round, shuffle moves on ({was} → {st["id"]})')
 
+    # --- the Halloween record (only in its season)
+    await pg.evaluate("(() => { __sw.Seasons.force = 'halloween'; __sw.JukeboxView.open(); })()"); await pg.wait_for_timeout(250)
+    recs = await pg.evaluate("[...document.querySelectorAll('#modalBox .jrec')].map(b => b.dataset.rec)")
+    await pg.click('#modalBox .jrec[data-rec="haunted"]'); await pg.wait_for_timeout(600)
+    st = await pg.evaluate(STATE)
+    ok('haunted' in recs and st['on'] and st['id'] == 'haunted' and 'The Haunted Arcade' in st['now'], f'in October the jukebox has a spooky record, and it plays ({recs})')
+    await pg.evaluate("(() => { __sw.Seasons.force = 'xmas'; __sw.JukeboxView.open(); })()"); await pg.wait_for_timeout(250)
+    await pg.click('#modalBox .jrec[data-rec="xmas"]'); await pg.wait_for_timeout(600)
+    st = await pg.evaluate(STATE)
+    ok(st['on'] and st['id'] == 'xmas' and 'Tinsel on the Telly' in st['now'] and not await pg.evaluate("!!document.querySelector('#modalBox .jrec[data-rec=\"haunted\"]')"), 'at Christmas it’s a Christmas one instead')
+    await pg.evaluate("(() => { __sw.Seasons.force = 'none'; __sw.Music.play('lounge'); __sw.JukeboxView.open(); })()"); await pg.wait_for_timeout(300)
+    ok(await pg.evaluate("!document.querySelector('#modalBox .jrec[data-rec=\"haunted\"]') && !document.querySelector('#modalBox .jrec[data-rec=\"xmas\"]') && __sw.Music.pick() === 'lounge'"), 'out of season, they’re gone')
+
     # --- switching it off and on
     await pg.click('#jukeOff'); await pg.wait_for_timeout(300)
     st = await pg.evaluate(STATE)

@@ -58,18 +58,21 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **Biscuit, next door's dog.** If you hear barking, he trots in along the bottom of the screen and waits ("Woof?").
   Give him a biscuit (3% of the top table's max stake) and he sniffs out a mine on your board and sits on it: flagged,
   glowing orange for a moment. Ignore him and he wanders off. New achievement: Good Boy.
+- **More to talk about:** eight new group chat conversations (Dave's 4kg marrow, Kev's royalties, Nan's Wireless is her
+  song) and nine more quiz questions.
 - **The Daily Sweep,** the local paper, written from your run. Every twenty minutes of play it comes through the
   letterbox (a chip in the header says so): the run's biggest moment on the front page (a jackpot gem, Dave beaten at
   darts, a rug pull, a giant marrow at the village show), two more stories down the side, the weather, KEVCOIN's
   price, Nan's stars and the small ads. At the bottom, Spot the Mine: a little board where exactly one covered tile
   has to be a mine. Tap the right one for a prize. Go bust and the bust screen's "Read all about it" opens a special
   edition.
-- **The Sweepstake,** the paper's lottery. Buy Lucky Dip lines (five numbers from 30, up to five lines a draw) in
+- **The Sweepstake,** the paper's lottery. Buy Lucky Dip lines, or pick your own five (from 30, up to five lines a draw) in
   The Daily Sweep, and the next paper prints the draw and pays out: three numbers ×12, four ×200, all five ×10,000
   (about 1 in 142,500). Like any lottery it's a bad bet: about half the money comes back, worked out exactly. A big
   win makes the front page.
 - **New achievements:** Green Fingers (pick 10 crops), Best in Show (grow a whopper), Read All About It (solve the
-  paper's puzzle) and Name That Tune (put every record on the jukebox).
+  paper's puzzle), Name That Tune (put every record on the jukebox), Standing Ovation (95% at karaoke) and Lucky
+  Numbers (three numbers on the Sweepstake). Karaoke night makes the paper too, for better or worse.
 - **The allotment,** a fourth tab (or press 4). Four beds and six packets of seeds, from radishes (two minutes) to
   pumpkins (fourteen). They grow by the minute while you play, so they wait while you're outside, and when they're
   ripe a chip in the header says so. Pick them and the farm shop buys them, usually for two or three times what the
@@ -88,7 +91,8 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **The jukebox.** Music at last. The button next to mute (or J) opens the Red Lion's jukebox, with four records
   synthesised note by note in your browser: High Roller Lounge (slow swing on an electric piano, brushes and a double
   bass), Last Orders (a knees-up on the pub's old upright), Insert Coin (Kev's eight-bit tune) and Nan's Wireless (a
-  gentle waltz on a music box), plus shuffle. It sits quietly under the game, with a Music slider in the jukebox and in
+  gentle waltz on a music box), plus shuffle. In October there's a fifth, The Haunted Arcade (spooky organ and a
+  theremin), and at Christmas, Tinsel on the Telly (sleigh bells and a celesta). It sits quietly under the game, with a Music slider in the jukebox and in
   Stats. It stops while you're muted, outside or in another tab, and when the power goes the record winds down. Switch
   it off in the jukebox or in Stats. Everyone in the group chat has an opinion about your record.
 - **Board styles,** in Stats: Card table felt, Neon, Nan's knitting (purple wool, cable stitch) and Gold leaf, for
