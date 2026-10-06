@@ -94,7 +94,7 @@ const MIX = {
 };
 
 export const Music = {
-  holds: new Set(), ctx: null, out: null, lp: null, timer: 0, at: 0, k: 0, loop: 0, id: '', notes: 0, live: [], heard: false,
+  holds: new Set(), ducked: false, ctx: null, out: null, lp: null, timer: 0, at: 0, k: 0, loop: 0, id: '', notes: 0, live: [], heard: false,
   // should a record be playing? (your Music switch, the mute button, and nothing holding it: outside, a power cut, the tests)
   want() { const e = AudioEngine.get(); return pref('music') && !S.muted && e.unlocked && !document.hidden && !this.holds.size; },
   hold(why, on) { if (on) { if (why === 'power' && this.timer) this.windDown(); this.holds.add(why); } else this.holds.delete(why); this.sync(); },
@@ -105,10 +105,12 @@ export const Music = {
     const ids = TRACKS.map(x => x.id).filter(x => x !== prev); return ids[Math.floor(Math.random() * ids.length)];
   },
   volume: () => MUSIC.LEVEL * (typeof S.musicVol === 'number' ? Math.max(0, Math.min(1, S.musicVol)) : MUSIC.VOL),
-  applyVolume() { if (this.out) this.out.gain.setTargetAtTime(this.volume(), this.ctx.currentTime, .05); },
+  applyVolume() { if (this.out) this.out.gain.setTargetAtTime(this.volume() * (this.ducked ? .25 : 1), this.ctx.currentTime, .05); },
+  // something to hear over the record (Nan calling the bingo): turn it down for a moment, then back up
+  duck(on) { if (this.ducked === !!on) return; this.ducked = !!on; if (this.out) this.out.gain.setTargetAtTime(this.volume() * (on ? .25 : 1), this.ctx.currentTime, .08); },
   start() {
     const e = AudioEngine.get(), a = e.ready(); if (!a || !e.master) return;
-    this.ctx = a; this.out = a.createGain(); this.out.gain.value = this.volume();
+    this.ctx = a; this.out = a.createGain(); this.out.gain.value = this.volume() * (this.ducked ? .25 : 1);
     this.lp = mFilter(a, 'lowpass', 18000, e.master); this.out.connect(this.lp);
     this.id = this.pick(); this.k = 0; this.loop = 0; this.at = a.currentTime + .08;
     clearInterval(this.timer); this.timer = setInterval(() => this.pump(), 150); this.pump();

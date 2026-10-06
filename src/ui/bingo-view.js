@@ -1,5 +1,6 @@
 // Nan's bingo hall (the booth's fourth tab): pick a ticket, then Nan calls 60 balls and your ticket daubs itself.
 import { $, $$, ico, fmt, esc, rnd } from '../core/util.js';
+import { Music } from '../audio/music.js';
 import { TABLES } from '../data/economy.js';
 import { FRIENDS } from '../content/chat-lines.js';
 import { BINGO_TICKETS, BINGO_PAYS, BINGO_CALLS } from '../data/bingo.js';
@@ -23,13 +24,13 @@ const Voice = {
   on: () => Voice.ok() && pref('nanvoice') && !S.muted && level('vol') > 0,
   // says it, then calls back when she's done (or after a few seconds, if the browser never says she's done)
   say(text, then) {
-    let fired = false; const go = () => { if (!fired) { fired = true; if (then) then(); } };
+    let fired = false; const go = () => { if (!fired) { fired = true; Music.duck(false); if (then) then(); } };
     if (!this.on()) { setTimeout(go, BingoView.STEP_MS); return; }
     try {
       const u = new SpeechSynthesisUtterance(text), v = speechSynthesis.getVoices().find(x => /en[-_]GB/i.test(x.lang));
       if (v) u.voice = v; u.lang = 'en-GB'; u.rate = 1.08; u.pitch = 1.25; u.volume = level('vol');
       u.onend = u.onerror = () => setTimeout(go, 220);
-      speechSynthesis.speak(u); setTimeout(go, 4500);
+      Music.duck(true); speechSynthesis.speak(u); setTimeout(go, 4500);
     } catch (e) { setTimeout(go, BingoView.STEP_MS); }
   },
   hush() { try { if (this.ok()) speechSynthesis.cancel(); } catch (e) { /* nothing to hush */ } },
