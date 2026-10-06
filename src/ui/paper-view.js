@@ -3,6 +3,8 @@
 import { $, $$, fmt, esc, ico } from '../core/util.js';
 import { S, SaveGame } from '../core/state.js';
 import { Paper } from '../game/paper.js';
+import { Sweepstake } from '../game/sweepstake.js';
+import { DRAW } from '../data/sweepstake.js';
 import { fmtKev } from './kevcoin-view.js';
 import { UI } from './ui.js';
 
@@ -25,6 +27,7 @@ export const PaperView = {
       <div class="cols"><section><h5>Weather</h5><p>${esc(p.weather)}</p></section><section><h5>Markets</h5><p>${esc(markets)}</p></section>
         <section><h5>Nan’s stars</h5><p>${p.stars ? `<b>${esc(p.stars.name)}:</b> ${esc(p.stars.text)}` : 'Tell Nan your star sign and she’ll read them out.'}</p></section></div>
       <section class="ads"><h5>Small ads</h5>${p.ads.map(a => `<p>${esc(a)}</p>`).join('')}</section>
+      ${p.mode === 'daily' ? this.lotto(p) : ''}
       ${p.puzzle ? this.puzzle(p) : ''}
       <div class="row">${after ? `<button class="btn green big" type="button" data-a="after">${esc(after.label)}</button>` : '<button class="btn green" type="button" data-a="close">Fold it up</button>'}</div></div>`,
       { close: () => UI.closeModal(), after: () => after && after.go() }, !!after);
@@ -39,7 +42,18 @@ export const PaperView = {
         : `<span class="pt open n${v}">${v || ''}</span>`).join('')}</div>
       <p class="pres" id="paperRes">${p.solved === 'right' ? `Right! ${fmt(p.prize)} from the puzzle editor.` : p.solved === 'wrong' ? `Not that one. ${z.sure.length > 1 ? 'Either of the marked ones had' : 'The marked one had'} to be a mine.` : 'Tap the tile.'}</p></section>`;
   },
+  // the Sweepstake: last night's numbers (and your lines' luck), your lines for the next draw, and Lucky Dip
+  lotto(p) {
+    const d = p.lotto, mine = Sweepstake.lines(), price = Sweepstake.price(), full = mine.length >= DRAW.LINES;
+    return `<section class="lotto" id="paperLotto"><h5>The Sweepstake <small>five from ${DRAW.BALLS}: three numbers pay ×${DRAW.PAYS[3]}, four ×${fmt(DRAW.PAYS[4])}, all five ×${fmt(DRAW.PAYS[5])}</small></h5>
+      ${d ? `<p class="balls" aria-label="Last night’s numbers: ${d.balls.join(', ')}">${d.balls.map(b => `<i>${b}</i>`).join('')}</p>
+        ${d.lines.map(l => `<p class="line">${l.nums.map(n => `<b class="${d.balls.includes(n) ? 'hit' : ''}">${n}</b>`).join('')}<span>${l.pay ? `${l.hits} numbers: +${fmt(l.pay)}` : `${l.hits || 'no'} number${l.hits === 1 ? '' : 's'}`}</span></p>`).join('')}` : ''}
+      <p class="next">${mine.length ? `Your line${mine.length > 1 ? 's' : ''} for the next draw: ${mine.map(l => l.nums.join(' ')).join(' · ')}` : 'No lines for the next draw yet. It’s drawn when the next paper comes.'}</p>
+      <button class="btn gold" type="button" id="lottoDip" ${full || S.coins < price ? 'disabled' : ''}>${full ? 'That’s your lot for this draw' : `Lucky Dip (${fmt(price)})`}</button></section>`;
+  },
   bind(p) {
+    const dip = $('#lottoDip');
+    if (dip) dip.onclick = () => { if (!Sweepstake.buy()) return UI.toast('You can’t buy another line right now.'); const box = $('#paperLotto'); if (box) { box.outerHTML = this.lotto(p); this.bind(p); } };
     $$('#modalBox [data-pt]').forEach(b => b.onclick = () => {
       if (p.solved || p !== S.paper) return;
       p.picked = +b.dataset.pt; const r = Paper.answer(p.picked);

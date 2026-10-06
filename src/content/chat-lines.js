@@ -131,6 +131,11 @@ export const LINES = {
   plot_slugs:    [['nan', 'Never mind, love. The slugs have to eat too. Plant some more x'], ['dave', 'slugs. the silent enemy'], ['tash', 'nature is healing. and eating your veg'],
     ['kev', 'try a beer trap. I tried one. I drank the beer']],
   plot_rain:     [['nan', 'Lovely drop of rain for the garden x'], ['priya', 'free watering for the allotment at least'], ['dave', 'good for the marrows, this']],
+  // the Sweepstake (the paper's lottery)
+  lotto_win:     [['nan', 'You’ve won on the Sweepstake! Treat yourself, love x'], ['dave', 'the Sweepstake is rigged. congratulations'],
+    ['kev', 'a lottery is just KEVCOIN with extra steps'], ['priya', 'a lottery winner. are you going to change'], ['tash', 'buy us a drink then']],
+  lotto_jackpot: [['nan', 'All five numbers! I’m over the moon for you, love x'], ['dave', 'ALL FIVE. I need a lie down'],
+    ['priya', 'they’re going to want a photo with a big cheque'], ['kev', 'put it all in KEVCOIN. trust me. please']],
   // the jukebox: everyone has an opinion about your record
   juke_lounge:   [['priya', 'very James Bond. are you wearing a bow tie'], ['dave', 'lift music. I love it'], ['nan', 'Ooh very posh. Shall I put my pearls on x'],
     ['kev', 'this is what they play when you’re on hold to the bank']],

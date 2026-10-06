@@ -41,3 +41,12 @@ button.pt.wrong{background:#b3362e}
 @media (max-width:760px){.chips .paperchip{position:absolute;right:14px;top:100%;font-size:.78rem;padding:4px 12px 5px 8px;gap:5px;border-radius:0 0 10px 10px}
   .chips .paperchip svg{width:16px;height:16px}
   .chips .chirpchip:not([hidden]) ~ .paperchip{top:calc(100% + 30px)}}
+.lotto{border-top:3px double #1d1b16;padding-top:6px;display:grid;gap:5px;justify-items:start}
+.lotto h5 small{text-transform:none;letter-spacing:0;font-family:Georgia,serif;font-style:italic;margin-left:6px}
+.balls{display:flex;gap:5px;flex-wrap:wrap}
+.balls i{width:28px;height:28px;border-radius:50%;background:#1d1b16;color:#efe9da;display:grid;place-items:center;font-style:normal;font-family:var(--big);font-size:1.2rem}
+.paper .lotto .line{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.lotto .line b{width:24px;height:24px;border-radius:50%;border:1.5px solid #1d1b16;display:grid;place-items:center;font-family:var(--big);font-weight:400;font-size:1.05rem}
+.lotto .line b.hit{background:#ffd23f}
+.lotto .line span{font-size:.75rem;margin-left:6px;font-style:italic}
+.lotto .btn{font-family:var(--pixel);font-size:.85rem}

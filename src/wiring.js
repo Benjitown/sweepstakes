@@ -433,6 +433,13 @@ bus.on('levelup', ({ newRank, name }) => { if (newRank) News.note('levelup', { r
 bus.on('dare:won', d => News.note('dare_won', { who: (FRIENDS[d.who] || {}).name || 'A friend' }));
 bus.on('household', e => { if (e.kind === 'gullNicked') News.note('gull'); });
 bus.on('tick', () => Paper.second());
+bus.on('lotto:bought', () => { Sound.buy(); RunPanel.render(); });
+bus.on('lotto:drawn', ({ total, lines }) => {
+  const best = Math.max(0, ...lines.map(l => l.hits)), top = lines.find(l => l.hits === best);
+  if (best >= 5) { News.note('lotto_jackpot', { pay: fmt(top.pay) }); Banner.show('JACKPOT!', 'All five on the Sweepstake', 'red', true); FX.confetti(200); Sound.bigwin(3); }
+  else if (best === 4) News.note('lotto_four', { pay: fmt(top.pay) });
+  if (total) { UI.toast(`+${fmt(total)} on the Sweepstake! It’s in the paper.`); RunPanel.render(); setTimeout(() => Chat.say(best >= 5 ? 'lotto_jackpot' : 'lotto_win', {}, 1), 2600); }
+});
 bus.on('paper', () => { Sound.letterbox(); PaperView.chip(); UI.toast('The Daily Sweep’s come through the letterbox.'); });
 bus.on('paper:answer', ({ right, prize }) => { if (right) { Sound.cash(); UI.toast(`+${fmt(prize)}: you spotted the mine.`); RunPanel.render(); } else Sound.unflag(); });
 bus.on('paper:bust', a => PaperView.open(Paper.compose(Game.lastRun || S.run, 'bust'), a)); // the bust screen's "Read all about it"
