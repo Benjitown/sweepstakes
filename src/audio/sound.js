@@ -50,6 +50,7 @@ export const Sound = (() => {
     bust() { tone(392, .38, 'triangle', .35, 0, 370); tone(370, .38, 'triangle', .35, .4, 349); tone(349, 1.1, 'triangle', .35, .8, 290); tone(196, 1.9, 'sawtooth', .05, 0, 145); },
     ascend() { [0, 5, 7, 12, 17, 19, 24].forEach((s, k) => tone(196 * 2 ** (s / 12), .6, 'sawtooth', .05, k * .12)); [0, 7, 12, 16].forEach((s, k) => tone(392 * 2 ** (s / 12), 1.4, 'triangle', .28, .9 + k * .05)); },
     hold(p) { tone(220 + p * 660, .05, 'sine', .08); },
+    scratch() { if (!gate('scratch', 65)) return; noise(.07, .16, 2600 + Math.random() * 1400, 0, 'bandpass'); },
     coach() { tone(note(10), .06, 'sine', .14); tone(note(13), .09, 'sine', .12, .06); },
   };
 })();

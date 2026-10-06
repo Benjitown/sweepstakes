@@ -18,7 +18,7 @@ export const FlipView = {
       <div class="betrow"><label for="flipBet">Bet</label><input id="flipBet" type="number" min="1" inputmode="numeric">
         <button class="btn ghost" type="button" data-q=".1">10%</button><button class="btn ghost" type="button" data-q=".5">Half</button><button class="btn ghost" type="button" data-q="1">All</button></div>
       <div class="row"><button class="btn blue big" type="button" id="flipGo">Flip it</button><button class="btn ghost" type="button" data-a="close">Leave</button></div>`,
-      { close: () => UI.closeModal(), 'booth-ducks': () => bus.emit('booth', 'ducks') });
+      { close: () => UI.closeModal() });
     const inp = $('#flipBet'); inp.value = Math.max(1, Math.floor(S.coins * .1));
     $$('.side-btn', UI.el.box).forEach(b => b.onclick = () => { this.side = b.dataset.side; $$('.side-btn', UI.el.box).forEach(x => x.setAttribute('aria-pressed', x === b)); });
     $$('.betrow [data-q]', UI.el.box).forEach(b => b.onclick = () => { inp.value = Math.max(1, Math.floor(S.coins * +b.dataset.q)); });

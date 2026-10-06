@@ -29,6 +29,9 @@ import { LINES, RUDE } from './content/chat-lines.js';
 import { HouseholdView } from './ui/household-view.js';
 import { DuckRace } from './game/duck-race.js';
 import { DuckRaceView } from './ui/duck-race-view.js';
+import { Scratchcards } from './game/scratchcards.js';
+import { ScratchView } from './ui/scratch-view.js';
+import { SCRATCH_CARDS, SCRATCH_PRIZES } from './data/scratchcards.js';
 
 export function exposeForTests() {
   // no random knocks at the door mid-test (they'd pop up over what the tests click); the tests start them by hand
@@ -37,6 +40,7 @@ export function exposeForTests() {
     get S() { return S; }, Game, Solver, Rack, Rank, bus, NOISES, WeirdNoises, Quips, Chat, Coach, SpinView,
     Banner, FX, UI, renderAll, invoke, DigCommand, SaveGame, TABLES, AudioEngine,
     Daily, Achievements, ACHIEVEMENTS, DailyView, Keys, CoinChart, seeded, hashString, Household, HouseholdView, DuckRace, DuckRaceView, DOOR, LINES, RUDE,
+    Scratchcards, ScratchView, SCRATCH_CARDS, SCRATCH_PRIZES,
     get slots() { return Game.slots; },
   };
 }

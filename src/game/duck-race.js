@@ -1,4 +1,5 @@
 // The duck race out back of the Flip Booth: five rubber ducks, a bookie's odds card, one winner.
+import { shuffle } from '../core/util.js';
 import { SaveGame, S, luck } from '../core/state.js';
 
 export const DUCK_NAMES = ['Quackers', 'Sir Waddles', 'Puddles', 'Big Bill', 'Captain Bread', 'Lady Splash', 'Nugget', 'Admiral Quack',
@@ -6,8 +7,6 @@ export const DUCK_NAMES = ['Quackers', 'Sir Waddles', 'Puddles', 'Big Bill', 'Ca
 export const DUCK_COLS = ['#ffd23f', '#fe5f55', '#009dff', '#3fc18a', '#a275f0', '#ffa31a', '#ff8fb0', '#f4f1e8'];
 // the bookie keeps 5% (EDGE), and even the favourite pays at least ×1.2
 export const RACE = { ducks: 5, edge: .95, minPay: 1.2 };
-
-const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 
 export const DuckRace = {
   card: null,

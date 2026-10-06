@@ -68,6 +68,7 @@ export const Achievements = {
     bus.on('daily:done', ({ streak, top }) => { u('daily'); if (streak >= 7) u('daily7'); if (top) u('dailytop'); });
     bus.on('tutorial:done', ({ completed }) => { if (completed) u('nan'); });
     bus.on('duck', ({ win, pay }) => { if (win) { u('duck'); if (pay >= 8) u('longshot'); } });
+    bus.on('scratch', ({ win, x }) => { if (win && x >= 20) u('scratch'); });
     bus.on('household', ({ kind, ok, win }) => { if (kind === 'kitten') u('kitten'); if (kind === 'battery' && ok) u('battery'); if (kind === 'raffle' && win) u('raffle'); });
   },
 };
