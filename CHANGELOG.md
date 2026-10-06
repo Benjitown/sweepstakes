@@ -58,6 +58,14 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **Biscuit, next door's dog.** If you hear barking, he trots in along the bottom of the screen and waits ("Woof?").
   Give him a biscuit (3% of the top table's max stake) and he sniffs out a mine on your board and sits on it: flagged,
   glowing orange for a moment. Ignore him and he wanders off. New achievement: Good Boy.
+- **The Daily Sweep,** the local paper, written from your run. Every twenty minutes of play it comes through the
+  letterbox (a chip in the header says so): the run's biggest moment on the front page (a jackpot gem, Dave beaten at
+  darts, a rug pull, a giant marrow at the village show), two more stories down the side, the weather, KEVCOIN's
+  price, Nan's stars and the small ads. At the bottom, Spot the Mine: a little board where exactly one covered tile
+  has to be a mine. Tap the right one for a prize. Go bust and the bust screen's "Read all about it" opens a special
+  edition.
+- **New achievements:** Green Fingers (pick 10 crops), Best in Show (grow a whopper), Read All About It (solve the
+  paper's puzzle) and Name That Tune (put every record on the jukebox).
 - **The allotment,** a fourth tab (or press 4). Four beds and six packets of seeds, from radishes (two minutes) to
   pumpkins (fourteen). They grow by the minute while you play, so they wait while you're outside, and when they're
   ripe a chip in the header says so. Pick them and the farm shop buys them, usually for two or three times what the

@@ -54,6 +54,8 @@ export const Sound = (() => {
     reel(k = 0) { noise(.06, .4, 700 + k * 160, 0, 'bandpass'); tone(150 - k * 12, .09, 'square', .1, 0, 80); },
     nudge() { tone(520, .05, 'square', .09, 0, 300); noise(.04, .3, 1200, 0, 'bandpass'); tone(160, .07, 'sine', .25, .03, 90); },
     gamble(k) { tone(k ? 880 : 660, .05, 'square', .07); },
+    // the paper through the letterbox: the flap clacks, the paper thumps on the mat
+    letterbox() { noise(.04, .5, 1800, 0, 'bandpass'); tone(420, .05, 'square', .06, 0, 300); noise(.12, .45, 600, .12); tone(95, .14, 'sine', .4, .12, 60); },
     // a dart in the board: a short thunk
     dart() { noise(.03, .45, 900, 0, 'bandpass'); tone(170, .06, 'square', .12, 0, 70); tone(75, .1, 'sine', .3); },
     // the claw machine paying out: an eight-bit arpeggio

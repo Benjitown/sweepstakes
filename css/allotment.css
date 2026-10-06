@@ -29,6 +29,7 @@
   border-radius:8px;padding:3px 10px 3px 6px;font-weight:700;animation:ripechip 1.6s ease-in-out infinite}
 .plotchip svg{width:20px;height:20px}
 @keyframes ripechip{50%{transform:translateY(-2px)}}
-@media (max-width:760px){.chips .plotchip{position:absolute;left:50%;transform:translateX(-50%);top:100%;font-size:.78rem;padding:4px 12px 5px 8px;gap:5px;border-radius:0 0 10px 10px;animation:none}
-  .chips .plotchip svg{width:16px;height:16px}}
+@media (max-width:760px){.chips .plotchip{position:absolute;left:14px;top:100%;font-size:.78rem;padding:4px 12px 5px 8px;gap:5px;border-radius:0 0 10px 10px;animation:none}
+  .chips .plotchip svg{width:16px;height:16px}
+  .chips .darechip:not([hidden]) ~ .plotchip{top:calc(100% + 30px)}}
 @media (prefers-reduced-motion:reduce){.bed.ripe,.plotchip{animation:none}}

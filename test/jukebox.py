@@ -51,11 +51,13 @@ async def run(browser, url, shots):
     await pg.screenshot(path=str(shots / 'jukebox.png'))
 
     # --- every record plays
+    await pg.evaluate("delete __sw.S.life.ach.records")
     for rid in ['lounge', 'pub', 'waltz']:
         n0 = await pg.evaluate('__sw.Music.notes')
         await pg.click(f'#modalBox .jrec[data-rec="{rid}"]'); await pg.wait_for_timeout(700)
         st = await pg.evaluate(STATE)
         ok(st['on'] and st['id'] == rid and st['notes'] > n0, f'{rid} plays ({st["notes"] - n0} notes)')
+    ok(await pg.evaluate("__sw.Achievements.has('records')"), 'achievement: Name That Tune, for putting every record on')
     said = await pg.evaluate("[...document.querySelectorAll('#chat .msg')].slice(-3).map(m => m.textContent)")
     ok(any(s for s in said), 'someone in the chat has an opinion about the record')
     await pg.evaluate("__sw.Music.play('shuffle')"); await pg.wait_for_timeout(400)
