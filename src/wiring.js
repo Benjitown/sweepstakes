@@ -180,7 +180,7 @@ bus.on('odd', ({ k, handle }) => {
 });
 bus.on('chirp', ({ on: isOn, again }) => { HouseholdView.chirp(isOn); if (again && Math.random() < .3) Chat.say('chirp_again', {}, 1); });
 const HOUSE_CHAT = { door: e => 'door_' + e.o.mood, phone: () => 'phone', kitten: () => 'kitten_pet', toast: () => 'toast',
-  battery: e => e.ok ? 'battery_ok' : 'battery_fall', raffle: e => e.win ? 'raffle_win' : 'raffle_lose' };
+  battery: e => e.ok ? 'battery_ok' : 'battery_fall', raffle: e => e.win ? 'raffle_win' : 'raffle_lose', gull: () => 'gull_shoo', gullNicked: () => 'gull_nicked' };
 bus.on('household', e => {
   HouseholdView.outcome(e);
   const fx = e.o.fx;

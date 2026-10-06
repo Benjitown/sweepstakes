@@ -25,7 +25,7 @@ import { DailyView } from './ui/daily-view.js';
 import { Keys } from './ui/keys.js';
 import { CoinChart } from './ui/coin-chart.js';
 import { seeded, hashString } from './core/random.js';
-import { Household, DOOR } from './game/household.js';
+import { Household, DOOR, GULL } from './game/household.js';
 import { LINES, RUDE } from './content/chat-lines.js';
 import { HouseholdView } from './ui/household-view.js';
 import { DuckRace } from './game/duck-race.js';
@@ -43,7 +43,7 @@ export function exposeForTests() {
   window.__sw = {
     get S() { return S; }, Game, Solver, Rack, Rank, bus, NOISES, WeirdNoises, Quips, Chat, Coach, SpinView,
     Banner, FX, UI, VERSION, renderAll, invoke, DigCommand, SaveGame, TABLES, AudioEngine,
-    Daily, Achievements, ACHIEVEMENTS, DailyView, Keys, CoinChart, seeded, hashString, Household, HouseholdView, DuckRace, DuckRaceView, DOOR, LINES, RUDE,
+    Daily, Achievements, ACHIEVEMENTS, DailyView, Keys, CoinChart, seeded, hashString, Household, HouseholdView, DuckRace, DuckRaceView, DOOR, GULL, LINES, RUDE,
     Scratchcards, ScratchView, SCRATCH_CARDS, SCRATCH_PRIZES, Quiz, QUIZ,
     get slots() { return Game.slots; },
   };

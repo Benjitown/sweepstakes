@@ -66,6 +66,12 @@ export const LINES = {
   odd_fart:      [['tash', 'who did that'], ['kev', 'not me'], ['dave', 'better out than in']],
   odd_creak:     [['dave', 'did anyone else hear that door'], ['nan', 'Is somebody there? x']],
   odd_meow:      [['nan', 'Has someone fed the cat? x'], ['tash', 'KITTY']],
+  odd_gull:      [['dave', 'is that a seagull? we’re nowhere near the sea'], ['nan', 'Don’t feed it love, they bite x'], ['tash', 'SEAGULL. GUARD YOUR CHIPS'],
+    ['kev', 'that gull has a criminal record. I’ve seen the posters'], ['priya', 'it’s looking at your coins. it’s LOOKING at them']],
+  gull_shoo:     [['dave', 'get in. the gull’s been told'], ['tash', 'you fought a seagull and won. legend'], ['nan', 'Wave your arms at them love, works every time x'],
+    ['priya', 'it’ll be back. with friends'], ['kev', 'the gull’s filing a complaint']],
+  gull_nicked:   [['dave', 'the seagull mugged you'], ['kev', 'it’s at the chippy now, spending your money'], ['tash', 'beaten by a bird. a BIRD'],
+    ['priya', 'the gull knows your PIN now'], ['nan', 'Cheeky thing! They had your grandad’s pasty in Padstow once x']],
   chirp_again:   [['tash', 'it’s still chirping'], ['dave', 'CHANGE. THE. BATTERY.'], ['kev', 'I can hear it through the chat somehow'], ['nan', 'Use the kitchen chair love, not the wobbly one x'],
     ['priya', 'that chirp has more staying power than my last three relationships']],
   battery_ok:    [['dave', 'silence. beautiful silence'], ['tash', 'a hero. a DIY hero'], ['nan', 'Your grandad never changed one in forty years x'], ['kev', 'was it a 9 volt. I could feel it was a 9 volt']],
@@ -124,6 +130,8 @@ export const RUDE = {
   kitten_gone: [['dave', 'you heartless git']],
   odd_fart:  [['dave', 'whoever smelt it dealt it'], ['tash', 'kev that’s disgusting'], ['kev', 'IT WASN’T ME']],
   odd_carAlarm: [['dave', 'turn it off, you absolute weapon']],
+  gull_nicked: [['dave', 'mugged off by a flying rat'], ['tash', 'robbed by a pigeon with a gym membership']],
+  odd_gull:  [['dave', 'flying rat incoming']],
 };
 export const CHANCE = { duck_start: .6, boom: .7, cash_small: .3, cash_big: .9, clear: .9, deal_big: .8, buy: .5, addon: .6, coward: .25, yolo: .3, streak: .8, fuse: .8, gem: .35, golden: .7, spin: .5 };
 // Double or Nothing asks this before each rung of the ladder.

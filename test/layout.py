@@ -1,5 +1,5 @@
 """Layout suite: desktop, tablet and phone screenshots (mid-game, the tutorial, the wheel, the daily, the duck race, a knock at
-the door); nothing may overflow sideways, and every header chip must fit on a 360px phone."""
+the door, a seagull); nothing may overflow sideways, and every header chip must fit on a 360px phone."""
 from common import Results, open_page
 
 MID_GAME = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.coins = 4.2e8; S.unlocked = ['penny', 'den', 'alley', 'roller'];
@@ -9,7 +9,7 @@ MID_GAME = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.coins = 4.2e8; S
   setTimeout(() => { for (const b of __sw.slots) if (b) __sw.invoke(new __sw.DigCommand(b, Math.floor(b.t.h / 2) * b.t.w + Math.floor(b.t.w / 2))); }, 200); })()'''
 ALL_CHIPS = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.asc = 2; S.streak = 7; S.goldNext = 3; S.life.lvl = 23; S.coins = 4.2e12; __sw.renderAll();
   __sw.HouseholdView.chirp(true); })()'''
-HOUSE = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.coins = 50000; __sw.renderAll(); __sw.Household.answerDoor(0); __sw.HouseholdView.walkKitten();
+HOUSE = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.coins = 50000; __sw.renderAll(); __sw.Household.answerDoor(0); __sw.HouseholdView.walkKitten(); __sw.HouseholdView.swoopGull();
   __sw.UI.toast('A toast, to check it clears the card'); })()'''
 DUCKS = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.coins = 50000; S.upg.flip = 1; __sw.renderAll(); __sw.DuckRaceView.open(); })()'''
 

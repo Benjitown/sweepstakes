@@ -1,4 +1,4 @@
-// Life goes on around you: someone at the door, the phone, a kitten, the smoke detector, burnt toast.
+// Life goes on around you: someone at the door, the phone, a kitten, the smoke detector, burnt toast, a seagull.
 // Each starts with its noise (audio/noises.js). What you do about it can pay, cost, or just be weird.
 import { TABLES } from '../data/economy.js';
 import { bus } from '../core/bus.js';
@@ -46,6 +46,18 @@ export const KITTEN = [
   { w: 2, mood: 'good', icon: 'kitten', title: 'It brings you a “present”', text: 'It’s {coins}. You don’t ask where from.', coins: .3 },
   { w: 1, mood: 'good', icon: 'kitten', title: 'It sits on the wheel', text: 'Free spin, ready now.', fx: 'spin' },
 ];
+// the seagull: shoo it off your coins in time, or it has some of them away
+export const GULL = {
+  shoo: [
+    { w: 2, mood: 'good', icon: 'gull', title: 'Shoo!', text: 'It panics and drops what it nicked off someone else: a battered sausage and {coins}.', coins: .15 },
+    { w: 2, mood: 'good', icon: 'gull', title: 'Oi! Get off!', text: 'It legs it, leaving a single chip and {coins} in loose change.', coins: .1 },
+    { w: 1, mood: 'good', icon: 'gull', title: 'You win this round', text: 'It glares at you from the guttering. It will remember this. +1 shield, for courage.', fx: 'shield' },
+  ],
+  nicked: [
+    { w: 2, mood: 'bad', icon: 'gull', title: 'It got away', text: 'Off over the rooftops with {coins} in its beak. You can hear it laughing.', coins: -.05 },
+    { w: 1, mood: 'bad', icon: 'gull', title: 'Daylight robbery', text: 'The seagull takes {coins} and a bit of your dignity. Mostly the dignity.', coins: -.04 },
+  ],
+};
 // the odd jobs, and how they go
 export const CHORES = {
   battery: { mood: 'good', icon: 'battery', title: 'Battery changed', text: 'Silence. Beautiful silence. And while you’re up there, {coins} on top of the wardrobe.', coins: .15 },
@@ -68,7 +80,7 @@ const counted = k => { S.life.house = S.life.house || {}; S.life.house[k] = (S.l
 
 export const Household = {
   // which noise starts which event (the view decides whether now's a good time)
-  EVENTS: { knock: 'door', doorbell: 'door', phone: 'phone', kittens: 'kitten', alarm: 'toast', smoke: 'battery' },
+  EVENTS: { knock: 'door', doorbell: 'door', phone: 'phone', kittens: 'kitten', alarm: 'toast', smoke: 'battery', gull: 'gull' },
   raffleCost: () => Math.max(5, Math.ceil(baseCap() * .1)),
 
   // applies an outcome; returns the coins that changed hands and the add-on card it gave (if any)
@@ -97,6 +109,8 @@ export const Household = {
   answerDoor(pick) { return this.resolve('door', DOOR, pick); },
   answerPhone(pick) { return this.resolve('phone', PHONE, pick); },
   petKitten(pick) { return this.resolve('kitten', KITTEN, pick); },
+  shooGull(pick) { return this.resolve('gull', GULL.shoo, pick); },
+  gullNicked(pick) { return this.resolve('gullNicked', GULL.nicked, pick); },
   raffle(win = Math.random() < 1 / 8) { // one ticket: one in eight wins ten times the price
     const cost = this.raffleCost(); if (S.coins < cost) return null;
     const coins = (win ? cost * 10 : 0) - cost;
