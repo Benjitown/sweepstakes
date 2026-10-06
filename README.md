@@ -79,6 +79,7 @@ The suites run against both the ES-module source and the built file:
   achievements, shortcuts, the coin graph, New Game+ and what's new
 - **household:** the door, the phone, the kitten, the smoke detector, burnt toast, the raffle, the duck race (odds,
   payouts, leaving mid-race) and the rude chat switch
+- **extras:** the experimental features: scratchcards (odds, panels, scratching with the mouse, leaving mid-card)
 - **layout:** desktop, tablet and phone sizes with no sideways scrolling
 
 Screenshots go to `test/screenshots/`.

@@ -34,6 +34,7 @@ import { Household } from './game/household.js';
 import { HouseholdView } from './ui/household-view.js';
 import { FlipView } from './ui/flip-view.js';
 import { DuckRaceView } from './ui/duck-race-view.js';
+import { ScratchView } from './ui/scratch-view.js';
 
 const RED = 'var(--red)', GOLD = 'var(--gold)', GREEN = 'var(--green)', PURPLE = 'var(--purple)';
 export function renderAll(keepModal) {
@@ -189,7 +190,7 @@ bus.on('household', e => {
 });
 bus.on('kitten:gone', ({ petted }) => { if (!petted) Chat.say('kitten_gone', {}, .7); });
 /* ---------- the Flip Booth: coin flip and duck race ---------- */
-bus.on('booth', k => k === 'ducks' ? DuckRaceView.open() : FlipView.open());
+bus.on('booth', k => ({ ducks: DuckRaceView, scratch: ScratchView }[k] || FlipView).open());
 bus.on('duck:start', () => Chat.say('duck_start'));
 bus.on('duck', ({ win, prize, bet, pay }) => {
   if (win) {
@@ -198,6 +199,18 @@ bus.on('duck', ({ win, prize, bet, pay }) => {
     Chat.say('duck_win', {}, .9); Quips.maybe(.15); Haptics.buzz([30, 30, 60]);
   } else { WeirdNoises.play('duck'); UI.toast(`−${fmt(bet)}. Your duck had other plans.`); Chat.say('duck_lose', {}, .7); }
   Rank.award(win ? 8 : 3); RunPanel.render();
+});
+
+bus.on('scratch:bought', () => Chat.say('scratch_buy', {}, .25));
+bus.on('scratch', ({ win, x, prize, price }) => {
+  if (win) {
+    x >= 5 ? Sound.win() : Sound.cash(); FX.confetti(x >= 100 ? 220 : x >= 20 ? 120 : 50);
+    UI.toast(x > 1 ? `+${fmt(prize)}! Three of a kind.` : 'Your money back. The newsagent shrugs.');
+    if (x >= 100) Banner.show('JACKPOT!', `×${x} scratchcard`, 'red', true);
+    else if (x >= 20) Banner.show('SCRATCH WIN', `+${fmt(prize)}`, 'gold');
+    Chat.say(x > 1 ? 'scratch_win' : 'scratch_evens', {}, x >= 20 ? 1 : .6); Haptics.buzz([25, 30, 25]);
+  } else Chat.say('scratch_lose', {}, .35);
+  Rank.award(win ? 4 + Math.min(20, x) : 2); RunPanel.render();
 });
 
 /* ---------- achievements ---------- */

@@ -42,7 +42,7 @@ export const DuckRaceView = {
       <div class="betrow"><label for="duckBet">Bet</label><input id="duckBet" type="number" min="1" inputmode="numeric">
         <button class="btn ghost" type="button" data-q=".1">10%</button><button class="btn ghost" type="button" data-q=".5">Half</button><button class="btn ghost" type="button" data-q="1">All</button></div>
       <div class="row"><button class="btn gold big" type="button" id="duckGo" disabled>Pick a duck</button><button class="btn ghost" type="button" data-a="close">Leave</button></div>`,
-      { close: () => UI.closeModal(), 'booth-flip': () => bus.emit('booth', 'flip') });
+      { close: () => UI.closeModal() });
     const inp = $('#duckBet'); inp.value = Math.max(1, Math.min(S.coins, this.bet || Math.floor(S.coins * .1)));
     $$('.betrow [data-q]', UI.el.box).forEach(b => b.onclick = () => { inp.value = Math.max(1, Math.floor(S.coins * +b.dataset.q)); });
     $$('.lane', UI.el.box).forEach(l => l.onclick = () => this.choose(+l.dataset.lane));

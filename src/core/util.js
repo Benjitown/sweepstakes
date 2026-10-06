@@ -3,6 +3,8 @@
 export const $ = (s, r = document) => r.querySelector(s);
 export const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 export const rnd = a => a[Math.floor(Math.random() * a.length)];
+// a shuffled copy (Fisher–Yates)
+export const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 export const ico = (id, cls = '') => `<svg viewBox="0 0 64 64" class="${cls}" aria-hidden="true"><use href="#i-${id}"/></svg>`;
 export function fmt(n) {
   n = Math.floor(n); const a = Math.abs(n);

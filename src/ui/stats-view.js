@@ -33,7 +33,7 @@ export const StatsView = {
       <dt>Gems found</dt><dd>${fmt(L.gems)}</dd><dt>Jackpot gems</dt><dd>${L.jackpots}</dd><dt>Highest Ascension</dt><dd>${ROMAN[L.bestAsc || 0]}</dd>
       <dt>Casinos bought</dt><dd>${L.casinos}</dd><dt>Highest ladder rung</dt><dd>${L.donBest ? '×' + LADDER[L.donBest - 1] : 'none'}</dd>
       ${L.casinos ? `<dt>House edge</dt><dd>+${Math.round(HOUSE_EDGE * 100 * L.casinos)}% profit</dd>` : ''}
-      <dt>Duck races won</dt><dd>${L.ducks || 0}</dd><dt>Kittens petted</dt><dd>${(L.house && L.house.kitten) || 0}</dd>
+      <dt>Duck races won</dt><dd>${L.ducks || 0}</dd><dt>Scratchcards</dt><dd>${L.scratch ? `${L.scratch.bought} bought, best ×${L.scratch.best}` : 'none yet'}</dd><dt>Kittens petted</dt><dd>${(L.house && L.house.kitten) || 0}</dd>
       <dt>Best daily</dt><dd>${L.daily && L.daily.best ? '×' + fmtX(L.daily.best) : 'not yet'}</dd><dt>Daily streak</dt><dd>${L.daily && L.daily.streak ? L.daily.streak + ' day' + (L.daily.streak > 1 ? 's' : '') : '0'}</dd></dl>
       <h2>Achievements <small>${Achievements.count()}/${ACHIEVEMENTS.length}</small></h2>
       <div class="achs">${ACHIEVEMENTS.map(a => { const got = Achievements.has(a.id); return `<button type="button" class="ach t${a.tier}${got ? ' got' : ''}" data-ach="${a.id}" title="${esc(a.name)}: ${esc(a.desc)}" aria-label="${esc(a.name)}, ${got ? 'unlocked' : 'locked'}: ${esc(a.desc)}">${ico(got ? a.icon : 'lock')}</button>`; }).join('')}</div>
