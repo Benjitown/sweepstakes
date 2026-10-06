@@ -4,7 +4,8 @@ import { START, LADDER, ROMAN } from '../data/economy.js';
 import { rankName } from '../data/ranks.js';
 import { ACHIEVEMENTS, ACH_BY } from '../data/achievements.js';
 import { VERSION } from '../version.js';
-import { SaveGame, S, pref, asc } from '../core/state.js';
+import { SaveGame, S, pref, level, asc } from '../core/state.js';
+import { AudioEngine } from '../audio/engine.js';
 import { Sound } from '../audio/sound.js';
 import { WeirdNoises } from '../audio/noises.js';
 import { Game } from '../game/game.js';
@@ -20,6 +21,8 @@ import { Chat } from './chat.js';
 import { Quips } from './quip-popups.js';
 
 export const StatsView = {
+  // don't redraw the tab under someone dragging a slider
+  busy() { const a = document.activeElement; return !!(a && a.type === 'range' && a.closest('#stats')); },
   render() {
     const r = S.run, L = S.life;
     $('#stats').innerHTML = `<h2>This run</h2><dl>
@@ -52,6 +55,8 @@ export const StatsView = {
         <li>Life carries on around you. Answer the door, pet the kitten, change the smoke detector’s battery. It might pay. It might not.</li>
         <li>The Flip Booth has a duck pond out back: back a duck, and long shots pay more.</li>
         <li>Progress saves in this browser. The coins aren’t real money.</li></ol>
+      <div class="sliders">${[['vol', 'Volume'], ['noiseVol', 'Household noises']].map(([k, label]) => { const v = Math.round(level(k) * 100);
+        return `<label class="sl" for="sl-${k}"><span>${label}</span><input type="range" id="sl-${k}" min="0" max="100" step="5" value="${v}"><output class="num" id="sl-${k}-o">${v}%</output></label>`; }).join('')}</div>
       <div class="toggles"><label class="sw"><input type="checkbox" id="tg-crt" ${pref('crt') ? 'checked' : ''}> Scanlines</label>
         <label class="sw"><input type="checkbox" id="tg-quips" ${pref('quips') ? 'checked' : ''}> Random nonsense</label>
         <label class="sw"><input type="checkbox" id="tg-odd" ${pref('odd') ? 'checked' : ''}> Weird noises &amp; visitors</label>
@@ -64,6 +69,12 @@ export const StatsView = {
       if (k === 'odd' && !S.odd) WeirdNoises.stopChirping();
       if (k === 'rude') { Chat.bag = []; Quips.bag = []; }
     }; });
+    // volume sliders: they apply while you drag, and play a sample when you let go
+    [['vol', () => Sound.msg()], ['noiseVol', () => WeirdNoises.play('duck')]].forEach(([k, sample]) => {
+      const inp = $('#sl-' + k), out = $('#sl-' + k + '-o');
+      inp.oninput = () => { S[k] = +inp.value / 100; out.textContent = inp.value + '%'; AudioEngine.get().applyVolume(); Sound.slide(S[k]); };
+      inp.onchange = () => { SaveGame.saveNow(); sample(); };
+    });
     $('#btnTut').onclick = () => Coach.start(true);
     $('#btnNews').onclick = () => WhatsNew.show();
     $('#btnKeys').onclick = () => Keys.help();

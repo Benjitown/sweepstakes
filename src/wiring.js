@@ -160,7 +160,7 @@ bus.on('tick', () => {
   RunPanel.spin(); Rack.tick(); RackView.tick();
   if (S.run.time % 15 === 0) SaveGame.save();
   if (S.run.time % 10 === 0) CoinChart.sample();
-  if (Tabs.showing('stats') && S.run.time % 5 === 0) StatsView.render();
+  if (Tabs.showing('stats') && S.run.time % 5 === 0 && !StatsView.busy()) StatsView.render();
   if (S.run.time % 20 === 0 && UI.modalClosed()) Quips.maybe(.18);
   if (S.run.time === S.spinAt + SPIN_EVERY) { UI.toast('Free spin ready!'); Sound.select(2); }
 });
