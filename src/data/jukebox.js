@@ -82,6 +82,20 @@ export const TRACKS = [
       [['G3 Bb3 D4', 'G3 C#4 E4'], 'G2 D3 A2 E3', [[0, 'G5', 2], [2, 'Bb5', 2], [4, 'A5', 2], [6, 'C#6', 2]]],
       ['A3 D4 F4', 'D2 A2 D2 C#2', [[0, 'D6', 6]]],
     ] },
+  // only on the jukebox for Bonfire Night: a jig in 6/8 (two beats of three)
+  { id: 'bonfire', season: 'bonfire', bpm: 116, beats: 2, sub: 3, swing: .5, keys: 'organ', lead: 'piano', low: 'upright', kit: 'pub', leadFrom: 1,
+    comp: [[1, 1.4, .7], [4, 1.4, .7]],
+    drums: { kick: ['x..x..', .5], tamb: ['..x..x', .6] },
+    bars: [
+      ['A3 C4 E4', 'A2 E2', [[0, 'A4', 1], [1, 'B4', 1], [2, 'C5', 1], [3, 'E5', 2], [5, 'C5', 1]]],
+      ['G3 B3 D4', 'G2 D2', [[0, 'D5', 1], [1, 'B4', 1], [2, 'G4', 1], [3, 'B4', 2], [5, 'D5', 1]]],
+      ['A3 C4 E4', 'A2 E2', [[0, 'C5', 1], [1, 'B4', 1], [2, 'A4', 1], [3, 'C5', 2], [5, 'E5', 1]]],
+      ['G#3 B3 E4', 'E2 B1', [[0, 'G#4', 2], [2, 'B4', 1], [3, 'E5', 3]]],
+      ['A3 C4 E4', 'A2 E2', [[0, 'A5', 1], [1, 'G5', 1], [2, 'E5', 1], [3, 'C5', 2], [5, 'E5', 1]]],
+      ['G3 B3 D4', 'G2 D2', [[0, 'D5', 1], [1, 'G5', 1], [2, 'D5', 1], [3, 'B4', 2], [5, 'G4', 1]]],
+      [['A3 C4 F4', 'G#3 B3 E4'], 'F2 E2', [[0, 'A4', 1], [1, 'C5', 1], [2, 'F5', 1], [3, 'E5', 1], [4, 'B4', 1], [5, 'G#4', 1]]],
+      ['A3 C4 E4', 'A2 E2', [[0, 'A4', 6]]],
+    ] },
   // only on the jukebox at Christmas: a jolly one in G, with sleigh bells and a celesta
   { id: 'xmas', season: 'xmas', bpm: 120, beats: 4, sub: 2, swing: .5, keys: 'organ', lead: 'musicbox', low: 'soft', kit: 'pub', leadFrom: 1,
     comp: [[2, 1.4, .7], [6, 1.4, .7]],
