@@ -21,9 +21,13 @@ export const QUIPS = [
   'vote boom, get boom', 'the mines have a better manifesto than your lot', 'thou shalt cash out', 'blessed are the cashed out', 'pray for a 1',
   'water into wine? I turned 1,000 into 12', 'the ducks have formed a union', 'the kitten owns the casino now', 'change the battery, coward',
   'the smoke detector knows what you did', 'answer the door. or don’t. the door knows', 'a duck house, on expenses', 'tax the ducks',
+  'the claw is lying to you', 'haggle with the bomb', 'everything must go (including you)', 'the pumpkin knows', 'nan’s saved you a slice x',
+  'dare you to cash out', 'the car boot man has seen things', 'the crown is greased. allegedly', 'a bat is in the chat', 'no refunds on mines',
+  'remember remember the fifth of… tile', 'the dog sat on a mine. good boy', 'the biscuit tin is not for biscuits', 'certified bargain hunter',
 ];
 // The ruder nonsense (only with "Rude chat" on).
 export const RUDE_QUIPS = [
   'you absolute weapon', 'bloody hell', 'sod it. all in.', 'skill issue', 'what a pillock', 'cash out, you muppet', 'bollocks to the odds',
   'my cat could do better (she does)', 'arse', 'you jammy git', 'proper mugged off', 'oi. OI.', 'not the brightest bulb in the casino',
+  'cheeky git', 'proper rip-off merchant',
 ];

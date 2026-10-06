@@ -293,6 +293,13 @@ async def run(browser, url, shots):
     await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
     ok('Car boot sales' in await text(pg, '#stats') and 'mystery box' in await text(pg, '#stats'), 'Stats: what you bought at car boot sales')
     await pg.click('[data-tab="shop"]')
+    # the chat's material: no question asked twice, three different answers each, no quip or thread twice
+    dupes = await pg.evaluate("""(() => { const q = __sw.QUIZ.map(x => x[0]), qs = q.filter((x, i) => q.indexOf(x) !== i);
+      const odd = __sw.QUIZ.filter(x => x.length !== 4 || new Set(x.slice(1)).size !== 3).map(x => x[0]);
+      const quips = [...__sw.QUIPS, ...__sw.RUDE_QUIPS], qd = quips.filter((x, i) => quips.indexOf(x) !== i);
+      const th = [...__sw.THREADS, ...__sw.RUDE_THREADS].map(t => JSON.stringify(t)), td = th.filter((x, i) => th.indexOf(x) !== i);
+      return [...qs, ...odd, ...qd, ...td]; })()""")
+    ok(not dupes, f'the pub quiz never asks the same thing twice, every question has three different answers, and no quip or thread repeats {dupes}')
     ids = await pg.evaluate("[...document.querySelectorAll('svg symbol')].map(s => s.id)")
     ok(len(ids) == len(set(ids)), f'every icon in the sheet has its own id ({len(ids)} icons{", doubled: " + str(sorted({x for x in ids if ids.count(x) > 1})) if len(ids) != len(set(ids)) else ""})')
     ok(not errs, f'no console errors {errs[:3]}')

@@ -54,6 +54,16 @@ export const THREADS = [
   [['tash', 'there’s a kitten in the casino now'], ['kev', 'who let a kitten in'], ['priya', 'the kitten owns 40% of the casino'], ['dave', 'all hail the kitten']],
   [['kev', 'the council finally fixed the pothole outside mine'], ['dave', 'and?'], ['kev', 'they put a cone in it']],
   [['priya', 'the kitten keeps sitting on the 8'], ['tash', 'it knows']],
+  [['kev', 'just found a fiver in last winter’s coat'], ['dave', 'best feeling in the world'], ['nan', 'I put that there love. Every coat you own has one x'], ['tash', 'NAN']],
+  [['nan', 'Made a lemon drizzle. There’s a slice with your name on it, I iced it on x'], ['dave', 'is there one with my name on'], ['nan', 'There’s one for everyone love x']],
+  [['nan', 'Thinking of you all today. Don’t forget to eat something hot x'], ['priya', 'nan I had a pot noodle'], ['nan', 'That counts love x']],
+  [['priya', 'went to a car boot sale and bought my own bike back'], ['dave', 'how much'], ['priya', 'a tenner. bargain, honestly']],
+  [['dave', 'my claw machine strategy: pray'], ['kev', 'mine is crying'], ['tash', 'mine is getting someone else to do it']],
+  [['tash', 'someone at the pub quiz put “the goblin” for every answer'], ['kev', 'and?'], ['tash', 'they came third']],
+  [['kev', 'KEVCOIN update: we are rebranding to KEV'], ['priya', 'it was already called KEV'], ['kev', 'and now it’s official']],
+  [['priya', 'the pigeons outside my window have started queueing'], ['dave', 'for what'], ['priya', 'nobody knows. they just queue. very British']],
+  [['dave', 'the dog next door just winked at me'], ['tash', 'Biscuit winks at everyone'], ['dave', 'I thought we had something']],
+  [['kev', 'my horoscope said “beware of tall strangers”'], ['dave', 'I’m six foot four'], ['kev', 'I know, dave. I know']],
 ];
 // The ruder conversations (only with "Rude chat" on).
 export const RUDE_THREADS = [

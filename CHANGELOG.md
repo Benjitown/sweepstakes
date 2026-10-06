@@ -88,7 +88,9 @@ Each version is also a save in the built-in version control. Run `python tools/v
   the profit, never out of your winnings, up to 2,500). Go bust and she brings the tin round: the fresh run starts
   with what's in it. Starting a fresh run yourself doesn't count. Stats shows what's in the tin. New achievement:
   Rainy Day.
-- The Flip Booth's five tabs now show their icon above the name at every screen size.
+- The Flip Booth's tabs (six of them now) show their icon above the name at every screen size.
+- **More to talk about:** a dozen new pub quiz questions, ten new group chat conversations (Nan's put a fiver in
+  every coat you own), more quips and more of Nan's horoscopes.
 - `tools/build.py` now stops with a clear message on `import { x as y }`, which the bundler can't do.
 
 ## 4.4.0 (6 Oct 2026)
