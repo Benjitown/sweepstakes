@@ -62,8 +62,9 @@ export const BoardsView = {
     const x = i % b.t.w + 1, y = ((i / b.t.w) | 0) + 1;
     if (b.open[i]) {
       const g = b.gem[i];
-      c.className = 'c o' + (b.num[i] ? ' n' + b.num[i] : '') + (g ? ' gem t-' + gemTier(g).k : '') + (b.probed.has(i) ? ' probed' : '');
-      if (g && !b.num[i]) c.innerHTML = ico('gem'); else c.textContent = b.num[i] || '';
+      const pk = b.pumpkinAt === i;
+      c.className = 'c o' + (b.num[i] ? ' n' + b.num[i] : '') + (g ? ' gem t-' + gemTier(g).k : '') + (pk ? ' pk' : '') + (b.probed.has(i) ? ' probed' : '');
+      if (g && !b.num[i]) c.innerHTML = ico('gem'); else if (pk && !b.num[i]) c.innerHTML = ico('pumpkin'); else c.textContent = b.num[i] || '';
       c.removeAttribute('title'); c.setAttribute('aria-label', `Row ${y} column ${x}: ${b.num[i] || 'empty'}${g ? ', gem' : ''}`);
     } else if (b.flag[i]) {
       c.className = 'c f' + (b.defused.has(i) ? ' defused' : '') + (b.probed.has(i) ? ' probed' : '');

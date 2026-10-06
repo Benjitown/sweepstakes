@@ -66,6 +66,8 @@ export const ACHIEVEMENTS = [
   { id: 'scratch',  tier: 2, icon: 'ticket',    name: 'Scratch That Itch',   desc: 'Win ×20 or more on a scratchcard.' },
   { id: 'dare',     tier: 1, icon: 'dare',      name: 'Dared and Done',      desc: 'Win a dare from the group chat.' },
   { id: 'dare3',    tier: 2, icon: 'dare',      name: 'Triple Dog Dare',     desc: 'Win three dares from the group chat.' },
+  { id: 'pumpkin',  tier: 1, icon: 'pumpkin',   name: 'Pumpkin Patch',       desc: 'Dig up 5 pumpkins at Halloween.' },
+  { id: 'treat',    tier: 1, icon: 'pumpkin',   name: 'Trick or Treat',      desc: 'Give the trick or treaters some sweets.' },
   { id: 'quiz',     tier: 2, icon: 'brain',     name: 'Know-It-All',         desc: 'Get 10 pub quiz questions right.' },
   { id: 'grass',    tier: 1, icon: 'clover',    name: 'Touched Grass',       desc: 'Stay outside for a whole break.' },
   { id: 'bingo',    tier: 1, icon: 'bingo',     name: 'Eyes Down',           desc: 'Get a line at Nan’s bingo.' },

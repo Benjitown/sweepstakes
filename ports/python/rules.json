@@ -2014,6 +2014,166 @@
     "You gave it a good go love x"
    ]
   ],
+  "halloween_hi": [
+   [
+    "nan",
+    "Happy Halloween love! I’ve got a big bowl of sweets by the door for the little ones x"
+   ],
+   [
+    "dave",
+    "I’m going as a mine this year. it’s a black bin bag with a fuse"
+   ],
+   [
+    "tash",
+    "spooky season. to be fair the bombs have had googly eyes all year"
+   ],
+   [
+    "kev",
+    "I’ve carved a pumpkin. it looks like my manager"
+   ],
+   [
+    "priya",
+    "apparently there are pumpkins under some of the tiles this month. finders keepers"
+   ]
+  ],
+  "bonfire_hi": [
+   [
+    "nan",
+    "Remember remember the fifth of November! Wrap up warm if you go to the fireworks love x"
+   ],
+   [
+    "dave",
+    "bonfire night. every dog in the street is under a bed"
+   ],
+   [
+    "kev",
+    "I’ve bought a rocket. I don’t know how it works. I’m going to find out"
+   ],
+   [
+    "tash",
+    "sparklers at the ready"
+   ],
+   [
+    "priya",
+    "big wins get fireworks this week. that’s the rule"
+   ]
+  ],
+  "xmas_hi": [
+   [
+    "nan",
+    "Merry Christmas love! I’ve put a card in the post for you x"
+   ],
+   [
+    "dave",
+    "it’s Christmas. that means mince pies for breakfast and nobody can stop me"
+   ],
+   [
+    "tash",
+    "the snow is fake but my joy is real"
+   ],
+   [
+    "kev",
+    "I’ve been put in charge of the music at the office party. this was a mistake"
+   ],
+   [
+    "priya",
+    "all I want for Christmas is a clean sweep"
+   ]
+  ],
+  "pumpkin": [
+   [
+    "tash",
+    "PUMPKIN"
+   ],
+   [
+    "kev",
+    "a pumpkin under a tile. that’s just good farming"
+   ],
+   [
+    "nan",
+    "Ooh a pumpkin! I’ll make you some soup x"
+   ],
+   [
+    "dave",
+    "carve it. carve it now"
+   ],
+   [
+    "priya",
+    "treat secured"
+   ]
+  ],
+  "treat": [
+   [
+    "nan",
+    "Aww, what were they dressed as? x"
+   ],
+   [
+    "dave",
+    "the tinfoil one was definitely a robot"
+   ],
+   [
+    "tash",
+    "giving sweets to children. a hero"
+   ],
+   [
+    "priya",
+    "you’re the house that gives out the full-size bars, aren’t you"
+   ]
+  ],
+  "egged": [
+   [
+    "dave",
+    "they EGGED you"
+   ],
+   [
+    "tash",
+    "no sweets, no mercy"
+   ],
+   [
+    "kev",
+    "egg on the window. that’s an afternoon with a sponge"
+   ],
+   [
+    "nan",
+    "Never mind love, I’ll come round with a bucket and sponge x"
+   ],
+   [
+    "priya",
+    "you have to respect the hustle"
+   ]
+  ],
+  "xmas_card": [
+   [
+    "nan",
+    "Did my card come love? Don’t spend it all at once x"
+   ],
+   [
+    "tash",
+    "nan’s cards are the best bit of Christmas"
+   ],
+   [
+    "dave",
+    "there’s glitter in my keyboard and I wasn’t even there"
+   ]
+  ],
+  "fireworks": [
+   [
+    "dave",
+    "FIREWORKS"
+   ],
+   [
+    "kev",
+    "ooooh. aaaaah."
+   ],
+   [
+    "tash",
+    "that one was green. I love the green ones"
+   ],
+   [
+    "nan",
+    "Ooh lovely! Mind Biscuit, he hates the bangs x"
+   ]
+  ],
   "tin_first": [
    [
     "nan",

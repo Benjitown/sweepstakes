@@ -56,7 +56,8 @@ async def run(browser, url, shots):
     await pg.click('#modalBox [data-booth="bingo"]'); await pg.wait_for_timeout(300)
     await pg.click('#modalBox .bticket[data-kind="penny"]'); await pg.wait_for_timeout(300)
     ok((await text(pg, '#bingoFast')).strip() == 'Faster please, Nan', f"the bingo hall’s skip button asks nicely: “{(await text(pg, '#bingoFast')).strip()}”")
-    await pg.evaluate("__sw.BingoView.FAST_MS = 15"); await pg.click('#bingoFast'); await pg.wait_for_timeout(1800)
+    await pg.evaluate("__sw.BingoView.FAST_MS = 15"); await pg.click('#bingoFast')
+    await pg.wait_for_function('__sw.BingoView.st && __sw.BingoView.st.done', timeout=8000); await pg.wait_for_timeout(200)
     await pg.evaluate("(() => { __sw.UI.closeModal(); __sw.S.coins = 50000; __sw.renderAll(); })()"); await pg.wait_for_timeout(200)
 
     # --- coming back in early from outside: no bonus, but no telling off either

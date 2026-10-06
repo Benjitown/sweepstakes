@@ -12,6 +12,7 @@ import { Storm } from '../game/storm.js';
 import { VanView } from './van-view.js';
 import { Banker } from '../game/banker.js';
 import { DogView } from './dog-view.js';
+import { Seasons } from '../game/seasons.js';
 import { UI } from './ui.js';
 import { Coach } from './tutorial.js';
 
@@ -112,15 +113,20 @@ export const HouseholdView = {
   },
   // how it went (wiring.js calls this for every 'household' event)
   outcome({ o, coins = 0, card }) {
-    const vars = { coins: coins ? fmt(Math.abs(coins)) : 'nothing', cost: fmt(Household.raffleCost()), card: card ? aCard(card) : `${fmt(coins)} coins in cash` };
+    const vars = { coins: coins ? fmt(Math.abs(coins)) : 'nothing', cost: fmt(Household.raffleCost()), sweets: fmt(Seasons.sweets()), card: card ? aCard(card) : `${fmt(coins)} coins in cash` };
     const text = o.text.replace(/\{(\w+)\}/g, (_, k) => vars[k] ?? '');
-    let buttons = [[...OK[o.mood || 'weird']]], ms = SHOW_MS;
+    let buttons = [[...OK[o.mood || 'weird']]], ms = SHOW_MS, onTimeout;
     if (o.fx === 'raffle') {
       ms = 15000;
       buttons = [[`Buy a ticket (${fmt(Household.raffleCost())})`, 'gold', () => { if (!Household.raffle()) UI.toast('You can’t afford a ticket. The kid looks at you with pity.'); }], ['No thanks', 'ghost']];
     }
     if (o.fx === 'duck' && has('flip')) buttons = [['Race it', 'gold', () => bus.emit('booth', 'ducks')], ['Shut the door', 'ghost']];
-    const el = this.show({ icon: o.icon, mood: o.mood, title: o.title, text, coins: o.fx === 'raffle' ? 0 : coins, buttons, ms });
+    // trick or treat: sweets, or eggs (leave them on the step too long and that's a no)
+    if (o.fx === 'trick') {
+      ms = 15000; onTimeout = () => Seasons.trick();
+      buttons = [[`Give them sweets (${fmt(Seasons.sweets())})`, 'gold', () => { if (!Seasons.treat()) { UI.toast('You haven’t even got enough for sweets.'); Seasons.trick(); } }], ['Pretend you’re out', 'ghost', () => Seasons.trick()]];
+    }
+    const el = this.show({ icon: o.icon, mood: o.mood, title: o.title, text, coins: o.fx === 'raffle' || o.fx === 'trick' ? 0 : coins, buttons, ms, onTimeout });
     if (coins) Game.setCoins(S.coins, coins > 0, coins > 0 ? { from: el.querySelector('.hic'), amount: coins } : null);
   },
 

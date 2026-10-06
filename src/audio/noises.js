@@ -269,6 +269,23 @@ export const NOISES = {
     c.buffer = nbuf(a, .4); hp.type = 'highpass'; hp.frequency.value = 1300; c.connect(hp).connect(cg).connect(out); c.start(t);
     rumble(a, out, t + .04, 3.8, 520, 1); rumble(a, out, t + .25, 3.2, 170, .8);
   } },
+  splat: { volume: 1.7, w: 0, play(a, out, t) { // an egg on the window: a wet thud
+    const c = a.createBufferSource(), lp = a.createBiquadFilter(), g = envG(a, t, .5, .002, .03, .18);
+    c.buffer = nbuf(a, .3); lp.type = 'lowpass'; lp.frequency.setValueAtTime(1800, t); lp.frequency.exponentialRampToValueAtTime(260, t + .2);
+    c.connect(lp).connect(g).connect(out); c.start(t);
+    const o = a.createOscillator(), og = envG(a, t, .35, .002, .01, .12);
+    o.type = 'sine'; o.frequency.setValueAtTime(260, t); o.frequency.exponentialRampToValueAtTime(70, t + .12); o.connect(og).connect(out); o.start(t); o.stop(t + .2);
+  } },
+  firework: { volume: .9, w: 0, play(a, out, t) { // Bonfire Night: a rocket whistles up, bangs, then crackles
+    const o = a.createOscillator(), og = envG(a, t, .07, .08, .95, .1);
+    o.type = 'sine'; o.frequency.setValueAtTime(700, t); o.frequency.exponentialRampToValueAtTime(2600, t + 1.1); o.connect(og).connect(out); o.start(t); o.stop(t + 1.3);
+    const b = t + 1.2, c = a.createBufferSource(), lp = a.createBiquadFilter(), g = envG(a, b, .9, .003, .05, .5);
+    c.buffer = nbuf(a, .7); lp.type = 'lowpass'; lp.frequency.value = 900; c.connect(lp).connect(g).connect(out); c.start(b);
+    for (let k = 0; k < 9; k++) {
+      const s = b + .3 + Math.random() * .8, n = a.createBufferSource(), hp = a.createBiquadFilter(), ng = envG(a, s, .12, .001, .005, .03);
+      n.buffer = nbuf(a, .06); hp.type = 'highpass'; hp.frequency.value = 3000; n.connect(hp).connect(ng).connect(out); n.start(s);
+    }
+  } },
   rain: { volume: .8, w: 0, play(a, out, t) { // rain on the window: a hiss and drops pattering; up to three minutes (the storm stops it sooner)
     const d = 180, g = a.createGain();
     g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(1, t + 3); g.gain.setValueAtTime(1, t + d - 4); g.gain.exponentialRampToValueAtTime(.0001, t + d);

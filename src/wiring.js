@@ -56,6 +56,10 @@ import { Dog } from './game/dog.js';
 import { Tin } from './game/biscuit-tin.js';
 import { Dares } from './game/dares.js';
 import { DareView } from './ui/dare-view.js';
+import { Seasons } from './game/seasons.js';
+import { SeasonView } from './ui/season-view.js';
+import { PUMPKIN } from './data/seasons.js';
+import { TREAT_CARD, EGGED_CARD } from './content/seasons.js';
 
 const RED = 'var(--red)', GOLD = 'var(--gold)', GREEN = 'var(--green)', PURPLE = 'var(--purple)';
 export function renderAll(keepModal) {
@@ -331,6 +335,22 @@ bus.on('board:gem', e => Dares.check('gem', e));
 bus.on('flag', ({ b, on: isOn }) => { if (isOn) b.flagged = true; });
 bus.on('tick', () => { if (S.dare) { Dares.second(); DareView.chip(); } });
 bus.on('reset', () => DareView.chip());
+
+/* ---------- the seasons: pumpkins and trick or treaters at Halloween, fireworks on Bonfire Night, Nan's card at Christmas ---------- */
+bus.on('pumpkin', ({ b, i }) => {
+  BoardsView.cell(b, i); BoardsView.float(b, i, `PUMPKIN ×${PUMPKIN.X}`, 'var(--orange)', true); BoardsView.hud(b);
+  Sound.gem('ruby'); Haptics.buzz([15, 25, 15]); Chat.say('pumpkin', {}, .6);
+});
+bus.on('treat', () => {
+  HouseholdView.show({ ...TREAT_CARD, buttons: [['Aww', 'green']] }); RunPanel.render(); Sound.buy();
+  setTimeout(() => Chat.say('treat', {}, .9), 900);
+});
+bus.on('trick', () => {
+  SeasonView.eggs(); HouseholdView.show({ ...EGGED_CARD, buttons: [['Charming', 'ghost']] });
+  setTimeout(() => Chat.say('egged', {}, .9), 1200);
+});
+bus.on('household', ({ o }) => { if (o.fx === 'xmas') setTimeout(() => Chat.say('xmas_card', {}, .8), 1400); });
+bus.on('board:cashout', ({ mult }) => { if (mult >= 5 && Seasons.is('bonfire')) { SeasonView.fireworks(mult >= 50 ? 5 : mult >= 15 ? 3 : 2); setTimeout(() => Chat.say('fireworks', {}, .5), 1600); } });
 
 /* ---------- the Fruity ---------- */
 bus.on('fruity', ({ x, win, nudged, holds, dry }) => {
