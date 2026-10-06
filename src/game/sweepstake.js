@@ -14,8 +14,11 @@ export const Sweepstake = {
   lines: () => (S.lotto && S.lotto.lines) || [],
   // five different numbers from 1 to 30, in order
   dip() { const s = new Set(); while (s.size < DRAW.PICK) s.add(1 + Math.floor(this.rng() * DRAW.BALLS)); return [...s].sort((a, b) => a - b); },
+  // a line: your own five numbers (from 1 to 30, all different), or a Lucky Dip
+  valid: nums => Array.isArray(nums) && nums.length === DRAW.PICK && new Set(nums).size === DRAW.PICK && nums.every(n => Number.isInteger(n) && n >= 1 && n <= DRAW.BALLS),
   buy(nums = this.dip()) {
-    const p = this.price(); if (this.lines().length >= DRAW.LINES || S.coins < p) return null;
+    const p = this.price(); if (!this.valid(nums) || this.lines().length >= DRAW.LINES || S.coins < p) return null;
+    nums = nums.slice().sort((a, b) => a - b);
     Game.setCoins(S.coins - p);
     S.lotto = S.lotto || { lines: [] }; S.lotto.lines.push({ nums, paid: p });
     SaveGame.saveNow(); bus.emit('lotto:bought', { nums, price: p });

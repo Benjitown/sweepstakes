@@ -86,10 +86,16 @@ async def run(browser, url, shots):
     ok(.45 < pb < .55, f'the Sweepstake pays back about half ({pb:.1%}), worked out exactly')
     await pg.evaluate("(() => { __sw.S.lotto = null; __sw.S.coins = 50000; __sw.Paper.deliver(); __sw.PaperView.open(); })()"); await pg.wait_for_timeout(300)
     price = await pg.evaluate('__sw.Sweepstake.price()'); c3 = await pg.evaluate('__sw.S.coins')
-    for _ in range(5):
+    await pg.click('#paperLotto .lpick summary'); await pg.wait_for_timeout(150)
+    for n in (30, 3, 19, 7, 11):
+        await pg.click(f'#paperLotto [data-ln="{n}"]'); await pg.wait_for_timeout(80)
+    await pg.click('#lottoMine'); await pg.wait_for_timeout(150)
+    ok(await pg.evaluate("JSON.stringify(__sw.Sweepstake.lines()[0].nums)") == '[3,7,11,19,30]', 'pick your own five: bought as a line, in order')
+    ok(await pg.evaluate("__sw.Sweepstake.buy([1, 1, 2, 3, 4]) === null && __sw.Sweepstake.buy([0, 1, 2, 3, 4]) === null && __sw.Sweepstake.lines().length === 1"), 'a line has to be five different numbers from 1 to 30')
+    for _ in range(4):
         await pg.click('#lottoDip'); await pg.wait_for_timeout(120)
     st = await pg.evaluate("({ n: __sw.Sweepstake.lines().length, coins: __sw.S.coins, btn: document.getElementById('lottoDip').textContent, off: document.getElementById('lottoDip').disabled, next: document.querySelector('#paperLotto .next').textContent })")
-    ok(st['n'] == 5 and st['coins'] == c3 - 5 * price and st['off'] and 'your lot' in st['btn'] and 'Your lines for the next draw' in st['next'], f'five Lucky Dips at {price} each, and that’s your lot for one draw')
+    ok(st['n'] == 5 and st['coins'] == c3 - 5 * price and st['off'] and 'your lot' in st['btn'] and 'Your lines for the next draw' in st['next'], f'and four Lucky Dips, at {price} a line: that’s your lot for one draw')
     d = await pg.evaluate("""(() => { __sw.UI.closeModal(); const dip = __sw.Sweepstake.dip;
       __sw.S.lotto.lines = [{ nums: [1, 2, 3, 4, 5], paid: 10 }, { nums: [1, 2, 3, 20, 21], paid: 10 }, { nums: [1, 2, 3, 4, 30], paid: 10 }, { nums: [6, 7, 8, 9, 10], paid: 10 }];
       __sw.Sweepstake.dip = () => [1, 2, 3, 4, 5]; window.__c4 = __sw.S.coins; __sw.Paper.deliver(); __sw.Sweepstake.dip = dip;

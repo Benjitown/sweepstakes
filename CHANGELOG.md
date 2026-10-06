@@ -64,7 +64,7 @@ Each version is also a save in the built-in version control. Run `python tools/v
   price, Nan's stars and the small ads. At the bottom, Spot the Mine: a little board where exactly one covered tile
   has to be a mine. Tap the right one for a prize. Go bust and the bust screen's "Read all about it" opens a special
   edition.
-- **The Sweepstake,** the paper's lottery. Buy Lucky Dip lines (five numbers from 30, up to five lines a draw) in
+- **The Sweepstake,** the paper's lottery. Buy Lucky Dip lines, or pick your own five (from 30, up to five lines a draw) in
   The Daily Sweep, and the next paper prints the draw and pays out: three numbers ×12, four ×200, all five ×10,000
   (about 1 in 142,500). Like any lottery it's a bad bet: about half the money comes back, worked out exactly. A big
   win makes the front page.
