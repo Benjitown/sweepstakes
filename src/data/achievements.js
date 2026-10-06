@@ -55,6 +55,8 @@ export const ACHIEVEMENTS = [
   { id: 'gull',     tier: 1, icon: 'gull',      name: 'Not My Chips',        desc: 'Shoo a seagull off your coins.' },
   { id: 'dark',     tier: 2, icon: 'bulb',      name: 'Danger Money',        desc: 'Cash out a board in a power cut.' },
   { id: 'storm',    tier: 2, icon: 'bolt',      name: 'Lightning Reflexes',  desc: 'Flag a mine within two seconds of a lightning flash.' },
+  { id: 'moon',     tier: 2, icon: 'kevcoin',   name: 'To the Moon',         desc: 'Sell KEVCOIN for at least twice what you paid.' },
+  { id: 'rugged',   tier: 1, icon: 'kevcoin',   name: 'Rugged',              desc: 'Be holding KEVCOIN when the devs vanish.' },
   { id: 'scratch',  tier: 2, icon: 'ticket',    name: 'Scratch That Itch',   desc: 'Win ×20 or more on a scratchcard.' },
   { id: 'quiz',     tier: 2, icon: 'brain',     name: 'Know-It-All',         desc: 'Get 10 pub quiz questions right.' },
   { id: 'grass',    tier: 1, icon: 'clover',    name: 'Touched Grass',       desc: 'Stay outside for a whole break.' },

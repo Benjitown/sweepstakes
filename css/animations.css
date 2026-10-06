@@ -51,5 +51,6 @@
 @keyframes stormclear{to{opacity:0}}
 @keyframes lightning{0%{opacity:0}8%{opacity:.34}22%{opacity:.06}32%{opacity:.24}100%{opacity:0}}
 @keyframes strike{0%{opacity:0}6%{opacity:.6}20%{opacity:.12}30%{opacity:.45}100%{opacity:0}}
+@keyframes kevhype{50%{background:var(--gold);color:#141b1d}}
 @keyframes chirp{0%,84%,100%{transform:none}88%{transform:rotate(-7deg) scale(1.1)}92%{transform:rotate(6deg) scale(1.1)}96%{transform:rotate(-3deg)}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}

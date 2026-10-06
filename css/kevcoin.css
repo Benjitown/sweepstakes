@@ -1,0 +1,23 @@
+/* KEVCOIN: the ticker in the group chat's header (green up, red down, grey when trading's suspended), and the trading
+   window: the price, its chart with a dashed break-even line, your holding, Buy and Sell. */
+.chathead{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 6px}
+.chathead small{margin-left:0}
+.kevtick{margin-left:auto;align-self:center;display:inline-flex;align-items:center;gap:5px;border:0;border-radius:8px;padding:3px 8px;cursor:pointer;
+  font-family:var(--pixel);font-size:.78rem;font-weight:700;letter-spacing:0;color:var(--ink);text-shadow:none;background:var(--panel-in);box-shadow:0 2px 0 var(--shadow)}
+.kevtick svg{width:18px;height:18px;flex:none}
+.kevtick b{font-weight:700} .kevtick i{font-style:normal}
+.kevtick.up i{color:var(--green)} .kevtick.down i{color:var(--red)} .kevtick.dead i{color:var(--ink-dim)}
+.kevtick.hype{animation:kevhype .45s steps(2) 6}
+.kevwin{width:100%;display:grid;gap:10px;justify-items:center}
+.modal .kevh{display:flex;align-items:center;gap:8px;color:var(--orange)}
+.kevh svg{width:42px;height:42px;flex:none}
+.kevh small{font-size:1.2rem;color:var(--ink-dim)}
+.kevprice{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;justify-content:center}
+.kevprice b{font-family:var(--big);font-weight:400;font-size:2.5rem;line-height:1;color:#fff}
+#kevChg{font-weight:700;font-size:.9rem} #kevChg.up{color:var(--green)} #kevChg.down{color:var(--red)} #kevChg.dead{color:var(--ink-dim)}
+.kevchart{display:block;width:100%;height:110px;border-radius:12px;background:var(--panel-in);color:var(--green)}
+.kevchart.down{color:var(--red)}
+.modal .kevnote{min-height:1.2em;font-size:.8rem;color:var(--gold)}
+.kevhold{width:100%;margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:3px 12px;text-align:left;font-size:.85rem}
+.kevhold dt{color:var(--ink-dim)} .kevhold dd{margin:0}
+.kevwin .row{width:100%} .kevwin .row .btn{flex:1 1 0;min-width:0;padding-left:.4em;padding-right:.4em}

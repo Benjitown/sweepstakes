@@ -69,6 +69,8 @@ export const Achievements = {
     bus.on('daily:done', ({ streak, top }) => { u('daily'); if (streak >= 7) u('daily7'); if (top) u('dailytop'); });
     bus.on('tutorial:done', ({ completed }) => { if (completed) u('nan'); });
     bus.on('addon:fired', ({ id }) => { if (id === 'dark') u('dark'); });
+    bus.on('kev:trade', ({ buy, x }) => { if (!buy && x >= 2) u('moon'); });
+    bus.on('kev:rug', ({ held }) => { if (held) u('rugged'); });
     bus.on('flag', ({ b, i, on: isOn, src }) => { if (isOn && src === 'you' && b.mine[i] && Storm.recent()) u('storm'); });
     bus.on('duck', ({ win, pay }) => { if (win) { u('duck'); if (pay >= 8) u('longshot'); } });
     bus.on('scratch', ({ win, x }) => { if (win && x >= 20) u('scratch'); });

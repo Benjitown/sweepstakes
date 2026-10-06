@@ -36,6 +36,12 @@ Each version is also a save in the built-in version control. Run `python tools/v
   couple of minutes. Every flash of lightning lights up every hidden mine on your boards for a split second, so
   remember where they were. One storm in three, a strike lands right overhead and takes the power out. Nobody goes
   outside in that. New achievement: Lightning Reflexes (flag a mine within two seconds of a flash).
+- **KEVCOIN.** A minute or so into a run, Kev launches a cryptocurrency in the group chat, with a ticker in the chat's
+  header (or press K). The price wanders, a little downhill. Now and then Kev hypes it, and then it pumps (and gives
+  half of it back) or it dumps, and you can't tell which from his post. Once in a while the devs vanish: a rug pull,
+  trading suspended, and later KEVCOIN 2.0 without your old coins. Kev takes 5% of every buy and sell, and his exchange
+  won't let you hold more than twice the top table's max stake. Holding it for five minutes loses about a third on
+  average (`node tools/sim/kevcoin.mjs` plays a few strategies). New achievements: To the Moon and Rugged.
 - The Flip Booth's five tabs now show their icon above the name at every screen size.
 - `tools/build.py` now stops with a clear message on `import { x as y }`, which the bundler can't do.
 
