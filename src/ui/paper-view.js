@@ -49,11 +49,23 @@ export const PaperView = {
       ${d ? `<p class="balls" aria-label="Last night’s numbers: ${d.balls.join(', ')}">${d.balls.map(b => `<i>${b}</i>`).join('')}</p>
         ${d.lines.map(l => `<p class="line">${l.nums.map(n => `<b class="${d.balls.includes(n) ? 'hit' : ''}">${n}</b>`).join('')}<span>${l.pay ? `${l.hits} numbers: +${fmt(l.pay)}` : `${l.hits || 'no'} number${l.hits === 1 ? '' : 's'}`}</span></p>`).join('')}` : ''}
       <p class="next">${mine.length ? `Your line${mine.length > 1 ? 's' : ''} for the next draw: ${mine.map(l => l.nums.join(' ')).join(' · ')}` : 'No lines for the next draw yet. It’s drawn when the next paper comes.'}</p>
-      <button class="btn gold" type="button" id="lottoDip" ${full || S.coins < price ? 'disabled' : ''}>${full ? 'That’s your lot for this draw' : `Lucky Dip (${fmt(price)})`}</button></section>`;
+      <button class="btn gold" type="button" id="lottoDip" ${full || S.coins < price ? 'disabled' : ''}>${full ? 'That’s your lot for this draw' : `Lucky Dip (${fmt(price)})`}</button>
+      ${full ? '' : `<details class="lpick" ${this.mine.size ? 'open' : ''}><summary>Or pick your own five</summary>
+        <div class="lgrid">${Array.from({ length: DRAW.BALLS }, (_, k) => k + 1).map(n => `<button type="button" class="lnum" data-ln="${n}" aria-pressed="${this.mine.has(n)}">${n}</button>`).join('')}</div>
+        <button class="btn gold" type="button" id="lottoMine" ${this.mine.size !== DRAW.PICK || S.coins < price ? 'disabled' : ''}>${this.mine.size === DRAW.PICK ? `Buy this line (${fmt(price)})` : `Pick ${DRAW.PICK - this.mine.size} more`}</button></details>`}</section>`;
   },
+  mine: new Set(), // the numbers you've picked for your own line
   bind(p) {
+    const redraw = () => { const box = $('#paperLotto'); if (box) { box.outerHTML = this.lotto(p); this.bind(p); } };
     const dip = $('#lottoDip');
-    if (dip) dip.onclick = () => { if (!Sweepstake.buy()) return UI.toast('You can’t buy another line right now.'); const box = $('#paperLotto'); if (box) { box.outerHTML = this.lotto(p); this.bind(p); } };
+    if (dip) dip.onclick = () => { if (!Sweepstake.buy()) return UI.toast('You can’t buy another line right now.'); redraw(); };
+    $$('#paperLotto [data-ln]').forEach(b => b.onclick = () => {
+      const n = +b.dataset.ln;
+      if (this.mine.has(n)) this.mine.delete(n); else if (this.mine.size < DRAW.PICK) this.mine.add(n); else return UI.toast(`Five numbers a line. Tap one to swap it out.`);
+      redraw();
+    });
+    const own = $('#lottoMine');
+    if (own) own.onclick = () => { if (!Sweepstake.buy([...this.mine])) return UI.toast('You can’t buy another line right now.'); this.mine = new Set(); redraw(); };
     $$('#modalBox [data-pt]').forEach(b => b.onclick = () => {
       if (p.solved || p !== S.paper) return;
       p.picked = +b.dataset.pt; const r = Paper.answer(p.picked);
