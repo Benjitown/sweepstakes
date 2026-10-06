@@ -118,6 +118,11 @@ export const LINES = {
   storm_flash:   [['tash', 'DID YOU SEE THAT'], ['kev', 'one Mississippi… two Mississippi…'], ['priya', 'did you get them? the mines? tell me you got them'], ['nan', 'Ooh that was a big one x']],
   storm_strike:  [['tash', 'THAT WAS RIGHT ON TOP OF US'], ['kev', 'it hit the substation. I heard it'], ['nan', 'Oh my days, the lights! x'], ['priya', 'zero Mississippi. that’s not great']],
   storm_end:     [['nan', 'That’s blown over now love x'], ['kev', 'sun’s out. there’s a rainbow over the bins'], ['tash', 'storm’s gone. the drama isn’t'], ['priya', 'and just like that, the mines are invisible again']],
+  // Biscuit the dog
+  odd_bark:      [['nan', 'Is that next door’s dog again? He’s called Biscuit x'], ['kev', 'DOG. I repeat. DOG'], ['priya', 'dogs can smell mines, apparently. and fear'],
+    ['tash', 'who’s a good boy'], ['dave', 'that dog owes me a sandwich']],
+  dog_flag:      [['tash', 'the dog found a MINE'], ['priya', 'that dog is better at this than you'], ['dave', 'hire the dog. fire yourself'],
+    ['nan', 'Clever boy! Give him another biscuit love x'], ['kev', 'I’m getting a dog. I’m calling it Solver']],
   // the Banker
   odd_bankerRing: [['tash', 'is that the BANKER?'], ['kev', 'don’t answer it. it’s always bad news'], ['priya', 'who even has a desk phone'], ['nan', 'Tell them we’re not interested love x']],
   banker_deal:   [['nan', 'A bird in the hand love x'], ['dave', 'took the deal. sensible. boring. sensible'], ['priya', 'locking in profit. very grown up'], ['kev', 'what did the banker sound like. was he tall']],

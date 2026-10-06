@@ -2,7 +2,8 @@
 power out, Lightning Reflexes) and KEVCOIN (the launch, the ticker, buying and selling with Kev's cut, the cap, hype
 pumps, the rug pull and the relaunch, and whether holding it loses money on average) and the ice cream van (the
 drive-by, a cone, the sugar rush on the next winning cash-out) Nan's stars (your sign, the daily reading, the lucky
-number's ×1.25) and the Banker (deal, no deal, beating his offer)."""
+number's ×1.25) the Banker (deal, no deal, beating his offer) and Biscuit
+the dog (a biscuit, a flagged mine)."""
 from common import Results, open_page
 
 SETUP = """(() => { __sw.Coach.finish(); const S = __sw.S; S.coins = 50000; S.unlocked = ['penny', 'den']; S.sel = 'den'; S.life.lvl = 5; S.life.xp = 0;
@@ -221,6 +222,30 @@ async def run(browser, url, shots):
        f'cash it out later for {pot2:,}, more than he offered: No Deal unlocks')
     await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
     ok('1 deal, 1 no deal' in await text(pg, '#stats'), 'Stats counts your deals')
+    await pg.click('[data-tab="shop"]')
+
+    # --- Biscuit the dog: a bark, then he trots in and waits; a biscuit gets a mine flagged
+    await pg.evaluate("(() => { __sw.HouseholdView.clear(); delete __sw.S.life.ach.dog; __sw.DogView.WALK_MS = 600; })()")
+    await pg.wait_for_timeout(1300); await pg.evaluate(DEAL)
+    flags0 = await pg.evaluate("__sw.slots[0].flag.reduce((a, x) => a + x, 0)")
+    await pg.evaluate("__sw.WeirdNoises.surprise('bark')"); await pg.wait_for_timeout(1000)
+    ok(await pg.evaluate("!!document.querySelector('.dog.waiting') && !__sw.HouseholdView.free()") and 'Woof?' in await text(pg, '.dog .dsay'),
+       'a bark, and Biscuit trots in and waits: “Woof?”')
+    await pg.screenshot(path=str(shots / 'dog.png'))
+    c0, price, bonus = await pg.evaluate("[__sw.S.coins, __sw.Dog.price(), __sw.Achievements.reward(__sw.ACHIEVEMENTS.find(a => a.id === 'dog'))]")
+    await pg.click('.dog', force=True); await pg.wait_for_timeout(300)
+    hit = await pg.evaluate("(() => { const b = __sw.slots[0], c = document.querySelector('.c.paw'); return [b.flag.reduce((a, x) => a + x, 0), c ? b.mine[+c.dataset.i] : -1, b.flag[c ? +c.dataset.i : 0]]; })()")
+    ok(await pg.evaluate('__sw.S.coins') == c0 - price + bonus and hit == [flags0 + 1, 1, 1] and await pg.evaluate("__sw.Achievements.has('dog')"),
+       f'give him a biscuit ({price:,}): he finds a mine and sits on it (flagged, and it glows), and Good Boy unlocks')
+    ok(await pg.evaluate("[...document.querySelectorAll('.toast')].some(t => /Biscuit sniffed out a mine/.test(t.textContent))"), 'and the toast says so')
+    # no live board, no dog; ignore him and he wanders off
+    await pg.evaluate("(() => { __sw.DogView.clear(); __sw.Game.cashOut(__sw.slots[0], 'manual'); })()"); await pg.wait_for_timeout(1300)
+    ok(await pg.evaluate("__sw.Dog.sniff() === null"), 'with nothing on the tables he doesn’t come round')
+    await pg.evaluate(DEAL)
+    await pg.evaluate("(() => { Object.assign(__sw.DogView, { WALK_MS: 200, WAIT_MS: 200, LEAVE_MS: 200 }); __sw.DogView.visit(); })()"); await pg.wait_for_timeout(1200)
+    ok(await pg.evaluate("!document.querySelector('.dog') && !__sw.DogView.dog"), 'ignore him and he wanders off')
+    await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
+    ok('Biscuits given' in await text(pg, '#stats'), 'Stats counts his biscuits')
     await pg.click('[data-tab="shop"]')
 
     ok(not errs, 'no console errors' + (': ' + '; '.join(errs[:3]) if errs else ''))

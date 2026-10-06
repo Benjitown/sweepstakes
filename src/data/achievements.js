@@ -55,6 +55,7 @@ export const ACHIEVEMENTS = [
   { id: 'gull',     tier: 1, icon: 'gull',      name: 'Not My Chips',        desc: 'Shoo a seagull off your coins.' },
   { id: 'dark',     tier: 2, icon: 'bulb',      name: 'Danger Money',        desc: 'Cash out a board in a power cut.' },
   { id: 'storm',    tier: 2, icon: 'bolt',      name: 'Lightning Reflexes',  desc: 'Flag a mine within two seconds of a lightning flash.' },
+  { id: 'dog',      tier: 1, icon: 'bone',      name: 'Good Boy',            desc: 'Give Biscuit a biscuit.' },
   { id: 'deal',     tier: 1, icon: 'phone',     name: 'Deal!',               desc: 'Sell a board to the Banker.' },
   { id: 'nodeal',   tier: 2, icon: 'phone',     name: 'No Deal',             desc: 'Turn the Banker down, then cash out that board for more than he offered.' },
   { id: 'stars',    tier: 1, icon: 'stars',     name: 'Written in the Stars', desc: 'Uncover your lucky number on the day.' },
