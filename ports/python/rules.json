@@ -1374,6 +1374,144 @@
     "it’s for the kids. the kids won"
    ]
   ],
+  "scratch_buy": [
+   [
+    "nan",
+    "Get me a Lucky Dip while you’re there love x"
+   ],
+   [
+    "kev",
+    "scratch it with a 2p, it’s luckier"
+   ],
+   [
+    "dave",
+    "buy two, the second one’s always the winner"
+   ]
+  ],
+  "scratch_win": [
+   [
+    "nan",
+    "I used to buy one every Saturday with your grandad. Never won a sausage x"
+   ],
+   [
+    "dave",
+    "SCRATCH KING"
+   ],
+   [
+    "kev",
+    "I’ve never won more than a quid on those"
+   ],
+   [
+    "tash",
+    "frame it. frame the card"
+   ],
+   [
+    "priya",
+    "the newsagent will remember this day"
+   ]
+  ],
+  "scratch_evens": [
+   [
+    "priya",
+    "money back. the most British win possible"
+   ],
+   [
+    "kev",
+    "technically not a loss"
+   ]
+  ],
+  "scratch_lose": [
+   [
+    "tash",
+    "the corner shop thanks you"
+   ],
+   [
+    "priya",
+    "the odds are printed on the back. nobody reads the back"
+   ],
+   [
+    "kev",
+    "two crowns and a coin. so close"
+   ],
+   [
+    "dave",
+    "should’ve bought a meal deal"
+   ],
+   [
+    "dave",
+    "absolute mug"
+   ],
+   [
+    "tash",
+    "scratching away your rent money, lovely"
+   ]
+  ],
+  "quiz_right": [
+   [
+    "dave",
+    "alright Einstein"
+   ],
+   [
+    "tash",
+    "nerd. (correct though)"
+   ],
+   [
+    "kev",
+    "you’re on the quiz team now"
+   ],
+   [
+    "nan",
+    "Clever clogs! Your grandad would be proud x"
+   ],
+   [
+    "priya",
+    "points to the big brain"
+   ]
+  ],
+  "quiz_wrong": [
+   [
+    "dave",
+    "WRONG. it was {answer}"
+   ],
+   [
+    "nan",
+    "Never mind love, it was {answer} x"
+   ],
+   [
+    "kev",
+    "{answer}. I knew that. I did not know that"
+   ],
+   [
+    "priya",
+    "the answer was {answer}. we don’t talk about this"
+   ],
+   [
+    "tash",
+    "it was {answer} babe"
+   ],
+   [
+    "tash",
+    "it was {answer}, you absolute walnut"
+   ],
+   [
+    "dave",
+    "{answer}, you muppet"
+   ]
+  ],
+  "quiz_slow": [
+   [
+    "dave",
+    "too slow. it was {answer}"
+   ],
+   [
+    "tash",
+    "asleep? it was {answer}"
+   ],
+   [
+    "nan",
+    "The answer was {answer} love. I got it straight away x"
+   ]
+  ],
   "duck_start": [
    [
     "dave",

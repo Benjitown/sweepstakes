@@ -45,6 +45,7 @@ import { DailyView } from './ui/daily-view.js';
 import { HouseholdView } from './ui/household-view.js';
 import { DuckRace } from './game/duck-race.js';
 import { Scratchcards } from './game/scratchcards.js';
+import { Quiz } from './game/quiz.js';
 import { exposeForTests } from './debug.js';
 
 $('#btnDon').onclick = () => DonLadder.start();
@@ -64,6 +65,7 @@ renderAll();
 TablesView.reveal();
 Bots.timer = setTimeout(() => Bots.tick(), Bots.delay());
 WeirdNoises.schedule();
+Quiz.schedule();
 Chat.ambient();
 const hi = LINES.hello.slice().sort(() => Math.random() - .5);
 setTimeout(() => Chat.post(...hi[0]), 600);

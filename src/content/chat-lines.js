@@ -86,6 +86,12 @@ export const LINES = {
   scratch_evens: [['priya', 'money back. the most British win possible'], ['kev', 'technically not a loss']],
   scratch_lose:  [['tash', 'the corner shop thanks you'], ['priya', 'the odds are printed on the back. nobody reads the back'], ['kev', 'two crowns and a coin. so close'],
     ['dave', 'should’ve bought a meal deal']],
+  // the pub quiz ({answer} is the right one)
+  quiz_right:    [['dave', 'alright Einstein'], ['tash', 'nerd. (correct though)'], ['kev', 'you’re on the quiz team now'], ['nan', 'Clever clogs! Your grandad would be proud x'],
+    ['priya', 'points to the big brain']],
+  quiz_wrong:    [['dave', 'WRONG. it was {answer}'], ['nan', 'Never mind love, it was {answer} x'], ['kev', '{answer}. I knew that. I did not know that'],
+    ['priya', 'the answer was {answer}. we don’t talk about this'], ['tash', 'it was {answer} babe']],
+  quiz_slow:     [['dave', 'too slow. it was {answer}'], ['tash', 'asleep? it was {answer}'], ['nan', 'The answer was {answer} love. I got it straight away x']],
   // the duck race
   duck_start:    [['dave', 'COME ON THE YELLOW ONE'], ['tash', 'my money’s on whichever one looks the most unhinged'], ['kev', 'the ducks are on something. I can tell'],
     ['nan', 'Which one’s ours love? x'], ['priya', 'I’ve got a tenner on the slowest one. for the story']],
@@ -111,6 +117,7 @@ export const RUDE = {
   jackpot:   [['dave', 'you jammy, jammy sod']],
   duck_lose: [['dave', 'useless bloody duck'], ['tash', 'that duck can get stuffed. with orange sauce']],
   scratch_lose: [['dave', 'absolute mug'], ['tash', 'scratching away your rent money, lovely']],
+  quiz_wrong: [['tash', 'it was {answer}, you absolute walnut'], ['dave', '{answer}, you muppet']],
   door_bad:  [['dave', 'absolute pillocks'], ['tash', 'they took the LAMP?? the bloody cheek']],
   battery_fall: [['kev', 'arse over tit. a classic'], ['dave', 'did you land on your arse or your face']],
   chirp_again: [['tash', 'CHANGE THE BLOODY BATTERY']],

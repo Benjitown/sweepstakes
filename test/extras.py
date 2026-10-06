@@ -79,6 +79,41 @@ async def run(browser, url, shots):
     ok(await pg.evaluate("[...document.querySelectorAll('#modalBox .ticket')].map(b => b.disabled).join()") == 'false,false,true', 'with 150 coins, the Golden Ticket is out of reach')
     await pg.keyboard.press('Escape'); await pg.wait_for_timeout(200)
 
+    # --- the pub quiz: a question in the chat, three answers, 25 seconds
+    await pg.evaluate("(() => { __sw.Coach.finish(); __sw.S.coins = 5000; __sw.S.life.lvl = 5; __sw.S.life.xp = 0; __sw.S.life.ach = Object.fromEntries(__sw.ACHIEVEMENTS.map(a => [a.id, 1])); __sw.renderAll(); })()")
+    L = await pg.evaluate("(() => { const L = __sw.Quiz.ask(0); return { q: L.q, options: L.options, right: L.right, prize: L.prize }; })()")
+    shown = await text(pg, '#chat .msg.quiz:last-child .bubble')
+    ok('capital of Australia' in shown and await pg.evaluate("document.querySelectorAll('#chat .msg.quiz:last-child .qopt').length") == 3
+       and L['options'][L['right']] == 'Canberra', f"a friend asks the chat: “{L['q']}” with three answers ({', '.join(L['options'])})")
+    c0 = await pg.evaluate('__sw.S.coins')
+    await pg.click(f'#chat .msg.quiz:last-child .qopt[data-k="{L["right"]}"]'); await pg.wait_for_timeout(300)
+    ok(await pg.evaluate('__sw.S.coins') == c0 + L['prize'] and await pg.evaluate("!![...document.querySelectorAll('#chat .msg.quiz')].pop().querySelector('.qopt.right:disabled')"),
+       f"the right answer pays {L['prize']} and the question closes")
+    L = await pg.evaluate("(() => { const L = __sw.Quiz.ask(1); return { right: L.right, answer: L.answer }; })()")
+    wrong = (L['right'] + 1) % 3
+    c0 = await pg.evaluate('__sw.S.coins'); n0 = await pg.evaluate("document.querySelectorAll('#chat .msg').length")
+    await pg.click(f'#chat .msg.quiz:last-child .qopt[data-k="{wrong}"]'); await pg.wait_for_timeout(1600)
+    marks = await pg.evaluate("[...document.querySelectorAll('#chat .msg.quiz')].pop().querySelectorAll('.qopt.right, .qopt.wrong').length")
+    said = await pg.evaluate("[...document.querySelectorAll('#chat .msg')].slice(-1)[0].textContent")
+    ok(await pg.evaluate('__sw.S.coins') == c0 and marks == 2 and L['answer'] in said, f"a wrong answer pays nothing, shows the right one, and someone tells you: “{said.strip()[-60:]}”")
+    await pg.evaluate("(() => { __sw.Quiz.SECONDS = 1; __sw.Quiz.ask(2); })()"); await pg.wait_for_timeout(2600)
+    said = await pg.evaluate("[...document.querySelectorAll('#chat .msg')].slice(-1)[0].textContent")
+    ok(not await pg.evaluate('__sw.Quiz.live') and 'unicorn' in said.lower(), f"too slow: the question closes and the answer comes out (“{said.strip()[-50:]}”)")
+    await pg.evaluate("__sw.Quiz.SECONDS = 25")
+    # never while a window is open, or with the switch off
+    n0 = await pg.evaluate("document.querySelectorAll('#chat .msg.quiz').length")
+    await pg.evaluate("(() => { __sw.Keys.help(); __sw.bus.emit('quiz:due'); __sw.UI.closeModal(); __sw.S.quiz = false; __sw.bus.emit('quiz:due'); __sw.S.quiz = true; })()")
+    ok(await pg.evaluate("document.querySelectorAll('#chat .msg.quiz').length") == n0 and not await pg.evaluate('__sw.Quiz.live'),
+       'no quiz while a window is open, or with “Pub quiz” switched off')
+    await pg.evaluate("__sw.bus.emit('quiz:due')")
+    ok(await pg.evaluate("document.querySelectorAll('#chat .msg.quiz').length") == n0 + 1, '…and one turns up when it’s due and nothing’s in the way')
+    # ten right answers: Know-It-All
+    await pg.evaluate("(() => { const k = __sw.Quiz.live.right; delete __sw.S.life.ach.quiz; __sw.S.life.quiz.right = 9; __sw.Quiz.answer(k); })()"); await pg.wait_for_timeout(300)
+    ok(await pg.evaluate("__sw.Achievements.has('quiz') && __sw.S.life.quiz.right === 10"), 'the tenth right answer unlocks Know-It-All')
+    await pg.screenshot(path=str(shots / 'quiz.png'))
+    await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
+    ok(await pg.evaluate("!!document.querySelector('#tg-quiz') && /\\d+ right of \\d+/.test(document.querySelector('#stats').textContent)"), 'Stats has the Pub quiz switch and your score')
+
     ok(not errs, 'no console errors' + (': ' + '; '.join(errs[:3]) if errs else ''))
     await ctx.close()
     return R
