@@ -46,6 +46,8 @@ import { PowerCut } from './game/power-cut.js';
 import { PowerView } from './ui/power-view.js';
 import { Storm } from './game/storm.js';
 import { StormView } from './ui/storm-view.js';
+import { Kev } from './game/kevcoin.js';
+import { KevView, fmtKev } from './ui/kevcoin-view.js';
 
 const RED = 'var(--red)', GOLD = 'var(--gold)', GREEN = 'var(--green)', PURPLE = 'var(--purple)';
 export function renderAll(keepModal) {
@@ -175,6 +177,7 @@ bus.on('tick', () => {
   if (Tabs.showing('stats') && S.run.time % 5 === 0 && !StatsView.busy()) StatsView.render();
   if (S.run.time % 20 === 0 && UI.modalClosed()) Quips.maybe(.18);
   if (S.run.time === S.spinAt + SPIN_EVERY) { UI.toast('Free spin ready!'); Sound.select(2); }
+  Kev.second();
 });
 
 /* ---------- around the house: the noises, and what they turn into ---------- */
@@ -216,6 +219,21 @@ bus.on('power', ({ on: isOn, why }) => {
   setTimeout(() => Chat.say(why === 'topup' ? 'power_topup' : 'power_back', {}, .8), 700);
 });
 bus.on('addon:fired', ({ id }) => { if (id === 'dark') Chat.say('power_win', {}, .5); });
+/* ---------- KEVCOIN: Kev's coin, in the chat ---------- */
+bus.on('kev:launch', () => { KevView.ticker(); Chat.say('kev_launch', {}, 1); setTimeout(() => Chat.say('kev_launch_re', {}, 1), 2600); });
+bus.on('kev:tick', () => KevView.update());
+bus.on('kev:hype', () => {
+  Chat.say('kev_hype', {}, 1); setTimeout(() => Chat.say('kev_hype_re', {}, .4), 2200);
+  const t = document.querySelector('#kevTicker'); if (t) { t.classList.remove('hype'); void t.offsetWidth; t.classList.add('hype'); }
+});
+bus.on('kev:rug', ({ held }) => {
+  Chat.say('kev_rug', {}, 1); setTimeout(() => Chat.say('kev_rug_re', {}, 1), 2200);
+  if (held) { Banner.show('RUG PULL', `Your KEVCOIN is worth ${fmt(Kev.value())} now`, 'red', true); Sound.boom(); Haptics.buzz([80, 40, 80]); }
+});
+bus.on('kev:relaunch', ({ v, burned }) => { KevView.update(); Chat.say('kev_relaunch', { v }, 1); if (burned) UI.toast(`KEVCOIN ${v}.0 is live. Your old coins didn’t make the move.`); });
+bus.on('kev:trade', ({ buy, x }) => { if (!buy && x >= 1.5) Chat.say('kev_win', {}, 1); else if (!buy && x < .9) Chat.say('kev_loss', {}, .6); });
+bus.on('reset', () => KevView.ticker());
+
 /* ---------- thunderstorms: each flash shows the mines; one strike in three storms takes the power out ---------- */
 bus.on('storm', e => {
   if (e.on) { StormView.on(); setTimeout(() => Chat.say('storm_start', {}, .9), 2500); return; }

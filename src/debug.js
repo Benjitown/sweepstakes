@@ -36,6 +36,9 @@ import { Quiz } from './game/quiz.js';
 import { QUIZ } from './content/quiz.js';
 import { PowerCut } from './game/power-cut.js';
 import { Storm } from './game/storm.js';
+import { Kev } from './game/kevcoin.js';
+import { KevView } from './ui/kevcoin-view.js';
+import { KEV } from './data/kevcoin.js';
 import { StormView } from './ui/storm-view.js';
 import { Outside } from './game/outside.js';
 import { OutsideView } from './ui/outside-view.js';
@@ -54,11 +57,12 @@ export function exposeForTests() {
   clearTimeout(WeirdNoises.timer); WeirdNoises.schedule = () => {};
   clearTimeout(Quiz.timer); Quiz.schedule = () => {};
   clearTimeout(Bingo.timer); Bingo.schedule = () => {};
+  Kev.second = () => {}; // KEVCOIN neither launches nor moves on its own; the tests call Kev.launch() and Kev.tick()
   window.__sw = {
     get S() { return S; }, Game, Solver, Rack, Rank, bus, NOISES, WeirdNoises, Quips, Chat, Coach, SpinView,
     Banner, FX, UI, VERSION, renderAll, invoke, DigCommand, SaveGame, TABLES, AudioEngine,
     Daily, Achievements, ACHIEVEMENTS, DailyView, Keys, CoinChart, seeded, hashString, Household, HouseholdView, DuckRace, DuckRaceView, DOOR, GULL, LINES, RUDE,
-    Scratchcards, ScratchView, SCRATCH_CARDS, SCRATCH_PRIZES, Quiz, QUIZ, PowerCut, PowerView, Storm, StormView, Bingo, BingoView, makeTicket, Outside, OutsideView, BINGO_TICKETS, BINGO_PAYS, BINGO_CALLS,
+    Scratchcards, ScratchView, SCRATCH_CARDS, SCRATCH_PRIZES, Quiz, QUIZ, PowerCut, PowerView, Storm, StormView, Kev, KevView, KEV, Bingo, BingoView, makeTicket, Outside, OutsideView, BINGO_TICKETS, BINGO_PAYS, BINGO_CALLS,
     Fruity, FruityRules, FruityView, FRUITY_REELS, FRUITY_PAYS, FRUITY_STAKES, FRUITY_FEATURES,
     get slots() { return Game.slots; },
   };

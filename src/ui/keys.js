@@ -11,6 +11,7 @@ import { DailyView } from './daily-view.js';
 import { DuckRaceView } from './duck-race-view.js';
 import { BingoView } from './bingo-view.js';
 import { FruityView } from './fruity-view.js';
+import { KevView } from './kevcoin-view.js';
 import { OutsideView } from './outside-view.js';
 
 // the board a shortcut acts on: the first one you've been playing by hand, else the first live one
@@ -25,6 +26,7 @@ const KEYS = [
   ['B', 'Nan’s bingo (out back of the Flip Booth)', () => BingoView.open()],
   ['P', 'The Fruity: the fruit machine in the Flip Booth', () => FruityView.open()],
   ['G', 'Go outside for a few minutes (the game pauses)', () => OutsideView.open()],
+  ['K', 'KEVCOIN (once Kev’s launched it)', () => KevView.open()],
   ['M', 'Mute / unmute', () => $('#btnMute').click()],
   ['1 2 3', 'Upgrades / Add-ons / Stats', null],
   ['?', 'This list', () => Keys.help()],
