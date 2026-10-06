@@ -129,6 +129,16 @@ export const Music = {
     this.lp.frequency.setValueAtTime(18000, t); this.lp.frequency.exponentialRampToValueAtTime(300, t + 1.1);
     this.stop(1.2);
   },
+  // a record scratch (a big board going up, going bust): the needle skids across the record and the music ducks
+  scratch() {
+    const a = this.ctx, out = this.out, e = AudioEngine.get(); if (!a || !out || !this.timer || !e.master) return false;
+    const t = a.currentTime, v = this.volume(), bp = a.createBiquadFilter(); bp.type = 'bandpass'; bp.Q.value = 3; bp.connect(e.master);
+    bp.frequency.setValueAtTime(350, t); bp.frequency.exponentialRampToValueAtTime(2600, t + .12); bp.frequency.exponentialRampToValueAtTime(450, t + .32);
+    const g = mEnv(a, t, .55, .01, t + .34); g.connect(bp); mNoise(a, t, t + .36, g);
+    out.gain.cancelScheduledValues(t); out.gain.setValueAtTime(out.gain.value, t); out.gain.linearRampToValueAtTime(v * .12, t + .06);
+    out.gain.setValueAtTime(v * .12, t + .5); out.gain.linearRampToValueAtTime(v, t + 2.2);
+    return true;
+  },
   // put a record on (or 'shuffle')
   play(id) { S.track = id; if (this.timer) this.stop(.25); this.sync(); },
   // keep a little of the track queued ahead of the clock

@@ -81,6 +81,11 @@ async def run(browser, url, shots):
     g = await pg.evaluate('__sw.Music.out.gain.value')
     ok(abs(g - .5 * .3) < .02 and await pg.evaluate('__sw.S.musicVol') == .3, f'the Music slider turns it down (gain {g:.3f})')
     await pg.keyboard.press('Escape'); await pg.wait_for_timeout(200)
+    await pg.evaluate("__sw.bus.emit('bust', { reason: 'broke' })"); await pg.wait_for_timeout(250)
+    g2 = await pg.evaluate('__sw.Music.out.gain.value')
+    ok(g2 < .15 * .5, f'going bust: a record scratch, and the music ducks (gain {g2:.3f})')
+    await pg.wait_for_timeout(2200)
+    ok(abs(await pg.evaluate('__sw.Music.out.gain.value') - .15) < .02, 'then it comes back up')
 
     # --- muted, outside, a power cut
     await pg.click('#btnMute'); await pg.wait_for_timeout(300)
