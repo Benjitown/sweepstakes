@@ -57,6 +57,7 @@ import { Tin } from './game/biscuit-tin.js';
 import { Dares } from './game/dares.js';
 import { DareView } from './ui/dare-view.js';
 import { Seasons } from './game/seasons.js';
+import { ClawView } from './ui/claw-view.js';
 import { SeasonView } from './ui/season-view.js';
 import { PUMPKIN } from './data/seasons.js';
 import { TREAT_CARD, EGGED_CARD } from './content/seasons.js';
@@ -285,7 +286,7 @@ bus.on('storm:flash', e => {
   } else if (Math.random() < .15) Chat.say('storm_flash', {}, 1);
 });
 /* ---------- the Flip Booth: coin flip, duck race, scratchcards, bingo, the Fruity ---------- */
-bus.on('booth', k => { FruityView.away(); ({ ducks: DuckRaceView, scratch: ScratchView, bingo: BingoView, fruity: FruityView }[k] || FlipView).open(); });
+bus.on('booth', k => { FruityView.away(); ClawView.away(); ({ ducks: DuckRaceView, scratch: ScratchView, bingo: BingoView, fruity: FruityView, claw: ClawView }[k] || FlipView).open(); });
 bus.on('duck:start', () => Chat.say('duck_start'));
 bus.on('duck', ({ win, prize, bet, pay }) => {
   if (win) {
@@ -351,6 +352,9 @@ bus.on('trick', () => {
 });
 bus.on('household', ({ o }) => { if (o.fx === 'xmas') setTimeout(() => Chat.say('xmas_card', {}, .8), 1400); });
 bus.on('board:cashout', ({ mult }) => { if (mult >= 5 && Seasons.is('bonfire')) { SeasonView.fireworks(mult >= 50 ? 5 : mult >= 15 ? 3 : 2); setTimeout(() => Chat.say('fireworks', {}, .5), 1600); } });
+
+/* ---------- the claw machine ---------- */
+bus.on('claw:grab', ({ won, fx }) => { Rank.award(won ? 5 : 1); if (won) { RunPanel.render(); if (fx === 'golden') UI.toast('The golden crown! Your next board is golden.'); } });
 
 /* ---------- the Fruity ---------- */
 bus.on('fruity', ({ x, win, nudged, holds, dry }) => {

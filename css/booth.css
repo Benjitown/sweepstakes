@@ -33,3 +33,34 @@
 /* Nan's invite in the group chat */
 .msg.invite .bubble{box-shadow:inset 0 0 0 2px var(--purple)}
 .msg.invite .qopt{display:flex;align-items:center;gap:6px}
+
+/* the claw machine (the booth's sixth tab): a glass case, a rail, the claw on its wire, the pile and the chute */
+.clawm{display:grid;gap:10px;justify-items:center;width:100%}
+.clawm h3{margin:0}
+.case{position:relative;width:min(100%,420px);aspect-ratio:4/3;background:linear-gradient(180deg,#1e3a44,#0f2229);border-radius:14px;box-shadow:inset 0 0 0 4px var(--rim),0 6px 0 var(--shadow);overflow:hidden}
+.case::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,rgba(255,255,255,.12) 0 16%,transparent 16% 40%,rgba(255,255,255,.06) 40% 45%,transparent 45%)}
+.case .rail{position:absolute;left:4%;right:4%;top:5%;height:6px;background:#93b3bd;border-radius:3px;box-shadow:0 2px 0 var(--shadow)}
+.arm{position:absolute;top:5%;left:50%;width:15%;height:22%;transform:translateX(-50%);transition:height .7s ease-in-out;z-index:2}
+.arm.travel{transition:height .7s ease-in-out,left .7s ease-in-out}
+.arm.down{height:68%}
+.arm .wire{position:absolute;left:50%;top:0;bottom:30%;width:3px;transform:translateX(-50%);background:#c9d6da}
+.arm .head{position:absolute;left:0;bottom:0;width:100%;height:auto;overflow:visible}
+.arm .prong{transition:transform .25s;transform-box:fill-box}
+.arm .prong.l{transform-origin:100% 0}
+.arm .prong.r{transform-origin:0 0}
+.arm.shut .prong.l{transform:rotate(-16deg)}
+.arm.shut .prong.r{transform:rotate(16deg)}
+.pile{position:absolute;left:0;right:0;bottom:0;height:26%}
+.prize{position:absolute;bottom:5%;width:var(--w);aspect-ratio:1;transform:translateX(-50%)}
+.prize svg{width:100%;height:100%;filter:drop-shadow(0 3px 0 rgba(0,0,0,.45))}
+.arm .prize.held{left:50%;bottom:-42%;width:82%}
+.prize.wiggle{animation:prizewiggle .45s}
+.prize.fall{animation:prizefall .5s ease-in both}
+.prize.chuted{transition:transform .45s ease-in,opacity .45s;transform:translate(-50%,300%);opacity:0}
+.chute{position:absolute;left:0;bottom:0;width:15%;height:32%;background:#0b1518;border-top:4px solid var(--gold);box-shadow:inset -3px 0 0 var(--rim);display:grid;place-items:end center;padding-bottom:5px}
+.chute b{font-family:var(--big);font-weight:400;font-size:.8rem;color:var(--gold);letter-spacing:.05em}
+.clawmsg{margin:0;min-height:1.4em;text-align:center}
+.clawpays{list-style:none;margin:0;padding:0;display:flex;gap:6px 12px;flex-wrap:wrap;justify-content:center}
+.clawpays li{display:flex;align-items:center;gap:4px;font-size:.85rem}
+.clawpays li svg{width:24px;height:24px}
+.clawpays small{color:var(--ink-dim);font-size:.7rem}

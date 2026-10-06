@@ -57,6 +57,12 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **Biscuit, next door's dog.** If you hear barking, he trots in along the bottom of the screen and waits ("Woof?").
   Give him a biscuit (3% of the top table's max stake) and he sniffs out a mine on your board and sits on it: flagged,
   glowing orange for a moment. Ignore him and he wanders off. New achievement: Good Boy.
+- **The claw machine,** the Flip Booth's sixth tab. The claw swings along the top of a glass case of prizes and you
+  press Grab to drop it: a rubber duck (×1.5), a kitten plushie (×2), a googly-eyed bomb (×3 and a shield), a big
+  glass gem (×5) or the golden crown (×10 and a golden board). Dead centre grips best, the dearer prizes are
+  slippery, and it can still drop it on the way to the chute. Even perfect timing pays back a little less than a go
+  costs (90 to 96%); grabbing blind, about half. Leave mid-grab and the prize still pays. New achievements: Claw
+  Blimey and Heavy Is the Head.
 - **The seasons,** by your device's calendar. **Halloween (all October):** the room goes purple, a pumpkin sits by
   the logo and the odd bat flaps past. Half the boards hide a pumpkin under a safe tile the opening didn't reach: dig
   it up and the pot goes ×1.15. Trick or treaters come to the door: give them sweets and they give you a sugar rush

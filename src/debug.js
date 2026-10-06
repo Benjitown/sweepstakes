@@ -63,6 +63,9 @@ import { Dares } from './game/dares.js';
 import { DareView } from './ui/dare-view.js';
 import { DARES, DARE } from './data/dares.js';
 import { Seasons } from './game/seasons.js';
+import { Claw } from './game/claw.js';
+import { ClawView } from './ui/claw-view.js';
+import { CLAW, CLAW_PRIZES, CLAW_BY } from './data/claw.js';
 import { SeasonView } from './ui/season-view.js';
 import { SEASONS, PUMPKIN, TRICK, XMAS } from './data/seasons.js';
 import { TIN } from './data/biscuit-tin.js';
@@ -85,7 +88,7 @@ export function exposeForTests() {
     Daily, Achievements, ACHIEVEMENTS, DailyView, Keys, CoinChart, seeded, hashString, Household, HouseholdView, DuckRace, DuckRaceView, DOOR, GULL, LINES, RUDE,
     Scratchcards, ScratchView, SCRATCH_CARDS, SCRATCH_PRIZES, Quiz, QUIZ, PowerCut, PowerView, Storm, StormView, Kev, KevView, KEV, IceCream, VanView, Stars, StarsView, Banker, Dog, DogView, Bingo, BingoView, makeTicket, Outside, OutsideView, BINGO_TICKETS, BINGO_PAYS, BINGO_CALLS,
     Fruity, FruityRules, FruityView, FRUITY_REELS, FRUITY_PAYS, FRUITY_STAKES, FRUITY_FEATURES,
-    Tin, TIN, Dares, DareView, DARES, DARE, Seasons, SeasonView, SEASONS, PUMPKIN, TRICK, XMAS, THREADS, RUDE_THREADS, QUIPS, RUDE_QUIPS, SURE, BINGO_END,
+    Tin, TIN, Dares, DareView, DARES, DARE, Seasons, SeasonView, SEASONS, PUMPKIN, TRICK, XMAS, Claw, ClawView, CLAW, CLAW_PRIZES, CLAW_BY, THREADS, RUDE_THREADS, QUIPS, RUDE_QUIPS, SURE, BINGO_END,
     get slots() { return Game.slots; },
   };
 }

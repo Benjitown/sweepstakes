@@ -1,6 +1,7 @@
 """Antics suite (experimental): dares from the group chat (the offer, You're on / Nah / no answer, the clock in the
 header, doing it in time for double, running out of time, the switch, each dare's rule) and the seasons (the calendar,
-Halloween's pumpkins, bats and trick or treaters, Bonfire Night's fireworks, Christmas snow and Nan's card)."""
+Halloween's pumpkins, bats and trick or treaters, Bonfire Night's fireworks, Christmas snow and Nan's card) and the claw
+machine (the sixth booth tab, the swing, what it pays back, a win, a drop, a slip, a miss, leaving mid-grab)."""
 from common import Results, open_page
 
 SETUP = """(() => { __sw.Coach.finish(); const S = __sw.S; S.coins = 50000; S.unlocked = ['penny', 'den']; S.sel = 'den'; S.life.lvl = 5; S.life.xp = 0;
@@ -199,6 +200,54 @@ async def run(browser, url, shots):
     await pg.evaluate("(() => { __sw.HouseholdView.clear(); __sw.Seasons.force = 'none'; __sw.SeasonView.apply(); })()"); await pg.wait_for_timeout(200)
     ok(await pg.evaluate("!document.body.dataset.season && !document.querySelector('#seasonDeco') && !document.querySelector('#snow')"), 'out of season: the room’s back to normal')
 
+    # --- the claw machine: the booth's sixth tab
+    await pg.evaluate("(() => { __sw.HouseholdView.clear(); __sw.UI.closeModal(); __sw.S.upg.flip = 1; __sw.S.coins = 50000; __sw.renderAll(); })()")
+    await pg.click('#btnFlip'); await pg.wait_for_timeout(300)
+    tabs = await pg.evaluate("[...document.querySelectorAll('#modalBox .booth button')].map(b => b.dataset.booth)")
+    await pg.click('#modalBox [data-booth="claw"]'); await pg.wait_for_timeout(400)
+    st = await pg.evaluate("({ prizes: document.querySelectorAll('#clawPile .prize').length, price: __sw.Claw.price(), btn: document.querySelector('#clawGo').textContent })")
+    ok(tabs == ['flip', 'ducks', 'scratch', 'bingo', 'fruity', 'claw'] and st['prizes'] == 5 and st['btn'] == f"Grab ({st['price']:,})",
+       f"the booth’s sixth tab: the claw machine, five prizes in the case, {st['btn']} ({tabs}, {st['prizes']})")
+    x0 = await pg.evaluate('__sw.ClawView.x'); await pg.wait_for_timeout(450); x1 = await pg.evaluate('__sw.ClawView.x')
+    ok(abs(x1 - x0) > .05, f'the claw swings along the top ({x0:.2f} → {x1:.2f})')
+    await pg.screenshot(path=str(shots / 'claw.png'))
+    # the house wins: even dead centre on every prize pays back less than a go, and real timing pays back a lot less
+    best = await pg.evaluate("__sw.CLAW_PRIZES.map(p => [p.id, +(__sw.CLAW.GRIP[0] * p.slip * (1 - __sw.CLAW.DROP) * p.x).toFixed(3)])")
+    rtp = await pg.evaluate("""(() => { const C = __sw.Claw, keep = [C.pile, C.rng], r = __sw.seeded(11); C.rng = r; let pay = 0; const n = 20000;
+      for (let k = 0; k < n; k++) { C.pile = null; C.fill(); const x = .1 + r() * .8, u = C.under(x); if (u.q) pay += C.chance(x) * __sw.CLAW_BY[u.q.id].x; }
+      [C.pile, C.rng] = keep; return pay / n; })()""")
+    ok(all(v < 1 for _, v in best) and rtp < .6, f"dead centre pays back {', '.join(f'{k} {v:.0%}' for k, v in best)}; grabbing blind, {rtp:.0%}")
+    # a win: dead centre on the first prize, a claw that holds on and doesn't drop it
+    GO = """(q => { const C = __sw.Claw, v = __sw.ClawView; v.SPEED = .2; const seq = q.slice(); C.rng = () => seq.length ? seq.shift() : .5;
+      const p = C.pile[0], P = __sw.CLAW_BY[p.id]; v.x = %s; const c0 = __sw.S.coins, price = C.price(), sh = __sw.S.inv.shield, gold = __sw.S.goldNext; v.grab();
+      return { id: p.id, x: P.x, fx: P.fx || '', c0, price, sh, gold }; })(%s)"""
+    await pg.evaluate("delete __sw.S.life.ach.claw")
+    g = await pg.evaluate(GO % ('p.x', '[0, .99]'))
+    ok(await pg.evaluate("__sw.UI.modalLocked && document.querySelector('#clawGo').disabled"), 'while the claw’s going, you can’t grab again (or walk off with Escape)')
+    await pg.wait_for_timeout(1300)
+    bonus = await pg.evaluate("__sw.Achievements.reward(__sw.ACHIEVEMENTS.find(a => a.id === 'claw'))")
+    pay = int(g['price'] * g['x'])
+    ok(await pg.evaluate('__sw.S.coins') == g['c0'] - g['price'] + pay + bonus and await pg.evaluate('__sw.S.life.claw.won') == 1
+       and await pg.evaluate("__sw.Achievements.has('claw') && !__sw.ClawView.busy && !__sw.UI.modalLocked"),
+       f"dead centre on {g['id']}: the claw holds, carries it to the chute and pays ×{g['x']} (+{pay:,}), and Claw Blimey unlocks")
+    fxok = (g['fx'] != 'shield' or await pg.evaluate('__sw.S.inv.shield') == g['sh'] + 1) and (g['fx'] != 'golden' or await pg.evaluate('__sw.S.goldNext') == g['gold'] + 1)
+    ok(fxok and '+' in await text(pg, '#clawMsg'), f"…and says what you won ({(await text(pg, '#clawMsg'))[:60]})")
+    # a drop on the way to the chute, a slip, and a miss: you just lose the go
+    d = await pg.evaluate(GO % ('p.x', '[0, 0]')); await pg.wait_for_timeout(1100)
+    ok(await pg.evaluate('__sw.S.coins') == d['c0'] - d['price'] and 'drops it' in await text(pg, '#clawMsg'), 'it grips, lifts… and drops it on the way: no prize')
+    sl = await pg.evaluate(GO % ('p.x', '[.99]')); await pg.wait_for_timeout(900)
+    ok(await pg.evaluate('__sw.S.coins') == sl['c0'] - sl['price'] and 'slips' in await text(pg, '#clawMsg'), 'or it slips straight out of the claw')
+    gap = await pg.evaluate("(() => { for (let x = .1; x <= .9; x += .005) if (!__sw.Claw.under(x).q) return x; return -1; })()")
+    m = await pg.evaluate(GO % (str(gap), '[]')); await pg.wait_for_timeout(900)
+    ok(gap > 0 and await pg.evaluate('__sw.S.coins') == m['c0'] - m['price'] and 'thin air' in await text(pg, '#clawMsg'), 'or there’s nothing under it at all')
+    # leave mid-grab: it was decided when the claw dropped, so the prize is paid
+    w = await pg.evaluate(GO % ('p.x', '[0, .99]'))
+    await pg.evaluate('__sw.ClawView.leave()'); await pg.wait_for_timeout(200)
+    ok(await pg.evaluate('__sw.S.coins') == w['c0'] - w['price'] + int(w['price'] * w['x']) and await pg.evaluate('__sw.UI.modalClosed() && !__sw.S.clawOwed'),
+       'leave mid-grab and the prize still pays')
+    ok(await pg.evaluate("(() => { const c = __sw.S.coins; __sw.S.clawOwed = 77; __sw.Claw.settle(); return __sw.S.coins === c + 77 && !__sw.S.clawOwed; })()"),
+       'and a prize still in the chute when the page closed pays out next time (settle)')
+    await pg.evaluate("(() => { __sw.Claw.rng = Math.random; __sw.ClawView.SPEED = 1; })()")
     ids = await pg.evaluate("[...document.querySelectorAll('svg symbol')].map(s => s.id)")
     ok(len(ids) == len(set(ids)), f'every icon in the sheet has its own id ({len(ids)} icons{", doubled: " + str(sorted({x for x in ids if ids.count(x) > 1})) if len(ids) != len(set(ids)) else ""})')
     ok(not errs, f'no console errors {errs[:3]}')

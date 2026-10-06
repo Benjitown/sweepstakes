@@ -148,6 +148,11 @@ export const LINES = {
     ['nan', 'Never mind love, I’ll come round with a bucket and sponge x'], ['priya', 'you have to respect the hustle']],
   xmas_card:     [['nan', 'Did my card come love? Don’t spend it all at once x'], ['tash', 'nan’s cards are the best bit of Christmas'], ['dave', 'there’s glitter in my keyboard and I wasn’t even there']],
   fireworks:     [['dave', 'FIREWORKS'], ['kev', 'ooooh. aaaaah.'], ['tash', 'that one was green. I love the green ones'], ['nan', 'Ooh lovely! Mind Biscuit, he hates the bangs x']],
+  // the claw machine
+  claw_win:      [['tash', 'THE CLAW HAS CHOSEN'], ['kev', 'those machines are rigged. well done though'], ['nan', 'Ooh, is that for me? x'],
+    ['dave', 'I once put forty quid in one of those for a plastic frog. respect'], ['priya', 'the claw giveth']],
+  claw_drop:     [['dave', 'IT DROPPED IT. it always drops it'], ['tash', 'that claw has the grip of a wet sock'], ['kev', 'that’s the law of the claw'], ['nan', 'So close love! x']],
+  claw_miss:     [['priya', 'you grabbed air. premium air'], ['kev', 'a bit to the left. no, your other left']],
   // Nan's biscuit tin
   tin_first:     [['nan', 'I’m putting a little bit by in the biscuit tin for you love. Just in case x'], ['nan', 'A bit more in the biscuit tin for you love. For a rainy day x']],
   tin_full:      [['nan', 'The biscuit tin’s full love! I’ve had to sit on the lid x']],
