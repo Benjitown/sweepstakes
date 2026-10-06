@@ -1,0 +1,20 @@
+/* Touching grass: the little park you sit in while the game waits (the sun turns, clouds drift, birds fly over, the duck
+   paddles and the grass sways; css/animations.css has the keyframes), and the bar that fills up to the fresh air bonus. */
+.parkbox{width:100%;border-radius:14px;overflow:hidden;line-height:0;box-shadow:0 0 0 3px #141b1d,0 6px 0 3px var(--shadow)}
+.park{display:block;width:100%;height:auto}
+.park g,.park path,.park use{transform-box:fill-box}
+.psun{transform-origin:center;animation:bob 4s ease-in-out infinite}
+.prays{transform-origin:center;animation:spinicon 30s linear infinite}
+.pcloud{animation:pdrift 16s ease-in-out infinite alternate}
+.pcloud.c2{animation-duration:23s;animation-delay:-9s}
+.pbird{animation:pfly 13s linear infinite}
+.pbird.b2{animation-duration:17s;animation-delay:-8s}
+.pbird path{transform-origin:center;animation:pflap .32s ease-in-out infinite alternate}
+.pbird.b2 path{animation-duration:.27s}
+.ptree{transform-origin:50% 100%;animation:ptree 3.4s ease-in-out infinite alternate}
+.pduck{animation:pdrift 9s ease-in-out infinite alternate-reverse}
+.pduck use{transform-origin:50% 90%;animation:pbob 1.7s ease-in-out infinite}
+.pblade{transform-origin:50% 100%;animation:psway 2.2s ease-in-out infinite alternate;animation-delay:var(--d,0s)}
+.grassbar{width:100%;height:14px;border-radius:7px;background:var(--shadow);overflow:hidden}
+.grassbar i{display:block;height:100%;width:0;border-radius:7px;background:linear-gradient(90deg,var(--green-lo),var(--green));transition:width .5s linear}
+#grassLeft{min-height:1.2em;margin-top:-8px}

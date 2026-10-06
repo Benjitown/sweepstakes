@@ -1,4 +1,4 @@
-"""Mayhem suite (experimental): the seagull after your coins, power cuts, Nan's bingo."""
+"""Mayhem suite (experimental): the seagull after your coins, power cuts, Nan's bingo, touching grass."""
 from common import Results, open_page
 
 CLEAR = '__sw.HouseholdView.clear()'
@@ -160,6 +160,62 @@ async def run(browser, url, shots):
     await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
     ok('Nan’s bingo' in await text(pg, '#stats') and await pg.evaluate("!!document.querySelector('#tg-nanvoice')"), 'Stats shows your bingo record and the “Nan reads the bingo” switch')
 
-    ok(not errs, 'no console errors' + (': ' + '; '.join(errs[:3]) if errs else ''))
+    # --- touching grass: a live board with a mine the Flag Goblin could prove (the goblin's off while we deal)
+    found = await pg.evaluate("""(() => { const S = __sw.S; S.coins = 50000; S.upg.flagBot = 0; S.life.lvl = 5; S.life.xp = 0; delete S.life.ach.grass; __sw.renderAll();
+      for (let k = 0; k < 25; k++) {
+        const old = __sw.slots[0]; if (old) { old.over = true; __sw.Game.endBoard(old); }
+        __sw.Game.deal(0); const b = __sw.slots[0]; __sw.invoke(new __sw.DigCommand(b, Math.floor(b.t.h / 2) * b.t.w + Math.floor(b.t.w / 2)));
+        if (b.over) continue;
+        const d = __sw.Solver.forBots(b); for (let i = 0; i < b.n; i++) if (d.KM[i] && !b.flag[i] && !b.open[i]) return true;
+      }
+      return false; })()""")
+    snap = "(() => { const b = __sw.slots[0]; return [b.flag.reduce((a, x) => a + x, 0), b.revealed, __sw.S.run.time]; })()"
+    await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
+    await pg.click('#btnGrass'); await pg.wait_for_timeout(300)
+    ok(await pg.evaluate("__sw.Outside.on && !!document.querySelector('#modalBox .park') && /outside/.test(document.querySelector('#modalBox h3').textContent)"),
+       'Stats → “Go outside”: off to the park')
+    await pg.evaluate("(() => { __sw.S.upg.flagBot = 1; window._odd = 0; __sw.bus.on('odd', () => { window._odd++; }); })()")
+    before = await pg.evaluate(snap)
+    await pg.keyboard.press('Escape'); await pg.wait_for_timeout(2300)
+    ok(await pg.evaluate("!!document.querySelector('#modalBox .park')"), 'Escape doesn’t bring you back in')
+    after = await pg.evaluate(snap)
+    ok(found and before == after, f'the game waits: the clock stops and the Flag Goblin downs tools (flags, cells, seconds: {before} → {after})')
+    await pg.evaluate("__sw.bus.emit('noise:due')")
+    ok(await pg.evaluate("window._odd === 0"), 'and the house is quiet while you’re out')
+    bar = await pg.evaluate("parseFloat(document.querySelector('#grassBar').style.width)")
+    ok(0 < bar < 5 and 'fresh air bonus' in await text(pg, '#grassLeft'), f'the bar creeps up to the fresh air bonus ({bar}%: “{(await text(pg, "#grassLeft"))[:44]}”)')
+    await pg.screenshot(path=str(shots / 'grass_park.png'))
+    # back in early: no bonus, and everyone carries on
+    c0 = await pg.evaluate('__sw.S.coins')
+    await pg.click('#grassIn'); await pg.wait_for_timeout(250)
+    early = await pg.evaluate(f"[__sw.UI.modalClosed(), __sw.Outside.on, [...document.querySelectorAll('.toast')].map(t => t.textContent).join(' | '), __sw.S.coins - {c0}, __sw.Achievements.has('grass')]")
+    ok(early[0] and not early[1] and 'doesn’t count' in early[2] and early[3] == 0 and not early[4], f'back in early: no bonus (“{early[2][:60]}”)')
+    await pg.wait_for_timeout(1350)
+    back = await pg.evaluate(snap)
+    ok(back[0] > after[0] and back[2] > after[2], f'the goblin picks his flags back up and the clock runs again ({after} → {back})')
+    # the whole break (shortened here): the bonus, and Touched Grass
+    await pg.evaluate("(() => { __sw.Outside.SECONDS = 1; delete __sw.S.life.ach.grass; __sw.S.life.xp = 0; document.activeElement && document.activeElement.blur(); })()")
+    c0, bonus, extra = await pg.evaluate(f"[__sw.S.coins, __sw.Outside.bonus(), {reward}('grass')]")
+    await pg.keyboard.press('g'); await pg.wait_for_timeout(1700)
+    ok(await pg.evaluate('__sw.S.coins') == c0 + bonus + extra and 'That’s better' in await text(pg, '#modalBox h3') and bonus in (10, 300),
+       f'G goes outside, and staying out the whole time pays the fresh air bonus (+{bonus:,})')
+    ok(await pg.evaluate("__sw.Achievements.has('grass') && __sw.S.life.outside.full === 1 && __sw.S.life.outside.breaks === 2"), 'and unlocks Touched Grass')
+    await pg.screenshot(path=str(shots / 'grass_back.png'))
+    await pg.click('#modalBox [data-a="in"]'); await pg.wait_for_timeout(200)
+    ok(await pg.evaluate('__sw.UI.modalClosed()'), '“Go back in”')
+    # Nan's nudge after an hour in one sitting
+    await pg.evaluate("(() => { __sw.Outside.SECONDS = 180; __sw.Outside.session = 100; __sw.Outside.tick(); })()")
+    n0 = await pg.evaluate("document.querySelectorAll('#chat .msg.invite').length")
+    await pg.evaluate("(() => { __sw.Outside.session = __sw.Outside.NUDGE_AFTER - 1; __sw.Outside.tick(); })()"); await pg.wait_for_timeout(200)
+    last = "[...document.querySelectorAll('#chat .msg.invite')].pop()"
+    ok(n0 == await pg.evaluate("document.querySelectorAll('#chat .msg.invite').length") - 1 and 'Go outside' in await pg.evaluate(f"{last}.querySelector('.qopt').textContent"),
+       'an hour in, Nan tells you to get some fresh air (not before)')
+    await pg.click('#chat .msg.invite:last-child .qopt'); await pg.wait_for_timeout(300)
+    ok(await pg.evaluate(f"__sw.Outside.on && !!document.querySelector('#modalBox .park') && {last}.querySelector('.qopt').disabled"), 'and her button sends you outside')
+    await pg.click('#grassIn'); await pg.wait_for_timeout(300)
+    await pg.click('[data-tab="shop"]'); await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
+    ok('Touched grass' in await text(pg, '#stats') and '3 times (1 for the full 3 minutes)' in await text(pg, '#stats'), 'Stats counts the breaks (and the proper ones)')
+
+    ok(not errs,'no console errors' + (': ' + '; '.join(errs[:3]) if errs else ''))
     await ctx.close()
     return R

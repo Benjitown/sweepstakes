@@ -54,7 +54,7 @@ src/
   board/            the board model, solver, factories, mine chain, payout decorators (+ New Game+ house edge)
   game/             the rules (game.js), commands, bots, rack, rank, double or nothing, daily, achievements,
                     household (the door, the phone, the kitten, the seagull, the smoke detector), power cuts,
-                    the duck race, scratchcards, Nan's bingo, the pub quiz
+                    the duck race, scratchcards, Nan's bingo, the pub quiz, going outside
   ui/               one file per view: panels, boards, shop, modals, tutorial, daily, keys, coin graph, household, ducks...
 assets/             fonts (+ OFL licence) and the favicon
 tools/              build.py, serve.py, vc.py (version control), export_rules.mjs, sim/ (economy simulator)
@@ -83,9 +83,10 @@ The suites run against both the ES-module source and the built file:
   payouts, leaving mid-race) and the rude chat switch
 - **extras:** the experimental features: scratchcards (odds, panels, scratching with the mouse, leaving mid-card) and
   the pub quiz (asking, answering, running out of time, the switch)
-- **mayhem:** the newest experimental features: the seagull (swooping in, pecking, shooing it, losing coins to it) and
-  power cuts (the dark, the torch, danger money, topping up, the emergency credit) and Nan's bingo (the tickets, the
-  odds, the calls, dabbing, a full house, leaving mid-game, her invite)
+- **mayhem:** the newest experimental features: the seagull (swooping in, pecking, shooing it, losing coins to it),
+  power cuts (the dark, the torch, danger money, topping up, the emergency credit), Nan's bingo (the tickets, the
+  odds, the calls, dabbing, a full house, leaving mid-game, her invite) and going outside (the game waiting, coming
+  back early, the fresh air bonus, Nan's nudge)
 - **layout:** desktop, tablet and phone sizes with no sideways scrolling
 
 Screenshots go to `test/screenshots/`.
