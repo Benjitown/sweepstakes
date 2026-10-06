@@ -2174,6 +2174,56 @@
     "Ooh lovely! Mind Biscuit, he hates the bangs x"
    ]
   ],
+  "boot_open": [
+   [
+    "dave",
+    "car boot at the end of the road. the bloke’s got a box of add-on cards and a very suspicious hat"
+   ],
+   [
+    "kev",
+    "car boot sale. I got a lamp there once. it’s haunted"
+   ],
+   [
+    "nan",
+    "Ooh, a car boot! Have a look for me love, I’m after a nice teapot x"
+   ],
+   [
+    "priya",
+    "car boot rules: never pay the first price"
+   ]
+  ],
+  "boot_bought": [
+   [
+    "kev",
+    "you bought something at a car boot? bold"
+   ],
+   [
+    "nan",
+    "Ooh, a bargain! x"
+   ],
+   [
+    "tash",
+    "no refunds. you know that, right"
+   ],
+   [
+    "dave",
+    "did he give you a receipt. he did not give you a receipt"
+   ]
+  ],
+  "boot_box": [
+   [
+    "tash",
+    "MYSTERY BOX"
+   ],
+   [
+    "priya",
+    "it’s always a lamp. how was it not a lamp"
+   ],
+   [
+    "dave",
+    "what’s in the box. WHAT’S IN THE BOX"
+   ]
+  ],
   "claw_win": [
    [
     "tash",

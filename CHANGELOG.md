@@ -57,6 +57,10 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **Biscuit, next door's dog.** If you hear barking, he trots in along the bottom of the screen and waits ("Woof?").
   Give him a biscuit (3% of the top table's max stake) and he sniffs out a mine on your board and sits on it: flagged,
   glowing orange for a moment. Ignore him and he wanders off. New achievement: Good Boy.
+- **The car boot sale.** Every so often a bloke sets up a pasting table at the end of the road with three add-on
+  cards you haven't got, at his prices (anywhere from 45% to 135% of the shop's, so check), and a mystery box. You
+  get two goes at haggling over each card: a cheeky offer at 60% first, then a fair one at 80%. He might take it, say
+  no, or sell it to someone else while you dither. He packs up after a minute and a bit. New achievement: Haggler.
 - **The claw machine,** the Flip Booth's sixth tab. The claw swings along the top of a glass case of prizes and you
   press Grab to drop it: a rubber duck (×1.5), a kitten plushie (×2), a googly-eyed bomb (×3 and a shield), a big
   glass gem (×5) or the golden crown (×10 and a golden board). Dead centre grips best, the dearer prizes are

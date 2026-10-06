@@ -64,3 +64,20 @@
 .clawpays li{display:flex;align-items:center;gap:4px;font-size:.85rem}
 .clawpays li svg{width:24px;height:24px}
 .clawpays small{color:var(--ink-dim);font-size:.7rem}
+
+/* the car boot sale: his pasting table */
+.bootsale{display:grid;gap:10px;justify-items:center;width:100%}
+.bootsale h3{margin:0;display:flex;align-items:center;gap:8px}
+.bootsale h3 svg{width:30px;height:30px}
+.boot{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,140px),1fr));gap:10px;width:100%;background:repeating-linear-gradient(90deg,#d9c79c 0 22px,#cdb98c 22px 44px);border-radius:10px;padding:10px;box-shadow:0 6px 0 #8a7650}
+.boot .offer{background:var(--panel);border-radius:10px;padding:8px;display:grid;gap:5px;justify-items:center;text-align:center;box-shadow:0 3px 0 var(--shadow)}
+.boot .offer p{margin:0;font-size:.78rem}
+.boot .offer .row{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.boot .offer .btn{font-size:.8rem;padding:.3em .6em}
+.boot .was{font-size:.7rem}
+.boot .was.cheap{color:var(--green)} .boot .was.dear{color:var(--red)}
+.boot .acard.dim{opacity:.4;filter:grayscale(.6)}
+.boot .acard.box{display:grid;place-items:center;background:#8a5a2b;position:relative}
+.boot .acard.box svg{width:60%;height:auto;opacity:.35}
+.boot .acard.box b{position:absolute;font-family:var(--big);font-weight:400;font-size:2.4rem;color:var(--gold);text-shadow:0 3px 0 rgba(0,0,0,.5)}
+.bootmsg{margin:0;min-height:1.4em;text-align:center;font-style:italic}
