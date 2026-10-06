@@ -53,8 +53,9 @@ src/
   audio/            Web Audio engine, game sounds, weird household noises
   board/            the board model, solver, factories, mine chain, payout decorators (+ New Game+ house edge)
   game/             the rules (game.js), commands, bots, rack, rank, double or nothing, daily, achievements,
-                    household (the door, the phone, the kitten, the seagull, the smoke detector, the ice cream van), power cuts, storms,
-                    the duck race, scratchcards, Nan's bingo, the Fruity (fruit machine), the pub quiz, going outside, KEVCOIN, Nan's stars
+                    household (the door, the phone, the kitten, the seagull, the smoke detector, the ice cream van),
+                    power cuts, storms, the duck race, scratchcards, Nan's bingo, the Fruity (fruit machine),
+                    the pub quiz, going outside, KEVCOIN, Nan's stars
   ui/               one file per view: panels, boards, shop, modals, tutorial, daily, keys, coin graph, household, ducks...
 assets/             fonts (+ OFL licence) and the favicon
 tools/              build.py, serve.py, vc.py (version control), export_rules.mjs, sim/ (economy, Fruity and KEVCOIN simulators)
