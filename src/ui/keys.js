@@ -30,7 +30,7 @@ const KEYS = [
   ['K', 'KEVCOIN (once Kev’s launched it)', () => KevView.open()],
   ['M', 'Mute / unmute', () => $('#btnMute').click()],
   ['J', 'The jukebox: put a record on', () => JukeboxView.open()],
-  ['1 2 3', 'Upgrades / Add-ons / Stats', null],
+  ['1 2 3 4', 'Upgrades / Add-ons / Stats / Allotment', null],
   ['?', 'This list', () => Keys.help()],
   ['Esc', 'Close a window', null],
 ];
@@ -43,7 +43,7 @@ export const Keys = {
       if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (t && t.isContentEditable)) return;
       if (!UI.modalClosed() || Coach.active) return;
       const k = e.key.toUpperCase();
-      const tab = { 1: 'shop', 2: 'rack', 3: 'stats' }[k];
+      const tab = { 1: 'shop', 2: 'rack', 3: 'stats', 4: 'plot' }[k];
       const row = KEYS.find(([key, , fn]) => fn && key === k);
       if (!tab && !row) return;
       e.preventDefault();

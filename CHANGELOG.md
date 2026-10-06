@@ -58,6 +58,13 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **Biscuit, next door's dog.** If you hear barking, he trots in along the bottom of the screen and waits ("Woof?").
   Give him a biscuit (3% of the top table's max stake) and he sniffs out a mine on your board and sits on it: flagged,
   glowing orange for a moment. Ignore him and he wanders off. New achievement: Good Boy.
+- **The allotment,** a fourth tab (or press 4). Four beds and six packets of seeds, from radishes (two minutes) to
+  pumpkins (fourteen). They grow by the minute while you play, so they wait while you're outside, and when they're
+  ripe a chip in the header says so. Pick them and the farm shop buys them, usually for two or three times what the
+  seeds cost (a packet's price follows your top table's max stake), and the slower the crop, the better it pays by
+  the minute. Slugs might get a crop that's still growing, a thunderstorm waters the lot (two minutes closer), one
+  in twelve comes up a whopper (double, and a rosette at the village show), and in October pumpkins fetch 30% more.
+  Big Dave has the next plot, and has opinions about marrows.
 - **The jukebox.** Music at last. The button next to mute (or J) opens the Red Lion's jukebox, with four records
   synthesised note by note in your browser: High Roller Lounge (slow swing on an electric piano, brushes and a double
   bass), Last Orders (a knees-up on the pub's old upright), Insert Coin (Kev's eight-bit tune) and Nan's Wireless (a

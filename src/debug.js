@@ -87,6 +87,10 @@ import { Music, musicMidi } from './audio/music.js';
 import { JukeboxView } from './ui/jukebox-view.js';
 import { MUSIC, TRACKS, TRACK_BY } from './data/jukebox.js';
 import { RECORDS } from './content/jukebox.js';
+import { Allotment } from './game/allotment.js';
+import { AllotmentView } from './ui/allotment-view.js';
+import { PLOT, CROPS, CROP_BY } from './data/allotment.js';
+import { VEG } from './content/allotment.js';
 
 export function exposeForTests() {
   // no random knocks at the door mid-test (they'd pop up over what the tests click); the tests start them by hand
@@ -109,7 +113,7 @@ export function exposeForTests() {
     Scratchcards, ScratchView, SCRATCH_CARDS, SCRATCH_PRIZES, Quiz, QUIZ, PowerCut, PowerView, Storm, StormView, Kev, KevView, KEV, IceCream, VanView, Stars, StarsView, Banker, Dog, DogView, Bingo, BingoView, makeTicket, Outside, OutsideView, BINGO_TICKETS, BINGO_PAYS, BINGO_CALLS,
     Fruity, FruityRules, FruityView, FRUITY_REELS, FRUITY_PAYS, FRUITY_STAKES, FRUITY_FEATURES,
     Tin, TIN, Dares, DareView, DARES, DARE, Seasons, SeasonView, SEASONS, PUMPKIN, TRICK, XMAS, Claw, ClawView, CLAW, CLAW_PRIZES, CLAW_BY, CarBoot, CarBootView, BOOT, Darts, DartsView, DARTS, DARTBOARD, QuizNight, QuizNightView, NIGHT, Skins, SKINS, THREADS, RUDE_THREADS, QUIPS, RUDE_QUIPS, SURE, BINGO_END,
-    Music, musicMidi, JukeboxView, MUSIC, TRACKS, TRACK_BY, RECORDS,
+    Music, musicMidi, JukeboxView, MUSIC, TRACKS, TRACK_BY, RECORDS, Allotment, AllotmentView, PLOT, CROPS, CROP_BY, VEG,
     get slots() { return Game.slots; },
   };
 }

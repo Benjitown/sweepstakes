@@ -63,6 +63,7 @@ import { Seasons } from './game/seasons.js';
 import { SeasonView } from './ui/season-view.js';
 import { Music } from './audio/music.js';
 import { JukeboxView } from './ui/jukebox-view.js';
+import { AllotmentView } from './ui/allotment-view.js';
 import { exposeForTests } from './debug.js';
 
 $('#btnDon').onclick = () => DonLadder.start();
@@ -70,6 +71,7 @@ $('#btnFlip').onclick = () => FlipView.open();
 $('#btnSpin').onclick = () => { if (Game.spinIn() <= 0) SpinView.open(); };
 $('#btnMute').onclick = () => { S.muted = !S.muted; if (!S.muted) Sound.msg(); Music.sync(); JukeboxView.now(); RunPanel.render(); SaveGame.saveNow(); };
 $('#btnJuke').onclick = () => JukeboxView.open();
+$('#plotChip').onclick = () => { Tabs.show('plot'); $('#plot').scrollIntoView({ behavior: 'smooth', block: 'nearest' }); };
 StakeView.bind(); Tabs.bind(); UiSounds.bind(); Keys.bind(); HouseholdView.bind(); PowerView.bind(); FruityView.bind();
 document.addEventListener('visibilitychange', () => { if (document.hidden) SaveGame.saveNow(); });
 addEventListener('pagehide', () => SaveGame.saveNow());
@@ -80,7 +82,7 @@ if (!TBY[S.sel] || !S.unlocked.includes(S.sel)) S.sel = 'penny';
 DuckRace.settle(); Scratchcards.settle(); Bingo.settle(); Fruity.settle(); Claw.settle(); // a duck race, scratchcard, bingo ticket, Fruity win or claw prize you left behind still pays out
 if (!S.rack || !S.rack.length || S.rackAt > S.run.time) Rack.roll();
 renderAll();
-KevView.bind(); DareView.bind();
+KevView.bind(); DareView.bind(); AllotmentView.chip();
 // the season (?season=halloween / bonfire / xmas / none tries one out; the tests pick their own)
 const trySeason = new URLSearchParams(location.search).get('season');
 if (trySeason !== null) Seasons.force = trySeason; else if (new URLSearchParams(location.search).has('test')) Seasons.force = 'none';
