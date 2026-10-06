@@ -210,7 +210,7 @@ async def run(browser, url, shots):
     last = "[...document.querySelectorAll('#chat .msg.invite')].pop()"
     ok(n0 == await pg.evaluate("document.querySelectorAll('#chat .msg.invite').length") - 1 and 'Go outside' in await pg.evaluate(f"{last}.querySelector('.qopt').textContent"),
        'an hour in, Nan tells you to get some fresh air (not before)')
-    await pg.click('#chat .msg.invite:last-child .qopt'); await pg.wait_for_timeout(300)
+    await pg.locator('#chat .msg.invite').last.locator('.qopt').click(); await pg.wait_for_timeout(300)
     ok(await pg.evaluate(f"__sw.Outside.on && !!document.querySelector('#modalBox .park') && {last}.querySelector('.qopt').disabled"), 'and her button sends you outside')
     await pg.click('#grassIn'); await pg.wait_for_timeout(300)
     await pg.click('[data-tab="shop"]'); await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)

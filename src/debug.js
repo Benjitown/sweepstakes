@@ -58,6 +58,7 @@ export function exposeForTests() {
   clearTimeout(Quiz.timer); Quiz.schedule = () => {};
   clearTimeout(Bingo.timer); Bingo.schedule = () => {};
   Kev.second = () => {}; // KEVCOIN neither launches nor moves on its own; the tests call Kev.launch() and Kev.tick()
+  clearTimeout(Chat.ambientT); Chat.ambient = () => {}; // nor do the friends start chatting among themselves mid-check (Chat.thread() still works)
   window.__sw = {
     get S() { return S; }, Game, Solver, Rack, Rank, bus, NOISES, WeirdNoises, Quips, Chat, Coach, SpinView,
     Banner, FX, UI, VERSION, renderAll, invoke, DigCommand, SaveGame, TABLES, AudioEngine,
