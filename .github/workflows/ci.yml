@@ -1,0 +1,80 @@
+# Builds the game and runs every test suite on each push and pull request.
+# The built single-file game is attached to each run (Actions > the run > Artifacts), so any branch can be played.
+name: CI
+
+on:
+  push:
+    branches: [main, dev, experimental, 'feature/**']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  web:
+    name: Web game (build + browser tests)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright and Chromium
+        run: |
+          python -m pip install --upgrade pip playwright
+          python -m playwright install --with-deps chromium
+      - name: The terminal versions' rules match the web game
+        run: node tools/export_rules.mjs --check
+      - name: Build and test (source and built file)
+        run: python test/run.py
+      - name: Upload the built game
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sweepstakes-build
+          path: |
+            dist/sweepstakes.html
+            dist/sweepstakes-web.zip
+          if-no-files-found: ignore
+      - name: Upload test screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-screenshots
+          path: test/screenshots/
+
+  ports:
+    name: Terminal versions (Kotlin, C#, Python)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Install the Kotlin compiler
+        run: |
+          curl -sSfL -o kotlin.zip https://github.com/JetBrains/kotlin/releases/download/v2.0.21/kotlin-compiler-2.0.21.zip
+          unzip -q kotlin.zip -d "$HOME"
+          echo "$HOME/kotlinc/bin" >> "$GITHUB_PATH"
+      - name: Build and test the terminal versions
+        run: python test/ports.py
