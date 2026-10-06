@@ -10,6 +10,8 @@ import { Household, MISSED } from '../game/household.js';
 import { PowerCut } from '../game/power-cut.js';
 import { Storm } from '../game/storm.js';
 import { VanView } from './van-view.js';
+import { Banker } from '../game/banker.js';
+import { DogView } from './dog-view.js';
 import { UI } from './ui.js';
 import { Coach } from './tutorial.js';
 
@@ -62,13 +64,15 @@ export const HouseholdView = {
   GULL_MS: 3600, // how long the seagull pecks at your coins before it flies off with some
   bind() { $('#chirpChip').onclick = () => this.fixBattery(); },
   // is now a good time for something to happen? Never in a window, in the tutorial, or while something else is happening.
-  free() { return UI.modalClosed() && !Coach.active && !this.card && !this.kitten && !this.gull && !VanView.van && !Storm.on; },
+  free() { return UI.modalClosed() && !Coach.active && !this.card && !this.kitten && !this.gull && !VanView.van && !DogView.dog && !Storm.on; },
   start(kind, k, handle) {
     if (kind === 'kitten') this.walkKitten();
     else if (kind === 'gull') this.swoopGull();
     else if (kind === 'powercut') this.powerCut();
     else if (kind === 'storm') this.storm();
     else if (kind === 'van') VanView.drive(handle);
+    else if (kind === 'banker') this.banker(handle);
+    else if (kind === 'dog') DogView.visit();
     else if (ASK[kind]) this.ask(kind, k, handle);
   },
 
@@ -97,7 +101,7 @@ export const HouseholdView = {
   clear() {
     this.close(); if (this.kitten) { this.kitten.remove(); this.kitten = null; }
     if (this.gull) { this.gull.leave(); this.gull = null; }
-    VanView.clear();
+    VanView.clear(); DogView.clear();
   },
 
   ask(kind, k, handle) {
@@ -149,6 +153,17 @@ export const HouseholdView = {
     this.show({ icon: 'bulb', mood: 'bad', title: 'The meter’s run out', ms: ASK_MS,
       text: `The lights go out and the fridge sighs. Until the power’s back, boards cashed out in the dark pay +${Math.round(PowerCut.BONUS * 100)}% danger money.`,
       buttons: [[`Top up (${fmt(cost)})`, 'gold', () => { if (!PowerCut.topUp()) UI.toast('You can’t afford the meter. Torch it is.'); }], ['Play in the dark', 'purple']] });
+  },
+
+  // the Banker rings with an offer for your best board: deal or no deal
+  banker(handle) {
+    const o = Banker.offer(); if (!o) return;
+    const { b, pot, premium } = o;
+    this.show({ icon: 'phone', mood: 'good', title: 'The Banker’s on the phone', ms: ASK_MS,
+      text: `He’ll buy your ${b.t.name} board right now: its pot (${fmt(pot)}) plus ${fmt(premium)} on top. Deal or no deal?`,
+      buttons: [[`Deal · ${fmt(pot + premium)}`, 'gold', () => { if (handle) handle.stop(); if (!Banker.deal(b)) UI.toast('Too late: that board’s already over.'); }],
+        ['No deal', 'ghost', () => { if (handle) handle.stop(); Banker.noDeal(b); }]],
+      onTimeout: () => Banker.noDeal(b) });
   },
 
   // thunder in the distance, then the rain: the lightning shows the mines, if you're quick

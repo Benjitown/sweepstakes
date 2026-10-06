@@ -1824,6 +1824,122 @@
     "and just like that, the mines are invisible again"
    ]
   ],
+  "odd_bark": [
+   [
+    "nan",
+    "Is that next door’s dog again? He’s called Biscuit x"
+   ],
+   [
+    "kev",
+    "DOG. I repeat. DOG"
+   ],
+   [
+    "priya",
+    "dogs can smell mines, apparently. and fear"
+   ],
+   [
+    "tash",
+    "who’s a good boy"
+   ],
+   [
+    "dave",
+    "that dog owes me a sandwich"
+   ]
+  ],
+  "dog_flag": [
+   [
+    "tash",
+    "the dog found a MINE"
+   ],
+   [
+    "priya",
+    "that dog is better at this than you"
+   ],
+   [
+    "dave",
+    "hire the dog. fire yourself"
+   ],
+   [
+    "nan",
+    "Clever boy! Give him another biscuit love x"
+   ],
+   [
+    "kev",
+    "I’m getting a dog. I’m calling it Solver"
+   ]
+  ],
+  "odd_bankerRing": [
+   [
+    "tash",
+    "is that the BANKER?"
+   ],
+   [
+    "kev",
+    "don’t answer it. it’s always bad news"
+   ],
+   [
+    "priya",
+    "who even has a desk phone"
+   ],
+   [
+    "nan",
+    "Tell them we’re not interested love x"
+   ]
+  ],
+  "banker_deal": [
+   [
+    "nan",
+    "A bird in the hand love x"
+   ],
+   [
+    "dave",
+    "took the deal. sensible. boring. sensible"
+   ],
+   [
+    "priya",
+    "locking in profit. very grown up"
+   ],
+   [
+    "kev",
+    "what did the banker sound like. was he tall"
+   ]
+  ],
+  "banker_nodeal": [
+   [
+    "tash",
+    "NO DEAL. iconic"
+   ],
+   [
+    "dave",
+    "turned down free money. respect"
+   ],
+   [
+    "priya",
+    "the banker’s going to remember that"
+   ],
+   [
+    "kev",
+    "he sounded nervous tbh"
+   ]
+  ],
+  "banker_beat": [
+   [
+    "tash",
+    "you BEAT THE BANKER"
+   ],
+   [
+    "dave",
+    "and he said no deal like a legend"
+   ],
+   [
+    "priya",
+    "somewhere a banker is crying into his spreadsheet"
+   ],
+   [
+    "nan",
+    "Clever clogs! x"
+   ]
+  ],
   "stars_re": [
    [
     "priya",

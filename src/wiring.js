@@ -51,6 +51,8 @@ import { KevView, fmtKev } from './ui/kevcoin-view.js';
 import { IceCream } from './game/ice-cream.js';
 import { Stars } from './game/horoscope.js';
 import { StarsView } from './ui/stars-view.js';
+import { Banker } from './game/banker.js';
+import { Dog } from './game/dog.js';
 
 const RED = 'var(--red)', GOLD = 'var(--gold)', GREEN = 'var(--green)', PURPLE = 'var(--purple)';
 export function renderAll(keepModal) {
@@ -192,6 +194,8 @@ const canStart = k => {
   // the meter only runs out mid-game: a power cut with nothing on the tables is just a dark room (and a storm's no use either)
   if (e === 'powercut') return HouseholdView.free() && !PowerCut.on && Game.slots.some(b => b && b.started && !b.over);
   if (e === 'storm') return HouseholdView.free() && Game.slots.some(b => b && b.started && !b.over);
+  if (e === 'banker') return HouseholdView.free() && !!Banker.target(); // he only rings about a board with profit on it
+  if (e === 'dog') return HouseholdView.free() && !!Dog.sniff(); // Biscuit only comes round when there's a mine to find
   return HouseholdView.free();
 };
 bus.on('noise:due', () => { if (!Outside.on) WeirdNoises.surprise(WeirdNoises.pick(canStart)); }); // the house is quiet while you're out
@@ -222,6 +226,16 @@ bus.on('power', ({ on: isOn, why }) => {
   setTimeout(() => Chat.say(why === 'topup' ? 'power_topup' : 'power_back', {}, .8), 700);
 });
 bus.on('addon:fired', ({ id }) => { if (id === 'dark') Chat.say('power_win', {}, .5); });
+/* ---------- Biscuit the dog ---------- */
+bus.on('dog', ({ b }) => {
+  UI.toast(`Biscuit sniffed out a mine on your ${b.t.name} board and sat on it. Flagged. Good boy.`);
+  RunPanel.render(); Rank.award(2); setTimeout(() => Chat.say('dog_flag', {}, .9), 900);
+});
+
+/* ---------- the Banker ---------- */
+bus.on('banker', ({ deal }) => { setTimeout(() => Chat.say(deal ? 'banker_deal' : 'banker_nodeal', {}, .8), 700); RunPanel.render(); });
+bus.on('board:cashout', ({ b, why, amount }) => { if (why !== 'banker' && b.refused && amount > b.refused) { UI.toast(`+${fmt(amount - b.refused)} more than the Banker offered. No deal, no regrets.`); setTimeout(() => Chat.say('banker_beat', {}, 1), 900); } });
+
 /* ---------- Nan's stars ---------- */
 bus.on('stars:ask', () => { if (pref('quips')) StarsView.ask(); });
 bus.on('stars', h => { StarsView.read(h); if (Math.random() < .5) setTimeout(() => Chat.say('stars_re', {}, 1), 2400); });
@@ -256,6 +270,7 @@ bus.on('storm', e => {
   StormView.off(); UI.toast('The storm’s passed.'); setTimeout(() => Chat.say('storm_end', {}, .5), 800);
 });
 bus.on('storm:flash', e => {
+  if (document.hidden) return; // nobody's watching: no flash, no thunder, no strike
   StormView.flash(e);
   if (e.strike) {
     Haptics.buzz([60, 40, 120]); Chat.say('storm_strike', {}, 1);
