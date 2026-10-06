@@ -3,6 +3,7 @@ import { lvl, has, on, hasA } from '../core/state.js';
 import { Solver } from '../board/solver.js';
 import { Game } from './game.js';
 import { DigCommand, FlagCommand, CashOutCommand, invoke } from './commands.js';
+import { Outside } from './outside.js';
 
 /* =====================================================================================
    Strategy · https://refactoring.guru/design-patterns/strategy
@@ -27,7 +28,7 @@ export const Bots = {
   tick() {
     try {
       for (const b of Game.slots) {
-        if (!b || !b.started || b.over) continue;
+        if (!b || !b.started || b.over || Outside.on) continue; // nobody plays while you're outside
         for (const bot of BOTS) { if (!bot.active()) continue; const cmd = bot.next(b); if (cmd) { invoke(cmd); break; } }
       }
     } finally { this.timer = setTimeout(() => this.tick(), this.delay()); }

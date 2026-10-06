@@ -1,6 +1,7 @@
-// Add-on cards that change what a cash-out pays.
+// Add-on cards (and New Game+, and power cuts) that change what a cash-out pays.
 import { fmt } from '../core/util.js';
 import { S, hasA } from '../core/state.js';
+import { PowerCut } from '../game/power-cut.js';
 
 /* =====================================================================================
    Decorator · https://refactoring.guru/design-patterns/decorator
@@ -32,9 +33,18 @@ class HouseEdgePayout extends PayoutDecorator {
     return r;
   }
 }
+// A power cut: every board cashed out in the dark pays danger money on top of its profit (game/power-cut.js).
+class DarkPayout extends PayoutDecorator {
+  pay(b, why) {
+    const r = super.pay(b, why), profit = r.amount - b.stake;
+    if (profit > 0) { const e = Math.floor(profit * PowerCut.BONUS); r.amount += e; r.extras.push(['dark', `Danger money +${fmt(e)}`]); }
+    return r;
+  }
+}
 export const HOUSE_EDGE = .25;
 const PAYOUT_DECORATORS = [['egg', NestEggPayout], ['flagfan', FlagFanaticPayout], ['compound', CompoundPayout], ['dinner', ChickenDinnerPayout]];
 export const buildPayout = () => {
-  const p = PAYOUT_DECORATORS.reduce((acc, [id, D]) => hasA(id) ? new D(acc) : acc, new Payout());
-  return S.life.casinos ? new HouseEdgePayout(p) : p;
+  let p = PAYOUT_DECORATORS.reduce((acc, [id, D]) => hasA(id) ? new D(acc) : acc, new Payout());
+  if (S.life.casinos) p = new HouseEdgePayout(p);
+  return PowerCut.on ? new DarkPayout(p) : p;
 };

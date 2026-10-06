@@ -3,6 +3,38 @@
 Each version is also a save in the built-in version control. Run `python tools/vc.py log` to list them, or
 `python tools/vc.py export v3.0 v3.zip` to get any of them back.
 
+## Unreleased (on experimental and dev)
+
+- **Scratchcards** in the Flip Booth: three cards off the corner shop's shelf, nine panels each, three of a kind wins.
+  Scratch the foil off with the mouse or a finger, or scratch it all at once.
+- **The pub quiz:** now and then a friend asks the group chat a question with three answers. Get it right in 25
+  seconds for a few coins. Switch it off in Stats.
+- **A seagull** after your coins. You'll hear it first. Then it swoops onto your coin counter and starts pecking: tap
+  it to shoo it off (it drops whatever it nicked from someone else), or it flies away with a small bite of your coins.
+  Like everything around the house, it never takes you near bust. New achievement: Not My Chips.
+- **Power cuts.** Now and then, mid-game, the prepaid meter runs out: the relay clunks, the fridge winds down and the
+  lights go off. You play by torchlight (the beam follows your pointer, or your keyboard focus), and every board you
+  cash out in the dark pays +50% danger money on its profit. Top the meter up from the bar at the top of the screen,
+  or wait for the emergency credit to kick in. New achievement: Danger Money.
+- **Nan's bingo,** a fourth tab in the Flip Booth (or press B). Buy one of three 90-ball tickets and Nan calls 60 balls,
+  with the old calls ("two little ducks, 22", and the ducks quack). Your ticket dabs itself; a line pays ×1.5, two lines
+  ×5 and a full house ×250 (about 1 in 860), so it pays back about 91%. Nan reads the calls out with your browser's own
+  voice (switch it off in Stats), "Hurry up, Nan" skips to the end, and like the ducks and scratchcards the result is
+  settled the moment you buy, so leaving mid-game still pays. Now and then she invites the group chat. New
+  achievements: Eyes Down and Full House. The booth's tabs now have short names (Flip, Ducks, Scratch, Bingo).
+- **Go outside.** A button in Stats (or press G) takes you to a little park for three minutes: birds, a breeze, the
+  duck from the pond. The whole game waits while you're out (the clock, the bots, the house), and staying out the
+  whole time pays a fresh air bonus. Come back early and you get nothing but a look from Nan. After an hour of play in
+  one go, she suggests it herself. New achievement: Touched Grass.
+- **The Fruity,** a fruit machine in the corner of the Flip Booth (its fifth tab, or press P). Three reels, one win
+  line: three of a kind pays from ×6 (lemons) to ×250 (sevens), and two cherries on the left pay ×2. A go that loses
+  may light up nudges (tap a reel to drop the symbol above onto the line) or holds (keep up to two reels for the next
+  go; the machine picks the best ones for you). Wins wait in the meter: collect them, or gamble them double or
+  nothing, up to three times. It pays back about 88% (93% if you learn the reel bands by heart, so the house still
+  wins); `node tools/sim/fruity.mjs` works it out. New achievements: Nudge Nudge, Let It Ride and Triple Seven.
+- The Flip Booth's five tabs now show their icon above the name at every screen size.
+- `tools/build.py` now stops with a clear message on `import { x as y }`, which the bundler can't do.
+
 ## 4.4.0 (6 Oct 2026)
 
 - **Volume controls.** Two sliders in Stats: Volume for everything, and Household noises for the door, the phone, the

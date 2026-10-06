@@ -3,7 +3,7 @@ import { ico, fmt, fmtX, dur } from './core/util.js';
 import { START, TABLES, SPIN_EVERY, ROMAN } from './data/economy.js';
 import { ABY } from './data/addons.js';
 import { bus } from './core/bus.js';
-import { SaveGame, S, lvl, asc, pref } from './core/state.js';
+import { SaveGame, S, lvl, asc, pref, has } from './core/state.js';
 import { Sound } from './audio/sound.js';
 import { Game } from './game/game.js';
 import { Rack } from './game/rack.js';
@@ -35,9 +35,15 @@ import { HouseholdView } from './ui/household-view.js';
 import { FlipView } from './ui/flip-view.js';
 import { DuckRaceView } from './ui/duck-race-view.js';
 import { ScratchView } from './ui/scratch-view.js';
+import { BingoView } from './ui/bingo-view.js';
+import { FruityView } from './ui/fruity-view.js';
+import { OutsideView } from './ui/outside-view.js';
+import { Outside } from './game/outside.js';
 import { Quiz } from './game/quiz.js';
 import { QuizView } from './ui/quiz-view.js';
 import { AudioEngine } from './audio/engine.js';
+import { PowerCut } from './game/power-cut.js';
+import { PowerView } from './ui/power-view.js';
 
 const RED = 'var(--red)', GOLD = 'var(--gold)', GREEN = 'var(--green)', PURPLE = 'var(--purple)';
 export function renderAll(keepModal) {
@@ -172,7 +178,14 @@ bus.on('tick', () => {
 /* ---------- around the house: the noises, and what they turn into ---------- */
 // time for a noise: anything that would start an event waits until nothing else is going on
 const startsEvent = k => Household.EVENTS[k];
-bus.on('noise:due', () => WeirdNoises.surprise(WeirdNoises.pick(k => !startsEvent(k) || (startsEvent(k) === 'battery' ? !WeirdNoises.chirping : HouseholdView.free()))));
+const canStart = k => {
+  const e = startsEvent(k); if (!e) return true;
+  if (e === 'battery') return !WeirdNoises.chirping;
+  // the meter only runs out mid-game: a power cut with nothing on the tables is just a dark room
+  if (e === 'powercut') return HouseholdView.free() && !PowerCut.on && Game.slots.some(b => b && b.started && !b.over);
+  return HouseholdView.free();
+};
+bus.on('noise:due', () => { if (!Outside.on) WeirdNoises.surprise(WeirdNoises.pick(canStart)); }); // the house is quiet while you're out
 bus.on('odd', ({ k, handle }) => {
   const kind = startsEvent(k);
   if (kind && kind !== 'battery' && HouseholdView.free()) HouseholdView.start(kind, k, handle);
@@ -180,7 +193,7 @@ bus.on('odd', ({ k, handle }) => {
 });
 bus.on('chirp', ({ on: isOn, again }) => { HouseholdView.chirp(isOn); if (again && Math.random() < .3) Chat.say('chirp_again', {}, 1); });
 const HOUSE_CHAT = { door: e => 'door_' + e.o.mood, phone: () => 'phone', kitten: () => 'kitten_pet', toast: () => 'toast',
-  battery: e => e.ok ? 'battery_ok' : 'battery_fall', raffle: e => e.win ? 'raffle_win' : 'raffle_lose' };
+  battery: e => e.ok ? 'battery_ok' : 'battery_fall', raffle: e => e.win ? 'raffle_win' : 'raffle_lose', gull: () => 'gull_shoo', gullNicked: () => 'gull_nicked' };
 bus.on('household', e => {
   HouseholdView.outcome(e);
   const fx = e.o.fx;
@@ -192,8 +205,16 @@ bus.on('household', e => {
   setTimeout(() => Chat.say(HOUSE_CHAT[e.kind](e), {}, .8), 900);
 });
 bus.on('kitten:gone', ({ petted }) => { if (!petted) Chat.say('kitten_gone', {}, .7); });
-/* ---------- the Flip Booth: coin flip and duck race ---------- */
-bus.on('booth', k => ({ ducks: DuckRaceView, scratch: ScratchView }[k] || FlipView).open());
+bus.on('power', ({ on: isOn, why }) => {
+  if (isOn) { PowerView.on(); return; }
+  PowerView.off(); WeirdNoises.play('powerup');
+  if (why === 'reset') return;
+  UI.toast(why === 'topup' ? 'Meter topped up. Let there be light.' : 'The emergency credit kicked in. Lights on.');
+  setTimeout(() => Chat.say(why === 'topup' ? 'power_topup' : 'power_back', {}, .8), 700);
+});
+bus.on('addon:fired', ({ id }) => { if (id === 'dark') Chat.say('power_win', {}, .5); });
+/* ---------- the Flip Booth: coin flip, duck race, scratchcards, bingo, the Fruity ---------- */
+bus.on('booth', k => { FruityView.away(); ({ ducks: DuckRaceView, scratch: ScratchView, bingo: BingoView, fruity: FruityView }[k] || FlipView).open(); });
 bus.on('duck:start', () => Chat.say('duck_start'));
 bus.on('duck', ({ win, prize, bet, pay }) => {
   if (win) {
@@ -215,6 +236,41 @@ bus.on('scratch', ({ win, x, prize, price }) => {
   } else Chat.say('scratch_lose', {}, .35);
   Rank.award(win ? 4 + Math.min(20, x) : 2); RunPanel.render();
 });
+
+/* ---------- Nan's bingo ---------- */
+bus.on('bingo:due', () => { if (has('flip') && pref('quips') && !document.hidden && UI.modalClosed() && !Coach.active) BingoView.invite(); });
+bus.on('bingo:bought', () => Chat.say('bingo_buy', {}, .5));
+bus.on('bingo:line', ({ lines }) => { if (lines >= 3) { Banner.show('HOUSE!', 'Full house at Nan’s bingo', 'red', true); FX.confetti(200); } else if (lines === 2) FX.confetti(70); });
+bus.on('bingo', ({ lines, prize }) => {
+  if (lines) { UI.toast(`+${fmt(prize)}! ${['', 'A line', 'Two lines', 'A full house'][lines]} at Nan’s bingo.`); Haptics.buzz([25, 30, 25]); }
+  Chat.say(['bingo_lose', 'bingo_line', 'bingo_two', 'bingo_house'][lines], {}, lines ? 1 : .4);
+  Rank.award(lines ? 4 + 6 * lines : 2); RunPanel.render();
+});
+
+/* ---------- the Fruity ---------- */
+bus.on('fruity', ({ x, win, nudged, holds, dry }) => {
+  if (!x) {
+    if (dry && dry % 12 === 0) Chat.say('fruity_dry', {}, .8);
+    else if (holds && Math.random() < .2) Chat.say('fruity_hold', {}, 1);
+    return;
+  }
+  if (x >= 250) { Banner.show('JACKPOT!', 'Three sevens on the Fruity', 'red', true); Background.flashGold(); FX.confetti(220); Haptics.buzz([40, 30, 40, 30, 80]); }
+  else if (x >= 25) { FX.confetti(80); Haptics.buzz([25, 30, 25]); }
+  Chat.say(x >= 250 ? 'fruity_jackpot' : x >= 25 ? 'fruity_big' : nudged ? 'fruity_nudge' : 'fruity_win', {}, x >= 25 ? 1 : nudged ? .7 : .2);
+  if (x >= 25) UI.toast(`+${fmt(win)} in the Fruity’s meter. Collect it or gamble it.`);
+  Rank.award(Math.min(40, 1 + Math.round(x / 2))); RunPanel.render();
+});
+bus.on('fruity:gamble', ({ won, streak }) => Chat.say(won ? 'fruity_double' : 'fruity_gone', {}, won && streak >= 2 ? 1 : .3));
+
+/* ---------- touching grass ---------- */
+bus.on('outside', e => {
+  if (e.on) { OutsideView.show(); return; }
+  OutsideView.done(e);
+  setTimeout(() => Chat.say(e.full ? 'grass_back' : 'grass_early', {}, .9), 800);
+  if (e.full) Rank.award(10);
+  RunPanel.render();
+});
+bus.on('grass:due', () => { if (UI.modalClosed() && !Coach.active && !document.hidden) OutsideView.nudge(); });
 
 /* ---------- the pub quiz ---------- */
 bus.on('quiz:due', () => { if (pref('quiz') && !document.hidden && UI.modalClosed() && !Coach.active && AudioEngine.get().unlocked) Quiz.ask(); });

@@ -67,9 +67,14 @@ export const Achievements = {
     bus.on('levelup', ({ lvl }) => { if (lvl >= 10) u('lvl10'); if (lvl >= 30) u('lvl30'); });
     bus.on('daily:done', ({ streak, top }) => { u('daily'); if (streak >= 7) u('daily7'); if (top) u('dailytop'); });
     bus.on('tutorial:done', ({ completed }) => { if (completed) u('nan'); });
+    bus.on('addon:fired', ({ id }) => { if (id === 'dark') u('dark'); });
     bus.on('duck', ({ win, pay }) => { if (win) { u('duck'); if (pay >= 8) u('longshot'); } });
     bus.on('scratch', ({ win, x }) => { if (win && x >= 20) u('scratch'); });
+    bus.on('outside', ({ on: isOn, full }) => { if (!isOn && full) u('grass'); });
+    bus.on('bingo', ({ lines }) => { if (lines) u('bingo'); if (lines >= 3) u('house'); });
+    bus.on('fruity', ({ x, nudged, line }) => { if (x && nudged) u('nudge'); if (x && line.every(c => c === '7')) u('triple7'); });
+    bus.on('fruity:gamble', ({ won, streak }) => { if (won && streak >= 3) u('gamble3'); });
     bus.on('quiz:answer', ({ correct }) => { if (correct && S.life.quiz && S.life.quiz.right >= 10) u('quiz'); });
-    bus.on('household', ({ kind, ok, win }) => { if (kind === 'kitten') u('kitten'); if (kind === 'battery' && ok) u('battery'); if (kind === 'raffle' && win) u('raffle'); });
+    bus.on('household', ({ kind, ok, win }) => { if (kind === 'kitten') u('kitten'); if (kind === 'battery' && ok) u('battery'); if (kind === 'raffle' && win) u('raffle'); if (kind === 'gull') u('gull'); });
   },
 };

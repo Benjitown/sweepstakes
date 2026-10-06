@@ -43,6 +43,22 @@ function mew(a, out, s, p = 1, d = .3) { // a kitten: high, short, rising then f
   f2.type = 'bandpass'; f2.Q.value = 8; f2.frequency.setValueAtTime(3200 * p, s); f2.frequency.linearRampToValueAtTime(2400 * p, s + d);
   o.connect(f1).connect(mix); o.connect(f2).connect(mix); mix.connect(g).connect(out); o.start(s); o.stop(s + d + .05);
 }
+function gullCall(a, out, s, p = 1, d = .32) { // a herring gull's "kyow": nasal and harsh, it leaps up then slides down
+  const o = a.createOscillator(), lfo = a.createOscillator(), lg = a.createGain(), f1 = a.createBiquadFilter(), f2 = a.createBiquadFilter(), mix = a.createGain();
+  const g = envG(a, s, 1, .012, d * .5, d * .45), f0 = 1000 * p;
+  o.type = 'sawtooth'; o.frequency.setValueAtTime(f0 * .78, s); o.frequency.linearRampToValueAtTime(f0 * 1.22, s + d * .16); o.frequency.exponentialRampToValueAtTime(f0 * .7, s + d);
+  lfo.frequency.value = 37; lg.gain.value = f0 * .045; lfo.connect(lg).connect(o.frequency); // the rasp
+  f1.type = 'bandpass'; f1.frequency.value = 1850 * p; f1.Q.value = 4; f2.type = 'bandpass'; f2.frequency.value = 3250 * p; f2.Q.value = 5;
+  o.connect(f1).connect(mix); o.connect(f2).connect(mix); mix.connect(g).connect(out);
+  o.start(s); o.stop(s + d + .05); lfo.start(s); lfo.stop(s + d + .05);
+  const n = a.createBufferSource(), bp = a.createBiquadFilter(), ng = envG(a, s, .25, .01, d * .4, d * .4); // a bit of breath
+  n.buffer = nbuf(a, d + .05); bp.type = 'bandpass'; bp.frequency.value = 2600 * p; bp.Q.value = 2; n.connect(bp).connect(ng).connect(out); n.start(s);
+}
+function tweet(a, out, s, f0, f1, d) { // one chirp of a small bird
+  const o = a.createOscillator(), g = envG(a, s, 1, .005, d * .4, d * .5);
+  o.type = 'sine'; o.frequency.setValueAtTime(f0, s); o.frequency.exponentialRampToValueAtTime(f1, s + d);
+  o.connect(g).connect(out); o.start(s); o.stop(s + d + .02);
+}
 function knuckle(a, out, s, v) { // knuckle on a wooden door: a dull thump with a bit of crack
   const n = a.createBufferSource(), bp = a.createBiquadFilter(), g = envG(a, s, v, .002, .004, .07);
   n.buffer = nbuf(a, .08); bp.type = 'bandpass'; bp.frequency.value = 190 + Math.random() * 50; bp.Q.value = 3.5;
@@ -158,6 +174,45 @@ export const NOISES = {
     bp.type = 'bandpass'; bp.Q.value = 10; bp.frequency.setValueAtTime(380, t); bp.frequency.linearRampToValueAtTime(900, t + d * .6); bp.frequency.linearRampToValueAtTime(520, t + d);
     bp.connect(out);
     for (let s = t; s < t + d; s += .009 + .02 * Math.abs(Math.sin((s - t) * 6)) + Math.random() * .006) { const src = a.createBufferSource(); src.buffer = click; src.connect(bp); src.start(s); }
+  } },
+  gull: { volume: 1.55, w: .9, play(a, out, t) { // a herring gull on the roof: two long cries, then that laugh (it's after your coins)
+    const r = room(a, out, .03, .08);
+    gullCall(a, r, t, 1, .4); gullCall(a, r, t + .52, .95, .36);
+    for (let k = 0; k < 5; k++) gullCall(a, r, t + 1.02 + k * .15, 1.1 - k * .045, .11);
+  } },
+  gullShoo: { volume: 1.4, w: 0, play(a, out, t) { gullCall(a, out, t, 1.3, .2); gullCall(a, out, t + .19, 1.42, .17); } }, // shooed: a panicked squawk
+  powerdown: { volume: .6, w: .5, play(a, out, t) { // the meter runs out: the relay clunks, the fridge winds down, the telly pops
+    knuckle(a, out, t, .9);
+    const c = a.createBufferSource(), hp = a.createBiquadFilter(), cg = envG(a, t, .5, .001, .005, .03);
+    c.buffer = nbuf(a, .05); hp.type = 'highpass'; hp.frequency.value = 3000; c.connect(hp).connect(cg).connect(out); c.start(t);
+    const d = 1.7, lp = a.createBiquadFilter(), hg = envG(a, t, .9, .01, .3, d - .3);
+    lp.type = 'lowpass'; lp.frequency.value = 420; lp.connect(hg).connect(out);
+    for (const [type, f] of [['sawtooth', 100], ['sine', 50]]) {
+      const o = a.createOscillator(); o.type = type; o.frequency.setValueAtTime(f, t); o.frequency.exponentialRampToValueAtTime(f * .3, t + d);
+      o.connect(lp); o.start(t); o.stop(t + d + .05);
+    }
+    const tv = a.createOscillator(), tg = envG(a, t + .05, .25, .005, .05, .35);
+    tv.type = 'sine'; tv.frequency.setValueAtTime(1500, t + .05); tv.frequency.exponentialRampToValueAtTime(70, t + .45); tv.connect(tg).connect(out); tv.start(t + .05); tv.stop(t + .5);
+  } },
+  powerup: { volume: 1, w: 0, play(a, out, t) { // the lights come back: a clunk, the hum rises, a strip light tinks into life
+    knuckle(a, out, t, .7);
+    const d = .9, lp = a.createBiquadFilter(), hg = envG(a, t, .5, .25, .3, .35);
+    lp.type = 'lowpass'; lp.frequency.value = 500; lp.connect(hg).connect(out);
+    for (const f of [100, 50]) { const o = a.createOscillator(); o.type = 'sawtooth'; o.frequency.setValueAtTime(f * .4, t); o.frequency.exponentialRampToValueAtTime(f, t + .3); o.connect(lp); o.start(t); o.stop(t + d + .05); }
+    for (const [w, f] of [[.32, 3100], [.47, 2900], [.7, 3300]]) { const o = a.createOscillator(), g = envG(a, t + w, .45, .002, .01, .09); o.type = 'triangle'; o.frequency.value = f; o.connect(g).connect(out); o.start(t + w); o.stop(t + w + .12); }
+  } },
+  bird: { volume: .3, w: 0, play(a, out, t) { // outside, in the park: a little run of chirps, never quite the same twice
+    const kind = Math.floor(Math.random() * 3), n = 3 + Math.floor(Math.random() * 4), p = .9 + Math.random() * .25;
+    for (let k = 0, s = t; k < n; k++) {
+      if (kind === 0) { tweet(a, out, s, 3400 * p, 5200 * p, .06); s += .09; }                 // rising tweets
+      else if (kind === 1) { tweet(a, out, s, 5000 * p, 3100 * p, .08); s += .12; }            // falling tseeps
+      else { tweet(a, out, s, (2800 + k * 260) * p, (4100 + k * 260) * p, .05); s += .07; }   // a trill that climbs
+    }
+  } },
+  breeze: { volume: 1, w: 0, play(a, out, t) { // a breeze through the trees
+    const d = 3, n = a.createBufferSource(), bp = a.createBiquadFilter(), g = envG(a, t, 1, 1.2, .5, 1.3);
+    n.buffer = nbuf(a, d); bp.type = 'bandpass'; bp.Q.value = .7; bp.frequency.setValueAtTime(380, t); bp.frequency.linearRampToValueAtTime(900, t + 1.5); bp.frequency.linearRampToValueAtTime(480, t + d);
+    n.connect(bp).connect(g).connect(out); n.start(t);
   } },
   meow: { volume: 1.75, w: .8, play(a, out, t) {
     const d = .75, o = a.createOscillator(), f1 = a.createBiquadFilter(), f2 = a.createBiquadFilter(), mix = a.createGain(), g = envG(a, t, 1, .08, d * .6 - .08, d * .4);

@@ -52,8 +52,16 @@ export const ACHIEVEMENTS = [
   { id: 'kitten',   tier: 1, icon: 'kitten',    name: 'Cat Person',          desc: 'Pet the kitten.' },
   { id: 'battery',  tier: 1, icon: 'battery',   name: 'DIY Hero',            desc: 'Change the smoke detector’s battery.' },
   { id: 'raffle',   tier: 2, icon: 'door',      name: 'Fixed the Roof',      desc: 'Win the school raffle.' },
+  { id: 'gull',     tier: 1, icon: 'gull',      name: 'Not My Chips',        desc: 'Shoo a seagull off your coins.' },
+  { id: 'dark',     tier: 2, icon: 'bulb',      name: 'Danger Money',        desc: 'Cash out a board in a power cut.' },
   { id: 'scratch',  tier: 2, icon: 'ticket',    name: 'Scratch That Itch',   desc: 'Win ×20 or more on a scratchcard.' },
   { id: 'quiz',     tier: 2, icon: 'brain',     name: 'Know-It-All',         desc: 'Get 10 pub quiz questions right.' },
+  { id: 'grass',    tier: 1, icon: 'clover',    name: 'Touched Grass',       desc: 'Stay outside for a whole break.' },
+  { id: 'bingo',    tier: 1, icon: 'bingo',     name: 'Eyes Down',           desc: 'Get a line at Nan’s bingo.' },
+  { id: 'house',    tier: 3, icon: 'bingo',     name: 'Full House',          desc: 'Get a full house at Nan’s bingo.' },
+  { id: 'nudge',    tier: 1, icon: 'cherry',    name: 'Nudge Nudge',         desc: 'Nudge your way to a win on the Fruity.' },
+  { id: 'gamble3',  tier: 2, icon: 'bell',      name: 'Let It Ride',         desc: 'Win three gambles in a row on the Fruity.' },
+  { id: 'triple7',  tier: 3, icon: 'lucky7',    name: 'Triple Seven',        desc: 'Line up three sevens on the Fruity.' },
 ];
 export const ACH_BY = Object.fromEntries(ACHIEVEMENTS.map(a => [a.id, a]));
 export const ACH_REWARD = [0, .2, .5, 1];

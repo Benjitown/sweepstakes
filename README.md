@@ -1,7 +1,8 @@
 # Sweepstakes
 
 Minesweeper, but you're gambling. Dig for multipliers, cash out before you hit a mine, or go double or nothing.
-Meanwhile life carries on: someone's at the door, a kitten wanders past, and the smoke detector wants a new battery.
+Meanwhile life carries on: someone's at the door, a kitten wanders past, a seagull goes for your coins, and the smoke
+detector wants a new battery.
 A browser game in plain HTML, CSS and JavaScript (ES modules), with no frameworks and nothing to install.
 There are also terminal versions in Kotlin, C# and Python in `ports/`, and they share the same Daily Challenge.
 
@@ -52,10 +53,11 @@ src/
   audio/            Web Audio engine, game sounds, weird household noises
   board/            the board model, solver, factories, mine chain, payout decorators (+ New Game+ house edge)
   game/             the rules (game.js), commands, bots, rack, rank, double or nothing, daily, achievements,
-                    household (the door, the phone, the kitten, the smoke detector), the duck race
+                    household (the door, the phone, the kitten, the seagull, the smoke detector), power cuts,
+                    the duck race, scratchcards, Nan's bingo, the Fruity (fruit machine), the pub quiz, going outside
   ui/               one file per view: panels, boards, shop, modals, tutorial, daily, keys, coin graph, household, ducks...
 assets/             fonts (+ OFL licence) and the favicon
-tools/              build.py, serve.py, vc.py (version control), export_rules.mjs, sim/ (economy simulator)
+tools/              build.py, serve.py, vc.py (version control), export_rules.mjs, sim/ (economy + Fruity simulators)
 ports/              terminal versions in Kotlin, C# and Python (see ports/README.md)
 test/               Playwright test suites (python test/run.py)
 ```
@@ -81,6 +83,12 @@ The suites run against both the ES-module source and the built file:
   payouts, leaving mid-race) and the rude chat switch
 - **extras:** the experimental features: scratchcards (odds, panels, scratching with the mouse, leaving mid-card) and
   the pub quiz (asking, answering, running out of time, the switch)
+- **mayhem:** the newest experimental features: the seagull (swooping in, pecking, shooing it, losing coins to it),
+  power cuts (the dark, the torch, danger money, topping up, the emergency credit), Nan's bingo (the tickets, the
+  odds, the calls, dabbing, a full house, leaving mid-game, her invite) and going outside (the game waiting, coming
+  back early, the fresh air bonus, Nan's nudge)
+- **fruity:** the fruit machine: what it pays back (worked out exactly), wins and the meter, nudges, holds, the gamble,
+  the jackpot, the stakes, and leaving with a win in the meter
 - **layout:** desktop, tablet and phone sizes with no sideways scrolling
 
 Screenshots go to `test/screenshots/`.
