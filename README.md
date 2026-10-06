@@ -73,7 +73,7 @@ Each change usually touches a small area. Prices live in `src/data/`, jokes in `
 
 ```
 pip install playwright && python -m playwright install chromium   # once
-python test/run.py                                                # about 5 minutes
+python test/run.py                                                # about 15 minutes
 ```
 
 The suites run against both the ES-module source and the built file:
