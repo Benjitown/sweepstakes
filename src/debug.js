@@ -43,6 +43,8 @@ import { IceCream } from './game/ice-cream.js';
 import { VanView } from './ui/van-view.js';
 import { Stars } from './game/horoscope.js';
 import { Banker } from './game/banker.js';
+import { Dog } from './game/dog.js';
+import { DogView } from './ui/dog-view.js';
 import { StarsView } from './ui/stars-view.js';
 import { StormView } from './ui/storm-view.js';
 import { Outside } from './game/outside.js';
@@ -69,7 +71,7 @@ export function exposeForTests() {
     get S() { return S; }, Game, Solver, Rack, Rank, bus, NOISES, WeirdNoises, Quips, Chat, Coach, SpinView,
     Banner, FX, UI, VERSION, renderAll, invoke, DigCommand, SaveGame, TABLES, AudioEngine,
     Daily, Achievements, ACHIEVEMENTS, DailyView, Keys, CoinChart, seeded, hashString, Household, HouseholdView, DuckRace, DuckRaceView, DOOR, GULL, LINES, RUDE,
-    Scratchcards, ScratchView, SCRATCH_CARDS, SCRATCH_PRIZES, Quiz, QUIZ, PowerCut, PowerView, Storm, StormView, Kev, KevView, KEV, IceCream, VanView, Stars, StarsView, Banker, Bingo, BingoView, makeTicket, Outside, OutsideView, BINGO_TICKETS, BINGO_PAYS, BINGO_CALLS,
+    Scratchcards, ScratchView, SCRATCH_CARDS, SCRATCH_PRIZES, Quiz, QUIZ, PowerCut, PowerView, Storm, StormView, Kev, KevView, KEV, IceCream, VanView, Stars, StarsView, Banker, Dog, DogView, Bingo, BingoView, makeTicket, Outside, OutsideView, BINGO_TICKETS, BINGO_PAYS, BINGO_CALLS,
     Fruity, FruityRules, FruityView, FRUITY_REELS, FRUITY_PAYS, FRUITY_STAKES, FRUITY_FEATURES,
     get slots() { return Game.slots; },
   };

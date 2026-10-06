@@ -54,6 +54,9 @@ Each version is also a save in the built-in version control. Run `python tools/v
   board right now for its pot plus a premium (15 to 60% of its profit). Deal, and it's sold. No deal, and you play on;
   cash it out later for more than he offered and the chat will never let him forget it. He only rings once about a
   board. New achievements: Deal! and No Deal.
+- **Biscuit, next door's dog.** If you hear barking, he trots in along the bottom of the screen and waits ("Woof?").
+  Give him a biscuit (3% of the top table's max stake) and he sniffs out a mine on your board and sits on it: flagged,
+  glowing orange for a moment. Ignore him and he wanders off. New achievement: Good Boy.
 - The Flip Booth's five tabs now show their icon above the name at every screen size.
 - `tools/build.py` now stops with a clear message on `import { x as y }`, which the bundler can't do.
 

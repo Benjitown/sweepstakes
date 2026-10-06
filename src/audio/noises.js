@@ -73,6 +73,14 @@ const GREENSLEEVES = [['A4', 1], ['C5', 2], ['D5', 1], ['E5', 1.5], ['F5', .5], 
   ['G4', 1.5], ['A4', .5], ['B4', 1], ['C5', 1.5], ['B4', .5], ['A4', 1], ['G#4', 1.5], ['F#4', .5], ['G#4', 1], ['A4', 3]];
 const NOTE_HZ = { E4: 329.63, 'F#4': 369.99, G4: 392, 'G#4': 415.3, A4: 440, B4: 493.88, C5: 523.25, D5: 587.33, E5: 659.25, F5: 698.46 };
 const VAN_BEAT = .24;
+function woof(a, out, s, p = 1) { // one bark: a rough, falling tone through two mouth-shaped filters, with a puff of breath
+  const d = .16, o = a.createOscillator(), f1 = a.createBiquadFilter(), f2 = a.createBiquadFilter(), mix = a.createGain(), g = envG(a, s, 1, .006, .05, d - .06);
+  o.type = 'sawtooth'; o.frequency.setValueAtTime(420 * p, s); o.frequency.exponentialRampToValueAtTime(190 * p, s + d);
+  f1.type = 'bandpass'; f1.frequency.value = 650 * p; f1.Q.value = 3; f2.type = 'bandpass'; f2.frequency.value = 1500 * p; f2.Q.value = 4;
+  o.connect(f1).connect(mix); o.connect(f2).connect(mix); mix.connect(g).connect(out); o.start(s); o.stop(s + d + .02);
+  const n = a.createBufferSource(), bp = a.createBiquadFilter(), ng = envG(a, s, .5, .004, .03, .08);
+  n.buffer = nbuf(a, .15); bp.type = 'bandpass'; bp.frequency.value = 1100 * p; bp.Q.value = 1.2; n.connect(bp).connect(ng).connect(out); n.start(s);
+}
 function knuckle(a, out, s, v) { // knuckle on a wooden door: a dull thump with a bit of crack
   const n = a.createBufferSource(), bp = a.createBiquadFilter(), g = envG(a, s, v, .002, .004, .07);
   n.buffer = nbuf(a, .08); bp.type = 'bandpass'; bp.frequency.value = 190 + Math.random() * 50; bp.Q.value = 3.5;
@@ -146,6 +154,9 @@ export const NOISES = {
       for (const f of [400, 450]) { const o = a.createOscillator(); o.type = 'triangle'; o.frequency.value = f; o.connect(am); o.start(s); o.stop(s + .45); }
       am.connect(g).connect(out); lfo.start(s); lfo.stop(s + .45);
     }
+  } },
+  bark: { volume: 1.45, w: .4, play(a, out, t) { // next door's dog: woof woof
+    const p = .9 + Math.random() * .2; woof(a, out, t, p); woof(a, out, t + .32, p * .97);
   } },
   bankerRing: { volume: .62, w: .35, play(a, out, t) { // an office desk phone: a warbling two-tone trill, twice (it's the Banker)
     for (const c of [0, 1.4]) {

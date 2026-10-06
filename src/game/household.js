@@ -80,7 +80,7 @@ const counted = k => { S.life.house = S.life.house || {}; S.life.house[k] = (S.l
 
 export const Household = {
   // which noise starts which event (the view decides whether now's a good time)
-  EVENTS: { knock: 'door', doorbell: 'door', phone: 'phone', kittens: 'kitten', alarm: 'toast', smoke: 'battery', gull: 'gull', powerdown: 'powercut', thunder: 'storm', icecream: 'van', bankerRing: 'banker' },
+  EVENTS: { knock: 'door', doorbell: 'door', phone: 'phone', kittens: 'kitten', alarm: 'toast', smoke: 'battery', gull: 'gull', powerdown: 'powercut', thunder: 'storm', icecream: 'van', bankerRing: 'banker', bark: 'dog' },
   raffleCost: () => Math.max(5, Math.ceil(baseCap() * .1)),
 
   // applies an outcome; returns the coins that changed hands and the add-on card it gave (if any)
