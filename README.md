@@ -50,7 +50,7 @@ src/
   core/             util (helpers), bus (events), state (the save + quick questions about it), random (seeded)
   data/             every tuning number: tables, gems, upgrades, add-ons, ranks, the wheel, achievements
   content/          every joke: chat lines, chat threads, quips
-  audio/            Web Audio engine, game sounds, weird household noises
+  audio/            Web Audio engine, game sounds, weird household noises, the jukebox's music (a little sequencer)
   board/            the board model, solver, factories, mine chain, payout decorators (+ New Game+ house edge)
   game/             the rules (game.js), commands, bots, rack, rank, double or nothing, daily, achievements,
                     household (the door, the phone, the kitten, the seagull, the smoke detector, the ice cream van,
@@ -107,6 +107,8 @@ The suites run against both the ES-module source and the built file:
   dartboard's scores, a win with 180, a loss, a draw, walking away), quiz night (a perfect round, a mixed one,
   running out of time, leaving half-way), board styles (buying, wearing, keeping them when you go bust), plus checks
   that every icon in the sheet has its own id and the pub quiz never repeats itself
+- **jukebox:** the records (every note a real note that fits its bar), putting one on, every record playing, shuffle,
+  the Music switch and slider, and when the music stops (muted, outside, a power cut) and starts again
 - **layout:** desktop, tablet and phone sizes with no sideways scrolling
 
 Screenshots go to `test/screenshots/`.

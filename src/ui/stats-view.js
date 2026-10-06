@@ -28,6 +28,8 @@ import { SKINS, SKIN_BY } from '../data/skins.js';
 import { Skins } from '../game/skins.js';
 import { StarsView } from './stars-view.js';
 import { SIGNS } from '../content/horoscopes.js';
+import { Music } from '../audio/music.js';
+import { JukeboxView } from './jukebox-view.js';
 
 export const StatsView = {
   // don't redraw the tab under someone dragging a slider
@@ -78,10 +80,11 @@ export const StatsView = {
         <li>The Flip Booth has a duck pond out back: back a duck, and long shots pay more. Nan calls the bingo there too: a line, two lines or a full house in 60 calls.</li>
         <li>The Fruity, in the corner of the booth: three on the line pays. A go that loses may light up nudges (drop the symbol above onto the line) or holds (keep up to two reels for the next go). Wins wait in the meter: collect them, or gamble them double or nothing.</li>
         <li>Go outside now and then (the button below, or G). The game pauses, and three whole minutes out pays a fresh air bonus.</li>
+        <li>The jukebox (next to the mute button, or J) plays music. Pick a record or shuffle them; the Music slider and switch are below.</li>
         <li>Progress saves in this browser. The coins aren’t real money.</li></ol>
       <h2>Board style</h2><div class="skins">${SKINS.map(k => { const own = Skins.owned(k.id), on = Skins.current() === k.id;
         return `<button type="button" class="skin" data-skin="${k.id}" style="--sk:${k.tile}" aria-pressed="${on}" title="${esc(k.blurb)}"><i></i><b>${esc(k.name)}</b><small>${on ? 'On' : own ? 'Yours' : fmt(k.cost)}</small></button>`; }).join('')}</div>
-      <div class="sliders">${[['vol', 'Volume'], ['noiseVol', 'Household noises']].map(([k, label]) => { const v = Math.round(level(k) * 100);
+      <div class="sliders">${[['vol', 'Volume'], ['musicVol', 'Music'], ['noiseVol', 'Household noises']].map(([k, label]) => { const v = Math.round(level(k) * 100);
         return `<label class="sl" for="sl-${k}"><span>${label}</span><input type="range" id="sl-${k}" min="0" max="100" step="5" value="${v}"><output class="num" id="sl-${k}-o">${v}%</output></label>`; }).join('')}</div>
       <div class="toggles"><label class="sw"><input type="checkbox" id="tg-crt" ${pref('crt') ? 'checked' : ''}> Scanlines</label>
         <label class="sw"><input type="checkbox" id="tg-quips" ${pref('quips') ? 'checked' : ''}> Random nonsense</label>
@@ -91,19 +94,21 @@ export const StatsView = {
         <label class="sw"><input type="checkbox" id="tg-quiz" ${pref('quiz') ? 'checked' : ''}> Pub quiz</label>
         <label class="sw"><input type="checkbox" id="tg-dares" ${pref('dares') ? 'checked' : ''}> Dares from the chat</label>
         <label class="sw"><input type="checkbox" id="tg-seasons" ${pref('seasons') ? 'checked' : ''}> Seasonal bits</label>
-        <label class="sw"><input type="checkbox" id="tg-nanvoice" ${pref('nanvoice') ? 'checked' : ''}> Nan reads the bingo</label></div>
+        <label class="sw"><input type="checkbox" id="tg-nanvoice" ${pref('nanvoice') ? 'checked' : ''}> Nan reads the bingo</label>
+        <label class="sw"><input type="checkbox" id="tg-music" ${pref('music') ? 'checked' : ''}> Music (the jukebox)</label></div>
       <div class="row-btns"><button class="btn green" type="button" id="btnGrass">Go outside</button><button class="btn blue" type="button" id="btnTut">Replay tutorial</button><button class="btn ghost" type="button" id="btnReset">Declare bankruptcy</button></div>
-      <p class="ver">Sweepstakes v${VERSION} · <button class="clink" type="button" id="btnNews">What’s new</button> · <button class="clink" type="button" id="btnKeys">Shortcuts</button></p>`;
-    ['crt', 'quips', 'odd', 'vibe', 'rude', 'quiz', 'dares', 'seasons', 'nanvoice'].forEach(k => { $('#tg-' + k).onchange = e => {
+      <p class="ver">Sweepstakes v${VERSION} · <button class="clink" type="button" id="btnNews">What’s new</button> · <button class="clink" type="button" id="btnKeys">Shortcuts</button> · <button class="clink" type="button" id="btnJukeS">Jukebox</button></p>`;
+    ['crt', 'quips', 'odd', 'vibe', 'rude', 'quiz', 'dares', 'seasons', 'nanvoice', 'music'].forEach(k => { $('#tg-' + k).onchange = e => {
       S[k] = e.target.checked; Sound.toggle(e.target.checked); RunPanel.render(); SaveGame.saveNow();
       if (k === 'odd' && !S.odd) WeirdNoises.stopChirping();
       if (k === 'rude') { Chat.bag = []; Quips.bag = []; }
       if (k === 'seasons') SeasonView.apply();
+      if (k === 'music') Music.sync();
     }; });
     // volume sliders: they apply while you drag, and play a sample when you let go
-    [['vol', () => Sound.msg()], ['noiseVol', () => WeirdNoises.play('duck')]].forEach(([k, sample]) => {
+    [['vol', () => Sound.msg()], ['musicVol', () => {}], ['noiseVol', () => WeirdNoises.play('duck')]].forEach(([k, sample]) => {
       const inp = $('#sl-' + k), out = $('#sl-' + k + '-o');
-      inp.oninput = () => { S[k] = +inp.value / 100; out.textContent = inp.value + '%'; AudioEngine.get().applyVolume(); Sound.slide(S[k]); };
+      inp.oninput = () => { S[k] = +inp.value / 100; out.textContent = inp.value + '%'; AudioEngine.get().applyVolume(); Music.applyVolume(); Sound.slide(S[k]); };
       inp.onchange = () => { SaveGame.saveNow(); sample(); };
     });
     $$('#stats [data-skin]').forEach(b => b.onclick = () => {
@@ -118,6 +123,7 @@ export const StatsView = {
     const sg = $('#btnSign'); if (sg) sg.onclick = () => { StarsView.ask(); UI.toast('Nan’s asking in the group chat.'); };
     $('#btnNews').onclick = () => WhatsNew.show();
     $('#btnKeys').onclick = () => Keys.help();
+    $('#btnJukeS').onclick = () => JukeboxView.open();
     $$('#stats .ach').forEach(el => { el.onclick = () => { const a = ACH_BY[el.dataset.ach], got = Achievements.has(a.id);
       $('#achCap').textContent = `${got ? '' : 'Locked · '}${a.name}: ${a.desc} (pays ${['', 'a bit', 'well', 'big'][a.tier]})`; }; });
     $('#btnReset').onclick = () => UI.modal(`${ico('skull', 'bigicon')}<h3 class="red">Start over?</h3><p>This wipes the current run. Your rank and all-time stats stay.</p>

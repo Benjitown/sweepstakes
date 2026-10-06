@@ -61,12 +61,15 @@ import { Dares } from './game/dares.js';
 import { DareView } from './ui/dare-view.js';
 import { Seasons } from './game/seasons.js';
 import { SeasonView } from './ui/season-view.js';
+import { Music } from './audio/music.js';
+import { JukeboxView } from './ui/jukebox-view.js';
 import { exposeForTests } from './debug.js';
 
 $('#btnDon').onclick = () => DonLadder.start();
 $('#btnFlip').onclick = () => FlipView.open();
 $('#btnSpin').onclick = () => { if (Game.spinIn() <= 0) SpinView.open(); };
-$('#btnMute').onclick = () => { S.muted = !S.muted; if (!S.muted) Sound.msg(); RunPanel.render(); SaveGame.saveNow(); };
+$('#btnMute').onclick = () => { S.muted = !S.muted; if (!S.muted) Sound.msg(); Music.sync(); JukeboxView.now(); RunPanel.render(); SaveGame.saveNow(); };
+$('#btnJuke').onclick = () => JukeboxView.open();
 StakeView.bind(); Tabs.bind(); UiSounds.bind(); Keys.bind(); HouseholdView.bind(); PowerView.bind(); FruityView.bind();
 document.addEventListener('visibilitychange', () => { if (document.hidden) SaveGame.saveNow(); });
 addEventListener('pagehide', () => SaveGame.saveNow());

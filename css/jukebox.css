@@ -1,0 +1,27 @@
+/* The jukebox: the record spins and the tubes glow while it plays. */
+.juke{display:grid;gap:10px;justify-items:center;width:100%}
+.juke h3{margin:0}
+.jbox{width:104px;height:auto}
+.jbox .disc{transform-box:fill-box;transform-origin:center}
+.juke.playing .disc{animation:jspin 1.8s linear infinite}
+.juke.playing .tube{animation:jglow 2.4s ease-in-out infinite}
+.juke.playing .t2{animation-delay:-1.2s}
+@keyframes jspin{to{transform:rotate(360deg)}}
+@keyframes jglow{50%{filter:brightness(1.45)}}
+.jnow{min-height:1.4em;margin:0;display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap}
+.jnow b{color:var(--gold);font-weight:400}
+.eq{display:inline-flex;gap:2px;align-items:flex-end;height:14px}
+.eq i{width:3px;height:100%;background:var(--green);animation:jeq .9s ease-in-out infinite;transform-origin:bottom}
+.eq i:nth-child(2){animation-delay:-.3s} .eq i:nth-child(3){animation-delay:-.6s} .eq i:nth-child(4){animation-delay:-.15s}
+@keyframes jeq{0%,100%{transform:scaleY(.3)}50%{transform:scaleY(1)}}
+.jlist{list-style:none;margin:0;padding:0;display:grid;gap:6px;width:100%}
+.jrec{width:100%;border:0;border-radius:10px;background:var(--panel-in);box-shadow:0 3px 0 var(--shadow);padding:8px 10px;cursor:pointer;text-align:left;
+  display:grid;grid-template-columns:auto minmax(0,1fr);gap:0 10px;align-items:baseline}
+.jrec kbd{grid-row:span 3;align-self:center;font-family:var(--big);font-size:1.5rem;line-height:1;color:var(--gold);background:#141b1d;border-radius:6px;padding:3px 6px;text-shadow:none}
+.jrec b{font-weight:400;font-family:var(--big);font-size:1.35rem;line-height:1}
+.jrec small,.jrec span{color:var(--ink-dim);font-size:.75rem;text-shadow:none}
+.jrec:hover{background:var(--panel-hi)}
+.jrec[aria-pressed="true"]{background:var(--gold);color:#3b2b00;text-shadow:none}
+.jrec[aria-pressed="true"] small,.jrec[aria-pressed="true"] span{color:#5b4300}
+.juke .sl{width:100%}
+@media (prefers-reduced-motion:reduce){.juke.playing .disc,.juke.playing .tube,.eq i{animation:none}}

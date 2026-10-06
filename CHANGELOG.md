@@ -58,6 +58,12 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **Biscuit, next door's dog.** If you hear barking, he trots in along the bottom of the screen and waits ("Woof?").
   Give him a biscuit (3% of the top table's max stake) and he sniffs out a mine on your board and sits on it: flagged,
   glowing orange for a moment. Ignore him and he wanders off. New achievement: Good Boy.
+- **The jukebox.** Music at last. The button next to mute (or J) opens the Red Lion's jukebox, with four records
+  synthesised note by note in your browser: High Roller Lounge (slow swing on an electric piano, brushes and a double
+  bass), Last Orders (a knees-up on the pub's old upright), Insert Coin (Kev's eight-bit tune) and Nan's Wireless (a
+  gentle waltz on a music box), plus shuffle. It sits quietly under the game, with a Music slider in the jukebox and in
+  Stats. It stops while you're muted, outside or in another tab, and when the power goes the record winds down. Switch
+  it off in the jukebox or in Stats. Everyone in the group chat has an opinion about your record.
 - **Board styles,** in Stats: Card table felt, Neon, Nan's knitting (purple wool, cable stitch) and Gold leaf, for
   the tiles on every board (and Double or Nothing's). Each is bought once with coins and kept for good: going bust
   doesn't take it back, and swapping between the ones you own is free. New achievement: Interior Design.
