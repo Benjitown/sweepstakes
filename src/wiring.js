@@ -38,6 +38,8 @@ import { ScratchView } from './ui/scratch-view.js';
 import { Quiz } from './game/quiz.js';
 import { QuizView } from './ui/quiz-view.js';
 import { AudioEngine } from './audio/engine.js';
+import { PowerCut } from './game/power-cut.js';
+import { PowerView } from './ui/power-view.js';
 
 const RED = 'var(--red)', GOLD = 'var(--gold)', GREEN = 'var(--green)', PURPLE = 'var(--purple)';
 export function renderAll(keepModal) {
@@ -172,7 +174,14 @@ bus.on('tick', () => {
 /* ---------- around the house: the noises, and what they turn into ---------- */
 // time for a noise: anything that would start an event waits until nothing else is going on
 const startsEvent = k => Household.EVENTS[k];
-bus.on('noise:due', () => WeirdNoises.surprise(WeirdNoises.pick(k => !startsEvent(k) || (startsEvent(k) === 'battery' ? !WeirdNoises.chirping : HouseholdView.free()))));
+const canStart = k => {
+  const e = startsEvent(k); if (!e) return true;
+  if (e === 'battery') return !WeirdNoises.chirping;
+  // the meter only runs out mid-game: a power cut with nothing on the tables is just a dark room
+  if (e === 'powercut') return HouseholdView.free() && !PowerCut.on && Game.slots.some(b => b && b.started && !b.over);
+  return HouseholdView.free();
+};
+bus.on('noise:due', () => WeirdNoises.surprise(WeirdNoises.pick(canStart)));
 bus.on('odd', ({ k, handle }) => {
   const kind = startsEvent(k);
   if (kind && kind !== 'battery' && HouseholdView.free()) HouseholdView.start(kind, k, handle);
@@ -192,6 +201,14 @@ bus.on('household', e => {
   setTimeout(() => Chat.say(HOUSE_CHAT[e.kind](e), {}, .8), 900);
 });
 bus.on('kitten:gone', ({ petted }) => { if (!petted) Chat.say('kitten_gone', {}, .7); });
+bus.on('power', ({ on: isOn, why }) => {
+  if (isOn) { PowerView.on(); return; }
+  PowerView.off(); WeirdNoises.play('powerup');
+  if (why === 'reset') return;
+  UI.toast(why === 'topup' ? 'Meter topped up. Let there be light.' : 'The emergency credit kicked in. Lights on.');
+  setTimeout(() => Chat.say(why === 'topup' ? 'power_topup' : 'power_back', {}, .8), 700);
+});
+bus.on('addon:fired', ({ id }) => { if (id === 'dark') Chat.say('power_win', {}, .5); });
 /* ---------- the Flip Booth: coin flip and duck race ---------- */
 bus.on('booth', k => ({ ducks: DuckRaceView, scratch: ScratchView }[k] || FlipView).open());
 bus.on('duck:start', () => Chat.say('duck_start'));

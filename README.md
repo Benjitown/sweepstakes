@@ -82,7 +82,8 @@ The suites run against both the ES-module source and the built file:
   payouts, leaving mid-race) and the rude chat switch
 - **extras:** the experimental features: scratchcards (odds, panels, scratching with the mouse, leaving mid-card) and
   the pub quiz (asking, answering, running out of time, the switch)
-- **mayhem:** the newest experimental features: the seagull (swooping in, pecking, shooing it, losing coins to it)
+- **mayhem:** the newest experimental features: the seagull (swooping in, pecking, shooing it, losing coins to it) and
+  power cuts (the dark, the torch, danger money, topping up, the emergency credit)
 - **layout:** desktop, tablet and phone sizes with no sideways scrolling
 
 Screenshots go to `test/screenshots/`.

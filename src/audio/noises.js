@@ -176,6 +176,26 @@ export const NOISES = {
     for (let k = 0; k < 5; k++) gullCall(a, r, t + 1.02 + k * .15, 1.1 - k * .045, .11);
   } },
   gullShoo: { volume: 1.4, w: 0, play(a, out, t) { gullCall(a, out, t, 1.3, .2); gullCall(a, out, t + .19, 1.42, .17); } }, // shooed: a panicked squawk
+  powerdown: { volume: .6, w: .5, play(a, out, t) { // the meter runs out: the relay clunks, the fridge winds down, the telly pops
+    knuckle(a, out, t, .9);
+    const c = a.createBufferSource(), hp = a.createBiquadFilter(), cg = envG(a, t, .5, .001, .005, .03);
+    c.buffer = nbuf(a, .05); hp.type = 'highpass'; hp.frequency.value = 3000; c.connect(hp).connect(cg).connect(out); c.start(t);
+    const d = 1.7, lp = a.createBiquadFilter(), hg = envG(a, t, .9, .01, .3, d - .3);
+    lp.type = 'lowpass'; lp.frequency.value = 420; lp.connect(hg).connect(out);
+    for (const [type, f] of [['sawtooth', 100], ['sine', 50]]) {
+      const o = a.createOscillator(); o.type = type; o.frequency.setValueAtTime(f, t); o.frequency.exponentialRampToValueAtTime(f * .3, t + d);
+      o.connect(lp); o.start(t); o.stop(t + d + .05);
+    }
+    const tv = a.createOscillator(), tg = envG(a, t + .05, .25, .005, .05, .35);
+    tv.type = 'sine'; tv.frequency.setValueAtTime(1500, t + .05); tv.frequency.exponentialRampToValueAtTime(70, t + .45); tv.connect(tg).connect(out); tv.start(t + .05); tv.stop(t + .5);
+  } },
+  powerup: { volume: 1, w: 0, play(a, out, t) { // the lights come back: a clunk, the hum rises, a strip light tinks into life
+    knuckle(a, out, t, .7);
+    const d = .9, lp = a.createBiquadFilter(), hg = envG(a, t, .5, .25, .3, .35);
+    lp.type = 'lowpass'; lp.frequency.value = 500; lp.connect(hg).connect(out);
+    for (const f of [100, 50]) { const o = a.createOscillator(); o.type = 'sawtooth'; o.frequency.setValueAtTime(f * .4, t); o.frequency.exponentialRampToValueAtTime(f, t + .3); o.connect(lp); o.start(t); o.stop(t + d + .05); }
+    for (const [w, f] of [[.32, 3100], [.47, 2900], [.7, 3300]]) { const o = a.createOscillator(), g = envG(a, t + w, .45, .002, .01, .09); o.type = 'triangle'; o.frequency.value = f; o.connect(g).connect(out); o.start(t + w); o.stop(t + w + .12); }
+  } },
   meow: { volume: 1.75, w: .8, play(a, out, t) {
     const d = .75, o = a.createOscillator(), f1 = a.createBiquadFilter(), f2 = a.createBiquadFilter(), mix = a.createGain(), g = envG(a, t, 1, .08, d * .6 - .08, d * .4);
     o.type = 'sawtooth'; o.frequency.setValueAtTime(520, t); o.frequency.linearRampToValueAtTime(800, t + d * .35); o.frequency.linearRampToValueAtTime(470, t + d);

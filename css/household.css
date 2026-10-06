@@ -51,6 +51,20 @@
 .bank.pecked{animation:shakey .12s steps(2) infinite}
 .gchip{position:fixed;z-index:47;width:7px;height:22px;border-radius:3px;background:#ffd23f;box-shadow:0 0 0 2px #141b1d,inset -2px 0 0 #e0a800;pointer-events:none}
 
+/* a power cut: everything goes dark but a torch beam that follows your pointer (clicks go straight through the dark),
+   and the meter at the top of the screen, above the dark, with its countdown and a top-up button */
+.blackout{--tx:50%;--ty:50%;position:fixed;inset:0;z-index:44;pointer-events:none;animation:powercut .9s steps(1) both;
+  background:radial-gradient(circle at var(--tx) var(--ty),rgba(255,236,190,.1) 0,rgba(255,236,190,.05) 72px,rgba(3,5,7,.94) 140px,rgba(3,5,7,.97) 100%)}
+.blackout.back{animation:powerback .7s steps(1) forwards}
+.meterhud{position:fixed;left:50%;top:calc(10px + env(safe-area-inset-top,0px));transform:translateX(-50%);z-index:46;display:flex;align-items:center;gap:10px;
+  width:max-content;max-width:calc(100vw - 24px);background:var(--panel-in);border-radius:12px;padding:6px 8px 6px 10px;
+  box-shadow:0 0 0 3px var(--gold-lo),0 6px 0 3px rgba(0,0,0,.5);animation:hin .35s cubic-bezier(.2,1.4,.4,1)}
+.meterhud .mbulb{width:30px;height:30px;flex:none;filter:grayscale(1) brightness(.6)}
+.mtxt{display:grid;line-height:1.1;min-width:0}
+.mtxt b{font-family:var(--big);font-weight:400;font-size:1.35rem;color:var(--gold)}
+.mtxt .num{font-size:.75rem;color:var(--ink-dim);text-shadow:none}
+.meterhud .btn{font-size:.85rem;padding:.4em .7em;white-space:nowrap;flex:none}
+
 /* the smoke detector chip, in the run panel's chip row while it chirps */
 .chirpchip{display:flex;align-items:center;gap:6px;border:0;cursor:pointer;background:var(--red);color:#fff;border-radius:8px;box-shadow:0 3px 0 var(--red-lo);
   padding:3px 10px 3px 6px;font:inherit;font-weight:700;text-shadow:0 2px 0 rgba(0,0,0,.35);white-space:nowrap;animation:chirp 2.6s ease-in-out infinite}
