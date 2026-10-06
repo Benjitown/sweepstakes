@@ -73,6 +73,7 @@ export const ACHIEVEMENTS = [
   { id: 'haggle',   tier: 1, icon: 'boot',      name: 'Haggler',             desc: 'Talk the bloke at the car boot sale down, and buy it.' },
   { id: 'darts',    tier: 1, icon: 'dart',      name: 'Arrows',              desc: 'Beat Big Dave at darts.' },
   { id: 'ton80',    tier: 3, icon: 'dart',      name: 'One Hundred and Eighty!', desc: 'Three treble twenties at the Red Lion.' },
+  { id: 'night5',   tier: 2, icon: 'brain',     name: 'Quiz Champion',       desc: 'Get all five right at quiz night.' },
   { id: 'quiz',     tier: 2, icon: 'brain',     name: 'Know-It-All',         desc: 'Get 10 pub quiz questions right.' },
   { id: 'grass',    tier: 1, icon: 'clover',    name: 'Touched Grass',       desc: 'Stay outside for a whole break.' },
   { id: 'bingo',    tier: 1, icon: 'bingo',     name: 'Eyes Down',           desc: 'Get a line at Nan’s bingo.' },

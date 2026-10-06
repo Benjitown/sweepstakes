@@ -195,6 +195,7 @@ async def run(browser, url, shots):
     # --- the Banker: he rings about a board with profit on it, offering its pot plus a premium
     await pg.evaluate("(() => { __sw.HouseholdView.clear(); ['deal', 'nodeal'].forEach(k => delete __sw.S.life.ach[k]); __sw.Banker.rng = () => .5; __sw.S.life.starsRead = ''; })()")  # (no lucky number boosting the opening)
     await pg.evaluate(DEAL)
+    await pg.evaluate("(() => { const b = __sw.slots[0]; if (b.golden) { b.golden = false; b.J = 1; b.lim = b.t.lim; } })()")  # (a random golden board starts at ×2)
     ok(await pg.evaluate("__sw.Banker.target() === null"), 'no call about a board without much profit on it')
     pot, stake = await pg.evaluate("(() => { const b = __sw.slots[0]; b.G *= 1.6; return [b.pot(), b.stake]; })()")
     await pg.evaluate("__sw.WeirdNoises.surprise('bankerRing')"); await pg.wait_for_timeout(300)

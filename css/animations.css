@@ -62,6 +62,7 @@
 @keyframes batback{0%{transform:translate(0,0) scaleX(-1)}30%{transform:translate(-35vw,-5vh) scaleX(-1)}60%{transform:translate(-70vw,4vh) scaleX(-1)}100%{transform:translate(calc(-100vw - 180px),0) scaleX(-1)}}
 @keyframes eggsplat{0%{transform:rotate(var(--r)) scale(.2);opacity:0}100%{transform:rotate(var(--r)) scale(1);opacity:.85}}
 @keyframes snowfall{0%{transform:translate(0,0)}50%{transform:translate(18px,55vh)}100%{transform:translate(-6px,110vh)}}
+@keyframes qnbar{from{transform:scaleX(1)}to{transform:scaleX(0)}}
 @keyframes darehurry{50%{transform:scale(1.06)}}
 @keyframes tinin{0%{transform:translateY(14px) scale(.85);opacity:0}100%{transform:none;opacity:1}}
 @keyframes chirp{0%,84%,100%{transform:none}88%{transform:rotate(-7deg) scale(1.1)}92%{transform:rotate(6deg) scale(1.1)}96%{transform:rotate(-3deg)}}

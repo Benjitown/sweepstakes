@@ -3,7 +3,8 @@ header, doing it in time for double, running out of time, the switch, each dare'
 Halloween's pumpkins, bats and trick or treaters, Bonfire Night's fireworks, Christmas snow and Nan's card) and the claw
 machine (the sixth booth tab, the swing, what it pays back, a win, a drop, a slip, a miss, leaving mid-grab) and the car
 boot sale (his prices, buying, haggling, being sold out from under you, the mystery box, packing up) and darts with
-Big Dave (a real dartboard's scores, the challenge, a win with 180, a loss, a draw, walking away)."""
+Big Dave (a real dartboard's scores, the challenge, a win with 180, a loss, a draw, walking away) and quiz night
+(a perfect round, a mixed one, running out of time, leaving half-way)."""
 from common import Results, open_page
 
 SETUP = """(() => { __sw.Coach.finish(); const S = __sw.S; S.coins = 50000; S.unlocked = ['penny', 'den']; S.sel = 'den'; S.life.lvl = 5; S.life.xp = 0;
@@ -341,6 +342,37 @@ async def run(browser, url, shots):
     await pg.evaluate("(() => { __sw.UI.closeModal(); __sw.Darts.rng = Math.random; __sw.DARTS.SCATTER = .035; })()")
     await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
     ok('Darts with Dave' in await text(pg, '#stats') and 'best 180' in await text(pg, '#stats'), 'Stats: darts won and played, and your best')
+    await pg.click('[data-tab="shop"]')
+    # --- quiz night: Priya's round of five
+    await pg.evaluate("(() => { __sw.HouseholdView.clear(); __sw.UI.closeModal(); __sw.S.coins = 50000; __sw.renderAll(); delete __sw.S.life.ach.night5; __sw.bus.emit('night:due'); })()")
+    await pg.wait_for_timeout(300)
+    inv = await pg.evaluate("(() => { const m = [...document.querySelectorAll('#chat .msg.night')].pop(); return m ? m.textContent : ''; })()")
+    ok('Priya' in inv and 'Pull up a chair' in inv, 'Priya invites the chat to quiz night')
+    await pg.evaluate("[...document.querySelectorAll('#chat .msg.night')].pop().querySelector('[data-a=\"in\"]').click()"); await pg.wait_for_timeout(300)
+    prize = await pg.evaluate('__sw.QuizNight.round.prize'); c0 = await pg.evaluate('__sw.S.coins')
+    ok(await text(pg, '#qnNum') == 'Question 1 of 5' and await pg.evaluate("document.querySelectorAll('#qnOpts .qopt').length") == 3, f'question 1 of 5, three answers, {prize:,} a question')
+    await pg.screenshot(path=str(shots / 'quiz_night.png'))
+    RIGHT = "document.querySelector('#qnOpts .qopt[data-k=\"' + __sw.QuizNight.current().right + '\"]').click()"
+    for k in range(5):
+        await pg.evaluate(RIGHT); await pg.wait_for_timeout(1250)
+    bonus = await pg.evaluate("__sw.Achievements.reward(__sw.ACHIEVEMENTS.find(a => a.id === 'night5'))")
+    ok(await pg.evaluate('__sw.S.coins') == c0 + 5 * prize * 2 + bonus and await pg.evaluate("__sw.Achievements.has('night5')") and 'All 5' in await text(pg, '#qnMsg'),
+       f'all five right: the prize doubles (+{10 * prize:,}) and Quiz Champion unlocks')
+    await pg.evaluate("__sw.UI.closeModal()")
+    # a mixed round: right, wrong, out of time, then walk out (keep what you won)
+    await pg.evaluate("(() => { __sw.NIGHT.SECONDS = .8; __sw.QuizNightView.open(); })()"); await pg.wait_for_timeout(200)
+    c0 = await pg.evaluate('__sw.S.coins'); prize = await pg.evaluate('__sw.QuizNight.round.prize')
+    await pg.evaluate(RIGHT); await pg.wait_for_timeout(1250)
+    await pg.evaluate("document.querySelector('#qnOpts .qopt[data-k=\"' + ((__sw.QuizNight.current().right + 1) % 3) + '\"]').click()"); await pg.wait_for_timeout(300)
+    wrong = await text(pg, '#qnMsg'); await pg.wait_for_timeout(950)
+    await pg.wait_for_timeout(1200)
+    slow = await text(pg, '#qnMsg')
+    await pg.click('#modalBox [data-a="close"]'); await pg.wait_for_timeout(300)
+    ok(wrong.startswith('No, it was') and slow.startswith('Time’s up') and await pg.evaluate('__sw.S.coins') == c0 + prize
+       and await pg.evaluate('!__sw.QuizNight.round && __sw.UI.modalClosed()'), f'one right, one wrong ({wrong[:30]}…), one too slow ({slow[:30]}…), then leave: you keep {prize:,}')
+    await pg.evaluate("__sw.NIGHT.SECONDS = 15")
+    await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
+    ok('Quiz nights' in await text(pg, '#stats') and 'best 5 out of 5' in await text(pg, '#stats'), 'Stats: quiz nights played and your best')
     await pg.click('[data-tab="shop"]')
     # the chat's material: no question asked twice, three different answers each, no quip or thread twice
     dupes = await pg.evaluate("""(() => { const q = __sw.QUIZ.map(x => x[0]), qs = q.filter((x, i) => q.indexOf(x) !== i);

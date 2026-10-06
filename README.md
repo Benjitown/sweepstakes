@@ -57,7 +57,7 @@ src/
                     Biscuit the dog), the Banker, power cuts, storms, the duck race, scratchcards, Nan's bingo,
                     the Fruity (fruit machine), the pub quiz, going outside, KEVCOIN, Nan's stars, Nan's biscuit tin,
                     dares from the group chat, the seasons (Halloween, Bonfire Night, Christmas), the claw machine, the car
-                    boot sale, darts with Big Dave
+                    boot sale, darts with Big Dave, quiz night
   ui/               one file per view: panels, boards, shop, modals, tutorial, daily, keys, coin graph, household, ducks...
 assets/             fonts (+ OFL licence) and the favicon
 tools/              build.py, serve.py, vc.py (version control), export_rules.mjs, sim/ (economy, Fruity and KEVCOIN simulators)
@@ -104,8 +104,9 @@ The suites run against both the ES-module source and the built file:
   pumpkins, bats and trick or treaters, Bonfire Night's fireworks, Christmas snow and Nan's card), the claw machine
   (the swing, what it pays back, a win, a drop, a slip, a miss, leaving mid-grab), the car boot sale (his prices,
   buying, haggling, being sold out from under you, the mystery box, packing up), darts with Big Dave (a real
-  dartboard's scores, a win with 180, a loss, a draw, walking away), plus checks that every icon in the sheet has its
-  own id and the pub quiz never repeats itself
+  dartboard's scores, a win with 180, a loss, a draw, walking away), quiz night (a perfect round, a mixed one,
+  running out of time, leaving half-way), plus checks that every icon in the sheet has its own id and the pub quiz
+  never repeats itself
 - **layout:** desktop, tablet and phone sizes with no sideways scrolling
 
 Screenshots go to `test/screenshots/`.
