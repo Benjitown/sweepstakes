@@ -270,6 +270,7 @@ bus.on('storm', e => {
   StormView.off(); UI.toast('The storm’s passed.'); setTimeout(() => Chat.say('storm_end', {}, .5), 800);
 });
 bus.on('storm:flash', e => {
+  if (document.hidden) return; // nobody's watching: no flash, no thunder, no strike
   StormView.flash(e);
   if (e.strike) {
     Haptics.buzz([60, 40, 120]); Chat.say('storm_strike', {}, 1);
