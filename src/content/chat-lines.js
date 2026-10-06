@@ -149,6 +149,7 @@ export const LINES = {
   juke_waltz:    [['nan', 'Oh I love this one. Come and have a dance with your Nan x'], ['priya', 'this is actually lovely'], ['dave', 'Big Dave waltzes. Big Dave is graceful'],
     ['tash', 'I’m waltzing round the kitchen. don’t tell anyone']],
   juke_haunted:  [['priya', 'who put the spooky one on'], ['dave', 'I’ve gone all goosebumpy'], ['nan', 'Ooh, spooky! Like the old films on a Sunday afternoon, love x'], ['kev', 'is that a theremin. respect']],
+  juke_xmas:     [['nan', 'Ooh, it’s beginning to feel like Christmas, love x'], ['dave', 'SLEIGH BELLS. it’s official'], ['priya', 'too early. never too early'], ['tash', 'the tinsel is going up. it’s happening']],
   juke_off:      [['dave', 'who turned the music off'], ['nan', 'Bit of peace and quiet. Lovely x'], ['tash', 'thank you. finally']],
   // Biscuit the dog
   odd_bark:      [['nan', 'Is that next door’s dog again? He’s called Biscuit x'], ['kev', 'DOG. I repeat. DOG'], ['priya', 'dogs can smell mines, apparently. and fear'],

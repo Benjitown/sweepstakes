@@ -82,5 +82,19 @@ export const TRACKS = [
       [['G3 Bb3 D4', 'G3 C#4 E4'], 'G2 D3 A2 E3', [[0, 'G5', 2], [2, 'Bb5', 2], [4, 'A5', 2], [6, 'C#6', 2]]],
       ['A3 D4 F4', 'D2 A2 D2 C#2', [[0, 'D6', 6]]],
     ] },
+  // only on the jukebox at Christmas: a jolly one in G, with sleigh bells and a celesta
+  { id: 'xmas', season: 'xmas', bpm: 120, beats: 4, sub: 2, swing: .5, keys: 'organ', lead: 'musicbox', low: 'soft', kit: 'pub', leadFrom: 1,
+    comp: [[2, 1.4, .7], [6, 1.4, .7]],
+    drums: { kick: ['x...x...', .5], tamb: ['xxxxxxxx', .45] },
+    bars: [
+      ['B3 D4 G4', 'G2 _ D3 _', [[0, 'B4', 2], [2, 'D5', 2], [4, 'G5', 2], [6, 'D5', 2]]],
+      ['B3 E4 G4', 'E2 _ B2 _', [[0, 'E5', 2], [2, 'G5', 2], [4, 'B5', 4]]],
+      ['C4 E4 G4', 'C3 _ G2 _', [[0, 'C6', 2], [2, 'B5', 2], [4, 'A5', 2], [6, 'G5', 2]]],
+      ['A3 C4 F#4', 'D2 _ A2 _', [[0, 'F#5', 2], [2, 'A5', 2], [4, 'D5', 4]]],
+      ['B3 D4 G4', 'G2 _ D3 _', [[0, 'B4', 2], [2, 'D5', 2], [4, 'G5', 2], [6, 'B5', 2]]],
+      ['B3 E4 G4', 'E2 _ B2 _', [[0, 'E5', 2], [2, 'G5', 2], [4, 'E5', 2], [6, 'B4', 2]]],
+      [['A3 C4 E4', 'A3 C4 F#4'], 'A2 _ D2 _', [[0, 'C5', 2], [2, 'E5', 2], [4, 'D5', 2], [6, 'F#5', 2]]],
+      ['B3 D4 G4', 'G2 _ D2 F#2', [[0, 'G5', 6]]],
+    ] },
 ];
 export const TRACK_BY = Object.fromEntries(TRACKS.map(t => [t.id, t]));

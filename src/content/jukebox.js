@@ -4,6 +4,7 @@ export const RECORDS = {
   pub:    { code: 'A2', name: 'Last Orders', by: 'Big Dave & the Regulars', blurb: 'A knees-up on the Red Lion’s old piano. Dave doesn’t know the words and sings anyway.' },
   chip:   { code: 'B1', name: 'Insert Coin', by: '8-Bit Kev', blurb: 'Kev made it on his lunch break. He’s trying to sell it as an NFT.' },
   waltz:  { code: 'B2', name: 'Nan’s Wireless', by: 'The Tea Dance Orchestra', blurb: 'Nan’s favourite. She hums along while the kettle boils, and sometimes she has a little dance.' },
+  xmas:    { code: 'X1', name: 'Tinsel on the Telly', by: 'The Carol Singers', blurb: 'Only on the jukebox at Christmas. Sleigh bells, a celesta and a bit too much tinsel.' },
   haunted: { code: 'H1', name: 'The Haunted Arcade', by: 'The Night Shift', blurb: 'Only on the jukebox in October. Spooky organ, a theremin, and something in the cellar.' },
 };
 export const SHUFFLE = { code: 'C1', name: 'Shuffle', by: 'whatever the jukebox fancies', blurb: 'A different record every few minutes.' };
