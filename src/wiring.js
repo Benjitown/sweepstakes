@@ -69,6 +69,8 @@ import { PUMPKIN } from './data/seasons.js';
 import { TREAT_CARD, EGGED_CARD } from './content/seasons.js';
 import { Music } from './audio/music.js';
 import { JukeboxView } from './ui/jukebox-view.js';
+import { Karaoke } from './game/karaoke.js';
+import { KaraokeView } from './ui/karaoke-view.js';
 import { Allotment } from './game/allotment.js';
 import { AllotmentView } from './ui/allotment-view.js';
 import { VEG } from './content/allotment.js';
@@ -444,6 +446,15 @@ bus.on('paper', () => { Sound.letterbox(); PaperView.chip(); UI.toast('The Daily
 bus.on('paper:answer', ({ right, prize }) => { if (right) { Sound.cash(); UI.toast(`+${fmt(prize)}: you spotted the mine.`); RunPanel.render(); } else Sound.unflag(); });
 bus.on('paper:bust', a => PaperView.open(Paper.compose(Game.lastRun || S.run, 'bust'), a)); // the bust screen's "Read all about it"
 bus.on('reset', () => PaperView.chip());
+
+/* ---------- karaoke at the Red Lion (the Music switch covers the invites) ---------- */
+bus.on('karaoke:due', () => { if (pref('music') && !document.hidden && UI.modalClosed() && !Coach.active && !Outside.on && !Karaoke.live && Karaoke.wait() <= 0 && S.coins >= Karaoke.fee() * 10) KaraokeView.invite(); });
+bus.on('karaoke:done', r => {
+  r.x >= 2 ? Sound.cheer() : r.x ? Sound.cash() : Sound.boo(); RunPanel.render(); Rank.award(2 + Math.round(8 * r.score));
+  if (r.x >= 3) { FX.confetti(120); Banner.show('STANDING OVATION', `${Math.round(r.score * 100)}% at the karaoke`, 'gold', true); }
+  UI.toast(r.pay ? `${r.verdict} +${fmt(r.pay)} from the karaoke pot.` : `${r.verdict} The pot stays behind the bar.`);
+  setTimeout(() => Chat.say(r.x >= 2 ? 'karaoke_great' : 'karaoke_bad', {}, 1), 1500);
+});
 
 /* ---------- the jukebox ---------- */
 bus.on('bust', () => Music.scratch()); // the needle comes off the record

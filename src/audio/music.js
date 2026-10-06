@@ -9,6 +9,8 @@ import { MUSIC, TRACKS, TRACK_BY } from '../data/jukebox.js';
 const MUSIC_PITCH = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 };
 export const musicMidi = s => { const m = /^([A-G])(#|b)?(\d)$/.exec(s); return m ? 12 * (+m[3] + 1) + MUSIC_PITCH[m[1]] + (m[2] === '#' ? 1 : m[2] === 'b' ? -1 : 0) : 0; };
 const musicHz = s => 440 * 2 ** ((musicMidi(s) - 69) / 12);
+// when step s of a bar of track T starts, in seconds from the start of the bar (swing pushes the off-beats late)
+export const stepAt = (T, s) => { const beat = 60 / T.bpm; return Math.floor(s / T.sub) * beat + (T.sub === 2 && s % 2 ? T.swing * beat : (s % T.sub) * beat / T.sub); };
 const musicNoise = new WeakMap(); // a second of white noise per audio context, shared by every drum hit
 
 // a gain that swells to v in atk seconds, then dies away to nothing by `end`
@@ -92,7 +94,7 @@ const MIX = {
 };
 
 export const Music = {
-  holds: new Set(), ctx: null, out: null, lp: null, timer: 0, at: 0, k: 0, loop: 0, id: '', notes: 0, live: [], heard: false,
+  holds: new Set(), ducked: false, ctx: null, out: null, lp: null, timer: 0, at: 0, k: 0, loop: 0, id: '', notes: 0, live: [], heard: false,
   // should a record be playing? (your Music switch, the mute button, and nothing holding it: outside, a power cut, the tests)
   want() { const e = AudioEngine.get(); return pref('music') && !S.muted && e.unlocked && !document.hidden && !this.holds.size; },
   hold(why, on) { if (on) { if (why === 'power' && this.timer) this.windDown(); this.holds.add(why); } else this.holds.delete(why); this.sync(); },
@@ -103,10 +105,12 @@ export const Music = {
     const ids = TRACKS.map(x => x.id).filter(x => x !== prev); return ids[Math.floor(Math.random() * ids.length)];
   },
   volume: () => MUSIC.LEVEL * (typeof S.musicVol === 'number' ? Math.max(0, Math.min(1, S.musicVol)) : MUSIC.VOL),
-  applyVolume() { if (this.out) this.out.gain.setTargetAtTime(this.volume(), this.ctx.currentTime, .05); },
+  applyVolume() { if (this.out) this.out.gain.setTargetAtTime(this.volume() * (this.ducked ? .25 : 1), this.ctx.currentTime, .05); },
+  // something to hear over the record (Nan calling the bingo): turn it down for a moment, then back up
+  duck(on) { if (this.ducked === !!on) return; this.ducked = !!on; if (this.out) this.out.gain.setTargetAtTime(this.volume() * (on ? .25 : 1), this.ctx.currentTime, .08); },
   start() {
     const e = AudioEngine.get(), a = e.ready(); if (!a || !e.master) return;
-    this.ctx = a; this.out = a.createGain(); this.out.gain.value = this.volume();
+    this.ctx = a; this.out = a.createGain(); this.out.gain.value = this.volume() * (this.ducked ? .25 : 1);
     this.lp = mFilter(a, 'lowpass', 18000, e.master); this.out.connect(this.lp);
     this.id = this.pick(); this.k = 0; this.loop = 0; this.at = a.currentTime + .08;
     clearInterval(this.timer); this.timer = setInterval(() => this.pump(), 150); this.pump();
@@ -159,7 +163,7 @@ export const Music = {
   // one bar of track T (bar k, time round `loop`) from time t0 into out; returns how long the bar lasts
   bar(a, out, T, k, loop, t0) {
     const beat = 60 / T.bpm, step = beat / T.sub, n = T.beats * T.sub, [ch, low, tune] = T.bars[k], mix = MIX[T.id];
-    const at = s => t0 + Math.floor(s / T.sub) * beat + (T.sub === 2 && s % 2 ? T.swing * beat : (s % T.sub) * step);
+    const at = s => t0 + stepAt(T, s);
     const chordAt = s => (Array.isArray(ch) ? ch[s < n / 2 ? 0 : 1] : ch).split(' ');
     const play = (voice, note, s, len, v) => { VOICES[voice](a, out, musicHz(note), at(s), len * step, v); this.notes++; };
     T.comp.forEach(([s, len, v]) => chordAt(s).forEach(note => play(T.keys, note, s, len, mix.keys * v)));

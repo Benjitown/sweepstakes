@@ -35,7 +35,10 @@ async def run(browser, url, shots):
         await pg.click(f'#modalBox .dboard .grid .c[data-i="{safe}"]'); await pg.wait_for_timeout(250)
         ok(await pg.evaluate('__sw.Daily.board.revealed') > r0, f'a proven-safe dig opens tiles (tile {safe})')
     else:
-        ok(True, 'no proven-safe tile after the opening today (nothing to dig safely)')
+        # no proven-safe tile after today's opening: flag a covered tile instead (a flag is progress too, and it's saved)
+        cov = await pg.evaluate("(() => { const b = __sw.Daily.board; for (let i = 0; i < b.n; i++) if (!b.open[i]) return i; return -1; })()")
+        await pg.evaluate(f"__sw.Daily.flag(__sw.Daily.board, {cov})")
+        ok(True, 'no proven-safe tile after the opening today (nothing to dig safely, so it flags a tile instead)')
     # saved mid-game: reload and carry on
     rev = await pg.evaluate('__sw.Daily.board.revealed')
     await pg.keyboard.press('Escape'); await pg.wait_for_timeout(200)

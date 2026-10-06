@@ -97,6 +97,9 @@ import { PAPER, STORY_WEIGHT } from './data/paper.js';
 import { STORIES } from './content/paper.js';
 import { Sweepstake } from './game/sweepstake.js';
 import { DRAW } from './data/sweepstake.js';
+import { Karaoke } from './game/karaoke.js';
+import { KaraokeView } from './ui/karaoke-view.js';
+import { KARAOKE } from './data/karaoke.js';
 
 export function exposeForTests() {
   // no random knocks at the door mid-test (they'd pop up over what the tests click); the tests start them by hand
@@ -109,6 +112,7 @@ export function exposeForTests() {
   clearTimeout(QuizNight.timer); QuizNight.schedule = () => {}; // or quiz night
   Kev.second = () => {}; // KEVCOIN neither launches nor moves on its own; the tests call Kev.launch() and Kev.tick()
   Stars.second = () => {}; // and Nan doesn't read the stars unless a test asks
+  clearTimeout(Karaoke.timer); Karaoke.schedule = () => {}; // nor does anyone call you up for karaoke
   Paper.auto = false; // nor does the paper come unless a test delivers it
   Music.hold('test', true); // and the jukebox stays quiet unless a test puts a record on
   Storm.RAINBOW = 0; // no surprise rainbows (they make your next board golden) unless a test asks
@@ -120,7 +124,7 @@ export function exposeForTests() {
     Scratchcards, ScratchView, SCRATCH_CARDS, SCRATCH_PRIZES, Quiz, QUIZ, PowerCut, PowerView, Storm, StormView, Kev, KevView, KEV, IceCream, VanView, Stars, StarsView, Banker, Dog, DogView, Bingo, BingoView, makeTicket, Outside, OutsideView, BINGO_TICKETS, BINGO_PAYS, BINGO_CALLS,
     Fruity, FruityRules, FruityView, FRUITY_REELS, FRUITY_PAYS, FRUITY_STAKES, FRUITY_FEATURES,
     Tin, TIN, Dares, DareView, DARES, DARE, Seasons, SeasonView, SEASONS, PUMPKIN, TRICK, XMAS, Claw, ClawView, CLAW, CLAW_PRIZES, CLAW_BY, CarBoot, CarBootView, BOOT, Darts, DartsView, DARTS, DARTBOARD, QuizNight, QuizNightView, NIGHT, Skins, SKINS, THREADS, RUDE_THREADS, QUIPS, RUDE_QUIPS, SURE, BINGO_END,
-    Music, musicMidi, JukeboxView, MUSIC, TRACKS, TRACK_BY, RECORDS, Allotment, AllotmentView, PLOT, CROPS, CROP_BY, VEG, News, Paper, PaperView, PAPER, STORY_WEIGHT, STORIES, Sweepstake, DRAW,
+    Music, musicMidi, JukeboxView, MUSIC, TRACKS, TRACK_BY, RECORDS, Allotment, AllotmentView, PLOT, CROPS, CROP_BY, VEG, News, Paper, PaperView, PAPER, STORY_WEIGHT, STORIES, Sweepstake, DRAW, Karaoke, KaraokeView, KARAOKE,
     get slots() { return Game.slots; },
   };
 }

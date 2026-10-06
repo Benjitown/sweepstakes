@@ -25,3 +25,19 @@
 .jrec[aria-pressed="true"] small,.jrec[aria-pressed="true"] span{color:#5b4300}
 .juke .sl{width:100%}
 @media (prefers-reduced-motion:reduce){.juke.playing .disc,.juke.playing .tube,.eq i{animation:none}}
+/* Karaoke: the lane the notes slide along, and the mic they slide to. */
+.karaoke{display:grid;gap:8px;justify-items:center;width:100%}
+.karaoke h3{margin:0}
+.ksong{margin:0;color:var(--ink-dim);font-size:.85rem}
+.klane{position:relative;width:100%;height:120px;border-radius:12px;overflow:hidden;background:linear-gradient(180deg,#2a1640,#120a1c);box-shadow:inset 0 0 0 2px #4b2b6e}
+.klane::before{content:"";position:absolute;left:54px;top:0;bottom:0;width:3px;background:rgba(255,210,63,.55);box-shadow:0 0 10px rgba(255,210,63,.6)}
+.kmic{position:absolute;left:36px;bottom:4px;width:40px;height:40px;opacity:.85}
+.kmic svg{width:100%;height:100%}
+.kn{position:absolute;left:-9px;top:var(--y);width:18px;height:18px;margin-top:-9px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 2px #141b1d,0 0 8px rgba(255,210,63,.6);will-change:transform}
+.kn.great{background:var(--green);box-shadow:0 0 0 2px #141b1d,0 0 14px var(--green)}
+.kn.good{background:var(--blue)}
+.kn.miss{background:#5a4a6a;box-shadow:0 0 0 2px #141b1d;opacity:.6}
+.klane.bum{animation:kbum .3s}
+@keyframes kbum{50%{box-shadow:inset 0 0 0 3px var(--red),inset 0 0 30px rgba(254,95,85,.5)}}
+.kmsg{margin:0;min-height:1.4em;text-align:center}
+@media (prefers-reduced-motion:reduce){.klane.bum{animation:none}}

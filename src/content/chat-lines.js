@@ -136,6 +136,10 @@ export const LINES = {
     ['kev', 'a lottery is just KEVCOIN with extra steps'], ['priya', 'a lottery winner. are you going to change'], ['tash', 'buy us a drink then']],
   lotto_jackpot: [['nan', 'All five numbers! I’m over the moon for you, love x'], ['dave', 'ALL FIVE. I need a lie down'],
     ['priya', 'they’re going to want a photo with a big cheque'], ['kev', 'put it all in KEVCOIN. trust me. please']],
+  // karaoke at the Red Lion
+  karaoke_great: [['dave', 'GOOSEBUMPS. actual goosebumps'], ['nan', 'What a lovely voice! You get that from me, love x'], ['priya', 'the whole pub joined in on the last line'],
+    ['tash', 'ok that was genuinely good. I hate it']],
+  karaoke_bad:   [['dave', 'I’ve heard better from the fruit machine'], ['tash', 'my ears'], ['nan', 'You were brilliant to me, love x'], ['kev', 'I recorded it. minting it as a KEVCOIN']],
   // the jukebox: everyone has an opinion about your record
   juke_lounge:   [['priya', 'very James Bond. are you wearing a bow tie'], ['dave', 'lift music. I love it'], ['nan', 'Ooh very posh. Shall I put my pearls on x'],
     ['kev', 'this is what they play when you’re on hold to the bank']],

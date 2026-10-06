@@ -87,6 +87,12 @@ async def run(browser, url, shots):
     await pg.wait_for_timeout(2200)
     ok(abs(await pg.evaluate('__sw.Music.out.gain.value') - .15) < .02, 'then it comes back up')
 
+    await pg.evaluate("__sw.Music.duck(true)"); await pg.wait_for_timeout(500)
+    gd = await pg.evaluate('__sw.Music.out.gain.value')
+    await pg.evaluate("__sw.Music.duck(false)"); await pg.wait_for_timeout(500)
+    gu = await pg.evaluate('__sw.Music.out.gain.value')
+    ok(abs(gd - .15 * .25) < .01 and abs(gu - .15) < .01, f'while Nan calls the bingo the record goes down, then back up ({gd:.3f} → {gu:.3f})')
+
     # --- muted, outside, a power cut
     await pg.click('#btnMute'); await pg.wait_for_timeout(300)
     ok(not await pg.evaluate('!!__sw.Music.timer'), 'muting stops the music')

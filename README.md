@@ -58,6 +58,7 @@ src/
                     the Fruity (fruit machine), the pub quiz, going outside, KEVCOIN, Nan's stars, Nan's biscuit tin,
                     dares from the group chat, the seasons (Halloween, Bonfire Night, Christmas), the claw machine, the car
                     boot sale, darts with Big Dave, quiz night, board styles, the allotment, The Daily Sweep (the paper)
+                    and its Sweepstake (a lottery), karaoke at the Red Lion
   ui/               one file per view: panels, boards, shop, modals, tutorial, daily, keys, coin graph, household, ducks...
 assets/             fonts (+ OFL licence) and the favicon
 tools/              build.py, serve.py, vc.py (version control), export_rules.mjs, sim/ (economy, Fruity and KEVCOIN simulators)
@@ -112,6 +113,8 @@ The suites run against both the ES-module source and the built file:
 - **paper:** The Daily Sweep: the newsroom noting the run's big moments, the paper arriving, the front page (the
   biggest story leads), Spot the Mine (one or two certain mines; right pays once), the Sweepstake (Lucky Dip lines,
   the draw, the payouts, about half back), a quiet run, the bust screen's special edition, Stats and the phone
+- **karaoke:** the notes timed to the record (swing and all), the scoring (great, good, missed, bum notes), a standing
+  ovation and what it pays, the machine's rest, being booed off, singing with the sound muted, and the phone
 - **jukebox:** the records (every note a real note that fits its bar), putting one on, every record playing, shuffle,
   the Music switch and slider, and when the music stops (muted, outside, a power cut) and starts again
 - **layout:** desktop, tablet and phone sizes with no sideways scrolling
