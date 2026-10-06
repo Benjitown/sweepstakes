@@ -53,6 +53,7 @@ import { Claw } from './game/claw.js';
 import { CarBoot } from './game/car-boot.js';
 import { Darts } from './game/darts.js';
 import { QuizNight } from './game/quiz-night.js';
+import { Skins } from './game/skins.js';
 import { FruityView } from './ui/fruity-view.js';
 import { KevView } from './ui/kevcoin-view.js';
 import { Outside } from './game/outside.js';
@@ -81,6 +82,7 @@ KevView.bind(); DareView.bind();
 const trySeason = new URLSearchParams(location.search).get('season');
 if (trySeason !== null) Seasons.force = trySeason; else if (new URLSearchParams(location.search).has('test')) Seasons.force = 'none';
 const season = SeasonView.apply();
+document.body.dataset.skin = Skins.current(); // the board style you picked (Stats)
 TablesView.reveal();
 Bots.timer = setTimeout(() => Bots.tick(), Bots.delay());
 WeirdNoises.schedule();
