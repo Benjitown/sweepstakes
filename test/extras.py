@@ -82,17 +82,17 @@ async def run(browser, url, shots):
     # --- the pub quiz: a question in the chat, three answers, 25 seconds
     await pg.evaluate("(() => { __sw.Coach.finish(); __sw.S.coins = 5000; __sw.S.life.lvl = 5; __sw.S.life.xp = 0; __sw.S.life.ach = Object.fromEntries(__sw.ACHIEVEMENTS.map(a => [a.id, 1])); __sw.renderAll(); })()")
     L = await pg.evaluate("(() => { const L = __sw.Quiz.ask(0); return { q: L.q, options: L.options, right: L.right, prize: L.prize }; })()")
-    shown = await text(pg, '#chat .msg.quiz:last-child .bubble')
-    ok('capital of Australia' in shown and await pg.evaluate("document.querySelectorAll('#chat .msg.quiz:last-child .qopt').length") == 3
+    shown = await pg.evaluate("[...document.querySelectorAll('#chat .msg.quiz')].pop().querySelector('.bubble').textContent")
+    ok('capital of Australia' in shown and await pg.evaluate("[...document.querySelectorAll('#chat .msg.quiz')].pop().querySelectorAll('.qopt').length") == 3
        and L['options'][L['right']] == 'Canberra', f"a friend asks the chat: “{L['q']}” with three answers ({', '.join(L['options'])})")
     c0 = await pg.evaluate('__sw.S.coins')
-    await pg.click(f'#chat .msg.quiz:last-child .qopt[data-k="{L["right"]}"]'); await pg.wait_for_timeout(300)
+    await pg.locator('#chat .msg.quiz').last.locator(f'.qopt[data-k="{L["right"]}"]').click(); await pg.wait_for_timeout(300)
     ok(await pg.evaluate('__sw.S.coins') == c0 + L['prize'] and await pg.evaluate("!![...document.querySelectorAll('#chat .msg.quiz')].pop().querySelector('.qopt.right:disabled')"),
        f"the right answer pays {L['prize']} and the question closes")
     L = await pg.evaluate("(() => { const L = __sw.Quiz.ask(1); return { right: L.right, answer: L.answer }; })()")
     wrong = (L['right'] + 1) % 3
     c0 = await pg.evaluate('__sw.S.coins'); n0 = await pg.evaluate("document.querySelectorAll('#chat .msg').length")
-    await pg.click(f'#chat .msg.quiz:last-child .qopt[data-k="{wrong}"]'); await pg.wait_for_timeout(1600)
+    await pg.locator('#chat .msg.quiz').last.locator(f'.qopt[data-k="{wrong}"]').click(); await pg.wait_for_timeout(1600)
     marks = await pg.evaluate("[...document.querySelectorAll('#chat .msg.quiz')].pop().querySelectorAll('.qopt.right, .qopt.wrong').length")
     said = await pg.evaluate("[...document.querySelectorAll('#chat .msg')].slice(-1)[0].textContent")
     ok(await pg.evaluate('__sw.S.coins') == c0 and marks == 2 and L['answer'] in said, f"a wrong answer pays nothing, shows the right one, and someone tells you: “{said.strip()[-60:]}”")
