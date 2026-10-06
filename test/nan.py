@@ -14,10 +14,10 @@ ALL_LINES = """(() => { const L = [];
   return L; })()"""
 # a live Dodgy Den board with a few safe tiles dug, cashed out in profit; returns the profit
 WIN = """(() => { const old = __sw.slots[0]; if (old) { old.over = true; __sw.Game.endBoard(old); }
+  let profit = null; __sw.bus.on('board:cashout', e => { if (e.b === __sw.slots[0] && profit === null) profit = e.profit; });
   __sw.Game.deal(0); const b = __sw.slots[0]; __sw.invoke(new __sw.DigCommand(b, Math.floor(b.t.h / 2) * b.t.w + Math.floor(b.t.w / 2)));
   for (let i = 0, n = 0; i < b.n && n < 6 && !b.over; i++) if (!b.mine[i] && !b.open[i]) { __sw.invoke(new __sw.DigCommand(b, i)); n++; }
-  let profit = null; const off = __sw.bus.on('board:cashout', e => { profit = e.profit; });
-  if (!b.over) __sw.Game.cashOut(b); if (off) off(); return profit; })()"""
+  if (!b.over) __sw.Game.cashOut(b); return profit; })()"""
 
 
 async def text(pg, sel):
