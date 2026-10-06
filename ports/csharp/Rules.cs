@@ -134,7 +134,21 @@ namespace Sweepstakes
             "the smoke detector knows what you did",
             "answer the door. or don’t. the door knows",
             "a duck house, on expenses",
-            "tax the ducks"
+            "tax the ducks",
+            "the claw is lying to you",
+            "haggle with the bomb",
+            "everything must go (including you)",
+            "the pumpkin knows",
+            "nan’s saved you a slice x",
+            "dare you to cash out",
+            "the car boot man has seen things",
+            "the crown is greased. allegedly",
+            "a bat is in the chat",
+            "no refunds on mines",
+            "remember remember the fifth of… tile",
+            "the dog sat on a mine. good boy",
+            "the biscuit tin is not for biscuits",
+            "certified bargain hunter"
         };
         public static readonly Dictionary<string, string[][]> LINES = new Dictionary<string, string[][]> {
             { "daily_nudge", new[] { new[] { "dave", "did the daily. ×{x}. genius behaviour, frankly" }, new[] { "tash", "daily’s up. ×{x}. not saying I’m better than you but I am" }, new[] { "kev", "today’s daily: ×{x}. told my manager. he did not care" }, new[] { "priya", "daily done. ×{x}. your move" }, new[] { "nan", "I did the daily puzzle love. ×{x}. Is that good x" } } },

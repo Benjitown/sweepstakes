@@ -12,5 +12,7 @@ export const STARS_MIDDLE = [
   'an old friend will knock at the door. Let them in, unless they’re selling raffle tickets.', 'it’s a good day to cash out early and a bad day to tell anyone.',
   'money is coming your way. Some of it might even stay.', 'beware of seagulls bearing grudges.', 'today you’ll find something you lost. Probably your stake.',
   'a tall dark stranger will flag the wrong tile.', 'don’t lend anyone your lucky dabber.',
+  'a bargain isn’t a bargain if you didn’t need it. Buy it anyway.', 'someone will dare you to do something daft. Do it, but cash out first.',
+  'the claw will let you down. Grab anyway.', 'a small dog has your best interests at heart.', 'you’ll find a fiver in an old coat.',
 ];
 export const STARS_LUCKY = ['Lucky number: {n}.', 'Your lucky number is {n}, so watch for it.', 'Keep an eye out for a {n} today.', 'The number {n} will be kind to you.'];
