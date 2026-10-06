@@ -1,0 +1,8 @@
+# LF line endings everywhere (the build and the tests compare text byte for byte)
+* text=auto eol=lf
+*.woff2 binary
+*.png binary
+*.jpg binary
+*.jar binary
+*.exe binary
+*.zip binary

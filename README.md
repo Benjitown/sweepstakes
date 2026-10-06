@@ -87,21 +87,22 @@ Screenshots go to `test/screenshots/`.
 finds a compiler for, checks that its Daily Challenge matches the web game exactly, plays a scripted game and passes
 one save file between them.
 
-## Version control
+## Branches and version control
 
-`tools/vc.py` is a small version control tool: no git needed, standard library only.
+The project lives in git, on GitHub. Work moves through three branches:
 
 ```
-python tools/vc.py status                   what changed since the last save
-python tools/vc.py save "message" --tag v4.1
-python tools/vc.py log                      every save, newest first
-python tools/vc.py diff v4.0                your files vs a save (or: diff v4.0 v4.1)
-python tools/vc.py restore v3.0             go back (it saves a backup of your current files first)
-python tools/vc.py export v3.0 v3.zip       copy a save out without touching your files
+feature/<name> ──> experimental ──> dev ──> main
 ```
 
-Snapshots live in `.vc/`, and file contents are stored once each and compressed. `.vcignore` lists what's skipped
-(`dist/`, screenshots, build folders).
+- **experimental** is where work happens. Each new feature gets its own branch off experimental and is merged back
+  into it when it's done.
+- **dev** gets experimental once everything works, before it's fully tested.
+- **main** gets dev once it's fully tested and ready to publish. Each release on main is tagged (`v4.3`…), and the
+  tags `v3.0` to `v4.3` are the versions from before the move to git.
+
+`tools/vc.py` is the small version control tool the project used before git (no git needed, standard library only).
+It still works if you ever need it without git: `python tools/vc.py status | save "message" | log | diff | restore | export`.
 
 ## Economy simulator
 

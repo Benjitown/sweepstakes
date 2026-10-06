@@ -1,0 +1,22 @@
+# Built by python tools/build.py (dist/sweepstakes.html is the whole game in one file)
+dist/
+# Test screenshots (python test/run.py)
+test/screenshots/
+# Caches and build folders
+__pycache__/
+*.pyc
+node_modules/
+.gradle/
+build/
+bin/
+obj/
+*.class
+*.jar
+*.exe
+# The old built-in version control's store (git has the same history)
+.vc/
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
