@@ -1,0 +1,154 @@
+// What reacts to each game event (views, sounds, chat, rank). This one list is the whole wiring diagram.
+import { ico, fmt, fmtX, dur } from './core/util.js';
+import { START, TABLES, SPIN_EVERY, ROMAN } from './data/economy.js';
+import { ABY } from './data/addons.js';
+import { bus } from './core/bus.js';
+import { SaveGame, S, lvl, asc } from './core/state.js';
+import { Sound } from './audio/sound.js';
+import { Game } from './game/game.js';
+import { Rack } from './game/rack.js';
+import { Rank } from './game/rank.js';
+import { UI } from './ui/ui.js';
+import { Background } from './ui/background.js';
+import { FX } from './ui/fx.js';
+import { Chat } from './ui/chat.js';
+import { Quips } from './ui/quip-popups.js';
+import { Banner } from './ui/banner.js';
+import { RunPanel } from './ui/run-panel.js';
+import { TablesView } from './ui/tables-view.js';
+import { StakeView } from './ui/stake-view.js';
+import { BoardsView } from './ui/boards-view.js';
+import { AddonStrip, RackView } from './ui/addon-views.js';
+import { ShopView } from './ui/shop-view.js';
+import { SpinView } from './ui/spin-view.js';
+import { StatsView } from './ui/stats-view.js';
+import { Tabs } from './ui/tabs.js';
+import { Coach } from './ui/tutorial.js';
+
+const RED = 'var(--red)', GOLD = 'var(--gold)', GREEN = 'var(--green)', PURPLE = 'var(--purple)';
+export function renderAll(keepModal) {
+  RunPanel.snap(); RunPanel.render(); AddonStrip.render(); TablesView.render(); StakeView.render(); BoardsView.renderAll(); ShopView.render();
+  if (Tabs.showing('rack')) RackView.render();
+  if (Tabs.showing('stats')) StatsView.render();
+  if (!keepModal && !UI.modalClosed() && !UI.modalLocked) UI.closeModal();
+}
+const xpFor = (b, cleared) => Math.round((8 + 4 * TABLES.indexOf(b.t)) * (cleared ? 1.5 : 1) + 3 * b.gemsFound);
+bus.on('reset', ({ keepModal } = {}) => renderAll(keepModal));
+bus.on('coins', ({ bump, fx }) => { RunPanel.coins(bump, fx); RunPanel.render(); TablesView.render(); StakeView.render(); ShopView.afford(); BoardsView.renderEmpties(); });
+bus.on('stake', () => BoardsView.renderEmpties());
+bus.on('table:selected', () => { TablesView.render(); TablesView.reveal(); StakeView.render(); BoardsView.renderEmpties(); ShopView.render(); });
+bus.on('table:unlocked', ({ t }) => {
+  Sound.buy(); FX.confetti(40); Chat.say('unlock', {}, 1); UI.toast(`${t.name} unlocked. ${t.blurb}`);
+  TablesView.render(); TablesView.reveal(); StakeView.render(); BoardsView.renderEmpties(); ShopView.render(); RunPanel.render(); if (Tabs.showing('rack')) RackView.render();
+});
+bus.on('board:dealt', ({ b, big }) => {
+  BoardsView.render(b.slot); RunPanel.render();
+  if (big) Chat.say('deal_big', { stake: fmt(b.stake) });
+  if (b.golden) { Sound.golden(); Chat.say('golden'); Background.flashGold(1800); }
+  Coach.event('board:dealt');
+});
+bus.on('board:cells', ({ b, cells }) => cells.forEach(i => BoardsView.cell(b, i)));
+bus.on('board:hud', ({ b }) => { BoardsView.hud(b); BoardsView.odds(b); });
+bus.on('board:tools', ({ b }) => BoardsView.tools(b));
+bus.on('inventory', () => { Game.slots.forEach(b => b && BoardsView.tools(b)); ShopView.later(); });
+bus.on('dig', ({ b, src }) => { Sound.reveal(b.frac(), src === 'bot'); if (src === 'you') Coach.event('dig:you'); });
+bus.on('board:risky', ({ b, i, k, p, src, combo }) => {
+  BoardsView.float(b, i, `×${k.toFixed(2)}${combo > 1 ? ` · COMBO ${combo}` : ''}`, p < .2 ? GREEN : p < .35 ? GOLD : RED, combo > 2);
+  if (src !== 'bot') Sound.risky(p, combo);
+});
+bus.on('board:gem', ({ b, i, x, tier }) => {
+  BoardsView.float(b, i, `${tier.name.toUpperCase()} ×${x}`, tier.k === 'jackpot' ? RED : GOLD, true);
+  Sound.gem(tier.k);
+  const c = b.cells && b.cells[i];
+  if (c) { const r = c.getBoundingClientRect(); FX.confetti(tier.k === 'jackpot' ? 120 : 18, { x: r.left + r.width / 2, y: r.top }); }
+  if (tier.k === 'jackpot') { Banner.show('JACKPOT!', `×5 on ${b.t.name}`, 'red', true); Background.flashGold(); Chat.say('jackpot', {}, 1); }
+  else Chat.say('gem');
+});
+bus.on('flag', ({ b, on: isOn, src }) => { src === 'bot' ? Sound.tick() : isOn ? Sound.flag() : Sound.unflag(); BoardsView.odds(b); });
+bus.on('probe', ({ b }) => { Sound.flag(); UI.toast('Probe says: mine. Flagged it for you.'); BoardsView.odds(b); });
+bus.on('board:defused', ({ by }) => {
+  Sound.shield();
+  if (by === 'fuse') { AddonStrip.jiggle('fuse'); Chat.say('fuse'); } else { UI.toast('Shield popped! That mine is defused.'); Chat.say('shield'); ShopView.later(); }
+  Game.slots.forEach(b => b && BoardsView.tools(b));
+});
+bus.on('addon:fired', ({ id, b, i, text }) => { AddonStrip.jiggle(id); if (b && text) BoardsView.float(b, i, text, PURPLE); });
+bus.on('board:boom', ({ b, i, src, left, missed }) => {
+  Sound.boom(); BoardsView.boom(b, i);
+  // near misses sting, so say them out loud
+  const sub = left > 0 && left <= 5 ? `${left} tile${left > 1 ? 's' : ''} from a clean sweep` : missed ? `${missed} gem${missed > 1 ? 's' : ''} still down there` : '';
+  BoardsView.stamp(b, `−${fmt(b.stake)}`, 'lose', sub);
+  Chat.say(src === 'yolo' ? 'yolo' : 'boom', { stake: fmt(b.stake) }, src === 'yolo' ? .6 : undefined);
+  if (src !== 'bot' && src !== 'yolo') Quips.maybe(.15);
+  Rank.award(3); Coach.event('board:over');
+});
+bus.on('board:cashout', ({ b, why, profit, mult, missed }) => {
+  BoardsView.ghostMines(b);
+  const sub = missed && why !== 'clear' ? `you left ${missed} gem${missed > 1 ? 's' : ''} behind` : '';
+  if (why === 'clear') { Sound.clear(); FX.confetti(); BoardsView.stamp(b, `CLEAN SWEEP +${fmt(profit)}`, 'win'); Chat.say('clear'); }
+  else if (why === 'limit') { Sound.clear(); FX.confetti(); BoardsView.stamp(b, `TABLE LIMIT +${fmt(profit)}`, 'win'); Chat.say('cash_big', { profit: fmt(profit) }, 1); }
+  else { Sound.cash(); BoardsView.stamp(b, `+${fmt(profit)}`, 'win', sub); Chat.say(why === 'coward' ? 'coward' : profit >= Math.max(300, b.stake) ? 'cash_big' : 'cash_small', { profit: fmt(profit) }); }
+  const tier = mult >= 50 ? 3 : mult >= 15 ? 2 : mult >= 5 ? 1 : 0;
+  if (tier && (b.human || tier >= 2) && Banner.show(['', 'BIG WIN', 'HUGE WIN', 'MEGA WIN'][tier], `+${fmt(profit)} · ×${fmtX(mult)}`, ['', 'gold', 'orange', 'red'][tier])) { Sound.bigwin(tier); FX.confetti(60 * tier); }
+  if (why === 'manual') Quips.maybe(.12);
+  Rank.award(xpFor(b, why === 'clear')); Coach.event('board:over');
+});
+bus.on('board:ended', ({ b }) => { BoardsView.render(b.slot); RunPanel.render(); });
+bus.on('streak', ({ n }) => { if (n >= 3) Chat.say('streak', { streak: n }); RunPanel.render(); });
+bus.on('xp', () => RunPanel.rank());
+bus.on('levelup', ({ lvl: L, name, newRank, coins, extra }) => {
+  Sound.levelup(); FX.confetti(70, { x: innerWidth / 2, y: innerHeight * .35 });
+  Banner.show(`LEVEL ${L}`, newRank ? `New rank: ${name}` : `+${fmt(coins)}${extra}`, 'purple', true);
+  UI.toast(`Level ${L}! +${fmt(coins)} coins${extra}.`);
+  Game.setCoins(S.coins, true, { from: { x: innerWidth / 2, y: innerHeight * .4, ok: true }, amount: coins });
+  Chat.say('levelup', { rank: name }, newRank ? 1 : .4);
+  Game.slots.forEach(b => b && BoardsView.tools(b)); AddonStrip.render(); ShopView.later();
+});
+bus.on('upgrade:bought', ({ u }) => {
+  Sound.buy(); Chat.say('buy'); UI.toast(`${u.name}${u.costs.length > 1 ? ' Lv ' + lvl(u.id) : ''} bought.`); Quips.maybe(.1);
+  if (u.id === 'boards') BoardsView.ensureSlots();
+  if (u.id === 'pockets') { AddonStrip.render(); if (Tabs.showing('rack')) RackView.render(); }
+  ShopView.render(); RunPanel.render(); Game.slots.forEach(b => b && (BoardsView.hud(b), BoardsView.odds(b)));
+});
+bus.on('toggles', () => Game.slots.forEach(b => b && BoardsView.odds(b)));
+bus.on('purchase', () => { Sound.buy(); ShopView.render(); });
+bus.on('addon:bought', ({ id }) => { Sound.buy(); Sound.card(); Chat.say('addon'); UI.toast(`${ABY[id].name} added.`); Quips.maybe(.1); });
+bus.on('addon:changed', () => { AddonStrip.render(); if (Tabs.showing('rack')) RackView.render(); StakeView.render(); Game.slots.forEach(b => b && BoardsView.tools(b)); ShopView.later(); });
+bus.on('addon:bought', () => bus.emit('addon:changed'));
+bus.on('addon:burned', ({ id }) => UI.toast(`${ABY[id].name} burned up.`));
+bus.on('rack', () => { if (Tabs.showing('rack')) RackView.render(); });
+bus.on('ascended', ({ level }) => {
+  Sound.ascend(); FX.confetti(220); Chat.say('ascend', {}, 1); UI.toast(`Ascension ${ROMAN[level]}. The tables just got meaner.`);
+  Rank.award(100);
+  RunPanel.render(); ShopView.render(); TablesView.render(); StakeView.render();
+});
+bus.on('casino', () => {
+  Sound.win(); FX.confetti(260); Chat.say('casino', {}, 1); setTimeout(() => Chat.say('casino', {}, 1), 1500); ShopView.render();
+  UI.modal(`${ico('crown', 'bigicon')}<h3>You own the casino</h3>
+    <p>From ${fmt(START)} coins to the deeds in ${dur(S.run.time)}, at Ascension ${ROMAN[asc()]}. You busted ${S.life.busts} time${S.life.busts === 1 ? '' : 's'} getting here.</p>
+    <div class="row"><button class="btn green" type="button" data-a="keep">Keep playing</button><button class="btn ghost" type="button" data-a="new">Start a fresh run</button></div>`,
+    { keep: () => UI.closeModal(), new: () => { UI.closeModal(); Game.resetRun(); } });
+});
+bus.on('spin:landed', ({ prize, from }) => {
+  if (prize.coins) Game.setCoins(S.coins, true, { from, amount: prize.coins });
+  if (prize.kind === 'jackpot') { Banner.show('JACKPOT!', prize.text, 'red', true); Sound.bigwin(3); FX.confetti(200); } else { Sound.cash(); FX.confetti(50); }
+  if (prize.kind === 'shield' || prize.kind === 'probe') Game.slots.forEach(b => b && BoardsView.tools(b));
+  if (prize.card) { AddonStrip.render(); Sound.card(); }
+  Chat.say('spin'); Rank.award(5); RunPanel.render(); ShopView.later();
+});
+bus.on('modal:closed', () => { if (SpinView.pending) { const prize = SpinView.pending; SpinView.pending = null; bus.emit('spin:done', { prize }); } });
+bus.on('spin:done', () => Coach.event('spin:done'));
+bus.on('don:offer', ({ step }) => Chat.say('don_offer', {}, step ? .9 : .7));
+bus.on('don:win', ({ step }) => { Sound.win(); FX.confetti(220); Chat.say('don_win', {}, 1); Quips.maybe(.35); Rank.award(20 * (step + 1)); });
+bus.on('flip', ({ win, bet }) => {
+  if (win) { Sound.cash(); UI.toast(`+${fmt(bet)}! The coin likes you.`); Chat.say('flip_win'); Quips.maybe(.15); }
+  else { Sound.boom(); UI.toast(`−${fmt(bet)}. The coin does not like you.`); Chat.say('flip_lose'); }
+});
+bus.on('bust', ({ reason }) => { Sound.bust(); Chat.say(reason === 'don' ? 'don_lose' : 'bust', {}, 1); });
+bus.on('odd', ({ k }) => { if (Math.random() < .55) setTimeout(() => Chat.say('odd_' + k, {}, 1), 1700 + Math.random() * 1600); });
+bus.on('tick', () => {
+  RunPanel.spin(); Rack.tick(); RackView.tick();
+  if (S.run.time % 15 === 0) SaveGame.save();
+  if (Tabs.showing('stats') && S.run.time % 5 === 0) StatsView.render();
+  if (S.run.time % 20 === 0 && UI.modalClosed()) Quips.maybe(.18);
+  if (S.run.time === S.spinAt + SPIN_EVERY) { UI.toast('Free spin ready!'); Sound.select(2); }
+});

@@ -1,0 +1,62 @@
+/* Run panel (left column; a sticky top bar on phones): coins, rank, chips, goal, main buttons. */
+.run{position:sticky;top:calc(18px + env(safe-area-inset-top,0px));display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+.run > *{min-width:0}
+.run .btn{white-space:normal;text-align:center;line-height:1.1}
+.logo{font-family:var(--big);font-size:2.3rem;line-height:.9;color:#fff;text-shadow:0 3px 0 var(--red-lo),0 6px 0 rgba(0,0,0,.4);transform:rotate(-3deg);display:flex;align-items:center;justify-content:center;gap:6px;padding-top:4px}
+.logo svg{width:36px;height:36px;flex:none;animation:wobble 3s ease-in-out infinite}
+.logo b{color:var(--gold);font-weight:400}
+.bank{display:flex;align-items:center;gap:8px;font-family:var(--big);font-size:2.6rem;line-height:1;color:var(--gold);text-shadow:0 3px 0 rgba(0,0,0,.45)}
+.bank svg{width:36px;height:36px;flex:none}
+.bank.bump{animation:bump .35s}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chips:not(:has(> :not([hidden]):not(.lvchip))){display:none}
+.ascbadge{background:var(--purple);box-shadow:0 3px 0 var(--purple-lo);border-radius:8px;padding:3px 10px;font-weight:700;justify-self:start;display:flex;align-items:center;gap:6px}
+.ascbadge svg{width:20px;height:20px}
+.streak{display:flex;align-items:center;gap:6px;background:var(--red);border-radius:8px;box-shadow:0 3px 0 var(--red-lo);padding:3px 10px 3px 6px;font-weight:700;justify-self:start}
+.streak svg{width:22px;height:22px}
+.goal-l{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.goal-bar{display:block;height:12px;border-radius:6px;background:var(--shadow);overflow:hidden;margin-top:6px}
+.goal-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--green));transition:width .4s}
+.rank{display:grid;gap:6px}
+.rk{display:flex;align-items:baseline;gap:8px;min-width:0}
+.rk b{font-family:var(--big);font-weight:400;font-size:1.7rem;line-height:1;color:var(--purple);text-shadow:0 2px 0 rgba(0,0,0,.45)}
+.rk span{font-size:.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.xpbar{display:block;height:8px;border-radius:6px;background:var(--shadow);overflow:hidden}
+.xpbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--purple),var(--red));transition:width .4s}
+.lvchip{display:none;align-items:center;background:var(--purple);box-shadow:0 3px 0 var(--purple-lo);border-radius:8px;padding:2px 8px;font-weight:700;white-space:nowrap}
+.goldchip{display:flex;align-items:center;gap:6px;background:var(--gold);color:#3b2b00;text-shadow:none;box-shadow:0 3px 0 var(--gold-lo);border-radius:8px;padding:3px 10px 3px 6px;font-weight:700}
+.goldchip svg{width:20px;height:20px}
+.btn.spin.ready{animation:spinready 1.2s ease-in-out infinite}
+.btn.spin.ready svg{animation:spinicon 2.4s linear infinite}
+.short{display:none}
+.run-actions{display:grid;gap:10px}
+.run-actions .row{display:flex;gap:8px}
+.run-actions .row .btn{flex:1}
+.run-actions .row .iconbtn{flex:none}
+@media (max-width:760px){
+  .run{top:env(safe-area-inset-top,0px);z-index:30;margin-inline:-16px;margin-top:-18px;border-radius:0 0 16px 16px;
+    grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"logo chips bank" "act act act";align-items:center;gap:8px;padding:8px 14px 10px}
+  .logo{grid-area:logo;font-size:1.45rem;transform:none;justify-content:flex-start;padding:0}
+  .logo svg{width:24px;height:24px}
+  .chips{grid-area:chips;flex-wrap:wrap;gap:4px 5px;align-content:center;max-height:48px;overflow:hidden}
+  .chips .ascbadge,.chips .streak{font-size:.75rem;padding:2px 6px;white-space:nowrap;gap:3px}
+  .chips .goldchip{gap:3px}
+  .chips svg{width:16px;height:16px}
+  .bankbox{grid-area:bank;justify-self:end;padding:2px 8px}
+  .bankbox .lbl,.goal,.rank{display:none}
+  .chips{display:flex!important}
+  .lvchip{display:inline-flex}
+  .chips .lvchip,.chips .goldchip{font-size:.75rem;padding:2px 6px;white-space:nowrap}
+  .long{display:none} .short{display:inline}
+  .bank{font-size:1.8rem} .bank svg{width:22px;height:22px}
+  .run-actions{grid-area:act;display:flex;gap:8px}
+  .run-actions .row{display:contents}
+  .run-actions .btn{flex:1 1 0;font-size:.9rem;padding:.45em .5em;min-height:40px}
+  .run-actions .btn.don{flex:1.25 1 0}
+  .run-actions .btn.spin.ready{flex:1.15 1 0}
+  .run-actions .iconbtn{flex:none;width:44px}
+  .play .tables{flex-wrap:nowrap;overflow-x:auto;padding:6px 4px 12px;margin:-6px -4px 0;scroll-snap-type:x proximity}
+  .play .tbl{flex:none;scroll-snap-align:start}
+  .play .addons{order:4}
+  .play .hint{order:5}
+}

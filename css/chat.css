@@ -1,0 +1,7 @@
+/* The group chat. */
+.chat{height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:9px;padding-right:4px}
+.msg{display:grid;grid-template-columns:34px minmax(0,1fr);gap:8px;align-items:start;animation:slidein .25s ease-out}
+.msg svg{width:34px;height:34px}
+.bubble{background:var(--panel-in);border-radius:4px 12px 12px 12px;padding:5px 10px;text-shadow:none;min-width:0}
+.bubble b{display:block;font-size:.75rem;color:var(--fc)}
+.bubble span{font-size:.92rem}

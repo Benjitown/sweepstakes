@@ -1,0 +1,14 @@
+/* Buttons: the chunky lipped .btn in every colour, plus icon buttons. */
+.btn{--c:var(--orange);--cl:var(--orange-lo);font-family:var(--pixel);font-weight:700;font-size:1rem;color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.4);border:0;border-radius:10px;
+  padding:.55em 1em;background:var(--c);box-shadow:0 4px 0 var(--cl);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:.4em;
+  transition:transform .06s,box-shadow .06s,filter .1s;white-space:nowrap}
+.btn:hover:not(:disabled){filter:brightness(1.1)}
+.btn:active:not(:disabled){transform:translateY(3px);box-shadow:0 1px 0 var(--cl)}
+.btn:disabled{cursor:not-allowed;filter:grayscale(.85) brightness(.65)}
+.btn.red{--c:var(--red);--cl:var(--red-lo)} .btn.blue{--c:var(--blue);--cl:var(--blue-lo)} .btn.green{--c:var(--green);--cl:var(--green-lo)}
+.btn.gold{--c:var(--gold);--cl:var(--gold-lo);color:#3b2b00;text-shadow:none} .btn.purple{--c:var(--purple);--cl:var(--purple-lo)} .btn.ghost{--c:var(--panel-hi);--cl:var(--shadow)}
+.btn.big{font-size:1.15rem;padding:.6em 1em}
+.btn.don{animation:pulse 1.6s ease-in-out infinite}
+.btn.don:disabled{animation:none}
+.iconbtn{padding:0;width:46px;min-height:44px}
+.iconbtn svg{width:26px;height:26px}

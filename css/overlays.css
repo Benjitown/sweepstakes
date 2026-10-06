@@ -1,0 +1,27 @@
+/* Things that float above the page: the big-win banner, the tutorial spotlight, toasts and quips. */
+/* big announcements */
+.banner{position:fixed;left:50%;top:40%;z-index:80;pointer-events:none;transform:translate(-50%,-50%);text-align:center;display:grid;gap:6px;justify-items:center;width:max-content;max-width:94vw}
+.banner b{font-family:var(--big);font-weight:400;font-size:clamp(3.2rem,13vw,7rem);line-height:.85;color:var(--gold);-webkit-text-stroke:2px #141b1d;text-shadow:0 7px 0 #141b1d,0 0 34px rgba(255,210,63,.55)}
+.banner small{font-family:var(--big);font-size:clamp(1.3rem,4.5vw,2.1rem);line-height:1.1;background:#141b1d;color:#fff;padding:.08em .6em .14em;border-radius:10px}
+.banner.red b{color:var(--red);text-shadow:0 7px 0 #141b1d,0 0 34px rgba(254,95,85,.6)}
+.banner.orange b{color:var(--orange)} .banner.purple b{color:var(--purple);text-shadow:0 7px 0 #141b1d,0 0 34px rgba(162,117,240,.6)}
+.banner.show{animation:banner 1.7s cubic-bezier(.2,1.4,.4,1) forwards}
+/* tutorial: spotlight ring + speech bubble */
+.coach{position:fixed;inset:0;z-index:90;pointer-events:none}
+.coach-ring{position:fixed;border-radius:14px;box-shadow:0 0 0 4px var(--gold),0 0 0 9999px rgba(8,14,16,.55);pointer-events:none;animation:ringpulse 1.3s ease-in-out infinite}
+.coach-ring.center{box-shadow:0 0 0 9999px rgba(8,14,16,.55);animation:none}
+.coach-bubble{position:fixed;pointer-events:auto;display:grid;grid-template-columns:52px minmax(0,1fr);gap:12px;align-items:start;background:var(--panel);border-radius:16px;box-shadow:0 0 0 3px var(--gold),0 8px 0 3px var(--shadow);padding:14px}
+.coach-bubble.in{animation:stamp .3s cubic-bezier(.2,1.4,.4,1)}
+.coach-bubble .fuse{width:52px;height:52px;animation:bob 1s ease-in-out infinite}
+.ctext{min-width:0}
+.ctext p{margin:0 0 10px;line-height:1.35;text-shadow:none}
+.crow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.cstep{font-size:.75rem;color:var(--ink-dim);text-shadow:none}
+.clink{background:none;border:0;color:var(--ink-dim);text-decoration:underline;cursor:pointer;padding:4px 2px;font:inherit;font-size:.8rem;text-shadow:none}
+.crow .btn{margin-left:auto;font-size:.9rem;padding:.4em .8em}
+/* toasts and quips */
+.toasts{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);display:grid;gap:8px;z-index:60;width:min(92vw,420px);pointer-events:none}
+.toast{background:var(--panel);box-shadow:0 0 0 3px var(--gold),0 5px 0 3px var(--shadow);border-radius:12px;padding:8px 14px;font-weight:700;text-align:center;animation:slideup .25s ease-out}
+.quip{position:fixed;z-index:75;pointer-events:none;max-width:min(84vw,320px);font-family:var(--big);font-size:1.75rem;line-height:1.05;padding:.22em .55em .3em;border-radius:10px;
+  background:var(--qc);color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.4);box-shadow:0 5px 0 rgba(0,0,0,.45);transform:translate(-50%,-50%) rotate(var(--qr));
+  animation:quip 1.9s cubic-bezier(.2,1.5,.4,1) forwards;text-align:center;text-wrap:balance}

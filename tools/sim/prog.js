@@ -1,6 +1,6 @@
 // Event-driven progression sim + cost tuner for Sweepstakes v3.
-// node prog.js run   -> milestone times with the costs below
-// node prog.js tune  -> adjusts costs toward the target timeline and prints them
+// node tools/sim/prog.js run   -> milestone times with the costs below
+// node tools/sim/prog.js tune  -> adjusts costs toward the target timeline and prints them
 'use strict';
 const { seed, rand, play } = require('./engine');
 

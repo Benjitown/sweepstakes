@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Sweepstakes</title>
+<meta name="description" content="Minesweeper, but you're gambling. Dig for multipliers, cash out before you hit a mine, or go double or nothing.">
+<meta name="theme-color" content="#0f2f27">
+<link rel="icon" href="assets/icon.svg">
+<!-- one stylesheet per area; this order is the cascade order (tools/build.py inlines them in the same order) -->
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/buttons.css">
+<link rel="stylesheet" href="css/run-panel.css">
+<link rel="stylesheet" href="css/play.css">
+<link rel="stylesheet" href="css/boards.css">
+<link rel="stylesheet" href="css/shop.css">
+<link rel="stylesheet" href="css/chat.css">
+<link rel="stylesheet" href="css/modals.css">
+<link rel="stylesheet" href="css/overlays.css">
+<link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="crt" id="crt" aria-hidden="true"></div>
+<canvas id="fx" aria-hidden="true"></canvas>
+
+<div class="app">
+  <aside class="run panel" aria-label="Your run">
+    <div class="logo"><svg aria-hidden="true"><use href="#i-bomb"/></svg><span>Sweep<b>$</b>takes</span></div>
+    <div class="inset bankbox"><span class="lbl">Coins</span><div class="bank" id="bank" title="Your coins"><svg aria-hidden="true"><use href="#i-coin"/></svg><span id="coins" class="num">1,000</span></div></div>
+    <div class="inset rank" id="rank"><div class="rk"><b id="rankLv">Lv 1</b><span id="rankName">Tile Toddler</span></div><span class="xpbar"><i></i></span></div>
+    <div class="chips" id="chips"><span class="lvchip" id="lvChip">Lv 1</span>
+      <div class="ascbadge" id="ascBadge" hidden><svg aria-hidden="true"><use href="#i-asc"/></svg><span class="long"></span><span class="short"></span></div>
+      <div class="streak" id="streak" hidden title="Win streak: bonus on profit"><svg aria-hidden="true"><use href="#i-flame"/></svg><span class="long"></span><span class="short"></span></div>
+      <div class="goldchip" id="goldChip" hidden title="Golden boards waiting for you"><svg aria-hidden="true"><use href="#i-crown"/></svg><span class="long"></span><span class="short"></span></div></div>
+    <div class="inset goal" id="goal"><span class="lbl goal-l"></span><span class="goal-bar"><i></i></span></div>
+    <div class="run-actions">
+      <button class="btn red big don" id="btnDon" type="button"><svg class="ic" aria-hidden="true"><use href="#i-dice"/></svg><span class="long">Double or nothing</span><span class="short">Double</span></button>
+      <button class="btn gold spin" id="btnSpin" type="button"><svg class="ic" aria-hidden="true"><use href="#i-wheel"/></svg><span class="long" id="spinLbl">Free spin!</span><span class="short" id="spinShort">Spin!</span></button>
+      <div class="row">
+        <button class="btn blue" id="btnFlip" type="button"><svg class="ic" aria-hidden="true"><use href="#i-coin"/></svg><span class="long">Coin flip</span><span class="short">Flip</span></button>
+        <button class="btn ghost iconbtn" id="btnMute" type="button" aria-label="Mute sounds"><svg aria-hidden="true"><use href="#i-sound"/></svg></button>
+      </div>
+    </div>
+  </aside>
+
+  <section class="play" aria-label="Tables and boards">
+    <div class="addons panel" id="addons"></div>
+    <div class="tables" id="tables" role="tablist" aria-label="Tables"></div>
+    <div class="stake panel">
+      <label for="stakeRange">Stake</label>
+      <input type="range" id="stakeRange" min="0" max="1000" value="0">
+      <output id="stakeOut" for="stakeRange" class="num">0</output>
+      <div class="quick">
+        <button data-q="min" type="button">Min</button>
+        <button data-q="half" type="button">Half</button>
+        <button data-q="max" type="button">Max</button>
+      </div>
+      <button class="btn blue" id="dealAll" type="button">Deal all</button>
+      <p class="tinfo" id="tinfo"></p>
+    </div>
+    <div class="boards" id="boards"></div>
+    <p class="hint">Click to dig, right-click or long-press to flag, tap a number to clear around it. Safe digs pay a little. Risky digs pay the odds. Gems hide where the opening doesn’t reach.</p>
+  </section>
+
+  <aside class="side">
+    <div class="panel">
+      <div class="tabs" role="tablist">
+        <button role="tab" type="button" data-tab="shop" aria-selected="true" aria-controls="shop">Upgrades</button>
+        <button role="tab" type="button" data-tab="rack" aria-selected="false" aria-controls="rack">Add-ons</button>
+        <button role="tab" type="button" data-tab="stats" aria-selected="false" aria-controls="stats">Stats</button>
+      </div>
+      <div id="shop" class="shop" role="tabpanel"></div>
+      <div id="rack" role="tabpanel" hidden></div>
+      <div id="stats" class="stats" role="tabpanel" hidden></div>
+    </div>
+    <div class="panel">
+      <h2>The Group Chat<small>5 members, 0 sense</small></h2>
+      <div id="chat" class="chat" aria-live="polite"></div>
+    </div>
+  </aside>
+</div>
+
+<div id="modal" class="modal-wrap" hidden><div class="modal" id="modalBox" role="dialog" aria-modal="true"></div></div>
+<div id="toasts" class="toasts" aria-live="polite"></div>
+<div id="banner" class="banner" hidden aria-live="polite"></div>
+<div id="coach" class="coach" hidden><div class="coach-ring" id="coachRing"></div><div class="coach-bubble" id="coachBubble" role="dialog" aria-label="Tutorial"></div></div>
+
+<!-- SVG art: every icon in the game is a <symbol> here, drawn with <use href="#i-name"> (see ico() in src/core/util.js) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+<symbol id="i-bomb" viewBox="0 0 64 64">
+ <path d="M38 16 q6-9 13-5" fill="none" stroke="#141b1d" stroke-width="4" stroke-linecap="round"/>
+ <path d="M52 3 l2 5 5 2 -5 2 -2 5 -2-5 -5-2 5-2z" fill="#ffd23f" stroke="#141b1d" stroke-width="1.5" stroke-linejoin="round"/>
+ <rect x="33" y="14" width="10" height="9" rx="2" transform="rotate(40 38 18)" fill="#6b7a84" stroke="#141b1d" stroke-width="3"/>
+ <circle cx="30" cy="38" r="20" fill="#2a2f3a" stroke="#141b1d" stroke-width="4"/>
+ <ellipse cx="21" cy="28" rx="5" ry="3" fill="#fff" opacity=".35" transform="rotate(-35 21 28)"/>
+ <circle cx="23" cy="37" r="6" fill="#fff" stroke="#141b1d" stroke-width="2"/><circle cx="25" cy="38" r="3" fill="#141b1d"/>
+ <circle cx="37.5" cy="36" r="7" fill="#fff" stroke="#141b1d" stroke-width="2"/><circle cx="35.5" cy="38.5" r="3.3" fill="#141b1d"/>
+ <path d="M23 48 q7 5 14 0" fill="none" stroke="#fe5f55" stroke-width="3" stroke-linecap="round"/>
+</symbol>
+<symbol id="i-flag" viewBox="0 0 64 64">
+ <ellipse cx="19" cy="57" rx="11" ry="3" fill="#141b1d" opacity=".4"/>
+ <rect x="16" y="7" width="5" height="50" rx="2.5" fill="#fff" stroke="#141b1d" stroke-width="3"/>
+ <path d="M21 10 C32 4 38 16 51 10 L51 33 C38 39 32 27 21 33 Z" fill="#fe5f55" stroke="#141b1d" stroke-width="3" stroke-linejoin="round"/>
+ <circle cx="31" cy="19" r="2" fill="#141b1d"/><circle cx="40" cy="19" r="2" fill="#141b1d"/>
+ <path d="M30 25 q5.5 3.5 11 0" fill="none" stroke="#141b1d" stroke-width="2.2" stroke-linecap="round"/>
+</symbol>
+<symbol id="i-coin" viewBox="0 0 64 64">
+ <circle cx="32" cy="32" r="27" fill="#ffd23f" stroke="#141b1d" stroke-width="4"/>
+ <circle cx="32" cy="32" r="20" fill="none" stroke="#d99f00" stroke-width="3"/>
+ <circle cx="25" cy="28" r="3" fill="#141b1d"/><path d="M36 28 h6" stroke="#141b1d" stroke-width="3" stroke-linecap="round"/>
+ <path d="M23 37 q9 8 18 0" fill="none" stroke="#141b1d" stroke-width="3" stroke-linecap="round"/>
+</symbol>
+<symbol id="i-coinskull" viewBox="0 0 64 64">
+ <circle cx="32" cy="32" r="27" fill="#a9bdc2" stroke="#141b1d" stroke-width="4"/>
+ <circle cx="32" cy="32" r="20" fill="none" stroke="#6d8c96" stroke-width="3"/>
+ <path d="M32 16 c-9 0 -13 6 -13 12 c0 4 2 7 5 8 v5 h16 v-5 c3-1 5-4 5-8 c0-6-4-12-13-12z" fill="#fff" stroke="#141b1d" stroke-width="2.5"/>
+ <circle cx="27" cy="29" r="3.5" fill="#141b1d"/><circle cx="37" cy="29" r="3.5" fill="#141b1d"/>
+</symbol>
+<symbol id="i-gem" viewBox="0 0 64 64">
+ <path d="M12 24 L23 11 H41 L52 24 L32 55 Z" fill="#43d9d0" stroke="#141b1d" stroke-width="3.5" stroke-linejoin="round"/>
+ <path d="M12 24 H52 M23 11 L28 24 L32 55 L36 24 L41 11" fill="none" stroke="#141b1d" stroke-width="2.5" stroke-linejoin="round"/>
+ <path d="M17 23 L25 14" stroke="#fff" stroke-width="2.5" opacity=".75"/>
+</symbol>
+<symbol id="i-shield" viewBox="0 0 64 64"><path d="M32 6 L52 14 V30 C52 44 42 53 32 58 C22 53 12 44 12 30 V14 Z" fill="#3fc18a" stroke="#141b1d" stroke-width="4" stroke-linejoin="round"/><path d="M23 31 l7 7 l12-14" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-probe" viewBox="0 0 64 64"><path d="M39 39 L55 55" stroke="#141b1d" stroke-width="9" stroke-linecap="round"/><path d="M39 39 L55 55" stroke="#ffd23f" stroke-width="4.5" stroke-linecap="round"/><circle cx="27" cy="27" r="16" fill="#009dff" fill-opacity=".35" stroke="#141b1d" stroke-width="4"/><path d="M18 23 a10 10 0 0 1 8 -7" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/></symbol>
+<symbol id="i-bot" viewBox="0 0 64 64"><path d="M32 7 v8" stroke="#141b1d" stroke-width="3"/><circle cx="32" cy="7" r="4.5" fill="#fe5f55" stroke="#141b1d" stroke-width="2.5"/><rect x="11" y="15" width="42" height="31" rx="10" fill="#c9d6da" stroke="#141b1d" stroke-width="4"/><rect x="18" y="22" width="28" height="15" rx="6" fill="#141b1d"/><circle cx="26" cy="29.5" r="3.5" fill="#3fc18a"/><circle cx="38" cy="29.5" r="3.5" fill="#3fc18a"/><rect x="21" y="46" width="22" height="10" rx="4" fill="#009dff" stroke="#141b1d" stroke-width="3"/></symbol>
+<symbol id="i-goblin" viewBox="0 0 64 64"><path d="M6 22 L20 28 L18 36 Z M58 22 L44 28 L46 36 Z" fill="#6fcf4a" stroke="#141b1d" stroke-width="3" stroke-linejoin="round"/><circle cx="32" cy="34" r="17" fill="#8fe05f" stroke="#141b1d" stroke-width="4"/><circle cx="25" cy="31" r="4" fill="#fff" stroke="#141b1d" stroke-width="2"/><circle cx="39" cy="31" r="4" fill="#fff" stroke="#141b1d" stroke-width="2"/><circle cx="26" cy="32" r="1.8" fill="#141b1d"/><circle cx="38" cy="32" r="1.8" fill="#141b1d"/><path d="M24 41 q8 6 16 0" fill="none" stroke="#141b1d" stroke-width="3" stroke-linecap="round"/><path d="M28 43 v3 M36 43 v3" stroke="#fff" stroke-width="2.5"/><path d="M32 17 v-9 l10 3 -10 3" fill="#fe5f55" stroke="#141b1d" stroke-width="2.5" stroke-linejoin="round"/></symbol>
+<symbol id="i-skull" viewBox="0 0 64 64"><path d="M32 6 C16 6 8 17 8 29 C8 37 12 42 18 45 V55 H46 V45 C52 42 56 37 56 29 C56 17 48 6 32 6 Z" fill="#fff" stroke="#141b1d" stroke-width="4" stroke-linejoin="round"/><circle cx="22" cy="30" r="7" fill="#141b1d"/><circle cx="42" cy="30" r="7" fill="#141b1d"/><path d="M32 36 l-4 7 h8 z" fill="#141b1d"/><path d="M26 55 v-6 M32 55 v-6 M38 55 v-6" stroke="#141b1d" stroke-width="3"/></symbol>
+<symbol id="i-chicken" viewBox="0 0 64 64"><path d="M29 11 c2-6 9-6 9 0 c4-4 9 0 6 5" fill="#fe5f55" stroke="#141b1d" stroke-width="3" stroke-linejoin="round"/><path d="M18 30 C18 17 25 12 33 12 C43 12 47 19 47 27 C55 26 58 34 54 41 C50 52 41 57 31 57 C21 57 12 49 12 41 C12 35 16 33 18 30 Z" fill="#fff" stroke="#141b1d" stroke-width="4" stroke-linejoin="round"/><path d="M15 22 l-9 3 l9 4 z" fill="#ffd23f" stroke="#141b1d" stroke-width="3" stroke-linejoin="round"/><circle cx="24" cy="21" r="3" fill="#141b1d"/><path d="M29 37 q9 9 18 0" fill="none" stroke="#141b1d" stroke-width="3" stroke-linecap="round"/></symbol>
+<symbol id="i-flame" viewBox="0 0 64 64"><path d="M32 4 C36 16 50 22 50 38 C50 50 42 58 32 58 C22 58 14 50 14 38 C14 28 20 24 22 16 C26 22 26 26 28 28 C30 20 30 12 32 4 Z" fill="#ffa31a" stroke="#141b1d" stroke-width="4" stroke-linejoin="round"/><path d="M32 30 C34 38 42 40 42 46 C42 52 37 55 32 55 C27 55 22 52 22 46 C22 40 30 38 32 30 Z" fill="#ffd23f"/></symbol>
+<symbol id="i-crown" viewBox="0 0 64 64"><path d="M8 20 L20 34 L32 12 L44 34 L56 20 L52 50 H12 Z" fill="#ffd23f" stroke="#141b1d" stroke-width="4" stroke-linejoin="round"/><circle cx="32" cy="40" r="4" fill="#fe5f55" stroke="#141b1d" stroke-width="2"/><circle cx="20" cy="42" r="3" fill="#009dff" stroke="#141b1d" stroke-width="2"/><circle cx="44" cy="42" r="3" fill="#3fc18a" stroke="#141b1d" stroke-width="2"/></symbol>
+<symbol id="i-lock" viewBox="0 0 64 64"><path d="M20 29 V21 a12 12 0 0 1 24 0 V29" fill="none" stroke="#141b1d" stroke-width="7"/><path d="M20 29 V21 a12 12 0 0 1 24 0 V29" fill="none" stroke="#c9d6da" stroke-width="3"/><rect x="12" y="28" width="40" height="28" rx="6" fill="#ffd23f" stroke="#141b1d" stroke-width="4"/><circle cx="32" cy="40" r="4" fill="#141b1d"/><path d="M32 42 v7" stroke="#141b1d" stroke-width="3"/></symbol>
+<symbol id="i-sound" viewBox="0 0 64 64"><path d="M10 24 H22 L36 12 V52 L22 40 H10 Z" fill="#fff" stroke="#141b1d" stroke-width="4" stroke-linejoin="round"/><path d="M44 23 q6 9 0 18 M50 16 q11 16 0 32" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/></symbol>
+<symbol id="i-mute" viewBox="0 0 64 64"><path d="M10 24 H22 L36 12 V52 L22 40 H10 Z" fill="#fff" stroke="#141b1d" stroke-width="4" stroke-linejoin="round"/><path d="M44 24 l14 16 M58 24 l-14 16" stroke="#fe5f55" stroke-width="5" stroke-linecap="round"/></symbol>
+<symbol id="i-brain" viewBox="0 0 64 64"><path d="M22 10 C14 10 10 16 12 22 C6 24 6 34 12 36 C10 44 16 50 22 48 C24 54 32 56 32 50 V12 C30 9 26 9 22 10 Z M42 10 C50 10 54 16 52 22 C58 24 58 34 52 36 C54 44 48 50 42 48 C40 54 32 56 32 50 V12 C34 9 38 9 42 10 Z" fill="#ff8fb0" stroke="#141b1d" stroke-width="3.5" stroke-linejoin="round"/><path d="M20 22 q6 2 4 8 M44 22 q-6 2 -4 8 M18 38 q6-2 8 4 M46 38 q-6-2 -8 4" fill="none" stroke="#141b1d" stroke-width="2.5" stroke-linecap="round"/><circle cx="55" cy="8" r="2.5" fill="#009dff"/><circle cx="7" cy="52" r="2.5" fill="#3fc18a"/><circle cx="58" cy="50" r="1.8" fill="#ffd23f"/></symbol>
+<symbol id="i-goggles" viewBox="0 0 64 64"><path d="M3 30 H61" stroke="#141b1d" stroke-width="5"/><circle cx="20" cy="32" r="13" fill="#009dff" stroke="#141b1d" stroke-width="4"/><circle cx="44" cy="32" r="13" fill="#fe5f55" stroke="#141b1d" stroke-width="4"/><path d="M14 26 a7 7 0 0 1 6 -3 M38 26 a7 7 0 0 1 6 -3" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/></symbol>
+<symbol id="i-loop" viewBox="0 0 64 64"><path d="M14 30 a18 18 0 0 1 32 -11" fill="none" stroke="#141b1d" stroke-width="10" stroke-linecap="round"/><path d="M14 30 a18 18 0 0 1 32 -11" fill="none" stroke="#3fc18a" stroke-width="5" stroke-linecap="round"/><path d="M50 34 a18 18 0 0 1 -32 11" fill="none" stroke="#141b1d" stroke-width="10" stroke-linecap="round"/><path d="M50 34 a18 18 0 0 1 -32 11" fill="none" stroke="#009dff" stroke-width="5" stroke-linecap="round"/><path d="M39 10 l12 6 l-10 9z M25 54 l-12 -6 l10 -9z" fill="#141b1d"/></symbol>
+<symbol id="i-rocket" viewBox="0 0 64 64"><path d="M26 46 L32 61 L38 46 Z" fill="#ffa31a" stroke="#141b1d" stroke-width="3" stroke-linejoin="round"/><path d="M22 34 L11 47 L22 45 Z M42 34 L53 47 L42 45 Z" fill="#fe5f55" stroke="#141b1d" stroke-width="3" stroke-linejoin="round"/><path d="M32 4 C44 14 46 30 42 46 H22 C18 30 20 14 32 4 Z" fill="#fff" stroke="#141b1d" stroke-width="4" stroke-linejoin="round"/><circle cx="32" cy="23" r="6" fill="#009dff" stroke="#141b1d" stroke-width="3"/></symbol>
+<symbol id="i-boards" viewBox="0 0 64 64"><rect x="6" y="6" width="24" height="24" rx="5" fill="#6d8c96" stroke="#141b1d" stroke-width="4"/><rect x="34" y="6" width="24" height="24" rx="5" fill="#fe5f55" stroke="#141b1d" stroke-width="4"/><rect x="6" y="34" width="24" height="24" rx="5" fill="#009dff" stroke="#141b1d" stroke-width="4"/><rect x="34" y="34" width="24" height="24" rx="5" fill="#3fc18a" stroke="#141b1d" stroke-width="4"/></symbol>
+<symbol id="i-bolt" viewBox="0 0 64 64"><path d="M37 4 L12 36 H30 L26 60 L52 26 H34 Z" fill="#ffd23f" stroke="#141b1d" stroke-width="4" stroke-linejoin="round"/></symbol>
+<symbol id="i-clover" viewBox="0 0 64 64"><path d="M35 44 q4 11 13 14" fill="none" stroke="#141b1d" stroke-width="4" stroke-linecap="round"/><g fill="#3fc18a" stroke="#141b1d" stroke-width="3.5"><circle cx="23" cy="21" r="11"/><circle cx="41" cy="21" r="11"/><circle cx="23" cy="39" r="11"/><circle cx="41" cy="39" r="11"/></g><circle cx="32" cy="30" r="5" fill="#ffd23f" stroke="#141b1d" stroke-width="2.5"/></symbol>
+<symbol id="i-casino" viewBox="0 0 64 64"><path d="M6 26 L32 8 L58 26 Z" fill="#fe5f55" stroke="#141b1d" stroke-width="4" stroke-linejoin="round"/><rect x="10" y="26" width="44" height="30" fill="#6d8c96" stroke="#141b1d" stroke-width="4"/><rect x="27" y="38" width="10" height="18" fill="#ffd23f" stroke="#141b1d" stroke-width="3"/><circle cx="18" cy="36" r="3" fill="#ffd23f"/><circle cx="46" cy="36" r="3" fill="#ffd23f"/><circle cx="18" cy="46" r="3" fill="#009dff"/><circle cx="46" cy="46" r="3" fill="#009dff"/></symbol>
+<symbol id="i-dice" viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="48" rx="12" fill="#fff" stroke="#141b1d" stroke-width="4" transform="rotate(-8 32 32)"/><g fill="#fe5f55"><circle cx="21" cy="23" r="4.5"/><circle cx="32" cy="32" r="4.5"/><circle cx="43" cy="41" r="4.5"/></g></symbol>
+<symbol id="i-asc" viewBox="0 0 64 64"><path d="M32 4 L52 27 H41 V44 H23 V27 H12 Z" fill="#a275f0" stroke="#141b1d" stroke-width="4" stroke-linejoin="round"/><rect x="18" y="48" width="28" height="5" rx="2" fill="#ffd23f" stroke="#141b1d" stroke-width="3"/><rect x="22" y="56" width="20" height="5" rx="2" fill="#ffd23f" stroke="#141b1d" stroke-width="3"/><path d="M32 15 l2.5 5 5.5 .8 -4 3.8 1 5.4 -5 -2.6 -5 2.6 1 -5.4 -4 -3.8 5.5 -.8z" fill="#ffd23f"/></symbol>
+<symbol id="i-bag" viewBox="0 0 64 64"><path d="M22 22 V16 a10 10 0 0 1 20 0 V22" fill="none" stroke="#141b1d" stroke-width="4"/><path d="M12 22 H52 L48 58 H16 Z" fill="#a275f0" stroke="#141b1d" stroke-width="4" stroke-linejoin="round"/><path d="M24 39 h16 M32 31 v16" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/></symbol>
+<symbol id="i-devil" viewBox="0 0 64 64"><path d="M14 22 L10 6 L24 15 Z M50 22 L54 6 L40 15 Z" fill="#fe5f55" stroke="#141b1d" stroke-width="3" stroke-linejoin="round"/><circle cx="32" cy="36" r="20" fill="#ff8a7f" stroke="#141b1d" stroke-width="4"/><path d="M21 30 l7 4 M43 30 l-7 4" stroke="#141b1d" stroke-width="3.5" stroke-linecap="round"/><path d="M21 42 q11 10 22 0 z" fill="#fff" stroke="#141b1d" stroke-width="3" stroke-linejoin="round"/></symbol>
+<symbol id="i-seven" viewBox="0 0 64 64"><rect x="12" y="6" width="40" height="52" rx="6" fill="#fff" stroke="#141b1d" stroke-width="4"/><path d="M22 18 H42 L30 48" fill="none" stroke="#fe5f55" stroke-width="7" stroke-linejoin="round"/><path d="M27 33 h11" stroke="#fe5f55" stroke-width="4"/></symbol>
+<symbol id="i-eight" viewBox="0 0 64 64"><circle cx="32" cy="32" r="24" fill="#1f2528" stroke="#141b1d" stroke-width="4"/><circle cx="32" cy="30" r="11" fill="#fff"/><circle cx="32" cy="25.5" r="4" fill="none" stroke="#141b1d" stroke-width="2.6"/><circle cx="32" cy="34" r="4.8" fill="none" stroke="#141b1d" stroke-width="2.6"/><ellipse cx="21" cy="19" rx="5" ry="3" fill="#fff" opacity=".3" transform="rotate(-35 21 19)"/></symbol>
+<symbol id="i-nest" viewBox="0 0 64 64"><ellipse cx="24" cy="30" rx="8" ry="10" fill="#fff6e0" stroke="#141b1d" stroke-width="3"/><ellipse cx="40" cy="30" rx="8" ry="10" fill="#bfe7ff" stroke="#141b1d" stroke-width="3"/><path d="M8 34 Q32 62 56 34 Z" fill="#a8743a" stroke="#141b1d" stroke-width="4" stroke-linejoin="round"/><path d="M14 40 l10 4 M24 46 l12 -3 M38 44 l10 -5 M18 37 h8 M40 38 h9" stroke="#6b4420" stroke-width="2.5" stroke-linecap="round"/></symbol>
+<symbol id="i-corner" viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="48" rx="6" fill="#4b5f65" stroke="#141b1d" stroke-width="3"/><path d="M15 35 V15 H35" fill="none" stroke="#ffd23f" stroke-width="7"/><path d="M49 29 V49 H29" fill="none" stroke="#ffd23f" stroke-width="7" opacity=".4"/><path d="M38 21 l2 4 4 1 -3 3 1 4 -4 -2 -4 2 1 -4 -3 -3 4 -1z" fill="#fff"/></symbol>
+<symbol id="i-fuse" viewBox="0 0 64 64"><use href="#i-bomb"/><circle cx="48" cy="48" r="12" fill="#3fc18a" stroke="#141b1d" stroke-width="3"/><path d="M42 48 l4 4 l8 -9" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-egg" viewBox="0 0 64 64"><path d="M32 6 C46 6 54 28 54 40 C54 52 44 58 32 58 C20 58 10 52 10 40 C10 28 18 6 32 6 Z" fill="#ffd23f" stroke="#141b1d" stroke-width="4"/><ellipse cx="24" cy="24" rx="5" ry="8" fill="#fff" opacity=".5" transform="rotate(20 24 24)"/><path d="M26 38 l6 -6 6 6 -6 6z" fill="#fff" stroke="#141b1d" stroke-width="2"/></symbol>
+<symbol id="i-tag" viewBox="0 0 64 64"><path d="M8 30 L30 8 H54 V32 L32 54 Z" fill="#3fc18a" stroke="#141b1d" stroke-width="4" stroke-linejoin="round"/><circle cx="45" cy="17" r="4" fill="#222e32" stroke="#141b1d" stroke-width="2"/><path d="M23 37 l13 -13" stroke="#fff" stroke-width="4" stroke-linecap="round"/><circle cx="24" cy="27" r="3" fill="#fff"/><circle cx="35" cy="37" r="3" fill="#fff"/></symbol>
+<symbol id="i-oil" viewBox="0 0 64 64"><path d="M10 30 H40 L52 20 L56 24 L44 38 V52 H10 Z" fill="#ffa31a" stroke="#141b1d" stroke-width="4" stroke-linejoin="round"/><rect x="18" y="22" width="12" height="8" fill="#ad6800" stroke="#141b1d" stroke-width="3"/><path d="M58 30 q3 6 0 8 q-3 -2 0 -8z" fill="#141b1d"/><path d="M16 41 h20" stroke="#fff" stroke-width="3" opacity=".6"/></symbol>
+<symbol id="i-drumstick" viewBox="0 0 64 64"><path d="M40 8 C54 8 58 22 52 32 C46 42 32 40 28 36 C24 32 24 14 40 8 Z" fill="#c8732e" stroke="#141b1d" stroke-width="4"/><path d="M30 38 L18 50" stroke="#141b1d" stroke-width="10" stroke-linecap="round"/><path d="M30 38 L18 50" stroke="#fff3e3" stroke-width="5" stroke-linecap="round"/><circle cx="13" cy="50" r="5" fill="#fff3e3" stroke="#141b1d" stroke-width="3"/><circle cx="18" cy="55" r="5" fill="#fff3e3" stroke="#141b1d" stroke-width="3"/><path d="M38 16 q8 -2 10 6" fill="none" stroke="#fff" stroke-width="3" opacity=".5" stroke-linecap="round"/></symbol>
+<symbol id="i-carrot" viewBox="0 0 64 64"><path d="M40 20 C46 14 52 6 56 8 C58 12 50 18 44 24 M40 20 C42 10 40 4 44 4 C48 6 46 14 44 24" fill="#3fc18a" stroke="#141b1d" stroke-width="3" stroke-linejoin="round"/><path d="M44 24 C40 18 32 18 26 26 L8 56 L38 38 C46 32 48 28 44 24 Z" fill="#ffa31a" stroke="#141b1d" stroke-width="4" stroke-linejoin="round"/><path d="M22 36 l6 3 M18 44 l5 2 M30 30 l5 3" stroke="#ad6800" stroke-width="3" stroke-linecap="round"/></symbol>
+<symbol id="i-stopwatch" viewBox="0 0 64 64"><rect x="26" y="4" width="12" height="7" rx="2" fill="#a9bdc2" stroke="#141b1d" stroke-width="3"/><circle cx="32" cy="36" r="22" fill="#fff" stroke="#141b1d" stroke-width="4"/><path d="M32 36 L32 20" stroke="#fe5f55" stroke-width="4" stroke-linecap="round"/><path d="M32 36 L42 42" stroke="#141b1d" stroke-width="4" stroke-linecap="round"/><circle cx="32" cy="36" r="3" fill="#141b1d"/><path d="M50 14 l5 -5" stroke="#141b1d" stroke-width="4" stroke-linecap="round"/></symbol>
+<symbol id="i-stack" viewBox="0 0 64 64"><g fill="#ffd23f" stroke="#141b1d" stroke-width="3.5"><path d="M12 46 v6 c0 4 9 6 20 6 s20 -2 20 -6 v-6"/><ellipse cx="32" cy="46" rx="20" ry="6"/><path d="M12 34 v6 c0 4 9 6 20 6 s20 -2 20 -6 v-6"/><ellipse cx="32" cy="34" rx="20" ry="6"/><path d="M12 22 v6 c0 4 9 6 20 6 s20 -2 20 -6 v-6"/><ellipse cx="32" cy="22" rx="20" ry="6"/></g><path d="M26 22 h12" stroke="#b98a00" stroke-width="3" stroke-linecap="round"/></symbol>
+<symbol id="i-crack" viewBox="0 0 64 64"><path d="M32 6 L52 14 V30 C52 44 42 53 32 58 C22 53 12 44 12 30 V14 Z" fill="#bfe7ff" stroke="#141b1d" stroke-width="4" stroke-linejoin="round"/><path d="M32 8 L28 22 L36 28 L26 40 L32 56" fill="none" stroke="#141b1d" stroke-width="3" stroke-linejoin="round"/><path d="M36 28 L46 32" stroke="#141b1d" stroke-width="2.5"/></symbol>
+<symbol id="i-nose" viewBox="0 0 64 64"><path d="M30 8 C30 8 26 30 18 40 C12 48 18 56 28 54 C30 58 38 58 40 54 C50 56 54 46 46 40 C40 34 38 18 34 8 Z" fill="#ffb38a" stroke="#141b1d" stroke-width="4" stroke-linejoin="round"/><ellipse cx="27" cy="48" rx="3" ry="2.5" fill="#141b1d"/><ellipse cx="39" cy="48" rx="3" ry="2.5" fill="#141b1d"/><path d="M52 14 q4 4 0 8 M56 10 q7 8 0 16" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".7"/></symbol>
+<symbol id="i-wheel" viewBox="0 0 64 64"><circle cx="32" cy="34" r="26" fill="#ffd23f" stroke="#141b1d" stroke-width="4"/><path d="M32 34 L32 8 A26 26 0 0 1 54.5 21 Z" fill="#fe5f55"/><path d="M32 34 L54.5 47 A26 26 0 0 1 32 60 Z" fill="#009dff"/><path d="M32 34 L9.5 47 A26 26 0 0 1 9.5 21 Z" fill="#3fc18a"/><circle cx="32" cy="34" r="26" fill="none" stroke="#141b1d" stroke-width="4"/><circle cx="32" cy="34" r="6" fill="#fff" stroke="#141b1d" stroke-width="3"/><path d="M25 2 H39 L32 12 Z" fill="#fff" stroke="#141b1d" stroke-width="3" stroke-linejoin="round"/></symbol>
+<symbol id="i-chart" viewBox="0 0 64 64"><rect x="6" y="8" width="52" height="48" rx="6" fill="#222e32" stroke="#141b1d" stroke-width="3"/><path d="M12 46 L24 36 L32 40 L50 20" fill="none" stroke="#3fc18a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M42 18 H52 V28" fill="none" stroke="#3fc18a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs>
+</svg>
+
+<!-- ES modules need http://, not file://. Run python tools/serve.py, or open the built dist/sweepstakes.html -->
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

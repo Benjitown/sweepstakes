@@ -1,0 +1,35 @@
+/* Play column: the add-on strip, the table picker and the stake bar. */
+.play{display:grid;gap:16px;align-content:start;min-width:0}
+.addons{display:grid;gap:10px}
+.ahead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.ahead h2{margin:0}
+.slots{display:flex;gap:12px;flex-wrap:wrap}
+.acard{--rc:var(--blue);position:relative;flex:none;width:78px;aspect-ratio:5/7;border:0;border-radius:9px;padding:0;cursor:pointer;background:#eef3f4;
+  box-shadow:0 5px 0 rgba(0,0,0,.45);animation:floaty 3.4s ease-in-out infinite;animation-delay:var(--d,0s);transition:transform .12s;display:block}
+.acard .face{position:absolute;inset:4px;border-radius:6px;background:linear-gradient(170deg,color-mix(in srgb,var(--rc),#fff 18%),var(--rc));display:grid;grid-template-rows:minmax(0,1fr) auto;align-items:center;justify-items:center;overflow:hidden}
+.acard .face svg{width:72%;height:auto;max-height:100%;filter:drop-shadow(0 3px 0 rgba(0,0,0,.3))}
+.acard .nm{font-size:.68rem;line-height:1.05;font-weight:700;text-align:center;padding:0 3px 5px;color:#fff;text-shadow:0 1px 0 rgba(0,0,0,.7)}
+.acard.uncommon{--rc:var(--green)} .acard.rare{--rc:var(--red)}
+button.acard:hover{transform:translateY(-6px) rotate(-3deg) scale(1.06)}
+.acard.pop .face{animation:jiggle .5s}
+.acard.big{width:120px;animation:none}
+.acard.big .nm{font-size:.85rem}
+.slot-empty{flex:none;width:78px;aspect-ratio:5/7;border-radius:9px;border:3px dashed rgba(255,255,255,.22)}
+.rar{font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.rar.common{color:var(--blue)} .rar.uncommon{color:var(--green)} .rar.rare{color:var(--red)}
+
+.tables{display:flex;gap:10px;flex-wrap:wrap}
+.tbl{border:0;border-radius:12px;padding:7px 12px 7px 9px;background:var(--panel);box-shadow:0 0 0 3px var(--rim),0 5px 0 3px var(--shadow);cursor:pointer;display:flex;align-items:center;gap:8px;text-align:left;transition:transform .1s}
+.tbl .dot{width:14px;height:14px;border-radius:4px;background:var(--tc);flex:none;box-shadow:0 2px 0 rgba(0,0,0,.4)}
+.tbl b{display:block;font-weight:700;line-height:1.15}
+.tbl small{display:block;font-size:.75rem;color:var(--ink-dim);text-shadow:none}
+.tbl[aria-selected="true"]{box-shadow:0 0 0 3px var(--tc),0 5px 0 3px var(--shadow);transform:translateY(-3px)}
+.tbl.locked{opacity:.8}
+.tbl.locked svg{width:18px;height:18px}
+.stake{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px}
+.stake label{font-family:var(--big);font-size:1.5rem;line-height:1}
+.stake input[type=range]{flex:1 1 150px;accent-color:var(--blue);min-width:120px}
+.stake output{font-family:var(--big);font-size:1.9rem;line-height:1;color:var(--blue);min-width:4ch;text-shadow:0 2px 0 rgba(0,0,0,.45)}
+.quick{display:flex;gap:6px}
+.quick button{border:0;background:var(--panel-hi);box-shadow:0 3px 0 var(--shadow);border-radius:8px;padding:4px 9px;cursor:pointer;font-weight:700}
+.tinfo{flex-basis:100%;margin:0;font-size:.85rem;color:var(--ink-dim);text-shadow:none}

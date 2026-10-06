@@ -1,0 +1,43 @@
+/* Base: fonts, colour tokens, page reset, background layers and the three-column layout. */
+@font-face{font-family:'Jersey 10';font-style:normal;font-weight:400;font-display:swap;src:url(../assets/fonts/jersey-10-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Tiny5';font-style:normal;font-weight:400;font-display:swap;src:url(../assets/fonts/tiny5-latin-400-normal.woff2) format('woff2')}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+
+/* Layout: three columns on desktop: sticky run panel (left), play area (add-ons, tables, stake, boards), shop + group chat (right).
+   Two columns under 1180px (shop drops below), one column under 760px with the run panel as a sticky top bar.
+   World: a smoky card room. Swirling pixel felt behind slate panels, pixel type, chunky lipped buttons, CRT scanlines. */
+:root{
+  --bg:#0f2f27;
+  --panel:#35474c; --panel-in:#222e32; --panel-hi:#4b5f65; --rim:#5b7379; --shadow:#11181a;
+  --ink:#ffffff; --ink-dim:#a9bdc2;
+  --red:#fe5f55; --red-lo:#b3362e; --blue:#009dff; --blue-lo:#00609f; --orange:#ffa31a; --orange-lo:#ad6800;
+  --green:#3fc18a; --green-lo:#1f7d55; --gold:#ffd23f; --gold-lo:#b98a00; --purple:#a275f0; --purple-lo:#6741ae;
+  --tile:#6d8c96; --tile-hi:#93b3bd; --tile-lo:#3a5159; --open:#1b2629;
+  --pixel:'Tiny5','Courier New',ui-monospace,monospace;
+  --big:'Jersey 10','Tiny5','Arial Narrow',system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--pixel);font-size:16px;line-height:1.35;font-synthesis:none;min-height:100vh;text-shadow:0 2px 0 rgba(0,0,0,.35)}
+button{font:inherit;color:inherit}
+button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+svg.ic{width:1.2em;height:1.2em;flex:none;vertical-align:-.2em}
+.num{font-variant-numeric:tabular-nums}
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;image-rendering:pixelated;background:radial-gradient(circle at 30% 25%,#2f8a66,#0d3328 70%)}
+.crt{position:fixed;inset:0;pointer-events:none;z-index:85;background:repeating-linear-gradient(180deg,rgba(0,0,0,.15) 0 1px,transparent 1px 3px)}
+.crt::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 58%,rgba(0,0,0,.45) 100%)}
+#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:70}
+
+.app{position:relative;z-index:1;display:grid;grid-template-columns:250px minmax(0,1fr) 340px;gap:18px;padding-block:18px 40px;padding-inline:16px;max-width:1680px;margin:0 auto;align-items:start}
+@media (max-width:1180px){.app{grid-template-columns:240px minmax(0,1fr)}.side{grid-column:1 / -1;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr))}}
+@media (max-width:760px){.app{grid-template-columns:minmax(0,1fr)}}
+
+.panel{background:var(--panel);border-radius:14px;box-shadow:0 0 0 3px var(--rim),0 7px 0 3px var(--shadow);padding:14px;min-width:0}
+.inset{background:var(--panel-in);border-radius:10px;padding:8px 10px}
+h2{font-family:var(--big);font-weight:400;font-size:1.7rem;line-height:1;margin:0 0 10px;letter-spacing:.02em;text-wrap:balance}
+h2 small{font-family:var(--pixel);font-size:.8rem;color:var(--ink-dim);margin-left:6px;white-space:nowrap}
+.lbl{display:block;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-dim)}
+.hint{font-size:.82rem;color:var(--ink-dim);margin:0;text-shadow:none}

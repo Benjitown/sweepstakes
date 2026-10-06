@@ -1,0 +1,28 @@
+// Add-on cards that change what a cash-out pays.
+import { fmt } from '../core/util.js';
+import { S, hasA } from '../core/state.js';
+
+/* =====================================================================================
+   Decorator · https://refactoring.guru/design-patterns/decorator
+   ===================================================================================== */
+class Payout { pay(b) { return { amount: b.pot(), extras: [] }; } }
+class PayoutDecorator extends Payout { constructor(inner) { super(); this.inner = inner; } pay(b, why) { return this.inner.pay(b, why); } }
+class NestEggPayout extends PayoutDecorator {
+  pay(b, why) { const r = super.pay(b, why); if (b.guesses) { const e = Math.floor(b.stake * .1); r.amount += e; r.extras.push(['egg', `Nest Egg +${fmt(e)}`]); } return r; }
+}
+class FlagFanaticPayout extends PayoutDecorator {
+  pay(b, why) {
+    const r = super.pay(b, why); if (!b.guesses) return r;
+    let n = 0; for (let k = 0; k < b.n; k++) if (b.flag[k] && b.mine[k] && !b.defused.has(k)) n++;
+    if (n) { const e = Math.floor(r.amount * Math.min(.5, .02 * n)); r.amount += e; r.extras.push(['flagfan', `Flags +${fmt(e)}`]); }
+    return r;
+  }
+}
+class CompoundPayout extends PayoutDecorator {
+  pay(b, why) { const r = super.pay(b, why); if (b.guesses) { const e = Math.min(b.stake, Math.floor(S.coins * .01)); if (e > 0) { r.amount += e; r.extras.push(['compound', `Interest +${fmt(e)}`]); } } return r; }
+}
+class ChickenDinnerPayout extends PayoutDecorator {
+  pay(b, why) { const r = super.pay(b, why); if (why === 'coward' && r.amount > b.stake) { const e = Math.floor((r.amount - b.stake) * .3); r.amount += e; r.extras.push(['dinner', `Dinner +${fmt(e)}`]); } return r; }
+}
+const PAYOUT_DECORATORS = [['egg', NestEggPayout], ['flagfan', FlagFanaticPayout], ['compound', CompoundPayout], ['dinner', ChickenDinnerPayout]];
+export const buildPayout = () => PAYOUT_DECORATORS.reduce((p, [id, D]) => hasA(id) ? new D(p) : p, new Payout());
