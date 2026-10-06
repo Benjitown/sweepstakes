@@ -19,7 +19,7 @@ const DARE_DONE = {
     return d.wins >= 3;
   },
   gem: (ev, { b }) => ev === 'gem' && b.human,
-  quick: (ev, { b, profit }) => ev === 'cashout' && b.human && profit > 0 && b.t0 > 0 && Date.now() - b.t0 <= 15000,
+  quick: (ev, { b, mult }) => ev === 'cashout' && b.human && mult >= 1.5 && b.t0 > 0 && Date.now() - b.t0 <= 15000,
 };
 
 export const Dares = {
