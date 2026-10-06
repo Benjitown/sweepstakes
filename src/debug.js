@@ -40,6 +40,10 @@ import { OutsideView } from './ui/outside-view.js';
 import { Bingo, makeTicket } from './game/bingo.js';
 import { BingoView } from './ui/bingo-view.js';
 import { BINGO_TICKETS, BINGO_PAYS, BINGO_CALLS } from './data/bingo.js';
+import { Fruity } from './game/fruity.js';
+import { FruityRules } from './game/fruity-rules.js';
+import { FruityView } from './ui/fruity-view.js';
+import { FRUITY_REELS, FRUITY_PAYS, FRUITY_STAKES, FRUITY_FEATURES } from './data/fruity.js';
 import { PowerView } from './ui/power-view.js';
 import { SCRATCH_CARDS, SCRATCH_PRIZES } from './data/scratchcards.js';
 
@@ -53,6 +57,7 @@ export function exposeForTests() {
     Banner, FX, UI, VERSION, renderAll, invoke, DigCommand, SaveGame, TABLES, AudioEngine,
     Daily, Achievements, ACHIEVEMENTS, DailyView, Keys, CoinChart, seeded, hashString, Household, HouseholdView, DuckRace, DuckRaceView, DOOR, GULL, LINES, RUDE,
     Scratchcards, ScratchView, SCRATCH_CARDS, SCRATCH_PRIZES, Quiz, QUIZ, PowerCut, PowerView, Bingo, BingoView, makeTicket, Outside, OutsideView, BINGO_TICKETS, BINGO_PAYS, BINGO_CALLS,
+    Fruity, FruityRules, FruityView, FRUITY_REELS, FRUITY_PAYS, FRUITY_STAKES, FRUITY_FEATURES,
     get slots() { return Game.slots; },
   };
 }

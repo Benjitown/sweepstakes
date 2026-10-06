@@ -26,6 +26,14 @@ Each version is also a save in the built-in version control. Run `python tools/v
   duck from the pond. The whole game waits while you're out (the clock, the bots, the house), and staying out the
   whole time pays a fresh air bonus. Come back early and you get nothing but a look from Nan. After an hour of play in
   one go, she suggests it herself. New achievement: Touched Grass.
+- **The Fruity,** a fruit machine in the corner of the Flip Booth (its fifth tab, or press P). Three reels, one win
+  line: three of a kind pays from ×6 (lemons) to ×250 (sevens), and two cherries on the left pay ×2. A go that loses
+  may light up nudges (tap a reel to drop the symbol above onto the line) or holds (keep up to two reels for the next
+  go; the machine picks the best ones for you). Wins wait in the meter: collect them, or gamble them double or
+  nothing, up to three times. It pays back about 88% (93% if you learn the reel bands by heart, so the house still
+  wins); `node tools/sim/fruity.mjs` works it out. New achievements: Nudge Nudge, Let It Ride and Triple Seven.
+- The Flip Booth's five tabs now show their icon above the name at every screen size.
+- `tools/build.py` now stops with a clear message on `import { x as y }`, which the bundler can't do.
 
 ## 4.4.0 (6 Oct 2026)
 

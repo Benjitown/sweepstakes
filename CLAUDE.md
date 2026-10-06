@@ -31,4 +31,9 @@ feature/<name> ──> experimental ──> dev ──> main
 - One file per view in `src/ui/`, one per mechanic in `src/game/`; events go through the bus, and `src/wiring.js`
   lists who reacts to what.
 - Tuning numbers live in `src/data/`, jokes in `src/content/`.
+- The bundler (`tools/build.py`) puts every module in one scope: top-level names must be unique across files, and
+  imports can't be renamed (`import { x as y }` stops the build).
+- Booth games (ducks, scratchcards, bingo, the Fruity) decide a result the moment you pay and keep any winnings in an
+  `S.<game>Owed` amount until they're shown, so leaving half-way still pays (each has a `settle()` that main.js calls).
+  The Fruity's payback comes from `node tools/sim/fruity.mjs`; re-run it after touching `src/data/fruity.js`.
 - The rude chat lines live in the `RUDE` / `RUDE_THREADS` / `RUDE_QUIPS` lists, which the "Rude chat" switch turns off.

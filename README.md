@@ -54,10 +54,10 @@ src/
   board/            the board model, solver, factories, mine chain, payout decorators (+ New Game+ house edge)
   game/             the rules (game.js), commands, bots, rack, rank, double or nothing, daily, achievements,
                     household (the door, the phone, the kitten, the seagull, the smoke detector), power cuts,
-                    the duck race, scratchcards, Nan's bingo, the pub quiz, going outside
+                    the duck race, scratchcards, Nan's bingo, the Fruity (fruit machine), the pub quiz, going outside
   ui/               one file per view: panels, boards, shop, modals, tutorial, daily, keys, coin graph, household, ducks...
 assets/             fonts (+ OFL licence) and the favicon
-tools/              build.py, serve.py, vc.py (version control), export_rules.mjs, sim/ (economy simulator)
+tools/              build.py, serve.py, vc.py (version control), export_rules.mjs, sim/ (economy + Fruity simulators)
 ports/              terminal versions in Kotlin, C# and Python (see ports/README.md)
 test/               Playwright test suites (python test/run.py)
 ```
@@ -87,6 +87,8 @@ The suites run against both the ES-module source and the built file:
   power cuts (the dark, the torch, danger money, topping up, the emergency credit), Nan's bingo (the tickets, the
   odds, the calls, dabbing, a full house, leaving mid-game, her invite) and going outside (the game waiting, coming
   back early, the fresh air bonus, Nan's nudge)
+- **fruity:** the fruit machine: what it pays back (worked out exactly), wins and the meter, nudges, holds, the gamble,
+  the jackpot, the stakes, and leaving with a win in the meter
 - **layout:** desktop, tablet and phone sizes with no sideways scrolling
 
 Screenshots go to `test/screenshots/`.

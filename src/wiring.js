@@ -36,6 +36,7 @@ import { FlipView } from './ui/flip-view.js';
 import { DuckRaceView } from './ui/duck-race-view.js';
 import { ScratchView } from './ui/scratch-view.js';
 import { BingoView } from './ui/bingo-view.js';
+import { FruityView } from './ui/fruity-view.js';
 import { OutsideView } from './ui/outside-view.js';
 import { Outside } from './game/outside.js';
 import { Quiz } from './game/quiz.js';
@@ -212,8 +213,8 @@ bus.on('power', ({ on: isOn, why }) => {
   setTimeout(() => Chat.say(why === 'topup' ? 'power_topup' : 'power_back', {}, .8), 700);
 });
 bus.on('addon:fired', ({ id }) => { if (id === 'dark') Chat.say('power_win', {}, .5); });
-/* ---------- the Flip Booth: coin flip and duck race ---------- */
-bus.on('booth', k => ({ ducks: DuckRaceView, scratch: ScratchView, bingo: BingoView }[k] || FlipView).open());
+/* ---------- the Flip Booth: coin flip, duck race, scratchcards, bingo, the Fruity ---------- */
+bus.on('booth', k => { FruityView.away(); ({ ducks: DuckRaceView, scratch: ScratchView, bingo: BingoView, fruity: FruityView }[k] || FlipView).open(); });
 bus.on('duck:start', () => Chat.say('duck_start'));
 bus.on('duck', ({ win, prize, bet, pay }) => {
   if (win) {
@@ -245,6 +246,21 @@ bus.on('bingo', ({ lines, prize }) => {
   Chat.say(['bingo_lose', 'bingo_line', 'bingo_two', 'bingo_house'][lines], {}, lines ? 1 : .4);
   Rank.award(lines ? 4 + 6 * lines : 2); RunPanel.render();
 });
+
+/* ---------- the Fruity ---------- */
+bus.on('fruity', ({ x, win, nudged, holds, dry }) => {
+  if (!x) {
+    if (dry && dry % 12 === 0) Chat.say('fruity_dry', {}, .8);
+    else if (holds && Math.random() < .2) Chat.say('fruity_hold', {}, 1);
+    return;
+  }
+  if (x >= 250) { Banner.show('JACKPOT!', 'Three sevens on the Fruity', 'red', true); Background.flashGold(); FX.confetti(220); Haptics.buzz([40, 30, 40, 30, 80]); }
+  else if (x >= 25) { FX.confetti(80); Haptics.buzz([25, 30, 25]); }
+  Chat.say(x >= 250 ? 'fruity_jackpot' : x >= 25 ? 'fruity_big' : nudged ? 'fruity_nudge' : 'fruity_win', {}, x >= 25 ? 1 : nudged ? .7 : .2);
+  if (x >= 25) UI.toast(`+${fmt(win)} in the Fruity’s meter. Collect it or gamble it.`);
+  Rank.award(Math.min(40, 1 + Math.round(x / 2))); RunPanel.render();
+});
+bus.on('fruity:gamble', ({ won, streak }) => Chat.say(won ? 'fruity_double' : 'fruity_gone', {}, won && streak >= 2 ? 1 : .3));
 
 /* ---------- touching grass ---------- */
 bus.on('outside', e => {

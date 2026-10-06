@@ -1,0 +1,63 @@
+/* The Fruity: the cabinet (a marquee with chasing bulbs, three reels behind curved glass, the win line), the Hold/Nudge
+   buttons under the reels, the lamps and win meter, the gamble lights, the stakes and the paytable. */
+.fruity{width:100%;display:grid;gap:10px;justify-items:center}
+.cab{--cell:54px;width:100%;max-width:340px;display:grid;gap:8px;padding:8px 10px 10px;border-radius:18px;
+  background:linear-gradient(180deg,#d8443b,#9c241e 70%,#7a1a15);box-shadow:0 0 0 3px #141b1d,0 7px 0 3px var(--shadow),inset 0 2px 0 rgba(255,255,255,.25)}
+.marquee{position:relative;background:#141b1d;border-radius:10px;padding:5px 8px 12px;overflow:hidden}
+.modal .marquee h3{font-size:1.9rem;line-height:1;letter-spacing:.04em;text-shadow:0 0 12px rgba(255,210,63,.55),0 3px 0 #000}
+.bulbs{position:absolute;left:10px;right:10px;bottom:4px;display:flex;justify-content:space-between}
+.bulbs i{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:bulb 1.2s steps(1) infinite}
+.bulbs i:nth-child(3n+2){animation-delay:-.8s} .bulbs i:nth-child(3n){animation-delay:-.4s}
+/* the reels: each shows three stops; the strip inside moves (and blurs) while it spins */
+.reels{position:relative;width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:6px;border-radius:12px;background:#141b1d}
+.reel{position:relative;height:calc(var(--cell) * 3);overflow:hidden;border-radius:8px;background:#fff8e6}
+.reel::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(20,27,29,.6),rgba(20,27,29,0) 28%,rgba(20,27,29,0) 72%,rgba(20,27,29,.6))}
+.reel.held{outline:3px solid var(--gold);outline-offset:-3px}
+.strip{display:grid;will-change:transform}
+.strip i{height:var(--cell);display:grid;place-items:center}
+.fsym{width:calc(var(--cell) * .8);height:calc(var(--cell) * .8);flex:none}
+.reel.spinning .strip{filter:blur(1.6px)}
+.winline{position:absolute;left:3px;right:3px;top:50%;height:3px;margin-top:-1.5px;border-radius:2px;background:var(--red);box-shadow:0 0 6px rgba(254,95,85,.85);pointer-events:none}
+.winline::before,.winline::after{content:"";position:absolute;top:50%;margin-top:-7px;border:7px solid transparent}
+.winline::before{left:-6px;border-left-color:var(--red)} .winline::after{right:-6px;border-right-color:var(--red)}
+.reels.won .strip i:nth-child(2){animation:fwin .45s ease-in-out 5}
+.reels.won .winline{background:var(--gold);box-shadow:0 0 10px rgba(255,210,63,.9)}
+.reels.won .winline::before{border-left-color:var(--gold)} .reels.won .winline::after{border-right-color:var(--gold)}
+/* the buttons under the reels: Hold (gold when held) or Nudge (blue, blinking) */
+.rbtns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.rbtn{border:0;border-radius:9px;padding:7px 4px;font:inherit;font-weight:700;font-size:.85rem;color:#141b1d;text-shadow:none;background:#c9d6da;
+  box-shadow:0 3px 0 #6d8c96;cursor:pointer;white-space:nowrap}
+.rbtn:disabled{opacity:.4;cursor:default}
+.rbtn:active:not(:disabled){transform:translateY(2px);box-shadow:0 1px 0 #6d8c96}
+.rbtn.held{background:var(--gold);box-shadow:0 3px 0 var(--gold-lo)}
+.rbtn.nudge:not(:disabled){background:var(--blue);color:#fff;box-shadow:0 3px 0 var(--blue-lo);animation:lampblink .8s steps(1) infinite}
+/* lamps: nudges, holds, and the win meter */
+.lamps{display:flex;gap:6px;align-items:center}
+.lamp,.meter{border-radius:8px;padding:3px 8px;font-size:.78rem;font-weight:700;white-space:nowrap;text-shadow:none;background:rgba(0,0,0,.35);color:rgba(255,255,255,.45)}
+.lamp.lit{background:var(--blue);color:#fff;box-shadow:0 0 10px rgba(0,157,255,.75);animation:lampblink .9s steps(1) infinite}
+#fHold.lit{background:var(--gold);color:#141b1d;box-shadow:0 0 10px rgba(255,210,63,.75)}
+.meter{margin-left:auto;display:flex;align-items:baseline;gap:6px}
+.meter b{font-family:var(--big);font-weight:400;font-size:1.25rem;line-height:1}
+.meter.lit{background:#141b1d;color:var(--gold);box-shadow:0 0 0 2px var(--gold),0 0 12px rgba(255,210,63,.5)}
+/* double or nothing: two lights take turns until one stays on */
+.fgamble{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.fgamble span{border-radius:8px;padding:5px;text-align:center;font-family:var(--big);font-size:1.3rem;line-height:1.1;background:rgba(0,0,0,.35);color:rgba(255,255,255,.35);text-shadow:none}
+.fgamble span.lit[data-g="0"]{background:var(--red);color:#fff;box-shadow:0 0 12px rgba(254,95,85,.85)}
+.fgamble span.lit[data-g="1"]{background:var(--green);color:#fff;box-shadow:0 0 12px rgba(63,193,138,.85)}
+.modal .fmsg{min-height:2.7em;max-width:34ch;display:grid;place-items:center;font-size:.85rem;font-weight:700;text-wrap:balance}
+/* the stakes next to the Spin button; under them Collect, Gamble, No thanks (to the nudges) and Leave; then what pays */
+.fplay{width:100%;max-width:340px;display:flex;gap:8px;align-items:stretch}
+.fstakes{flex:1;min-width:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3px;padding:3px;border-radius:12px;background:var(--panel-in)}
+.fstakes button{border:0;border-radius:9px;padding:4px 2px;min-width:0;font:inherit;color:var(--ink);background:none;cursor:pointer}
+.fstakes button.on{background:var(--gold);color:#141b1d;text-shadow:none;box-shadow:0 3px 0 var(--gold-lo)}
+.fstakes button:disabled:not(.on){opacity:.4;cursor:default}
+.fstakes b{font-size:.95rem;display:block;overflow:hidden;text-overflow:ellipsis}
+.fplay #fSpin{flex:none;min-width:8.5em}
+.fbtns{width:100%;max-width:340px}
+.fbtns .btn{flex:1 1 0;min-width:0;padding-left:.5em;padding-right:.5em}
+.fpays{list-style:none;margin:0;padding:0;width:100%;max-width:340px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px 6px}
+.fpays li{display:flex;align-items:center;justify-content:center;gap:2px;font-size:.8rem}
+.fpays .fsym{width:22px;height:22px}
+.fpays li:last-child .fsym{width:17px;height:17px}
+@media (max-width:440px){.cab{--cell:42px;padding:6px 8px 8px}.modal .marquee h3{font-size:1.6rem}.fplay #fSpin{min-width:0;font-size:1rem}}
