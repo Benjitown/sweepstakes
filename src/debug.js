@@ -95,6 +95,7 @@ export function exposeForTests() {
   clearTimeout(QuizNight.timer); QuizNight.schedule = () => {}; // or quiz night
   Kev.second = () => {}; // KEVCOIN neither launches nor moves on its own; the tests call Kev.launch() and Kev.tick()
   Stars.second = () => {}; // and Nan doesn't read the stars unless a test asks
+  Storm.RAINBOW = 0; // no surprise rainbows (they make your next board golden) unless a test asks
   clearTimeout(Chat.ambientT); Chat.ambient = () => {}; // nor do the friends start chatting among themselves mid-check (Chat.thread() still works)
   window.__sw = {
     get S() { return S; }, Game, Solver, Rack, Rank, bus, NOISES, WeirdNoises, Quips, Chat, Coach, SpinView,

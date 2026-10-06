@@ -281,7 +281,9 @@ bus.on('reset', () => KevView.ticker());
 /* ---------- thunderstorms: each flash shows the mines; one strike in three storms takes the power out ---------- */
 bus.on('storm', e => {
   if (e.on) { StormView.on(); setTimeout(() => Chat.say('storm_start', {}, .9), 2500); return; }
-  StormView.off(); UI.toast('The storm’s passed.'); setTimeout(() => Chat.say('storm_end', {}, .5), 800);
+  StormView.off();
+  if (e.rainbow) { StormView.rainbow(); RunPanel.render(); UI.toast('The storm’s passed, and there’s a rainbow! A pot of gold at the end of it: your next board’s golden.'); setTimeout(() => Chat.say('rainbow', {}, 1), 900); }
+  else { UI.toast('The storm’s passed.'); setTimeout(() => Chat.say('storm_end', {}, .5), 800); }
 });
 bus.on('storm:flash', e => {
   if (document.hidden) return; // nobody's watching: no flash, no thunder, no strike

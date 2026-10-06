@@ -35,7 +35,8 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **Thunderstorms.** Now and then distant thunder rolls in a storm: rain down the window and a darker room for a
   couple of minutes. Every flash of lightning lights up every hidden mine on your boards for a split second, so
   remember where they were. One storm in three, a strike lands right overhead and takes the power out. Nobody goes
-  outside in that. New achievement: Lightning Reflexes (flag a mine within two seconds of a flash).
+  outside in that. New achievement: Lightning Reflexes (flag a mine within two seconds of a flash). Half the time,
+  when it's passed, there's a rainbow: a pot of gold at the end of it, so your next board's golden.
 - **KEVCOIN.** A minute or so into a run, Kev launches a cryptocurrency in the group chat, with a ticker in the chat's
   header (or press K). The price wanders, a little downhill. Now and then Kev hypes it, and then it pumps (and gives
   half of it back) or it dumps, and you can't tell which from his post. Once in a while the devs vanish: a rug pull,
