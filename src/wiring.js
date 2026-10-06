@@ -48,6 +48,7 @@ import { Storm } from './game/storm.js';
 import { StormView } from './ui/storm-view.js';
 import { Kev } from './game/kevcoin.js';
 import { KevView, fmtKev } from './ui/kevcoin-view.js';
+import { IceCream } from './game/ice-cream.js';
 
 const RED = 'var(--red)', GOLD = 'var(--gold)', GREEN = 'var(--green)', PURPLE = 'var(--purple)';
 export function renderAll(keepModal) {
@@ -219,6 +220,14 @@ bus.on('power', ({ on: isOn, why }) => {
   setTimeout(() => Chat.say(why === 'topup' ? 'power_topup' : 'power_back', {}, .8), 700);
 });
 bus.on('addon:fired', ({ id }) => { if (id === 'dark') Chat.say('power_win', {}, .5); });
+/* ---------- the ice cream van ---------- */
+bus.on('icecream', ({ sugar }) => {
+  RunPanel.render(); Rank.award(3);
+  UI.toast(`A cone with sprinkles. Sugar rush: +${Math.round(IceCream.RUSH * 100)}% on your next winning cash-out${sugar > 1 ? ` (and the one after${sugar > 2 ? 's' : ''})` : ''}.`);
+  setTimeout(() => Chat.say('icecream_bought', {}, .8), 900);
+});
+bus.on('addon:fired', ({ id }) => { if (id === 'sugar') RunPanel.render(); });
+
 /* ---------- KEVCOIN: Kev's coin, in the chat ---------- */
 bus.on('kev:launch', () => { KevView.ticker(); Chat.say('kev_launch', {}, 1); setTimeout(() => Chat.say('kev_launch_re', {}, 1), 2600); });
 bus.on('kev:tick', () => KevView.update());

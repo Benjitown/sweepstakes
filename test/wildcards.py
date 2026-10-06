@@ -1,6 +1,7 @@
 """Wildcards suite (experimental): thunderstorms (the rain, lightning that shows the mines, a strike that takes the
 power out, Lightning Reflexes) and KEVCOIN (the launch, the ticker, buying and selling with Kev's cut, the cap, hype
-pumps, the rug pull and the relaunch, and whether holding it loses money on average)."""
+pumps, the rug pull and the relaunch, and whether holding it loses money on average) and the ice cream van (the
+drive-by, a cone, the sugar rush on the next winning cash-out)."""
 from common import Results, open_page
 
 SETUP = """(() => { __sw.Coach.finish(); const S = __sw.S; S.coins = 50000; S.unlocked = ['penny', 'den']; S.sel = 'den'; S.life.lvl = 5; S.life.xp = 0;
@@ -122,6 +123,33 @@ async def run(browser, url, shots):
     await pg.evaluate(SETUP)
     await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
     ok('KEVCOIN' in await text(pg, '#stats') and 'rugged 1×' in await text(pg, '#stats'), 'Stats keeps your KEVCOIN record')
+    await pg.click('[data-tab="shop"]')
+
+    # --- the ice cream van: Greensleeves, then the van along the bottom; tap it for a cone
+    await pg.evaluate("(() => { __sw.HouseholdView.clear(); __sw.Coach.finish(); __sw.S.coins = 50000; delete __sw.S.life.ach.cone; __sw.renderAll(); __sw.WeirdNoises.surprise('icecream'); })()")
+    await pg.wait_for_timeout(1500)
+    ok(await pg.evaluate("!!document.querySelector('.van') && !__sw.HouseholdView.free()"), 'Greensleeves, and the ice cream van comes along the bottom of the screen')
+    await pg.screenshot(path=str(shots / 'ice_cream_van.png'))
+    c0, price, bonus = await pg.evaluate("[__sw.S.coins, __sw.IceCream.price(), __sw.Achievements.reward(__sw.ACHIEVEMENTS.find(a => a.id === 'cone'))]")
+    await pg.click('.van', force=True); await pg.wait_for_timeout(400)  # (it's moving, so no waiting for it to hold still)
+    ok(await pg.evaluate('__sw.S.coins') == c0 - price + bonus and await pg.evaluate("__sw.S.sugar === 1 && !!document.querySelector('.van.serving .vcone') && __sw.Achievements.has('cone')"),
+       f'tap it: it stops, hands out a cone ({price:,}), and Brain Freeze unlocks')
+    ok(await pg.evaluate("!document.querySelector('#sugarChip').hidden") and 'Sugar rush' in await text(pg, '#sugarChip'), 'a Sugar rush chip shows in the header')
+    await pg.click('.van', force=True); await pg.wait_for_timeout(200)
+    ok(await pg.evaluate('__sw.S.sugar') == 1, 'one cone per van')
+    # the sugar rush: +25% on the profit of the next winning cash-out, then it's gone
+    await pg.evaluate("__sw.VanView.clear()"); await pg.evaluate(DEAL)
+    pot, stake = await pg.evaluate("(() => { const b = __sw.slots[0]; b.G *= 1.6; return [b.pot(), b.stake]; })()")
+    c0 = await pg.evaluate('__sw.S.coins')
+    await pg.evaluate("__sw.Game.cashOut(__sw.slots[0], 'manual')"); await pg.wait_for_timeout(300)
+    rush = (pot - stake) // 4
+    ok(await pg.evaluate('__sw.S.coins') - c0 == pot + rush and await pg.evaluate("__sw.S.sugar === 0 && document.querySelector('#sugarChip').hidden"),
+       f'the next winning cash-out pays its pot ({pot:,}) plus a quarter of its profit ({rush:,}), and the rush is used up')
+    # a van you don't catch just goes
+    await pg.evaluate("(() => { __sw.VanView.SPEED = 1e5; __sw.NOISES.icecream.dur = .5; __sw.VanView.drive(); })()"); await pg.wait_for_timeout(1300)
+    ok(await pg.evaluate("!document.querySelector('.van') && [...document.querySelectorAll('.toast')].some(t => /van’s gone/.test(t.textContent))"), 'miss it and it drives off')
+    await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
+    ok('Ice creams' in await text(pg, '#stats'), 'Stats counts your ice creams')
     await pg.click('[data-tab="shop"]')
 
     ok(not errs, 'no console errors' + (': ' + '; '.join(errs[:3]) if errs else ''))

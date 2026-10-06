@@ -70,6 +70,7 @@ export const Achievements = {
     bus.on('tutorial:done', ({ completed }) => { if (completed) u('nan'); });
     bus.on('addon:fired', ({ id }) => { if (id === 'dark') u('dark'); });
     bus.on('kev:trade', ({ buy, x }) => { if (!buy && x >= 2) u('moon'); });
+    bus.on('icecream', () => u('cone'));
     bus.on('kev:rug', ({ held }) => { if (held) u('rugged'); });
     bus.on('flag', ({ b, i, on: isOn, src }) => { if (isOn && src === 'you' && b.mine[i] && Storm.recent()) u('storm'); });
     bus.on('duck', ({ win, pay }) => { if (win) { u('duck'); if (pay >= 8) u('longshot'); } });
