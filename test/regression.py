@@ -120,7 +120,7 @@ async def run(browser, url, shots):
     # 11. spin wheel: decided at spin, timer blocks a second spin
     await fresh(pg, "__sw.S.spinAt=-1e9;__sw.S.coins=1000;__sw.S.upg={};__sw.S.unlocked=['penny'];__sw.S.sel='penny'")
     await pg.click('#btnSpin'); await pg.wait_for_timeout(300); await pg.click('#spinGo'); await pg.wait_for_timeout(300)
-    saved=await pg.evaluate("JSON.parse(localStorage.getItem('sweepstakes.save.v3')).spinAt===__sw.S.run.time")
+    saved=await pg.evaluate("(s=>s.spinAt===__sw.S.spinAt&&s.spinAt>=0)(JSON.parse(localStorage.getItem('sweepstakes.save.v3')))")  # saved the moment it spun
     await pg.wait_for_timeout(4400)
     txt=await pg.evaluate("document.querySelector('#wres').textContent")
     await pg.click('#spinGo'); await pg.wait_for_timeout(300)

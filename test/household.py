@@ -157,7 +157,8 @@ async def run(browser, url, shots):
       await new Promise(r => setTimeout(r, 1200)); C.post = post; return got; })()""")
     ok(any(t in rude for t in said), 'switched back on, the rude ones come back')
 
-    ok(await pg.evaluate("document.querySelectorAll('#stats .ach').length") == await pg.evaluate('__sw.ACHIEVEMENTS.length') == 45, 'Stats shows 45 badges')
+    n = await pg.evaluate('__sw.ACHIEVEMENTS.length')
+    ok(await pg.evaluate("document.querySelectorAll('#stats .ach').length") == n >= 45, f'Stats shows all {n} badges')
     ok(not errs, 'no console errors' + (': ' + '; '.join(errs[:3]) if errs else ''))
     await ctx.close()
     return R
