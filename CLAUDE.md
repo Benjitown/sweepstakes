@@ -21,6 +21,8 @@ feature/<name> ──> experimental ──> dev ──> main
 
 - `python tools/build.py` must build (it stops if two modules declare the same top-level name).
 - `python test/run.py` runs every browser suite against the source and the build (all checks must pass before dev → main).
+  GitHub Actions runs the same suites plus `test/ports.py` on every push (`.github/workflows/ci.yml`); main also deploys
+  to GitHub Pages (`pages.yml`), so merging into main publishes.
 - After changing `src/data/`, `src/content/` or the daily, run `node tools/export_rules.mjs`, then
   `python test/ports.py` (the terminal versions must still match the web game's Daily Challenge exactly).
 

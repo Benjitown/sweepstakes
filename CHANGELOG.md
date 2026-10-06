@@ -3,6 +3,17 @@
 Each version is also a save in the built-in version control. Run `python tools/vc.py log` to list them, or
 `python tools/vc.py export v3.0 v3.zip` to get any of them back.
 
+## 4.4.0 (6 Oct 2026)
+
+- **Volume controls.** Two sliders in Stats: Volume for everything, and Household noises for the door, the phone, the
+  kitten, the ducks and the smoke detector on their own. They survive going bust.
+- **The project moved to git.** Three branches: main (released), dev (works, not fully tested) and experimental
+  (where new work lands, one feature branch at a time). The old versions are the tags v3.0 to v4.3. `tools/vc.py`
+  still works if you ever need it without git.
+- **GitHub Actions.** Every push builds the game, runs every browser suite on the source and the built file, and
+  builds and tests the Kotlin, C# and Python versions. Each run attaches the built game. Pushing to main publishes it
+  to GitHub Pages once Pages is switched on.
+
 ## 4.3.0 (6 Oct 2026)
 
 - **Life goes on around you.** Knocks at the door, the doorbell, the phone, a smoke alarm (someone burnt the toast).

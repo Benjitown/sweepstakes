@@ -26,6 +26,10 @@
 .stats dt{color:var(--ink-dim)} .stats dd{margin:0;text-align:right;font-variant-numeric:tabular-nums}
 .rules{margin:0;padding-left:1.1em;font-size:.85rem;color:var(--ink-dim);display:grid;gap:5px;text-shadow:none}
 .toggles{display:flex;gap:8px 16px;flex-wrap:wrap;margin:14px 0 10px}
+.sliders{display:grid;gap:8px;margin:14px 0 0}
+.sl{display:grid;grid-template-columns:minmax(0,9.5em) minmax(0,1fr) 3.8em;align-items:center;gap:10px;font-size:.85rem;cursor:pointer}
+.sl input{width:100%;min-width:0;accent-color:var(--green)}
+.sl output{text-align:right;color:var(--ink-dim)}
 /* Stats tab: coin graph, achievements and the version line */
 .chart{background:var(--panel-in);border-radius:10px;padding:8px 8px 4px;margin:0 0 12px}
 .coinsvg{display:block;width:100%;height:90px}

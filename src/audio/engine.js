@@ -1,5 +1,5 @@
 // One shared Web Audio context (unlocked by the first tap) with tone and noise primitives.
-import { S } from '../core/state.js';
+import { S, level } from '../core/state.js';
 
 /* =====================================================================================
    Singleton · https://refactoring.guru/design-patterns/singleton
@@ -11,12 +11,14 @@ export class AudioEngine {
   ready() {
     if (S.muted || !this.unlocked) return null;
     if (!this.ctx) {
-      try { this.ctx = new (window.AudioContext || window.webkitAudioContext)(); this.master = this.ctx.createGain(); this.master.gain.value = .22; this.master.connect(this.ctx.destination); }
+      try { this.ctx = new (window.AudioContext || window.webkitAudioContext)(); this.master = this.ctx.createGain(); this.applyVolume(); this.master.connect(this.ctx.destination); }
       catch (e) { return null; }
     }
     if (this.ctx.state === 'suspended') this.ctx.resume().catch(() => {});
     return this.ctx;
   }
+  // the master volume: .22 at 100% (everything was balanced against that), scaled by the Volume setting
+  applyVolume() { if (this.master) this.master.gain.value = .22 * level('vol'); }
   tone(f, dur = .12, type = 'triangle', vol = .5, when = 0, to = null) {
     const a = this.ready(); if (!a) return;
     const t = a.currentTime + when, o = a.createOscillator(), g = a.createGain();
