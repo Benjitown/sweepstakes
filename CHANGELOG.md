@@ -22,6 +22,10 @@ Each version is also a save in the built-in version control. Run `python tools/v
   voice (switch it off in Stats), "Hurry up, Nan" skips to the end, and like the ducks and scratchcards the result is
   settled the moment you buy, so leaving mid-game still pays. Now and then she invites the group chat. New
   achievements: Eyes Down and Full House. The booth's tabs now have short names (Flip, Ducks, Scratch, Bingo).
+- **Go outside.** A button in Stats (or press G) takes you to a little park for three minutes: birds, a breeze, the
+  duck from the pond. The whole game waits while you're out (the clock, the bots, the house), and staying out the
+  whole time pays a fresh air bonus. Come back early and you get nothing but a look from Nan. After an hour of play in
+  one go, she suggests it herself. New achievement: Touched Grass.
 
 ## 4.4.0 (6 Oct 2026)
 

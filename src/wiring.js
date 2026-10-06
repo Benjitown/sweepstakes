@@ -36,6 +36,8 @@ import { FlipView } from './ui/flip-view.js';
 import { DuckRaceView } from './ui/duck-race-view.js';
 import { ScratchView } from './ui/scratch-view.js';
 import { BingoView } from './ui/bingo-view.js';
+import { OutsideView } from './ui/outside-view.js';
+import { Outside } from './game/outside.js';
 import { Quiz } from './game/quiz.js';
 import { QuizView } from './ui/quiz-view.js';
 import { AudioEngine } from './audio/engine.js';
@@ -182,7 +184,7 @@ const canStart = k => {
   if (e === 'powercut') return HouseholdView.free() && !PowerCut.on && Game.slots.some(b => b && b.started && !b.over);
   return HouseholdView.free();
 };
-bus.on('noise:due', () => WeirdNoises.surprise(WeirdNoises.pick(canStart)));
+bus.on('noise:due', () => { if (!Outside.on) WeirdNoises.surprise(WeirdNoises.pick(canStart)); }); // the house is quiet while you're out
 bus.on('odd', ({ k, handle }) => {
   const kind = startsEvent(k);
   if (kind && kind !== 'battery' && HouseholdView.free()) HouseholdView.start(kind, k, handle);
@@ -243,6 +245,16 @@ bus.on('bingo', ({ lines, prize }) => {
   Chat.say(['bingo_lose', 'bingo_line', 'bingo_two', 'bingo_house'][lines], {}, lines ? 1 : .4);
   Rank.award(lines ? 4 + 6 * lines : 2); RunPanel.render();
 });
+
+/* ---------- touching grass ---------- */
+bus.on('outside', e => {
+  if (e.on) { OutsideView.show(); return; }
+  OutsideView.done(e);
+  setTimeout(() => Chat.say(e.full ? 'grass_back' : 'grass_early', {}, .9), 800);
+  if (e.full) Rank.award(10);
+  RunPanel.render();
+});
+bus.on('grass:due', () => { if (UI.modalClosed() && !Coach.active && !document.hidden) OutsideView.nudge(); });
 
 /* ---------- the pub quiz ---------- */
 bus.on('quiz:due', () => { if (pref('quiz') && !document.hidden && UI.modalClosed() && !Coach.active && AudioEngine.get().unlocked) Quiz.ask(); });

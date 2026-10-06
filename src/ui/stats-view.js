@@ -19,6 +19,7 @@ import { WhatsNew } from './whats-new.js';
 import { Keys } from './keys.js';
 import { Chat } from './chat.js';
 import { Quips } from './quip-popups.js';
+import { OutsideView } from './outside-view.js';
 
 export const StatsView = {
   // don't redraw the tab under someone dragging a slider
@@ -34,7 +35,7 @@ export const StatsView = {
       <dt>Casinos bought</dt><dd>${L.casinos}</dd><dt>Highest ladder rung</dt><dd>${L.donBest ? '×' + LADDER[L.donBest - 1] : 'none'}</dd>
       ${L.casinos ? `<dt>House edge</dt><dd>+${Math.round(HOUSE_EDGE * 100 * L.casinos)}% profit</dd>` : ''}
       <dt>Duck races won</dt><dd>${L.ducks || 0}</dd><dt>Pub quiz</dt><dd>${L.quiz ? `${L.quiz.right} right of ${L.quiz.asked}` : 'not yet'}</dd><dt>Nan’s bingo</dt><dd>${L.bingo ? `${L.bingo.tickets} ticket${L.bingo.tickets === 1 ? '' : 's'}, ${L.bingo.houses ? `${L.bingo.houses} full house${L.bingo.houses > 1 ? 's' : ''}` : `${L.bingo.lines + L.bingo.twos} with a line`}` : 'not yet'}</dd><dt>Scratchcards</dt><dd>${L.scratch ? `${L.scratch.bought} bought, best ×${L.scratch.best}` : 'none yet'}</dd><dt>Kittens petted</dt><dd>${(L.house && L.house.kitten) || 0}</dd><dt>Power cuts</dt><dd>${(L.house && L.house.powercut) || 0}${L.house && L.house.topups ? ` (${L.house.topups} topped up)` : ''}</dd><dt>Seagulls shooed</dt><dd>${(L.house && L.house.gull) || 0}${L.house && L.house.gullNicked ? ` (${L.house.gullNicked} got away)` : ''}</dd>
-      <dt>Best daily</dt><dd>${L.daily && L.daily.best ? '×' + fmtX(L.daily.best) : 'not yet'}</dd><dt>Daily streak</dt><dd>${L.daily && L.daily.streak ? L.daily.streak + ' day' + (L.daily.streak > 1 ? 's' : '') : '0'}</dd></dl>
+      <dt>Touched grass</dt><dd>${L.outside ? `${L.outside.breaks} time${L.outside.breaks === 1 ? '' : 's'}${L.outside.full < L.outside.breaks ? ` (${L.outside.full} for the full 3 minutes)` : ''}` : 'never'}</dd><dt>Best daily</dt><dd>${L.daily && L.daily.best ? '×' + fmtX(L.daily.best) : 'not yet'}</dd><dt>Daily streak</dt><dd>${L.daily && L.daily.streak ? L.daily.streak + ' day' + (L.daily.streak > 1 ? 's' : '') : '0'}</dd></dl>
       <h2>Achievements <small>${Achievements.count()}/${ACHIEVEMENTS.length}</small></h2>
       <div class="achs">${ACHIEVEMENTS.map(a => { const got = Achievements.has(a.id); return `<button type="button" class="ach t${a.tier}${got ? ' got' : ''}" data-ach="${a.id}" title="${esc(a.name)}: ${esc(a.desc)}" aria-label="${esc(a.name)}, ${got ? 'unlocked' : 'locked'}: ${esc(a.desc)}">${ico(got ? a.icon : 'lock')}</button>`; }).join('')}</div>
       <p class="achcap hint" id="achCap">Tap a badge to see what it wants from you.</p>
@@ -54,6 +55,7 @@ export const StatsView = {
         <li>Buying the casino adds +25% to every win’s profit for good. Each casino you buy stacks.</li>
         <li>Life carries on around you. Answer the door, pet the kitten, shoo the seagull off your coins, change the smoke detector’s battery, keep playing through a power cut (for danger money). It might pay. It might not.</li>
         <li>The Flip Booth has a duck pond out back: back a duck, and long shots pay more. Nan calls the bingo there too: a line, two lines or a full house in 60 calls.</li>
+        <li>Go outside now and then (the button below, or G). The game pauses, and three whole minutes out pays a fresh air bonus.</li>
         <li>Progress saves in this browser. The coins aren’t real money.</li></ol>
       <div class="sliders">${[['vol', 'Volume'], ['noiseVol', 'Household noises']].map(([k, label]) => { const v = Math.round(level(k) * 100);
         return `<label class="sl" for="sl-${k}"><span>${label}</span><input type="range" id="sl-${k}" min="0" max="100" step="5" value="${v}"><output class="num" id="sl-${k}-o">${v}%</output></label>`; }).join('')}</div>
@@ -64,7 +66,7 @@ export const StatsView = {
         <label class="sw"><input type="checkbox" id="tg-rude" ${pref('rude') ? 'checked' : ''}> Rude chat</label>
         <label class="sw"><input type="checkbox" id="tg-quiz" ${pref('quiz') ? 'checked' : ''}> Pub quiz</label>
         <label class="sw"><input type="checkbox" id="tg-nanvoice" ${pref('nanvoice') ? 'checked' : ''}> Nan reads the bingo</label></div>
-      <div class="row-btns"><button class="btn blue" type="button" id="btnTut">Replay tutorial</button><button class="btn ghost" type="button" id="btnReset">Declare bankruptcy</button></div>
+      <div class="row-btns"><button class="btn green" type="button" id="btnGrass">Go outside</button><button class="btn blue" type="button" id="btnTut">Replay tutorial</button><button class="btn ghost" type="button" id="btnReset">Declare bankruptcy</button></div>
       <p class="ver">Sweepstakes v${VERSION} · <button class="clink" type="button" id="btnNews">What’s new</button> · <button class="clink" type="button" id="btnKeys">Shortcuts</button></p>`;
     ['crt', 'quips', 'odd', 'vibe', 'rude', 'quiz', 'nanvoice'].forEach(k => { $('#tg-' + k).onchange = e => {
       S[k] = e.target.checked; Sound.toggle(e.target.checked); RunPanel.render(); SaveGame.saveNow();
@@ -78,6 +80,7 @@ export const StatsView = {
       inp.onchange = () => { SaveGame.saveNow(); sample(); };
     });
     $('#btnTut').onclick = () => Coach.start(true);
+    $('#btnGrass').onclick = () => OutsideView.open();
     $('#btnNews').onclick = () => WhatsNew.show();
     $('#btnKeys').onclick = () => Keys.help();
     $$('#stats .ach').forEach(el => { el.onclick = () => { const a = ACH_BY[el.dataset.ach], got = Achievements.has(a.id);

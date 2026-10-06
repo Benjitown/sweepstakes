@@ -107,6 +107,10 @@ export const LINES = {
     ['priya', 'the answer was {answer}. we don’t talk about this'], ['tash', 'it was {answer} babe']],
   quiz_slow:     [['dave', 'too slow. it was {answer}'], ['tash', 'asleep? it was {answer}'], ['nan', 'The answer was {answer} love. I got it straight away x']],
   // the duck race
+  grass_back:    [['nan', 'There, doesn’t that feel better love? x'], ['priya', 'you went OUTSIDE? on purpose?'], ['kev', 'what’s it like out there. is it nice'],
+    ['tash', 'touched grass. character development'], ['dave', 'the mines missed you. they said']],
+  grass_early:   [['nan', 'That wasn’t three minutes love x'], ['dave', 'lasted about as long as your last streak'], ['priya', 'the grass barely felt it'],
+    ['tash', 'speedrunning fresh air']],
   bingo_buy:     [['nan', 'Eyes down love! I’ll call them nice and slow x'], ['dave', 'bingo? what are you, 80?'], ['kev', 'got my lucky dabber'], ['priya', 'bingo is just minesweeper for nans']],
   bingo_line:    [['nan', 'A line! Well done love x'], ['tash', 'LINE! somebody check it'], ['dave', 'a line. adorable'], ['kev', 'I was sweating on 47 the whole time']],
   bingo_two:     [['nan', 'Two lines! I nearly dropped my sherry x'], ['tash', 'TWO LINES. the hall is in uproar'], ['priya', 'the regulars are glaring at you']],
@@ -147,6 +151,7 @@ export const RUDE = {
   odd_carAlarm: [['dave', 'turn it off, you absolute weapon']],
   gull_nicked: [['dave', 'mugged off by a flying rat'], ['tash', 'robbed by a pigeon with a gym membership']],
   odd_gull:  [['dave', 'flying rat incoming']],
+  grass_early: [['dave', 'couldn’t even manage three minutes. addict'], ['tash', 'back already, you absolute goblin']],
   bingo_lose: [['dave', 'beaten at bingo by a load of pensioners. pathetic'], ['tash', 'not a sodding line']],
   odd_powerdown: [['dave', 'put a quid in the meter, you tight git'], ['tash', 'who’s been running the tumble dryer']],
   power_back: [['tash', 'about bloody time']],

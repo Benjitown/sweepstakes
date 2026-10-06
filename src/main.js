@@ -48,6 +48,7 @@ import { DuckRace } from './game/duck-race.js';
 import { Scratchcards } from './game/scratchcards.js';
 import { Quiz } from './game/quiz.js';
 import { Bingo } from './game/bingo.js';
+import { Outside } from './game/outside.js';
 import { exposeForTests } from './debug.js';
 
 $('#btnDon').onclick = () => DonLadder.start();
@@ -57,7 +58,7 @@ $('#btnMute').onclick = () => { S.muted = !S.muted; if (!S.muted) Sound.msg(); R
 StakeView.bind(); Tabs.bind(); UiSounds.bind(); Keys.bind(); HouseholdView.bind(); PowerView.bind();
 document.addEventListener('visibilitychange', () => { if (document.hidden) SaveGame.saveNow(); });
 addEventListener('pagehide', () => SaveGame.saveNow());
-setInterval(() => { if (document.hidden) return; S.run.time++; bus.emit('tick'); }, 1000);
+setInterval(() => { if (document.hidden || Outside.on) return; S.run.time++; Outside.tick(); bus.emit('tick'); }, 1000); // the clock stops while you're outside
 
 (S.boards || []).forEach(o => { if (o && o.slot < boardCount()) { const b = Board.fromMemento(o); if (b) Game.slots[o.slot] = b; } });
 if (!TBY[S.sel] || !S.unlocked.includes(S.sel)) S.sel = 'penny';
