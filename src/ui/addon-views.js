@@ -8,7 +8,7 @@ import { Rack } from '../game/rack.js';
 import { UI } from './ui.js';
 import { ShopView } from './shop-view.js';
 
-const cardFace = id => `<span class="face">${ico(ABY[id].art)}<span class="nm">${esc(ABY[id].name)}</span></span>`;
+export const cardFace = id => `<span class="face">${ico(ABY[id].art)}<span class="nm">${esc(ABY[id].name)}</span></span>`;
 export const AddonStrip = {
   render() {
     const el = $('#addons'), max = slotsMax();

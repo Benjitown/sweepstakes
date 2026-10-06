@@ -58,6 +58,8 @@ import { Dares } from './game/dares.js';
 import { DareView } from './ui/dare-view.js';
 import { Seasons } from './game/seasons.js';
 import { ClawView } from './ui/claw-view.js';
+import { CarBoot } from './game/car-boot.js';
+import { CarBootView } from './ui/car-boot-view.js';
 import { SeasonView } from './ui/season-view.js';
 import { PUMPKIN } from './data/seasons.js';
 import { TREAT_CARD, EGGED_CARD } from './content/seasons.js';
@@ -352,6 +354,11 @@ bus.on('trick', () => {
 });
 bus.on('household', ({ o }) => { if (o.fx === 'xmas') setTimeout(() => Chat.say('xmas_card', {}, .8), 1400); });
 bus.on('board:cashout', ({ mult }) => { if (mult >= 5 && Seasons.is('bonfire')) { SeasonView.fireworks(mult >= 50 ? 5 : mult >= 15 ? 3 : 2); setTimeout(() => Chat.say('fireworks', {}, .5), 1600); } });
+
+/* ---------- the car boot sale ---------- */
+bus.on('boot:due', () => { if (pref('odd') && !document.hidden && HouseholdView.free() && !Outside.on && S.coins >= 50) { CarBootView.invite(); setTimeout(() => Chat.say('boot_open', {}, .8), 1200); } });
+bus.on('boot:bought', () => setTimeout(() => Chat.say('boot_bought', {}, .5), 800));
+bus.on('boot:box', () => setTimeout(() => Chat.say('boot_box', {}, .8), 800));
 
 /* ---------- the claw machine ---------- */
 bus.on('claw:grab', ({ won, fx }) => { Rank.award(won ? 5 : 1); if (won) { RunPanel.render(); if (fx === 'golden') UI.toast('The golden crown! Your next board is golden.'); } });

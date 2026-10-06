@@ -71,6 +71,7 @@ export const Achievements = {
     bus.on('tin:open', () => u('tin'));
     bus.on('pumpkin', ({ n }) => { if (n >= 5) u('pumpkin'); });
     bus.on('treat', () => u('treat'));
+    bus.on('boot:haggled', () => u('haggle'));
     bus.on('claw:grab', ({ won, prize }) => { if (won) { u('claw'); if (prize.id === 'crown') u('crown'); } });
     bus.on('dare:won', () => { u('dare'); if ((S.life.dares && S.life.dares.won || 0) >= 3) u('dare3'); });
     bus.on('addon:fired', ({ id }) => { if (id === 'dark') u('dark'); });

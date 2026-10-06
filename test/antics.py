@@ -1,7 +1,8 @@
 """Antics suite (experimental): dares from the group chat (the offer, You're on / Nah / no answer, the clock in the
 header, doing it in time for double, running out of time, the switch, each dare's rule) and the seasons (the calendar,
 Halloween's pumpkins, bats and trick or treaters, Bonfire Night's fireworks, Christmas snow and Nan's card) and the claw
-machine (the sixth booth tab, the swing, what it pays back, a win, a drop, a slip, a miss, leaving mid-grab)."""
+machine (the sixth booth tab, the swing, what it pays back, a win, a drop, a slip, a miss, leaving mid-grab) and the car
+boot sale (his prices, buying, haggling, being sold out from under you, the mystery box, packing up)."""
 from common import Results, open_page
 
 SETUP = """(() => { __sw.Coach.finish(); const S = __sw.S; S.coins = 50000; S.unlocked = ['penny', 'den']; S.sel = 'den'; S.life.lvl = 5; S.life.xp = 0;
@@ -248,6 +249,50 @@ async def run(browser, url, shots):
     ok(await pg.evaluate("(() => { const c = __sw.S.coins; __sw.S.clawOwed = 77; __sw.Claw.settle(); return __sw.S.coins === c + 77 && !__sw.S.clawOwed; })()"),
        'and a prize still in the chute when the page closed pays out next time (settle)')
     await pg.evaluate("(() => { __sw.Claw.rng = Math.random; __sw.ClawView.SPEED = 1; })()")
+    # --- the car boot sale
+    await pg.evaluate("(() => { __sw.HouseholdView.clear(); __sw.UI.closeModal(); __sw.S.addons = []; __sw.S.coins = 1e6; __sw.renderAll(); __sw.bus.emit('boot:due'); })()")
+    await pg.wait_for_timeout(300)
+    card = await text(pg, '.happening')
+    ok('Car boot sale' in card and 'Have a look' in card, 'a car boot sale sets up at the end of the road')
+    await pg.click('.happening [data-h="0"]'); await pg.wait_for_timeout(300)
+    st = await pg.evaluate("""(() => { const st = __sw.CarBoot.stall; return { n: st.cards.length, ok: st.cards.every(c => { const shop = __sw.Rack.price(c.id);
+      return !__sw.S.addons.some(a => a.id === c.id) && c.price >= Math.ceil(shop * .45) - 1 && c.price <= Math.ceil(shop * 1.35) + 1; }),
+      shown: document.querySelectorAll('#bootTable .offer').length, box: st.box }; })()""")
+    ok(st['n'] == 3 and st['ok'] and st['shown'] == 4, f"his table: three cards you haven’t got at his prices (45% to 135% of the shop’s) and a mystery box ({st})")
+    await pg.screenshot(path=str(shots / 'car_boot.png'))
+    # buy one at his price
+    c0 = await pg.evaluate('__sw.S.coins'); p0 = await pg.evaluate('__sw.CarBoot.stall.cards[0].price'); id0 = await pg.evaluate('__sw.CarBoot.stall.cards[0].id')
+    await pg.click('#bootTable [data-bbuy="0"]'); await pg.wait_for_timeout(200)
+    ok(await pg.evaluate('__sw.S.coins') == c0 - p0 and await pg.evaluate(f"__sw.S.addons.some(a => a.id === '{id0}' && a.paid === {p0})") and 'Yours' in await text(pg, '#bootTable .offer'),
+       f'buy one at his price ({p0:,}): it goes in your add-on slots')
+    # haggle: a cheeky offer (60%) he turns down, then a fair one (80%) he takes
+    await pg.evaluate("delete __sw.S.life.ach.haggle")
+    p1 = await pg.evaluate('__sw.CarBoot.stall.cards[1].price')
+    await pg.evaluate("(() => { const q = [.99, .99, 0]; __sw.CarBoot.rng = () => q.length ? q.shift() : .5; })()")
+    off1 = await pg.evaluate('__sw.CarBoot.offer(1)')
+    await pg.click('#bootTable [data-offer="1"]'); await pg.wait_for_timeout(200)
+    said1 = await text(pg, '#bootMsg'); off2 = await pg.evaluate('__sw.CarBoot.offer(1)')
+    c1 = await pg.evaluate('__sw.S.coins')
+    await pg.click('#bootTable [data-offer="1"]'); await pg.wait_for_timeout(300)
+    bonus = await pg.evaluate("__sw.Achievements.reward(__sw.ACHIEVEMENTS.find(a => a.id === 'haggle'))")
+    ok(off1 == int(p1 * .6) and off2 == int(p1 * .8) and '“' in said1 and await pg.evaluate('__sw.S.coins') == c1 - off2 + bonus and await pg.evaluate("__sw.Achievements.has('haggle')"),
+       f'haggle: offer {off1:,} and he says no ({said1}); offer {off2:,} and it’s yours (Haggler unlocks)')
+    # he sells the last one to someone else while you dither
+    await pg.evaluate("(() => { const q = [.99, 0]; __sw.CarBoot.rng = () => q.length ? q.shift() : .5; })()")
+    await pg.click('#bootTable [data-offer="2"]'); await pg.wait_for_timeout(200)
+    ok(await pg.evaluate('__sw.CarBoot.stall.cards[2].gone') and 'Gone' in await text(pg, '#bootTable'), f"or he sells it to someone else while you haggle ({await text(pg, '#bootMsg')})")
+    # the mystery box: any card you haven't got
+    c2 = await pg.evaluate('__sw.S.coins'); box = await pg.evaluate('__sw.CarBoot.stall.box'); n0 = await pg.evaluate('__sw.S.addons.length')
+    await pg.evaluate("__sw.CarBoot.rng = Math.random")
+    await pg.click('#bootTable [data-box]'); await pg.wait_for_timeout(200)
+    ok(await pg.evaluate('__sw.S.coins') == c2 - box and await pg.evaluate('__sw.S.addons.length') == n0 + 1 and 'Inside:' in await text(pg, '#bootMsg'),
+       f"the mystery box ({box:,}): {(await text(pg, '#bootMsg'))[:60]}")
+    # and he packs up
+    await pg.evaluate("__sw.CarBoot.stall.until = Date.now() + 900"); await pg.wait_for_timeout(3200)
+    ok(await pg.evaluate('!__sw.CarBoot.stall && __sw.UI.modalClosed()'), 'and when time’s up he packs up and goes')
+    await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
+    ok('Car boot sales' in await text(pg, '#stats') and 'mystery box' in await text(pg, '#stats'), 'Stats: what you bought at car boot sales')
+    await pg.click('[data-tab="shop"]')
     ids = await pg.evaluate("[...document.querySelectorAll('svg symbol')].map(s => s.id)")
     ok(len(ids) == len(set(ids)), f'every icon in the sheet has its own id ({len(ids)} icons{", doubled: " + str(sorted({x for x in ids if ids.count(x) > 1})) if len(ids) != len(set(ids)) else ""})')
     ok(not errs, f'no console errors {errs[:3]}')
