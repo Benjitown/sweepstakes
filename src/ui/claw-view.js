@@ -70,7 +70,7 @@ export const ClawView = {
     const at = (ms, fn) => setTimeout(() => { if (this.run === run && this.live()) fn(); }, ms * this.SPEED);
     this.msg('Down it goes…');
     arm.classList.add('down');                                                     // down
-    at(750, () => { arm.classList.add('shut'); Sound.flag(); });                   // grip
+    at(750, () => { arm.classList.add('shut'); Sound.claw(); });                   // grip
     at(1000, () => {                                                               // and up
       if (r.held && el) { arm.appendChild(el); el.classList.add('held'); el.style.left = ''; }
       else if (el) el.classList.add('wiggle');
@@ -95,7 +95,7 @@ export const ClawView = {
     const P = r.prize && CLAW_BY[r.prize.id];
     if (r.won) {
       const owed = Claw.collect();
-      Game.setCoins(S.coins, true, { from: $('#clawCase .chute'), amount: owed }); Sound.cash();
+      Game.setCoins(S.coins, true, { from: $('#clawCase .chute'), amount: owed }); Sound.arcade();
       this.msg(`${P.name[0].toUpperCase() + P.name.slice(1)}! +${fmt(r.pay)}${r.fx === 'shield' ? ', and a shield' : r.fx === 'golden' ? ', and your next board’s golden' : ''}.`);
       setTimeout(() => Chat.say('claw_win', {}, .7), 700);
     } else if (r.dropped) { this.msg('It’s got it, it’s got it… and it drops it.'); setTimeout(() => Chat.say('claw_drop', {}, .6), 600); }

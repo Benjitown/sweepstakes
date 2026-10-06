@@ -57,6 +57,12 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **Biscuit, next door's dog.** If you hear barking, he trots in along the bottom of the screen and waits ("Woof?").
   Give him a biscuit (3% of the top table's max stake) and he sniffs out a mine on your board and sits on it: flagged,
   glowing orange for a moment. Ignore him and he wanders off. New achievement: Good Boy.
+- **Board styles,** in Stats: Card table felt, Neon, Nan's knitting (purple wool, cable stitch) and Gold leaf, for
+  the tiles on every board (and Double or Nothing's). Each is bought once with coins and kept for good: going bust
+  doesn't take it back, and swapping between the ones you own is free. New achievement: Interior Design.
+- **Quiz night.** Now and then Priya runs a proper round at the Red Lion: five questions in a row, fifteen seconds
+  each, coins for every right answer and double for all five. Leave half-way and you keep what you've won. The "Pub
+  quiz" switch covers it. New achievement: Quiz Champion.
 - **Darts at the Red Lion.** Now and then Big Dave challenges you in the group chat: three darts each, best total
   wins the pot. Dave throws first (he aims for treble 20, give or take), then your aim wanders round a proper
   dartboard and you press Throw (or Space) when it's where you want it. Beat him for double your stake, draw for

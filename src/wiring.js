@@ -58,8 +58,10 @@ import { Dares } from './game/dares.js';
 import { DareView } from './ui/dare-view.js';
 import { Seasons } from './game/seasons.js';
 import { ClawView } from './ui/claw-view.js';
+import { Skins } from './game/skins.js';
 import { CarBoot } from './game/car-boot.js';
 import { Darts } from './game/darts.js';
+import { QuizNightView } from './ui/quiz-night-view.js';
 import { DartsView } from './ui/darts-view.js';
 import { CarBootView } from './ui/car-boot-view.js';
 import { SeasonView } from './ui/season-view.js';
@@ -357,6 +359,10 @@ bus.on('trick', () => {
 bus.on('household', ({ o }) => { if (o.fx === 'xmas') setTimeout(() => Chat.say('xmas_card', {}, .8), 1400); });
 bus.on('board:cashout', ({ mult }) => { if (mult >= 5 && Seasons.is('bonfire')) { SeasonView.fireworks(mult >= 50 ? 5 : mult >= 15 ? 3 : 2); setTimeout(() => Chat.say('fireworks', {}, .5), 1600); } });
 
+/* ---------- quiz night: Priya runs a round of five (the pub quiz switch covers it) ---------- */
+bus.on('night:due', () => { if (pref('quiz') && !document.hidden && UI.modalClosed() && !Coach.active && !Outside.on && !Quiz.live) QuizNightView.invite(); });
+bus.on('night:done', o => { QuizNightView.done(o); RunPanel.render(); Rank.award(3 + 3 * o.score); });
+
 /* ---------- darts at the Red Lion: Dave challenges you (the dares switch covers it) ---------- */
 bus.on('darts:due', () => { if (pref('dares') && !document.hidden && UI.modalClosed() && !Coach.active && !Outside.on && Darts.canOffer()) Darts.make(); });
 bus.on('darts:offer', o => DartsView.offer(o));
@@ -367,6 +373,9 @@ bus.on('darts:done', m => { DartsView.done(m); RunPanel.render(); Rank.award(m.r
 bus.on('boot:due', () => { if (pref('odd') && !document.hidden && HouseholdView.free() && !Outside.on && S.coins >= 50) { CarBootView.invite(); setTimeout(() => Chat.say('boot_open', {}, .8), 1200); } });
 bus.on('boot:bought', () => setTimeout(() => Chat.say('boot_bought', {}, .5), 800));
 bus.on('boot:box', () => setTimeout(() => Chat.say('boot_box', {}, .8), 800));
+
+/* ---------- board styles ---------- */
+bus.on('skin', () => { document.body.dataset.skin = Skins.current(); });
 
 /* ---------- the claw machine ---------- */
 bus.on('claw:grab', ({ won, fx }) => { Rank.award(won ? 5 : 1); if (won) { RunPanel.render(); if (fx === 'golden') UI.toast('The golden crown! Your next board is golden.'); } });

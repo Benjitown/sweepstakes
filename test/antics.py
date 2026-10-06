@@ -3,7 +3,9 @@ header, doing it in time for double, running out of time, the switch, each dare'
 Halloween's pumpkins, bats and trick or treaters, Bonfire Night's fireworks, Christmas snow and Nan's card) and the claw
 machine (the sixth booth tab, the swing, what it pays back, a win, a drop, a slip, a miss, leaving mid-grab) and the car
 boot sale (his prices, buying, haggling, being sold out from under you, the mystery box, packing up) and darts with
-Big Dave (a real dartboard's scores, the challenge, a win with 180, a loss, a draw, walking away)."""
+Big Dave (a real dartboard's scores, the challenge, a win with 180, a loss, a draw, walking away) and quiz night
+(a perfect round, a mixed one, running out of time, leaving half-way) and board styles (buying, wearing, keeping them
+when you go bust)."""
 from common import Results, open_page
 
 SETUP = """(() => { __sw.Coach.finish(); const S = __sw.S; S.coins = 50000; S.unlocked = ['penny', 'den']; S.sel = 'den'; S.life.lvl = 5; S.life.xp = 0;
@@ -66,11 +68,11 @@ async def run(browser, url, shots):
     # do it in time: double back
     await pg.evaluate("delete __sw.S.life.ach.dare")
     c1 = await pg.evaluate('__sw.S.coins')
-    r = await pg.evaluate(WIN)
+    r = await pg.evaluate(WIN.replace('if (!b.over) __sw.Game.cashOut(b);', 'if (!b.over) { b.G = Math.max(b.G, 2); __sw.Game.cashOut(b); }'))  # (×1.5 or more, quick)
     bonus = await pg.evaluate("__sw.Achievements.reward(__sw.ACHIEVEMENTS.find(a => a.id === 'dare'))")
     await pg.wait_for_timeout(1500)
     ok(r and r['profit'] > 0 and await pg.evaluate('!__sw.S.dare') and await pg.evaluate('__sw.S.coins') == c1 + r['profit'] + 2 * stake + bonus,
-       f"cash out in profit within 15 seconds: dare done, +{2 * stake:,} on top of the board's +{r and r['profit']:,} (and Dared and Done, +{bonus})")
+       f"cash out at ×1.5 or more within 15 seconds: dare done, +{2 * stake:,} on top of the board's +{r and r['profit']:,} (and Dared and Done, +{bonus})")
     ok(await pg.evaluate("document.querySelector('#dareChip').hidden") and 'Dare done' in await toasts(pg), 'the chip goes and a toast says so')
     said = await pg.evaluate("[...document.querySelectorAll('#chat .msg')].slice(-3).map(m => m.textContent).join(' | ')")
     ok('Big Dave' in said, f'Dave pays up in the chat ({said[-90:]})')
@@ -103,12 +105,12 @@ async def run(browser, url, shots):
       take('three'); D.check('cashout', { b: me, profit: 5 }); D.check('cashout', { b: me, profit: 5 }); D.check('boom', { b: me }); out.threeBroken = won();
       D.check('cashout', { b: me, profit: 5 }); D.check('cashout', { b: me, profit: 5 }); out.threeTwo = won(); D.check('cashout', { b: me, profit: 5 }); out.three = won();
       take('gem'); D.check('gem', { b: bot }); out.gemBot = won(); D.check('gem', { b: me }); out.gem = won();
-      take('quick'); D.check('cashout', { b: { human: true, t0: Date.now() - 16000 }, profit: 5 }); out.quickSlow = won();
-      D.check('cashout', { b: { human: true, t0: Date.now() - 5000 }, profit: 0 }); out.quickEven = won(); D.check('cashout', { b: { human: true, t0: Date.now() - 5000 }, profit: 5 }); out.quick = won();
+      take('quick'); D.check('cashout', { b: { human: true, t0: Date.now() - 16000 }, mult: 2, profit: 5 }); out.quickSlow = won();
+      D.check('cashout', { b: { human: true, t0: Date.now() - 5000 }, mult: 1.3, profit: 1 }); out.quickLow = won(); D.check('cashout', { b: { human: true, t0: Date.now() - 5000 }, mult: 1.5, profit: 5 }); out.quick = won();
       return out; })()""")
     ok(rules == {'x3low': False, 'x3bot': False, 'x3': True, 'cleanFlag': False, 'cleanManual': False, 'clean': True, 'threeBroken': False, 'threeTwo': False, 'three': True,
-                 'gemBot': False, 'gem': True, 'quickSlow': False, 'quickEven': False, 'quick': True},
-       f'each dare’s rule: ×3 (yours, not a bot’s), a clear with no flags, three wins in a row (a boom resets it), a gem, a quick profit ({rules})')
+                 'gemBot': False, 'gem': True, 'quickSlow': False, 'quickLow': False, 'quick': True},
+       f'each dare’s rule: ×3 (yours, not a bot’s), a clear with no flags, three wins in a row (a boom resets it), a gem, ×1.5 inside 15 seconds ({rules})')
     await pg.wait_for_timeout(2500)
 
     # --- Stats keeps score, and the switch turns dares off
@@ -341,6 +343,55 @@ async def run(browser, url, shots):
     await pg.evaluate("(() => { __sw.UI.closeModal(); __sw.Darts.rng = Math.random; __sw.DARTS.SCATTER = .035; })()")
     await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
     ok('Darts with Dave' in await text(pg, '#stats') and 'best 180' in await text(pg, '#stats'), 'Stats: darts won and played, and your best')
+    await pg.click('[data-tab="shop"]')
+    # --- quiz night: Priya's round of five
+    await pg.evaluate("(() => { __sw.HouseholdView.clear(); __sw.UI.closeModal(); __sw.S.coins = 50000; __sw.renderAll(); delete __sw.S.life.ach.night5; __sw.bus.emit('night:due'); })()")
+    await pg.wait_for_timeout(300)
+    inv = await pg.evaluate("(() => { const m = [...document.querySelectorAll('#chat .msg.night')].pop(); return m ? m.textContent : ''; })()")
+    ok('Priya' in inv and 'Pull up a chair' in inv, 'Priya invites the chat to quiz night')
+    await pg.evaluate("[...document.querySelectorAll('#chat .msg.night')].pop().querySelector('[data-a=\"in\"]').click()"); await pg.wait_for_timeout(300)
+    prize = await pg.evaluate('__sw.QuizNight.round.prize'); c0 = await pg.evaluate('__sw.S.coins')
+    ok(await text(pg, '#qnNum') == 'Question 1 of 5' and await pg.evaluate("document.querySelectorAll('#qnOpts .qopt').length") == 3, f'question 1 of 5, three answers, {prize:,} a question')
+    await pg.screenshot(path=str(shots / 'quiz_night.png'))
+    RIGHT = "document.querySelector('#qnOpts .qopt[data-k=\"' + __sw.QuizNight.current().right + '\"]').click()"
+    for k in range(5):
+        await pg.evaluate(RIGHT); await pg.wait_for_timeout(1250)
+    bonus = await pg.evaluate("__sw.Achievements.reward(__sw.ACHIEVEMENTS.find(a => a.id === 'night5'))")
+    ok(await pg.evaluate('__sw.S.coins') == c0 + 5 * prize * 2 + bonus and await pg.evaluate("__sw.Achievements.has('night5')") and 'All 5' in await text(pg, '#qnMsg'),
+       f'all five right: the prize doubles (+{10 * prize:,}) and Quiz Champion unlocks')
+    await pg.evaluate("__sw.UI.closeModal()")
+    # a mixed round: right, wrong, out of time, then walk out (keep what you won)
+    await pg.evaluate("(() => { __sw.NIGHT.SECONDS = .8; __sw.QuizNightView.open(); })()"); await pg.wait_for_timeout(200)
+    c0 = await pg.evaluate('__sw.S.coins'); prize = await pg.evaluate('__sw.QuizNight.round.prize')
+    await pg.evaluate(RIGHT); await pg.wait_for_timeout(1250)
+    await pg.evaluate("document.querySelector('#qnOpts .qopt[data-k=\"' + ((__sw.QuizNight.current().right + 1) % 3) + '\"]').click()"); await pg.wait_for_timeout(300)
+    wrong = await text(pg, '#qnMsg'); await pg.wait_for_timeout(950)
+    await pg.wait_for_timeout(1200)
+    slow = await text(pg, '#qnMsg')
+    await pg.click('#modalBox [data-a="close"]'); await pg.wait_for_timeout(300)
+    ok(wrong.startswith('No, it was') and slow.startswith('Time’s up') and await pg.evaluate('__sw.S.coins') == c0 + prize
+       and await pg.evaluate('!__sw.QuizNight.round && __sw.UI.modalClosed()'), f'one right, one wrong ({wrong[:30]}…), one too slow ({slow[:30]}…), then leave: you keep {prize:,}')
+    await pg.evaluate("__sw.NIGHT.SECONDS = 15")
+    await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
+    ok('Quiz nights' in await text(pg, '#stats') and 'best 5 out of 5' in await text(pg, '#stats'), 'Stats: quiz nights played and your best')
+    await pg.click('[data-tab="shop"]')
+    # --- board styles: bought once, kept for good
+    await pg.evaluate("(() => { __sw.HouseholdView.clear(); __sw.UI.closeModal(); __sw.S.coins = 30000; __sw.S.life.skins = []; __sw.S.life.skin = 'classic'; delete __sw.S.life.ach.skin; __sw.renderAll(); __sw.bus.emit('skin'); })()")
+    await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
+    st = await pg.evaluate("({ n: document.querySelectorAll('#stats .skin').length, on: document.querySelector('#stats .skin[aria-pressed=\"true\"]').dataset.skin, body: document.body.dataset.skin })")
+    ok(st == {'n': 5, 'on': 'classic', 'body': 'classic'}, f'Stats: five board styles, Classic on ({st})')
+    await pg.click('#stats [data-skin="neon"]'); await pg.wait_for_timeout(200)
+    ok(await pg.evaluate("!__sw.Skins.owned('neon') && __sw.S.coins === 30000") and 'costs' in await toasts(pg), 'Neon costs 250,000: not today')
+    await pg.click('#stats [data-skin="felt"]'); await pg.wait_for_timeout(200)
+    bonus = await pg.evaluate("__sw.Achievements.reward(__sw.ACHIEVEMENTS.find(a => a.id === 'skin'))")
+    tile = await pg.evaluate("getComputedStyle(document.body).getPropertyValue('--tile').trim()")
+    ok(await pg.evaluate('__sw.S.coins') == 30000 - 25000 + bonus and await pg.evaluate("document.body.dataset.skin") == 'felt' and tile == '#2f7d5a'
+       and await pg.evaluate("__sw.Achievements.has('skin')"), f'buy Card table felt (25,000): the tiles go green ({tile}) and Interior Design unlocks')
+    await pg.evaluate("(() => { __sw.UI.closeModal(); __sw.Game.slots.fill(null); __sw.Game.bust('manual', true); __sw.renderAll(); })()"); await pg.wait_for_timeout(200)
+    ok(await pg.evaluate("__sw.Skins.owned('felt') && __sw.Skins.current() === 'felt' && document.body.dataset.skin === 'felt'"), 'going bust doesn’t take it back')
+    await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
+    await pg.click('#stats [data-skin="classic"]'); await pg.wait_for_timeout(200)
+    ok(await pg.evaluate("document.body.dataset.skin === 'classic' && __sw.Skins.owned('felt')"), 'and you can swap back to Classic (and back again) for free')
     await pg.click('[data-tab="shop"]')
     # the chat's material: no question asked twice, three different answers each, no quip or thread twice
     dupes = await pg.evaluate("""(() => { const q = __sw.QUIZ.map(x => x[0]), qs = q.filter((x, i) => q.indexOf(x) !== i);
