@@ -65,6 +65,9 @@ import { DARES, DARE } from './data/dares.js';
 import { Seasons } from './game/seasons.js';
 import { Claw } from './game/claw.js';
 import { CarBoot } from './game/car-boot.js';
+import { Darts } from './game/darts.js';
+import { DartsView } from './ui/darts-view.js';
+import { DARTS, DARTBOARD } from './data/darts.js';
 import { CarBootView } from './ui/car-boot-view.js';
 import { BOOT } from './data/car-boot.js';
 import { ClawView } from './ui/claw-view.js';
@@ -83,6 +86,7 @@ export function exposeForTests() {
   clearTimeout(Bingo.timer); Bingo.schedule = () => {};
   clearTimeout(Dares.timer); Dares.schedule = () => {}; // nobody dares you mid-test unless a test asks
   clearTimeout(CarBoot.timer); CarBoot.schedule = () => {}; // nor does a car boot sale turn up
+  clearTimeout(Darts.timer); Darts.schedule = () => {}; // or Dave with his darts
   Kev.second = () => {}; // KEVCOIN neither launches nor moves on its own; the tests call Kev.launch() and Kev.tick()
   Stars.second = () => {}; // and Nan doesn't read the stars unless a test asks
   clearTimeout(Chat.ambientT); Chat.ambient = () => {}; // nor do the friends start chatting among themselves mid-check (Chat.thread() still works)
@@ -92,7 +96,7 @@ export function exposeForTests() {
     Daily, Achievements, ACHIEVEMENTS, DailyView, Keys, CoinChart, seeded, hashString, Household, HouseholdView, DuckRace, DuckRaceView, DOOR, GULL, LINES, RUDE,
     Scratchcards, ScratchView, SCRATCH_CARDS, SCRATCH_PRIZES, Quiz, QUIZ, PowerCut, PowerView, Storm, StormView, Kev, KevView, KEV, IceCream, VanView, Stars, StarsView, Banker, Dog, DogView, Bingo, BingoView, makeTicket, Outside, OutsideView, BINGO_TICKETS, BINGO_PAYS, BINGO_CALLS,
     Fruity, FruityRules, FruityView, FRUITY_REELS, FRUITY_PAYS, FRUITY_STAKES, FRUITY_FEATURES,
-    Tin, TIN, Dares, DareView, DARES, DARE, Seasons, SeasonView, SEASONS, PUMPKIN, TRICK, XMAS, Claw, ClawView, CLAW, CLAW_PRIZES, CLAW_BY, CarBoot, CarBootView, BOOT, THREADS, RUDE_THREADS, QUIPS, RUDE_QUIPS, SURE, BINGO_END,
+    Tin, TIN, Dares, DareView, DARES, DARE, Seasons, SeasonView, SEASONS, PUMPKIN, TRICK, XMAS, Claw, ClawView, CLAW, CLAW_PRIZES, CLAW_BY, CarBoot, CarBootView, BOOT, Darts, DartsView, DARTS, DARTBOARD, THREADS, RUDE_THREADS, QUIPS, RUDE_QUIPS, SURE, BINGO_END,
     get slots() { return Game.slots; },
   };
 }

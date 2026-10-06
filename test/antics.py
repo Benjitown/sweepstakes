@@ -2,7 +2,8 @@
 header, doing it in time for double, running out of time, the switch, each dare's rule) and the seasons (the calendar,
 Halloween's pumpkins, bats and trick or treaters, Bonfire Night's fireworks, Christmas snow and Nan's card) and the claw
 machine (the sixth booth tab, the swing, what it pays back, a win, a drop, a slip, a miss, leaving mid-grab) and the car
-boot sale (his prices, buying, haggling, being sold out from under you, the mystery box, packing up)."""
+boot sale (his prices, buying, haggling, being sold out from under you, the mystery box, packing up) and darts with
+Big Dave (a real dartboard's scores, the challenge, a win with 180, a loss, a draw, walking away)."""
 from common import Results, open_page
 
 SETUP = """(() => { __sw.Coach.finish(); const S = __sw.S; S.coins = 50000; S.unlocked = ['penny', 'den']; S.sel = 'den'; S.life.lvl = 5; S.life.xp = 0;
@@ -288,10 +289,58 @@ async def run(browser, url, shots):
     ok(await pg.evaluate('__sw.S.coins') == c2 - box and await pg.evaluate('__sw.S.addons.length') == n0 + 1 and 'Inside:' in await text(pg, '#bootMsg'),
        f"the mystery box ({box:,}): {(await text(pg, '#bootMsg'))[:60]}")
     # and he packs up
-    await pg.evaluate("__sw.CarBoot.stall.until = Date.now() + 900"); await pg.wait_for_timeout(3200)
+    await pg.evaluate("__sw.CarBoot.stall.until = Date.now() + 900"); await pg.wait_for_timeout(4800)
     ok(await pg.evaluate('!__sw.CarBoot.stall && __sw.UI.modalClosed()'), 'and when time’s up he packs up and goes')
     await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
     ok('Car boot sales' in await text(pg, '#stats') and 'mystery box' in await text(pg, '#stats'), 'Stats: what you bought at car boot sales')
+    await pg.click('[data-tab="shop"]')
+    # --- darts at the Red Lion: a real dartboard
+    sc = await pg.evaluate("""(() => { const D = __sw.Darts, B = __sw.DARTBOARD, t = (B.TREBLE[0] + B.TREBLE[1]) / 2, d = (B.DOUBLE[0] + 1) / 2, mid = (B.OUTER + B.TREBLE[0]) / 2;
+      const at = (r, deg) => D.score(r * Math.sin(deg * Math.PI / 180), -r * Math.cos(deg * Math.PI / 180)).label;
+      return [at(0, 0), at((B.BULL + B.OUTER) / 2, 0), at(t, 0), at(d, 0), at(mid, 90), at(mid, 180), at(mid, 270), at(t, 18), at(1.05, 0)]; })()""")
+    ok(sc == ['Bull', '25', 'T20', 'D20', '6', '3', '11', 'T1', 'Miss'],
+       f'a real dartboard: bull, 25, treble and double 20, 6 at three o’clock, 3 at six, 11 at nine, treble 1 next to the 20, and off the board ({sc})')
+    # Dave's challenge, and a game: he's wayward tonight (6, 6, 6), you hit three treble twenties
+    MATCH = """(rng => { __sw.HouseholdView.clear(); __sw.UI.closeModal(); __sw.S.coins = 50000; __sw.renderAll(); __sw.Darts.rng = () => rng; __sw.Darts.make(); })(%s)"""
+    DBTN = "[...document.querySelectorAll('#chat .msg.darts')].pop().querySelector('[data-a=\"%s\"]').click()"
+    THROW = """((x, y) => { const v = __sw.DartsView; v.stop(); v.aim = [x, y]; v.throw(); })(%s)"""
+    T20 = '0, -(__sw.DARTBOARD.TREBLE[0] + __sw.DARTBOARD.TREBLE[1]) / 2'
+    await pg.evaluate("(() => { delete __sw.S.life.ach.darts; delete __sw.S.life.ach.ton80; __sw.DARTS.SCATTER = 0; })()")
+    await pg.evaluate(MATCH % '.9'); await pg.wait_for_timeout(300)
+    bub = await pg.evaluate("(() => { const m = [...document.querySelectorAll('#chat .msg.darts')].pop(); return m ? m.textContent : ''; })()")
+    stake = await pg.evaluate('__sw.Darts.offer.stake')
+    ok('Big Dave' in bub and f'You’re on ({stake:,})' in bub, f'Big Dave challenges you to darts in the group chat ({stake:,} on it)')
+    c0 = await pg.evaluate('__sw.S.coins')
+    await pg.evaluate(DBTN % 'on'); await pg.wait_for_timeout(2800)
+    dave = await text(pg, '#dDave')
+    ok(await pg.evaluate('__sw.S.coins') == c0 - stake and dave == '18' and not await pg.evaluate("document.querySelector('#dThrow').disabled"),
+       f'You’re on: the stake goes in the pot, Dave throws his three ({dave}) and it’s your go')
+    await pg.screenshot(path=str(shots / 'darts.png'))
+    for k in range(3): await pg.evaluate(THROW % T20)
+    await pg.wait_for_timeout(300)
+    bonus = await pg.evaluate("['darts', 'ton80'].reduce((t, id) => t + __sw.Achievements.reward(__sw.ACHIEVEMENTS.find(a => a.id === id)), 0)")
+    ok(await text(pg, '#dYou') == '180' and await pg.evaluate('__sw.S.coins') == c0 + stake + bonus and await pg.evaluate("__sw.Achievements.has('darts') && __sw.Achievements.has('ton80')"),
+       f"three treble twenties: ONE HUNDRED AND EIGHTY, the pot's yours (+{2 * stake:,}), Arrows and One Hundred and Eighty! unlock")
+    await pg.screenshot(path=str(shots / 'darts_180.png'))
+    # a loss (he's spot on, you miss the board) and a draw (6, 6, 6 each)
+    await pg.evaluate(MATCH % '.5'); await pg.wait_for_timeout(200); c0 = await pg.evaluate('__sw.S.coins'); stake = await pg.evaluate('__sw.Darts.offer.stake')
+    await pg.evaluate(DBTN % 'on'); await pg.wait_for_timeout(2600)
+    for k in range(3): await pg.evaluate(THROW % '2, 0')
+    await pg.wait_for_timeout(200)
+    ok(await text(pg, '#dDave') == '180' and await pg.evaluate('__sw.S.coins') == c0 - stake, 'Dave hits 180 and you miss the board: he takes the pot')
+    await pg.evaluate(MATCH % '.9'); await pg.wait_for_timeout(200); c0 = await pg.evaluate('__sw.S.coins')
+    await pg.evaluate(DBTN % 'on'); await pg.wait_for_timeout(2600)
+    for k in range(3): await pg.evaluate(THROW % '.75, 0')
+    await pg.wait_for_timeout(200)
+    ok(await text(pg, '#dYou') == '18' and await pg.evaluate('__sw.S.coins') == c0 and 'draw' in await text(pg, '#dMsg'), '18 each: a draw, and your stake back')
+    # walk away mid-game: Dave keeps the pot
+    await pg.evaluate(MATCH % '.9'); await pg.wait_for_timeout(200); c0 = await pg.evaluate('__sw.S.coins'); stake = await pg.evaluate('__sw.Darts.offer.stake')
+    await pg.evaluate(DBTN % 'on'); await pg.wait_for_timeout(2600)
+    await pg.click('#dQuit'); await pg.wait_for_timeout(300)
+    ok(await pg.evaluate('__sw.S.coins') == c0 - stake and not await pg.evaluate('__sw.Darts.match'), 'walk away halfway and Dave keeps the pot')
+    await pg.evaluate("(() => { __sw.UI.closeModal(); __sw.Darts.rng = Math.random; __sw.DARTS.SCATTER = .035; })()")
+    await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
+    ok('Darts with Dave' in await text(pg, '#stats') and 'best 180' in await text(pg, '#stats'), 'Stats: darts won and played, and your best')
     await pg.click('[data-tab="shop"]')
     # the chat's material: no question asked twice, three different answers each, no quip or thread twice
     dupes = await pg.evaluate("""(() => { const q = __sw.QUIZ.map(x => x[0]), qs = q.filter((x, i) => q.indexOf(x) !== i);

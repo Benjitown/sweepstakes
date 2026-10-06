@@ -57,6 +57,11 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **Biscuit, next door's dog.** If you hear barking, he trots in along the bottom of the screen and waits ("Woof?").
   Give him a biscuit (3% of the top table's max stake) and he sniffs out a mine on your board and sits on it: flagged,
   glowing orange for a moment. Ignore him and he wanders off. New achievement: Good Boy.
+- **Darts at the Red Lion.** Now and then Big Dave challenges you in the group chat: three darts each, best total
+  wins the pot. Dave throws first (he aims for treble 20, give or take), then your aim wanders round a proper
+  dartboard and you press Throw (or Space) when it's where you want it. Beat him for double your stake, draw for
+  your stake back, or walk away and he keeps it. "Dares from the chat" in Stats switches him off too. New
+  achievements: Arrows and One Hundred and Eighty!
 - **The car boot sale.** Every so often a bloke sets up a pasting table at the end of the road with three add-on
   cards you haven't got, at his prices (anywhere from 45% to 135% of the shop's, so check), and a mystery box. You
   get two goes at haggling over each card: a cheeky offer at 60% first, then a fair one at 80%. He might take it, say
