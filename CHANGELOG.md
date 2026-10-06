@@ -59,7 +59,7 @@ Each version is also a save in the built-in version control. Run `python tools/v
   Give him a biscuit (3% of the top table's max stake) and he sniffs out a mine on your board and sits on it: flagged,
   glowing orange for a moment. Ignore him and he wanders off. New achievement: Good Boy.
 - **More to talk about:** eight new group chat conversations (Dave's 4kg marrow, Kev's royalties, Nan's Wireless is her
-  song) and twelve more quiz questions.
+  song) and nine more quiz questions.
 - **The Daily Sweep,** the local paper, written from your run. Every twenty minutes of play it comes through the
   letterbox (a chip in the header says so): the run's biggest moment on the front page (a jackpot gem, Dave beaten at
   darts, a rug pull, a giant marrow at the village show), two more stories down the side, the weather, KEVCOIN's
