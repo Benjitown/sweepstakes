@@ -27,6 +27,7 @@
 <link rel="stylesheet" href="css/seasons.css">
 <link rel="stylesheet" href="css/jukebox.css">
 <link rel="stylesheet" href="css/allotment.css">
+<link rel="stylesheet" href="css/paper.css">
 <link rel="stylesheet" href="css/animations.css">
 </head>
 <body>
@@ -46,7 +47,8 @@
       <div class="sugarchip" id="sugarChip" hidden title="Sugar rush: +25% on the profit of your next winning cash-out"><svg aria-hidden="true"><use href="#i-cone"/></svg><span class="long"></span><span class="short"></span></div>
       <button class="darechip" id="dareChip" type="button" hidden><svg aria-hidden="true"><use href="#i-dare"/></svg><span class="long"></span><span class="short"></span></button>
       <button class="plotchip" id="plotChip" type="button" hidden title="Something on your allotment is ready to pick"><svg aria-hidden="true"><use href="#i-veg"/></svg><span class="long">Veg ready to pick</span><span class="short">Veg ready</span></button>
-      <button class="chirpchip" id="chirpChip" type="button" hidden title="The smoke detector wants a new battery"><svg aria-hidden="true"><use href="#i-battery"/></svg><span class="long">Change the battery</span><span class="short">Fix</span></button></div>
+      <button class="chirpchip" id="chirpChip" type="button" hidden title="The smoke detector wants a new battery"><svg aria-hidden="true"><use href="#i-battery"/></svg><span class="long">Change the battery</span><span class="short">Fix</span></button>
+      <button class="paperchip" id="paperChip" type="button" hidden title="The Daily Sweep has come through the letterbox"><svg aria-hidden="true"><use href="#i-paper"/></svg><span class="long">The paper’s come</span><span class="short">Paper</span></button></div>
     <div class="inset goal" id="goal"><span class="lbl goal-l"></span><span class="goal-bar"><i></i></span></div>
     <div class="run-actions">
       <button class="btn red big don" id="btnDon" type="button"><svg class="ic" aria-hidden="true"><use href="#i-dice"/></svg><span class="long">Double or nothing</span><span class="short">Double</span></button>
@@ -152,6 +154,7 @@
 <symbol id="i-sound" viewBox="0 0 64 64"><path d="M10 24 H22 L36 12 V52 L22 40 H10 Z" fill="#fff" stroke="#141b1d" stroke-width="4" stroke-linejoin="round"/><path d="M44 23 q6 9 0 18 M50 16 q11 16 0 32" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/></symbol>
 <symbol id="i-juke" viewBox="0 0 64 64"><path d="M11 59 V27 a21 21 0 0 1 42 0 V59 Z" fill="#a275f0" stroke="#141b1d" stroke-width="4" stroke-linejoin="round"/><path d="M19 30 a13 13 0 0 1 26 0 V39 H19 Z" fill="#141b1d"/><circle cx="32" cy="31" r="6" fill="#ffd23f"/><path d="M17 26 a15 15 0 0 1 30 0" fill="none" stroke="#fe5f55" stroke-width="3"/><rect x="19" y="45" width="26" height="8" rx="2" fill="#3fc18a" stroke="#141b1d" stroke-width="3"/></symbol>
 <symbol id="i-veg" viewBox="0 0 64 64"><path d="M34 22 Q36 14 44 18 Q48 24 42 28 L16 57 Q11 60 12 54 Z" fill="#ffa31a" stroke="#141b1d" stroke-width="4" stroke-linejoin="round"/><path d="M24 40 l5 3 M31 32 l4 3" stroke="#c75f00" stroke-width="3" stroke-linecap="round"/><path d="M41 18 Q40 6 47 4 M43 19 Q50 9 58 12 M44 22 Q55 20 59 27" fill="none" stroke="#3fc18a" stroke-width="5" stroke-linecap="round"/></symbol>
+<symbol id="i-paper" viewBox="0 0 64 64"><path d="M10 14 H50 V52 Q50 56 46 56 H14 Q10 56 10 52 Z" fill="#efe9da" stroke="#141b1d" stroke-width="4" stroke-linejoin="round"/><path d="M50 22 H56 V52 Q56 56 52 56 H46" fill="#d9d0bb" stroke="#141b1d" stroke-width="4" stroke-linejoin="round"/><path d="M16 22 H44 M16 29 H44" stroke="#141b1d" stroke-width="4"/><rect x="16" y="35" width="12" height="13" fill="#8d8676"/><path d="M33 37 H44 M33 43 H44 M33 49 H44" stroke="#8d8676" stroke-width="3"/></symbol>
 <symbol id="i-mute" viewBox="0 0 64 64"><path d="M10 24 H22 L36 12 V52 L22 40 H10 Z" fill="#fff" stroke="#141b1d" stroke-width="4" stroke-linejoin="round"/><path d="M44 24 l14 16 M58 24 l-14 16" stroke="#fe5f55" stroke-width="5" stroke-linecap="round"/></symbol>
 <symbol id="i-brain" viewBox="0 0 64 64"><path d="M22 10 C14 10 10 16 12 22 C6 24 6 34 12 36 C10 44 16 50 22 48 C24 54 32 56 32 50 V12 C30 9 26 9 22 10 Z M42 10 C50 10 54 16 52 22 C58 24 58 34 52 36 C54 44 48 50 42 48 C40 54 32 56 32 50 V12 C34 9 38 9 42 10 Z" fill="#ff8fb0" stroke="#141b1d" stroke-width="3.5" stroke-linejoin="round"/><path d="M20 22 q6 2 4 8 M44 22 q-6 2 -4 8 M18 38 q6-2 8 4 M46 38 q-6-2 -8 4" fill="none" stroke="#141b1d" stroke-width="2.5" stroke-linecap="round"/><circle cx="55" cy="8" r="2.5" fill="#009dff"/><circle cx="7" cy="52" r="2.5" fill="#3fc18a"/><circle cx="58" cy="50" r="1.8" fill="#ffd23f"/></symbol>
 <symbol id="i-goggles" viewBox="0 0 64 64"><path d="M3 30 H61" stroke="#141b1d" stroke-width="5"/><circle cx="20" cy="32" r="13" fill="#009dff" stroke="#141b1d" stroke-width="4"/><circle cx="44" cy="32" r="13" fill="#fe5f55" stroke="#141b1d" stroke-width="4"/><path d="M14 26 a7 7 0 0 1 6 -3 M38 26 a7 7 0 0 1 6 -3" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/></symbol>

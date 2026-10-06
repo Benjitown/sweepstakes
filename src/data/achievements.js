@@ -82,6 +82,10 @@ export const ACHIEVEMENTS = [
   { id: 'nudge',    tier: 1, icon: 'cherry',    name: 'Nudge Nudge',         desc: 'Nudge your way to a win on the Fruity.' },
   { id: 'gamble3',  tier: 2, icon: 'bell',      name: 'Let It Ride',         desc: 'Win three gambles in a row on the Fruity.' },
   { id: 'triple7',  tier: 3, icon: 'lucky7',    name: 'Triple Seven',        desc: 'Line up three sevens on the Fruity.' },
+  { id: 'veg',      tier: 1, icon: 'veg',       name: 'Green Fingers',       desc: 'Pick 10 crops from your allotment.' },
+  { id: 'whopper',  tier: 2, icon: 'veg',       name: 'Best in Show',        desc: 'Grow a whopper and win a rosette at the village show.' },
+  { id: 'puzzle',   tier: 1, icon: 'paper',     name: 'Read All About It',   desc: 'Spot the mine in The Daily Sweep’s puzzle.' },
+  { id: 'records',  tier: 1, icon: 'juke',      name: 'Name That Tune',      desc: 'Put every record on the jukebox.' },
 ];
 export const ACH_BY = Object.fromEntries(ACHIEVEMENTS.map(a => [a.id, a]));
 export const ACH_REWARD = [0, .2, .5, 1];

@@ -57,7 +57,7 @@ src/
                     Biscuit the dog), the Banker, power cuts, storms, the duck race, scratchcards, Nan's bingo,
                     the Fruity (fruit machine), the pub quiz, going outside, KEVCOIN, Nan's stars, Nan's biscuit tin,
                     dares from the group chat, the seasons (Halloween, Bonfire Night, Christmas), the claw machine, the car
-                    boot sale, darts with Big Dave, quiz night, board styles, the allotment
+                    boot sale, darts with Big Dave, quiz night, board styles, the allotment, The Daily Sweep (the paper)
   ui/               one file per view: panels, boards, shop, modals, tutorial, daily, keys, coin graph, household, ducks...
 assets/             fonts (+ OFL licence) and the favicon
 tools/              build.py, serve.py, vc.py (version control), export_rules.mjs, sim/ (economy, Fruity and KEVCOIN simulators)
@@ -109,6 +109,9 @@ The suites run against both the ES-module source and the built file:
   that every icon in the sheet has its own id and the pub quiz never repeats itself
 - **allotment:** the tab, the seed packets' prices, planting, growing by the minute, ripe (and the chip), picking,
   a whopper, slugs, a thunderstorm watering the lot, full beds, October pumpkins, the 4 key, Stats, a fresh run and the phone
+- **paper:** The Daily Sweep: the newsroom noting the run's big moments, the paper arriving, the front page (the
+  biggest story leads), Spot the Mine (always exactly one certain mine; right pays once), a quiet run, the bust
+  screen's special edition, Stats and the phone
 - **jukebox:** the records (every note a real note that fits its bar), putting one on, every record playing, shuffle,
   the Music switch and slider, and when the music stops (muted, outside, a power cut) and starts again
 - **layout:** desktop, tablet and phone sizes with no sideways scrolling
