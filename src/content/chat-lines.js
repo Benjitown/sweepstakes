@@ -118,6 +118,10 @@ export const LINES = {
   storm_flash:   [['tash', 'DID YOU SEE THAT'], ['kev', 'one Mississippi… two Mississippi…'], ['priya', 'did you get them? the mines? tell me you got them'], ['nan', 'Ooh that was a big one x']],
   storm_strike:  [['tash', 'THAT WAS RIGHT ON TOP OF US'], ['kev', 'it hit the substation. I heard it'], ['nan', 'Oh my days, the lights! x'], ['priya', 'zero Mississippi. that’s not great']],
   storm_end:     [['nan', 'That’s blown over now love x'], ['kev', 'sun’s out. there’s a rainbow over the bins'], ['tash', 'storm’s gone. the drama isn’t'], ['priya', 'and just like that, the mines are invisible again']],
+  // Nan's stars
+  stars_re:      [['priya', 'nan you know that’s just made up by a man called Derek'], ['kev', 'nan do mine. I’m a Gemini, both of us'], ['tash', 'nan’s stars are never wrong. except always'],
+    ['dave', 'my stars said I’d come into money. I came into debt']],
+  stars_hit:     [['nan', 'See? Written in the stars love x'], ['tash', 'nan’s stars came TRUE'], ['priya', 'a coincidence. a lucrative coincidence']],
   // the ice cream van
   odd_icecream:  [['kev', 'when the van plays music it means they’ve run out of ice cream. my dad told me'], ['nan', 'Ooh is that the ice cream van? Get me a 99 love x'],
     ['tash', 'ICE CREAM VAN. RUN'], ['priya', 'it’s October. who is buying ice cream in October'], ['dave', 'he only comes round when it’s raining']],

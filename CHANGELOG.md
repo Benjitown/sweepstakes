@@ -46,6 +46,10 @@ Each version is also a save in the built-in version control. Run `python tools/v
   touch flat as it goes) and the van drives along the bottom of the screen. Tap it before it's gone and it stops to
   hand you a cone: a sugar rush, +25% on the profit of your next winning cash-out (a pink chip in the header shows it's
   waiting). New achievement: Brain Freeze.
+- **Nan's stars.** Nan asks your star sign in the group chat (once; change it in Stats), then reads your horoscope out
+  of the paper once a day, with a lucky number from 2 to 6. The first time a board uncovers it that day, its pot goes
+  ×1.25. The reading comes from the date and your sign, so it's the same all day. New achievement: Written in the
+  Stars.
 - The Flip Booth's five tabs now show their icon above the name at every screen size.
 - `tools/build.py` now stops with a clear message on `import { x as y }`, which the bundler can't do.
 
