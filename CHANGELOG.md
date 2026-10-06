@@ -71,7 +71,8 @@ Each version is also a save in the built-in version control. Run `python tools/v
   (about 1 in 142,500). Like any lottery it's a bad bet: about half the money comes back, worked out exactly. A big
   win makes the front page.
 - **New achievements:** Green Fingers (pick 10 crops), Best in Show (grow a whopper), Read All About It (solve the
-  paper's puzzle) and Name That Tune (put every record on the jukebox).
+  paper's puzzle), Name That Tune (put every record on the jukebox), Standing Ovation (95% at karaoke) and Lucky
+  Numbers (three numbers on the Sweepstake). Karaoke night makes the paper too, for better or worse.
 - **The allotment,** a fourth tab (or press 4). Four beds and six packets of seeds, from radishes (two minutes) to
   pumpkins (fourteen). They grow by the minute while you play, so they wait while you're outside, and when they're
   ripe a chip in the header says so. Pick them and the farm shop buys them, usually for two or three times what the

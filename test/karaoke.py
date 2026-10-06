@@ -36,6 +36,7 @@ async def run(browser, url, shots):
     ok(sc['spam']['bum'] == 4 and sc['spam']['score'] < 1, f'pressing between the notes costs you (4 bum notes: {sc["spam"]["score"]:.0%})')
 
     # --- up on stage, from the jukebox: a standing ovation
+    await pg.evaluate('delete __sw.S.life.ach.ovation')
     fee = await pg.evaluate('__sw.Karaoke.fee()'); c0 = await pg.evaluate('__sw.S.coins')
     await pg.evaluate(FAKE)
     await pg.click('#btnJuke'); await pg.wait_for_timeout(250)
@@ -46,8 +47,10 @@ async def run(browser, url, shots):
     await pg.screenshot(path=str(shots / 'karaoke.png'))
     await pg.evaluate(SING); await pg.wait_for_timeout(400)
     st = await pg.evaluate(f"({{ coins: __sw.S.coins, msg: document.getElementById('kMsg').textContent, life: __sw.S.life.karaoke, held: __sw.Music.holds.has('karaoke'), toasts: {TOASTS}, banner: document.getElementById('banner').textContent }})")
-    ok(st['coins'] == c0 + 2 * fee and 'Standing ovation' in st['msg'] and '100%' in st['msg'], f'every note sung: a standing ovation, three times the fee back ({st["msg"]})')
+    ach = await pg.evaluate("__sw.Achievements.reward(__sw.ACHIEVEMENTS.find(a => a.id === 'ovation'))")
+    ok(st['coins'] == c0 + 2 * fee + ach and 'Standing ovation' in st['msg'] and '100%' in st['msg'], f'every note sung: a standing ovation, three times the fee back ({st["msg"]})')
     ok(st['life']['ovations'] == 1 and st['life']['best'] == 100 and not st['held'] and 'STANDING OVATION' in st['banner'], 'Stats remember it, and the jukebox picks up again')
+    ok(await pg.evaluate("__sw.Achievements.has('ovation') && __sw.S.run.news.some(s => s.k === 'karaoke_ovation')"), 'achievement: Standing Ovation, and it’ll be in the paper')
     await pg.wait_for_timeout(2600)
     said = await pg.evaluate("[...document.querySelectorAll('#chat .msg')].slice(-3).map(m => m.textContent).join(' | ')")
     lines = await pg.evaluate("__sw.LINES.karaoke_great.map(l => l[1])")

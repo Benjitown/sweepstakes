@@ -92,10 +92,11 @@ async def run(browser, url, shots):
     ok(st['n'] == 5 and st['coins'] == c3 - 5 * price and st['off'] and 'your lot' in st['btn'] and 'Your lines for the next draw' in st['next'], f'five Lucky Dips at {price} each, and that’s your lot for one draw')
     d = await pg.evaluate("""(() => { __sw.UI.closeModal(); const dip = __sw.Sweepstake.dip;
       __sw.S.lotto.lines = [{ nums: [1, 2, 3, 4, 5], paid: 10 }, { nums: [1, 2, 3, 20, 21], paid: 10 }, { nums: [1, 2, 3, 4, 30], paid: 10 }, { nums: [6, 7, 8, 9, 10], paid: 10 }];
-      __sw.Sweepstake.dip = () => [1, 2, 3, 4, 5]; window.__c4 = __sw.S.coins; __sw.Paper.deliver(); __sw.Sweepstake.dip = dip;
+      delete __sw.S.life.ach.lotto3; __sw.Sweepstake.dip = () => [1, 2, 3, 4, 5]; window.__c4 = __sw.S.coins; __sw.Paper.deliver(); __sw.Sweepstake.dip = dip;
       return { ...__sw.S.paper.lotto, gained: __sw.S.coins - window.__c4, head: __sw.S.paper.lead.head, left: __sw.Sweepstake.lines().length }; })()""")
     ok([l['hits'] for l in d['lines']] == [5, 3, 4, 0] and [l['pay'] for l in d['lines']] == [100000, 120, 2000, 0] and d['total'] == 102120,
        f'the draw: all five pays ×10,000, four ×200, three ×12 ({[l["pay"] for l in d["lines"]]})')
+    ok(await pg.evaluate("__sw.Achievements.has('lotto3')"), 'achievement: Lucky Numbers')
     ok(d['gained'] >= 102120 and d['left'] == 0, f'paid as the paper comes, and the lines are used up (+{d["gained"]})')
     ok('SWEEPSTAKE' in d['head'] or 'ALL FIVE' in d['head'], f'a jackpot makes the front page: “{d["head"]}”')
     await pg.evaluate("__sw.PaperView.open()"); await pg.wait_for_timeout(300)
