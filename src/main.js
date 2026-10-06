@@ -4,7 +4,7 @@
      Observer ............... core/bus.js: the game announces events; wiring.js says who reacts
      Mediator ............... game/game.js: the one place the rules live; views only talk to it
      Command ................ game/commands.js: Dig, Flag, Chord, Probe and Cash Out (you + bots)
-     Strategy ............... game/bots.js (bot behaviours), audio/noises.js (weird household noises)
+     Strategy ............... game/bots.js (bot behaviours), audio/noises.js (weird household noises → game/household.js)
      Chain of Responsibility  board/mine-chain.js: Spare Fuse → Shield → boom
      Decorator .............. board/payout.js: add-on cards wrap the cash-out payout
      State .................. game/double-or-nothing.js (the ladder), ui/tutorial.js (the steps)
@@ -42,19 +42,22 @@ import { Keys } from './ui/keys.js';
 import { WhatsNew } from './ui/whats-new.js';
 import { Achievements } from './game/achievements.js';
 import { DailyView } from './ui/daily-view.js';
+import { HouseholdView } from './ui/household-view.js';
+import { DuckRace } from './game/duck-race.js';
 import { exposeForTests } from './debug.js';
 
 $('#btnDon').onclick = () => DonLadder.start();
 $('#btnFlip').onclick = () => FlipView.open();
 $('#btnSpin').onclick = () => { if (Game.spinIn() <= 0) SpinView.open(); };
 $('#btnMute').onclick = () => { S.muted = !S.muted; if (!S.muted) Sound.msg(); RunPanel.render(); SaveGame.saveNow(); };
-StakeView.bind(); Tabs.bind(); UiSounds.bind(); Keys.bind();
+StakeView.bind(); Tabs.bind(); UiSounds.bind(); Keys.bind(); HouseholdView.bind();
 document.addEventListener('visibilitychange', () => { if (document.hidden) SaveGame.saveNow(); });
 addEventListener('pagehide', () => SaveGame.saveNow());
 setInterval(() => { if (document.hidden) return; S.run.time++; bus.emit('tick'); }, 1000);
 
 (S.boards || []).forEach(o => { if (o && o.slot < boardCount()) { const b = Board.fromMemento(o); if (b) Game.slots[o.slot] = b; } });
 if (!TBY[S.sel] || !S.unlocked.includes(S.sel)) S.sel = 'penny';
+DuckRace.settle(); // a duck race you left mid-race still pays out
 if (!S.rack || !S.rack.length || S.rackAt > S.run.time) Rack.roll();
 renderAll();
 TablesView.reveal();

@@ -27,6 +27,11 @@ export const UI = {
     this.el.modal.hidden = true; this.el.box.innerHTML = ''; this.modalLocked = false; this.moodLock = null;
     RunPanel.render(); Background.refresh(); Game.checkBust(); bus.emit('modal:closed');
   },
+  // the tabs at the top of the Flip Booth: coin flip | duck race (wiring.js switches on the 'booth' event)
+  boothTabs(on) {
+    return `<div class="booth" role="tablist" aria-label="The booth">${[['flip', 'coin', 'Coin flip'], ['ducks', 'duck', 'Duck race']].map(([k, icon, label]) =>
+      `<button type="button" role="tab" aria-selected="${k === on}" data-a="booth-${k}">${ico(icon)}${label}</button>`).join('')}</div>`;
+  },
   toast(msg) {
     const d = document.createElement('div'); d.className = 'toast'; d.textContent = msg; $('#toasts').appendChild(d);
     setTimeout(() => d.remove(), 2600); while ($('#toasts').children.length > 3) $('#toasts').firstChild.remove();

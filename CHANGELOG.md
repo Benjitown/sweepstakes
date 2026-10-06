@@ -3,6 +3,25 @@
 Each version is also a save in the built-in version control. Run `python tools/vc.py log` to list them, or
 `python tools/vc.py export v3.0 v3.zip` to get any of them back.
 
+## 4.3.0 (6 Oct 2026)
+
+- **Life goes on around you.** Knocks at the door, the doorbell, the phone, a smoke alarm (someone burnt the toast).
+  Each pops up a card: answer it or ignore it. Nan might slip you a tenner, the bailiffs might take a lamp, a kid might
+  sell you a raffle ticket (1 in 8 wins ten times its price), and there's a duck. Nothing happens while a window is
+  open or during the tutorial, and bad luck never takes you near bust.
+- **The smoke detector's low-battery chirp** (the 3am one), synthesised from scratch: a piezo beep with a bit of
+  room echo. Like the real thing, it chirps again every minute or so until you change the battery from the chip in
+  the run panel. Sometimes you fall off the chair.
+- **A kitten** wanders across the bottom of the screen now and then. Pet it for a purr, hearts and a present.
+- **Duck racing** out back of the Flip Booth (or press R): five rubber ducks, a bookie's odds card (5% house edge),
+  overtakes and photo finishes. The result is settled the moment you bet, so leaving mid-race still pays.
+- **New sounds:** knocks, a two-tone doorbell, an old landline, mewing kittens, a purr, ducks, a squeaky toy, a car
+  alarm three streets away, a referee's whistle and you falling off a chair.
+- **Ruder chat.** Swearing, crude jokes and political satire in the group chat, quips and threads. "Rude chat" in
+  Stats turns the rude lines off.
+- **45 achievements** (five new: Quack Addict, Long Shot, Cat Person, DIY Hero, Fixed the Roof).
+- Stats shows duck races won and kittens petted. New test suite: `household`.
+
 ## 4.2.0 (6 Oct 2026)
 
 - **Terminal versions in Kotlin, C# and Python** (`ports/`), with boards at six tables, gems, golden boards, shields,

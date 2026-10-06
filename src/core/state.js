@@ -5,12 +5,12 @@ import { START, TABLES, MAXB, ASC_CAP } from '../data/economy.js';
    Memento · https://refactoring.guru/design-patterns/memento
    ===================================================================================== */
 const freshLife = () => ({ busts: 0, bestPeak: START, casinos: 0, donBest: 0, time: 0, boards: 0, bestAsc: 0, lvl: 1, xp: 0, tut: false, gems: 0, jackpots: 0,
-  ach: {}, daily: null, seen: '' });
+  ach: {}, daily: null, seen: '', ducks: 0, house: {} });
 export function freshRun(life, prefs = {}) {
   return { v: 3, coins: START, unlocked: ['penny'], sel: 'penny', stakes: {}, upg: {}, inv: { shield: 0, probe: 0 },
     tog: { coward: true, yolo: true, restake: true, goggles: true }, streak: 0, owned: false, asc: 0,
-    addons: [], rack: [], rackAt: 0, rerolls: 0, spinAt: -1e9, goldNext: 0, wheel: 0,
-    muted: !!prefs.muted, crt: prefs.crt !== false, quips: prefs.quips !== false, odd: prefs.odd !== false, vibe: prefs.vibe !== false,
+    addons: [], rack: [], rackAt: 0, rerolls: 0, spinAt: -1e9, goldNext: 0, wheel: 0, duckOwed: 0,
+    muted: !!prefs.muted, crt: prefs.crt !== false, quips: prefs.quips !== false, odd: prefs.odd !== false, vibe: prefs.vibe !== false, rude: prefs.rude !== false,
     run: { start: Date.now(), time: 0, boards: 0, wins: 0, losses: 0, biggest: 0, peak: START, don: 0, hist: [[0, START]] },
     life: life || freshLife(), boards: [] };
 }

@@ -150,6 +150,7 @@ async def run(browser, url, shots):
     await pg.click('[data-a="again"]'); await pg.wait_for_timeout(300)
     # 14. noises, quips, chat threads, menu sounds
     for k in await pg.evaluate("Object.keys(__sw.NOISES)"): await pg.evaluate(f"__sw.WeirdNoises.surprise('{k}')")
+    await pg.evaluate("__sw.HouseholdView.clear()")  # the door / kitten they started would sit over the buttons below
     n0=await pg.evaluate("document.querySelectorAll('#chat .msg').length")
     await pg.evaluate("__sw.Chat.thread()"); await pg.wait_for_timeout(9000)
     ok(await pg.evaluate("document.querySelectorAll('#chat .msg').length")>n0, 'ambient weird chat thread posts')

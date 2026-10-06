@@ -284,6 +284,22 @@
    [
     "nan",
     "Is this the gambling one? Lovely x"
+   ],
+   [
+    "dave",
+    "right, you degenerates, who’s in"
+   ],
+   [
+    "tash",
+    "back again? your bank must be thrilled"
+   ],
+   [
+    "kev",
+    "told the wife I’m at the gym"
+   ],
+   [
+    "priya",
+    "welcome back to bad decisions"
    ]
   ],
   "deal_big": [
@@ -310,6 +326,22 @@
    [
     "tash",
     "hold my earrings"
+   ],
+   [
+    "dave",
+    "absolute madman"
+   ],
+   [
+    "kev",
+    "you’re going to lose that, aren’t you"
+   ],
+   [
+    "tash",
+    "oh for god’s sake"
+   ],
+   [
+    "priya",
+    "your pension just called. it was crying"
    ]
   ],
   "boom": [
@@ -348,6 +380,30 @@
    [
     "priya",
     "the googly eyes saw everything"
+   ],
+   [
+    "dave",
+    "you absolute muppet"
+   ],
+   [
+    "tash",
+    "oh you plonker"
+   ],
+   [
+    "nan",
+    "Oh bugger x"
+   ],
+   [
+    "kev",
+    "bollocks. sorry. but bollocks"
+   ],
+   [
+    "priya",
+    "skill issue"
+   ],
+   [
+    "dave",
+    "clicked it like it owed you money"
    ]
   ],
   "cash_small": [
@@ -370,6 +426,18 @@
    [
     "kev",
     "respect the bag, however small"
+   ],
+   [
+    "dave",
+    "what is that, a tip?"
+   ],
+   [
+    "tash",
+    "wow. a whole sandwich"
+   ],
+   [
+    "kev",
+    "cowardly. but profitable"
    ]
   ],
   "cash_big": [
@@ -392,6 +460,18 @@
    [
     "kev",
     "naming my firstborn {profit}"
+   ],
+   [
+    "dave",
+    "you jammy git"
+   ],
+   [
+    "tash",
+    "you lucky cow"
+   ],
+   [
+    "kev",
+    "buy me a pint, you tight sod"
    ]
   ],
   "clear": [
@@ -414,6 +494,14 @@
    [
     "tash",
     "the full clear. disgusting. iconic"
+   ],
+   [
+    "dave",
+    "show-off"
+   ],
+   [
+    "tash",
+    "you look smug. I can tell from here"
    ]
   ],
   "don_offer": [
@@ -436,6 +524,18 @@
    [
     "priya",
     "the maths says walk away. I say nothing"
+   ],
+   [
+    "dave",
+    "don’t be a wuss"
+   ],
+   [
+    "tash",
+    "what’s the worst that could happen (everything)"
+   ],
+   [
+    "kev",
+    "my therapist says I shouldn’t watch this"
    ]
   ],
   "don_win": [
@@ -476,6 +576,18 @@
    [
     "kev",
     "pour one out"
+   ],
+   [
+    "dave",
+    "well that was bloody stupid"
+   ],
+   [
+    "tash",
+    "HAHAHAHA. sorry. HAHAHA"
+   ],
+   [
+    "kev",
+    "that’s a crime against money"
    ]
   ],
   "bust": [
@@ -498,6 +610,22 @@
    [
     "kev",
     "the goblin is going through your bins now"
+   ],
+   [
+    "dave",
+    "skint. absolutely skint"
+   ],
+   [
+    "tash",
+    "you gambled the rent, didn’t you"
+   ],
+   [
+    "kev",
+    "who’s telling your mum"
+   ],
+   [
+    "priya",
+    "rock bottom has a basement. welcome"
    ]
   ],
   "buy": [
@@ -520,6 +648,14 @@
    [
     "tash",
     "spending money to make money. classic"
+   ],
+   [
+    "dave",
+    "you got mugged off"
+   ],
+   [
+    "tash",
+    "that’s a rip-off and you know it"
    ]
   ],
   "addon": [
@@ -592,6 +728,10 @@
    [
     "priya",
     "statistically this has to end. not my problem though"
+   ],
+   [
+    "dave",
+    "don’t get cocky"
    ]
   ],
   "coward": [
@@ -632,6 +772,14 @@
    [
     "kev",
     "it was always going to be the other side"
+   ],
+   [
+    "dave",
+    "the coin mugged you off"
+   ],
+   [
+    "tash",
+    "unlucky. no actually, you’re just bad"
    ]
   ],
   "shield": [
@@ -688,6 +836,10 @@
    [
     "nan",
     "Ooh, that’s the fruit machine noise! x"
+   ],
+   [
+    "dave",
+    "you jammy, jammy sod"
    ]
   ],
   "golden": [
@@ -716,6 +868,10 @@
    [
     "dave",
     "{rank}? put it on your CV"
+   ],
+   [
+    "dave",
+    "levelling up at gambling. your mum must be so proud"
    ]
   ],
   "spin": [
@@ -742,14 +898,14 @@
     "free drinks forever right? right??"
    ]
   ],
-  "odd_co": [
+  "odd_smoke": [
    [
     "kev",
-    "is that the carbon monoxide alarm"
+    "is that the smoke alarm"
    ],
    [
     "nan",
-    "That’s the CO one love, it wants a new battery x"
+    "That’s the smoke alarm love, it wants a new battery x"
    ],
    [
     "tash",
@@ -762,6 +918,152 @@
    [
     "priya",
     "we are all being haunted by one small battery"
+   ],
+   [
+    "dave",
+    "they only ever run out at 3am. it’s in the contract"
+   ]
+  ],
+  "odd_alarm": [
+   [
+    "nan",
+    "Who’s burnt the toast? x"
+   ],
+   [
+    "tash",
+    "the smoke alarm is screaming. so am I"
+   ],
+   [
+    "dave",
+    "open a window and wave a tea towel. the British way"
+   ]
+  ],
+  "odd_knock": [
+   [
+    "dave",
+    "don’t answer it. it’s the bailiffs"
+   ],
+   [
+    "tash",
+    "knock knock. who’s there. your debts"
+   ],
+   [
+    "kev",
+    "pretend you’re not in"
+   ],
+   [
+    "nan",
+    "Is that the man about the gutters? x"
+   ]
+  ],
+  "odd_doorbell": [
+   [
+    "dave",
+    "don’t answer it. it’s the bailiffs"
+   ],
+   [
+    "tash",
+    "expecting someone? ;)"
+   ],
+   [
+    "priya",
+    "nobody rings a doorbell anymore. it’s either the police or a cult"
+   ]
+  ],
+  "odd_phone": [
+   [
+    "nan",
+    "Is that the landline? Nobody rings the landline x"
+   ],
+   [
+    "dave",
+    "it’s a scammer. it’s always a scammer"
+   ],
+   [
+    "kev",
+    "let it ring. it’s 2026"
+   ]
+  ],
+  "odd_kittens": [
+   [
+    "tash",
+    "KITTENS??"
+   ],
+   [
+    "nan",
+    "Has someone left kittens on the step? x"
+   ],
+   [
+    "priya",
+    "drop everything. kittens"
+   ],
+   [
+    "dave",
+    "is that a kitten or the wifi router dying"
+   ]
+  ],
+  "odd_ducks": [
+   [
+    "priya",
+    "why are there ducks"
+   ],
+   [
+    "dave",
+    "the ducks are unionising"
+   ],
+   [
+    "kev",
+    "I hear the ducks before the bombs now"
+   ],
+   [
+    "tash",
+    "the ducks know something"
+   ]
+  ],
+  "odd_duck": [
+   [
+    "priya",
+    "why is there a duck"
+   ],
+   [
+    "dave",
+    "quack"
+   ],
+   [
+    "nan",
+    "Save your crusts for the ducks love x"
+   ]
+  ],
+  "odd_squeak": [
+   [
+    "kev",
+    "was that the dog or you"
+   ],
+   [
+    "tash",
+    "who’s squeezing the toy"
+   ],
+   [
+    "dave",
+    "the dog’s winning more than you"
+   ]
+  ],
+  "odd_carAlarm": [
+   [
+    "dave",
+    "is that my car"
+   ],
+   [
+    "kev",
+    "car alarms have never once stopped a crime"
+   ],
+   [
+    "tash",
+    "some poor sod’s car is having a breakdown"
+   ],
+   [
+    "dave",
+    "turn it off, you absolute weapon"
    ]
   ],
   "odd_microwave": [
@@ -794,16 +1096,6 @@
     "tea break?? mid-game??"
    ]
   ],
-  "odd_doorbell": [
-   [
-    "dave",
-    "don’t answer it. it’s the bailiffs"
-   ],
-   [
-    "tash",
-    "expecting someone? ;)"
-   ]
-  ],
   "odd_fart": [
    [
     "tash",
@@ -816,16 +1108,18 @@
    [
     "dave",
     "better out than in"
-   ]
-  ],
-  "odd_duck": [
-   [
-    "priya",
-    "why is there a duck"
    ],
    [
     "dave",
-    "quack"
+    "whoever smelt it dealt it"
+   ],
+   [
+    "tash",
+    "kev that’s disgusting"
+   ],
+   [
+    "kev",
+    "IT WASN’T ME"
    ]
   ],
   "odd_creak": [
@@ -846,6 +1140,312 @@
    [
     "tash",
     "KITTY"
+   ]
+  ],
+  "chirp_again": [
+   [
+    "tash",
+    "it’s still chirping"
+   ],
+   [
+    "dave",
+    "CHANGE. THE. BATTERY."
+   ],
+   [
+    "kev",
+    "I can hear it through the chat somehow"
+   ],
+   [
+    "nan",
+    "Use the kitchen chair love, not the wobbly one x"
+   ],
+   [
+    "priya",
+    "that chirp has more staying power than my last three relationships"
+   ],
+   [
+    "tash",
+    "CHANGE THE BLOODY BATTERY"
+   ]
+  ],
+  "battery_ok": [
+   [
+    "dave",
+    "silence. beautiful silence"
+   ],
+   [
+    "tash",
+    "a hero. a DIY hero"
+   ],
+   [
+    "nan",
+    "Your grandad never changed one in forty years x"
+   ],
+   [
+    "kev",
+    "was it a 9 volt. I could feel it was a 9 volt"
+   ]
+  ],
+  "battery_fall": [
+   [
+    "dave",
+    "I heard that from here"
+   ],
+   [
+    "tash",
+    "are you alive"
+   ],
+   [
+    "nan",
+    "Not the wobbly chair! x"
+   ],
+   [
+    "priya",
+    "the chirp won. the chirp always wins"
+   ],
+   [
+    "kev",
+    "arse over tit. a classic"
+   ],
+   [
+    "dave",
+    "did you land on your arse or your face"
+   ]
+  ],
+  "door_good": [
+   [
+    "nan",
+    "See, it pays to answer the door x"
+   ],
+   [
+    "dave",
+    "free stuff from the door. the door is your friend now"
+   ],
+   [
+    "kev",
+    "I never answer the door and look at me"
+   ]
+  ],
+  "door_bad": [
+   [
+    "dave",
+    "told you not to answer it"
+   ],
+   [
+    "tash",
+    "the door giveth and the door taketh away"
+   ],
+   [
+    "priya",
+    "and that’s why I live in a cupboard"
+   ],
+   [
+    "kev",
+    "lesson learned: never open the door"
+   ],
+   [
+    "dave",
+    "absolute pillocks"
+   ],
+   [
+    "tash",
+    "they took the LAMP?? the bloody cheek"
+   ]
+  ],
+  "door_weird": [
+   [
+    "priya",
+    "what just happened"
+   ],
+   [
+    "kev",
+    "I have questions"
+   ],
+   [
+    "tash",
+    "your door is cursed and I love it"
+   ],
+   [
+    "nan",
+    "Was it the nice young man with the leaflets? x"
+   ]
+  ],
+  "phone": [
+   [
+    "dave",
+    "who was it"
+   ],
+   [
+    "nan",
+    "Was it me? I can’t remember if I rang x"
+   ],
+   [
+    "tash",
+    "you answered a phone call? brave"
+   ],
+   [
+    "kev",
+    "I haven’t answered a call since 2019"
+   ]
+  ],
+  "kitten_pet": [
+   [
+    "tash",
+    "PROTECT THE KITTEN"
+   ],
+   [
+    "nan",
+    "Give it a bit of ham love x"
+   ],
+   [
+    "priya",
+    "the kitten is the CEO now"
+   ],
+   [
+    "kev",
+    "I would die for that kitten"
+   ],
+   [
+    "dave",
+    "put the kitten on the payroll"
+   ]
+  ],
+  "kitten_gone": [
+   [
+    "tash",
+    "you let the kitten LEAVE??"
+   ],
+   [
+    "priya",
+    "a kitten walked past and you didn’t even look. monster"
+   ],
+   [
+    "nan",
+    "It’ll be back when it’s hungry love x"
+   ],
+   [
+    "dave",
+    "you heartless git"
+   ]
+  ],
+  "toast": [
+   [
+    "nan",
+    "Scrape the black bits off love, it’s fine x"
+   ],
+   [
+    "dave",
+    "burnt toast is just toast with ambition"
+   ],
+   [
+    "kev",
+    "I like it burnt. I’m not well"
+   ],
+   [
+    "priya",
+    "the tea towel wave. a British classic"
+   ]
+  ],
+  "raffle_win": [
+   [
+    "nan",
+    "I’ve never won a raffle in my life! x"
+   ],
+   [
+    "dave",
+    "roof funded. children saved. legend"
+   ],
+   [
+    "tash",
+    "rigged. love it"
+   ]
+  ],
+  "raffle_lose": [
+   [
+    "kev",
+    "the roof thanks you"
+   ],
+   [
+    "dave",
+    "charity is its own reward. the reward is nothing"
+   ],
+   [
+    "priya",
+    "it’s for the kids. the kids won"
+   ]
+  ],
+  "duck_start": [
+   [
+    "dave",
+    "COME ON THE YELLOW ONE"
+   ],
+   [
+    "tash",
+    "my money’s on whichever one looks the most unhinged"
+   ],
+   [
+    "kev",
+    "the ducks are on something. I can tell"
+   ],
+   [
+    "nan",
+    "Which one’s ours love? x"
+   ],
+   [
+    "priya",
+    "I’ve got a tenner on the slowest one. for the story"
+   ]
+  ],
+  "duck_win": [
+   [
+    "dave",
+    "THE DUCK DID IT"
+   ],
+   [
+    "tash",
+    "that duck deserves a knighthood"
+   ],
+   [
+    "nan",
+    "Lovely ducks x"
+   ],
+   [
+    "kev",
+    "I’m crying. over a duck"
+   ],
+   [
+    "priya",
+    "bread for that duck. all of the bread"
+   ]
+  ],
+  "duck_lose": [
+   [
+    "dave",
+    "that duck threw the race"
+   ],
+   [
+    "tash",
+    "your duck stopped for a snack"
+   ],
+   [
+    "kev",
+    "the duck was paid off. I’ve seen it before"
+   ],
+   [
+    "priya",
+    "never trust a duck"
+   ],
+   [
+    "nan",
+    "Never mind love, they’re all winners really x"
+   ],
+   [
+    "dave",
+    "useless bloody duck"
+   ],
+   [
+    "tash",
+    "that duck can get stuffed. with orange sauce"
    ]
   ]
  },
@@ -938,7 +1538,33 @@
   "today’s lucky number is a mine",
   "this game is gluten free",
   "your fbi agent just cashed out",
-  "nan is speedrunning"
+  "nan is speedrunning",
+  "vote boom, get boom",
+  "the mines have a better manifesto than your lot",
+  "thou shalt cash out",
+  "blessed are the cashed out",
+  "pray for a 1",
+  "water into wine? I turned 1,000 into 12",
+  "the ducks have formed a union",
+  "the kitten owns the casino now",
+  "change the battery, coward",
+  "the smoke detector knows what you did",
+  "answer the door. or don’t. the door knows",
+  "a duck house, on expenses",
+  "tax the ducks",
+  "you absolute weapon",
+  "bloody hell",
+  "sod it. all in.",
+  "skill issue",
+  "what a pillock",
+  "cash out, you muppet",
+  "bollocks to the odds",
+  "your nan could do better (she does)",
+  "arse",
+  "you jammy git",
+  "proper mugged off",
+  "oi. OI.",
+  "not the brightest bulb in the casino"
  ],
  "daily": {
   "epoch": [

@@ -13,6 +13,7 @@ import { FX } from './ui/fx.js';
 import { Chat } from './ui/chat.js';
 import { Quips } from './ui/quip-popups.js';
 import { Banner } from './ui/banner.js';
+import { UI } from './ui/ui.js';
 import { SpinView } from './ui/spin-view.js';
 import { Coach } from './ui/tutorial.js';
 import { renderAll } from './wiring.js';
@@ -23,12 +24,19 @@ import { DailyView } from './ui/daily-view.js';
 import { Keys } from './ui/keys.js';
 import { CoinChart } from './ui/coin-chart.js';
 import { seeded, hashString } from './core/random.js';
+import { Household, DOOR } from './game/household.js';
+import { LINES, RUDE } from './content/chat-lines.js';
+import { HouseholdView } from './ui/household-view.js';
+import { DuckRace } from './game/duck-race.js';
+import { DuckRaceView } from './ui/duck-race-view.js';
 
 export function exposeForTests() {
+  // no random knocks at the door mid-test (they'd pop up over what the tests click); the tests start them by hand
+  clearTimeout(WeirdNoises.timer); WeirdNoises.schedule = () => {};
   window.__sw = {
     get S() { return S; }, Game, Solver, Rack, Rank, bus, NOISES, WeirdNoises, Quips, Chat, Coach, SpinView,
-    Banner, FX, renderAll, invoke, DigCommand, SaveGame, TABLES, AudioEngine,
-    Daily, Achievements, ACHIEVEMENTS, DailyView, Keys, CoinChart, seeded, hashString,
+    Banner, FX, UI, renderAll, invoke, DigCommand, SaveGame, TABLES, AudioEngine,
+    Daily, Achievements, ACHIEVEMENTS, DailyView, Keys, CoinChart, seeded, hashString, Household, HouseholdView, DuckRace, DuckRaceView, DOOR, LINES, RUDE,
     get slots() { return Game.slots; },
   };
 }

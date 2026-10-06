@@ -1,9 +1,10 @@
 // The version number, and what's new in it (shown once to returning players, and from the Stats tab).
-export const VERSION = '4.1.0';
+export const VERSION = '4.3.0';
 export const WHATS_NEW = [
-  ['calendar', 'Daily Challenge', 'One board a day, identical for everyone. No add-ons, no stake, just your multiplier. Share it and beat the group chat.'],
-  ['trophy', '40 achievements', 'From Pocket Money to Unreasonable. Every one pays out, and they survive busting.'],
-  ['chart', 'Coin graph', 'Your run’s glorious ups and tragic downs, in the Stats tab.'],
-  ['casino', 'New Game+', 'Buy the casino and every win after that pays +25% more, forever. Buy it again for +50%.'],
-  ['bolt', 'Shortcuts', 'D deal, C cash out, S spin, T today’s daily. Press ? for the rest.'],
+  ['door', 'Life goes on', 'Someone’s at the door. The phone’s ringing. Someone burnt the toast. Answer it (or don’t): it might pay, it might cost you a lamp.'],
+  ['battery', 'The 3am chirp', 'The smoke detector wants a new battery, and it will chirp about it until you change it. Mind the wobbly chair.'],
+  ['kitten', 'A kitten', 'Now and then one wanders across the bottom of the screen. Pet it.'],
+  ['duck', 'Duck racing', 'Out back of the Flip Booth: five rubber ducks, a bookie’s odds, photo finishes. Press R.'],
+  ['trophy', '45 achievements', 'Five new ones around the house, from Cat Person to Fixed the Roof.'],
+  ['skull', 'Rude chat', 'The group chat swears now. If that’s not your thing, switch it off in Stats.'],
 ];

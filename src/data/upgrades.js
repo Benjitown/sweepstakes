@@ -1,7 +1,7 @@
 // Shop upgrades: price of every level and what each one does.
 
 export const UPGS = [
-  { id: 'flip',      name: 'Flip Booth',      icon: 'coin',    costs: [3000], desc: 'Unlocks Coin Flip. Pick a side, double your bet.' },
+  { id: 'flip',      name: 'Flip Booth',      icon: 'coin',    costs: [3000], desc: 'Unlocks Coin Flip (pick a side, double your bet) and the duck race out back.' },
   { id: 'flagBot',   name: 'Flag Goblin',     icon: 'goblin',  costs: [6500], desc: 'A little goblin flags every mine it can prove.' },
   { id: 'boards',    name: 'Extra Board',     icon: 'boards',  costs: [200e3, 800e3, 65e6, 3e12, 14e12, 55e12, 160e12], desc: 'Play one more board at once. Boards 5 to 8 each need an Ascension first.' },
   { id: 'sweepBot',  name: 'Autominer',       icon: 'bot',     costs: [430e3], req: 'flagBot', desc: 'Digs every tile it can prove is safe, on every board.' },

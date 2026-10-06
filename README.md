@@ -1,6 +1,7 @@
 # Sweepstakes
 
 Minesweeper, but you're gambling. Dig for multipliers, cash out before you hit a mine, or go double or nothing.
+Meanwhile life carries on: someone's at the door, a kitten wanders past, and the smoke detector wants a new battery.
 A browser game in plain HTML, CSS and JavaScript (ES modules), with no frameworks and nothing to install.
 There are also terminal versions in Kotlin, C# and Python in `ports/`, and they share the same Daily Challenge.
 
@@ -50,8 +51,9 @@ src/
   content/          every joke: chat lines, chat threads, quips
   audio/            Web Audio engine, game sounds, weird household noises
   board/            the board model, solver, factories, mine chain, payout decorators (+ New Game+ house edge)
-  game/             the rules (game.js), commands, bots, rack, rank, double or nothing, daily, achievements
-  ui/               one file per view: panels, boards, shop, modals, tutorial, daily, keys, coin graph...
+  game/             the rules (game.js), commands, bots, rack, rank, double or nothing, daily, achievements,
+                    household (the door, the phone, the kitten, the smoke detector), the duck race
+  ui/               one file per view: panels, boards, shop, modals, tutorial, daily, keys, coin graph, household, ducks...
 assets/             fonts (+ OFL licence) and the favicon
 tools/              build.py, serve.py, vc.py (version control), export_rules.mjs, sim/ (economy simulator)
 ports/              terminal versions in Kotlin, C# and Python (see ports/README.md)
@@ -65,7 +67,7 @@ Each change usually touches a small area. Prices live in `src/data/`, jokes in `
 
 ```
 pip install playwright && python -m playwright install chromium   # once
-python test/run.py                                                # about 4 minutes
+python test/run.py                                                # about 5 minutes
 ```
 
 The suites run against both the ES-module source and the built file:
@@ -75,6 +77,8 @@ The suites run against both the ES-module source and the built file:
 - **tutorial:** each step moves on when you actually do it
 - **features:** the Daily Challenge (including golden boards in `test/daily-golden.json` that every port must match),
   achievements, shortcuts, the coin graph, New Game+ and what's new
+- **household:** the door, the phone, the kitten, the smoke detector, burnt toast, the raffle, the duck race (odds,
+  payouts, leaving mid-race) and the rude chat switch
 - **layout:** desktop, tablet and phone sizes with no sideways scrolling
 
 Screenshots go to `test/screenshots/`.

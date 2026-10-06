@@ -1,7 +1,7 @@
 // The group chat panel: reactions to what happens, plus ambient threads.
 import { $, rnd, esc } from '../core/util.js';
-import { FRIENDS, LINES, CHANCE } from '../content/chat-lines.js';
-import { THREADS } from '../content/chat-threads.js';
+import { FRIENDS, LINES, RUDE, CHANCE } from '../content/chat-lines.js';
+import { THREADS, RUDE_THREADS } from '../content/chat-threads.js';
 import { pref } from '../core/state.js';
 import { Sound } from '../audio/sound.js';
 import { UI } from './ui.js';
@@ -19,7 +19,7 @@ export const Chat = {
     el.scrollTop = el.scrollHeight; Sound.msg();
   },
   say(ev, vars = {}, chance) {
-    const pool = LINES[ev]; if (!pool) return;
+    const pool = (LINES[ev] || []).concat(pref('rude') && RUDE[ev] || []); if (!pool.length) return;
     if (Math.random() > (chance ?? CHANCE[ev] ?? .6)) return;
     const now = performance.now(); if (now < this.busyUntil && chance !== 1) return;
     this.busyUntil = now + 1400;
@@ -29,7 +29,7 @@ export const Chat = {
     setTimeout(() => this.post(pick[0], pick[1].replace(/\{(\w+)\}/g, (_, k) => vars[k] ?? '')), 350 + Math.random() * 700);
   },
   thread() {
-    if (!this.bag.length) this.bag = THREADS.slice().sort(() => Math.random() - .5);
+    if (!this.bag.length) this.bag = THREADS.concat(pref('rude') ? RUDE_THREADS : []).sort(() => Math.random() - .5);
     const t = this.bag.pop(); this.busyUntil = performance.now() + t.length * 2400;
     t.forEach(([w, s], k) => setTimeout(() => this.post(w, s), k * (1600 + Math.random() * 1200)));
   },

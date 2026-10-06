@@ -515,8 +515,8 @@ class Game:
     def odd_noises(self):
         if time.time() >= self.next_chirp:
             self.next_chirp = time.time() + random.uniform(150, 330)
-            print(c('\n  *chirp*', 'dim'), '(a carbon monoxide alarm somewhere wants a new battery)')
-            say('odd_co', .7)
+            print(c('\n  *chirp*', 'dim'), '(the smoke detector down the hall wants a new battery)')
+            say('odd_smoke', .7)
 
     # ---- menus
     def run(self):

@@ -46,6 +46,12 @@ export const ACHIEVEMENTS = [
   { id: 'daily7',   tier: 3, icon: 'calendar',  name: 'Creature of Habit',   desc: 'Play the Daily Challenge 7 days in a row.' },
   { id: 'dailytop', tier: 2, icon: 'calendar',  name: 'Beat the Chat',       desc: 'Top the group chat’s Daily scores.' },
   { id: 'nan',      tier: 1, icon: 'bomb',      name: 'Nan Approved',        desc: 'Finish the tutorial without skipping.' },
+  // around the house
+  { id: 'duck',     tier: 1, icon: 'duck',      name: 'Quack Addict',        desc: 'Win a duck race.' },
+  { id: 'longshot', tier: 2, icon: 'duck',      name: 'Long Shot',           desc: 'Win a duck race at ×8 or more.' },
+  { id: 'kitten',   tier: 1, icon: 'kitten',    name: 'Cat Person',          desc: 'Pet the kitten.' },
+  { id: 'battery',  tier: 1, icon: 'battery',   name: 'DIY Hero',            desc: 'Change the smoke detector’s battery.' },
+  { id: 'raffle',   tier: 2, icon: 'door',      name: 'Fixed the Roof',      desc: 'Win the school raffle.' },
 ];
 export const ACH_BY = Object.fromEntries(ACHIEVEMENTS.map(a => [a.id, a]));
 export const ACH_REWARD = [0, .2, .5, 1];

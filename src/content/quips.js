@@ -18,4 +18,12 @@ export const QUIPS = [
   'your houseplants are proud of you', 'a frog has entered the chat', 'mines hate this one weird trick', 'the duck is not a metaphor', 'is it gay to clear a board? (yes)',
   'certified tile licker', 'main character energy detected', 'who let the goblin cook', 'you’ve been visited by the gay frog of fortune', 'kiss the bomb. (do not kiss the bomb)',
   'error 404: chill not found', 'today’s lucky number is a mine', 'this game is gluten free', 'your fbi agent just cashed out', 'nan is speedrunning',
+  'vote boom, get boom', 'the mines have a better manifesto than your lot', 'thou shalt cash out', 'blessed are the cashed out', 'pray for a 1',
+  'water into wine? I turned 1,000 into 12', 'the ducks have formed a union', 'the kitten owns the casino now', 'change the battery, coward',
+  'the smoke detector knows what you did', 'answer the door. or don’t. the door knows', 'a duck house, on expenses', 'tax the ducks',
+];
+// The ruder nonsense (only with "Rude chat" on).
+export const RUDE_QUIPS = [
+  'you absolute weapon', 'bloody hell', 'sod it. all in.', 'skill issue', 'what a pillock', 'cash out, you muppet', 'bollocks to the odds',
+  'your nan could do better (she does)', 'arse', 'you jammy git', 'proper mugged off', 'oi. OI.', 'not the brightest bulb in the casino',
 ];

@@ -4,7 +4,7 @@ The same game for the terminal, in **Kotlin**, **C#** and **Python**. All three 
 
 - **The rules and jokes of the web game.** `tools/export_rules.mjs` generates `Rules.kt`, `Rules.cs` and `rules.json`
   from the web game's `src/data` and `src/content`, so every version deals the same tables, gems and payouts and has
-  the same group chat.
+  the same group chat (rude lines included: the terminal versions have no switch for them).
 - **The Daily Challenge.** One board a day, built from the date alone with the same seeded randomness, solver and
   scoring as the web game. The same digs give the same multiplier in every version, and each one proves it with
   `--selftest`.
@@ -47,8 +47,9 @@ On a board:
 | `o` | show the mine odds (needs goggles) |
 | `?` | rules |
 
-Risky digs pay the odds. Gems (`$`) multiply the pot. Golden boards pay double. The group chat has opinions. A
-carbon monoxide alarm chirps somewhere, occasionally.
+Risky digs pay the odds. Gems (`$`) multiply the pot. Golden boards pay double. The group chat has opinions. The
+smoke detector down the hall wants a new battery, and chirps about it now and then. (The door, the phone, the kitten
+and the duck race are web-only.)
 
 ## Where things are
 

@@ -49,8 +49,8 @@ namespace Sweepstakes
         {
             if (DateTime.Now < nextChirp) return;
             nextChirp = DateTime.Now.AddSeconds(Rng.Luck.Next(150, 330));
-            Console.WriteLine(C("\n  *chirp*", "dim") + " (a carbon monoxide alarm somewhere wants a new battery)");
-            Say("odd_co", .7);
+            Console.WriteLine(C("\n  *chirp*", "dim") + " (the smoke detector down the hall wants a new battery)");
+            Say("odd_smoke", .7);
         }
 
         // ---- menus

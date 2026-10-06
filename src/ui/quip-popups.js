@@ -1,6 +1,6 @@
 // Flashes the random nonsense on screen.
 import { rnd } from '../core/util.js';
-import { QUIPS } from '../content/quips.js';
+import { QUIPS, RUDE_QUIPS } from '../content/quips.js';
 import { pref } from '../core/state.js';
 import { AudioEngine } from '../audio/engine.js';
 import { Sound } from '../audio/sound.js';
@@ -11,7 +11,7 @@ export const Quips = {
   show(x, y) {
     if (!pref('quips') || !AudioEngine.get().unlocked || Coach.active) return;
     const now = performance.now(); if (now - this.last < 9000) return; this.last = now;
-    if (!this.bag.length) this.bag = QUIPS.slice().sort(() => Math.random() - .5);
+    if (!this.bag.length) this.bag = QUIPS.concat(pref('rude') ? RUDE_QUIPS : []).sort(() => Math.random() - .5);
     const d = document.createElement('div'); d.className = 'quip'; d.setAttribute('aria-hidden', 'true'); d.textContent = this.bag.pop();
     d.style.setProperty('--qc', rnd(['var(--purple)', 'var(--red)', 'var(--blue)', 'var(--green)', 'var(--orange)']));
     d.style.setProperty('--qr', (Math.random() * 12 - 6).toFixed(1) + 'deg');

@@ -29,6 +29,11 @@ import { DailyView } from './ui/daily-view.js';
 import { CoinChart } from './ui/coin-chart.js';
 import { Haptics } from './ui/haptics.js';
 import { HOUSE_EDGE } from './board/payout.js';
+import { WeirdNoises } from './audio/noises.js';
+import { Household } from './game/household.js';
+import { HouseholdView } from './ui/household-view.js';
+import { FlipView } from './ui/flip-view.js';
+import { DuckRaceView } from './ui/duck-race-view.js';
 
 const RED = 'var(--red)', GOLD = 'var(--gold)', GREEN = 'var(--green)', PURPLE = 'var(--purple)';
 export function renderAll(keepModal) {
@@ -151,7 +156,6 @@ bus.on('flip', ({ win, bet }) => {
   else { Sound.boom(); UI.toast(`−${fmt(bet)}. The coin does not like you.`); Chat.say('flip_lose'); }
 });
 bus.on('bust', ({ reason }) => { Sound.bust(); Haptics.buzz(220); Chat.say(reason === 'don' ? 'don_lose' : 'bust', {}, 1); });
-bus.on('odd', ({ k }) => { if (Math.random() < .55) setTimeout(() => Chat.say('odd_' + k, {}, 1), 1700 + Math.random() * 1600); });
 bus.on('tick', () => {
   RunPanel.spin(); Rack.tick(); RackView.tick();
   if (S.run.time % 15 === 0) SaveGame.save();
@@ -159,6 +163,41 @@ bus.on('tick', () => {
   if (Tabs.showing('stats') && S.run.time % 5 === 0) StatsView.render();
   if (S.run.time % 20 === 0 && UI.modalClosed()) Quips.maybe(.18);
   if (S.run.time === S.spinAt + SPIN_EVERY) { UI.toast('Free spin ready!'); Sound.select(2); }
+});
+
+/* ---------- around the house: the noises, and what they turn into ---------- */
+// time for a noise: anything that would start an event waits until nothing else is going on
+const startsEvent = k => Household.EVENTS[k];
+bus.on('noise:due', () => WeirdNoises.surprise(WeirdNoises.pick(k => !startsEvent(k) || (startsEvent(k) === 'battery' ? !WeirdNoises.chirping : HouseholdView.free()))));
+bus.on('odd', ({ k, handle }) => {
+  const kind = startsEvent(k);
+  if (kind && kind !== 'battery' && HouseholdView.free()) HouseholdView.start(kind, k, handle);
+  if (Math.random() < .55) setTimeout(() => Chat.say('odd_' + k, {}, 1), 1700 + Math.random() * 1600);
+});
+bus.on('chirp', ({ on: isOn, again }) => { HouseholdView.chirp(isOn); if (again && Math.random() < .3) Chat.say('chirp_again', {}, 1); });
+const HOUSE_CHAT = { door: e => 'door_' + e.o.mood, phone: () => 'phone', kitten: () => 'kitten_pet', toast: () => 'toast',
+  battery: e => e.ok ? 'battery_ok' : 'battery_fall', raffle: e => e.win ? 'raffle_win' : 'raffle_lose' };
+bus.on('household', e => {
+  HouseholdView.outcome(e);
+  const fx = e.o.fx;
+  if (fx === 'card') { Sound.card(); bus.emit('addon:changed'); }
+  if (fx === 'shield') { Sound.shield(); bus.emit('inventory'); }
+  if (fx === 'golden') Sound.golden();
+  if (e.kind === 'raffle' && e.win) { Sound.bigwin(1); FX.confetti(80); }
+  RunPanel.render(); Rank.award(3);
+  setTimeout(() => Chat.say(HOUSE_CHAT[e.kind](e), {}, .8), 900);
+});
+bus.on('kitten:gone', ({ petted }) => { if (!petted) Chat.say('kitten_gone', {}, .7); });
+/* ---------- the Flip Booth: coin flip and duck race ---------- */
+bus.on('booth', k => k === 'ducks' ? DuckRaceView.open() : FlipView.open());
+bus.on('duck:start', () => Chat.say('duck_start'));
+bus.on('duck', ({ win, prize, bet, pay }) => {
+  if (win) {
+    pay >= 3 ? Sound.win() : Sound.cash(); FX.confetti(pay >= 8 ? 180 : 70); UI.toast(`+${fmt(prize - bet)}! Your duck came in at ×${fmtX(pay)}.`);
+    if (pay >= 8) Banner.show('LONG SHOT', `×${fmtX(pay)} duck`, 'gold', true);
+    Chat.say('duck_win', {}, .9); Quips.maybe(.15); Haptics.buzz([30, 30, 60]);
+  } else { WeirdNoises.play('duck'); UI.toast(`−${fmt(bet)}. Your duck had other plans.`); Chat.say('duck_lose', {}, .7); }
+  Rank.award(win ? 8 : 3); RunPanel.render();
 });
 
 /* ---------- achievements ---------- */

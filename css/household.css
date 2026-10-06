@@ -1,0 +1,73 @@
+/* Around the house: the someone's-at-the-door card, the kitten that wanders past, the smoke detector chip and the duck race. */
+/* the card that pops up when something happens (bottom right; full width on phones) */
+.happening{--hc:var(--gold);position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:45;width:min(360px,calc(100vw - 32px));
+  display:grid;grid-template-columns:52px minmax(0,1fr);gap:10px 12px;align-items:start;background:var(--panel);border-radius:16px;
+  box-shadow:0 0 0 3px var(--hc),0 8px 0 3px var(--shadow);padding:12px 14px 16px;overflow:hidden;animation:hin .35s cubic-bezier(.2,1.4,.4,1)}
+.happening.good{--hc:var(--green)} .happening.bad{--hc:var(--red)} .happening.weird{--hc:var(--purple)}
+.happening .hic{width:52px;height:52px;animation:jiggle .5s 2}
+.happening .htext{min-width:0}
+.happening b{display:block;font-family:var(--big);font-weight:400;font-size:1.55rem;line-height:1;color:var(--hc);text-wrap:balance}
+.happening p{margin:4px 0 0;font-size:.86rem;line-height:1.3;text-shadow:none}
+.happening .hcoins{display:block;margin-top:6px;font-family:var(--big);font-size:1.6rem;line-height:1;color:var(--gold);text-shadow:0 2px 0 rgba(0,0,0,.45)}
+.happening .hcoins.minus{color:var(--red)}
+.hbtns{grid-column:1 / -1;display:flex;gap:8px;flex-wrap:wrap}
+.hbtns .btn{flex:1 1 auto;font-size:.9rem;padding:.45em .7em;white-space:normal}
+.htimer{position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--hc);transform-origin:left;animation:htimer var(--ht,10s) linear forwards}
+.happening:hover .htimer{animation-play-state:paused}
+@media (max-width:760px){.happening{left:16px;right:16px;width:auto}}
+/* toasts hop above the card where they'd overlap it */
+@media (max-width:1180px){body.hh-up .toasts{bottom:calc(var(--hh,0px) + 28px + env(safe-area-inset-bottom,0px))}}
+
+/* the kitten: walks along the bottom of the screen, in front of the card; tap it (once petted, taps go through it) */
+.kitten{position:fixed;left:0;bottom:calc(2px + env(safe-area-inset-bottom,0px));z-index:46;width:84px;height:56px;padding:0;border:0;background:none;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.kitten .kb{display:block;width:100%;height:100%;animation:kbob .18s ease-in-out infinite alternate}
+.kitten svg{width:100%;height:100%;display:block;overflow:visible}
+.kitten.rtl svg{transform:scaleX(-1)}
+.kitten .kl{transform-box:fill-box;transform-origin:50% 0;animation:kleg .36s ease-in-out infinite alternate}
+.kitten .kl.b{animation-direction:alternate-reverse}
+.kitten .ktail{transform-box:fill-box;transform-origin:100% 100%;animation:ktail 1.2s ease-in-out infinite alternate}
+.kitten.pet .kb,.kitten.pet .kl{animation-play-state:paused}
+.kitten.petted{pointer-events:none}
+.kitten.pet .ktail{animation-duration:.22s}
+.kitten:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:12px}
+.kheart{position:absolute;left:50%;top:-4px;width:22px;height:20px;pointer-events:none;animation:kheart 1.2s ease-out forwards}
+
+/* the smoke detector chip, in the run panel's chip row while it chirps */
+.chirpchip{display:flex;align-items:center;gap:6px;border:0;cursor:pointer;background:var(--red);color:#fff;border-radius:8px;box-shadow:0 3px 0 var(--red-lo);
+  padding:3px 10px 3px 6px;font:inherit;font-weight:700;text-shadow:0 2px 0 rgba(0,0,0,.35);white-space:nowrap;animation:chirp 2.6s ease-in-out infinite}
+.chirpchip svg{width:20px;height:20px;flex:none}
+.chirpchip:disabled{cursor:default;animation:none;filter:grayscale(.6) brightness(.75)}
+/* phones: no room in the header's chip row, so it hangs off the bottom of the header like a tab */
+@media (max-width:760px){.chips .chirpchip{position:absolute;right:14px;top:100%;font-size:.78rem;padding:4px 12px 5px 8px;gap:5px;border-radius:0 0 10px 10px;animation:none}
+  .chips .chirpchip .long{display:inline} .chips .chirpchip .short{display:none}
+  body:has(#chirpChip:not([hidden])) .play{padding-top:26px}}
+
+/* the booth tabs (coin flip / duck race) */
+.booth{display:flex;gap:6px;background:var(--panel-in);border-radius:12px;padding:4px;width:100%}
+.booth button{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;border:0;border-radius:9px;background:none;padding:6px 8px;cursor:pointer;
+  font-weight:700;color:var(--ink-dim);text-shadow:none}
+.booth button svg{width:26px;height:26px;flex:none}
+.booth button[aria-selected="true"]{background:var(--panel-hi);color:var(--ink);box-shadow:0 3px 0 var(--shadow);text-shadow:0 2px 0 rgba(0,0,0,.35)}
+
+/* the duck race: a pond with five lanes; each lane is also the button that backs that duck */
+.pond{position:relative;width:100%;display:grid;gap:6px;padding:8px 6px;border-radius:14px;background:linear-gradient(180deg,#1f97d6,#0a6aa3);
+  box-shadow:inset 0 0 0 3px #075a8a,inset 0 8px 0 rgba(0,0,0,.15);overflow:hidden}
+.pond::after{content:"";position:absolute;top:8px;bottom:8px;right:16px;width:10px;border-radius:2px;pointer-events:none;
+  background:repeating-conic-gradient(#fff 0 25%,#141b1d 0 50%) 0 0/10px 10px;box-shadow:0 0 0 2px #141b1d}
+.lane{position:relative;display:block;width:100%;height:44px;border:0;border-radius:10px;background:rgba(255,255,255,.06);padding:0;cursor:pointer;color:#fff;font:inherit}
+.lane:hover:not(:disabled){background:rgba(255,255,255,.14)}
+.lane:disabled{cursor:default}
+.lane[aria-pressed="true"]{background:rgba(255,210,63,.22);box-shadow:inset 0 0 0 3px var(--gold)}
+.lane .ltag{position:absolute;right:34px;top:50%;transform:translateY(-50%);font-size:.8rem;white-space:nowrap;pointer-events:none;text-shadow:0 2px 0 rgba(0,0,0,.45)}
+.lane .ltag .num{color:var(--gold);font-weight:700}
+.lane .rduck{position:absolute;left:4px;top:0;width:44px;height:44px;pointer-events:none;will-change:transform}
+.lane .rduck svg{width:100%;height:100%;display:block;filter:drop-shadow(0 3px 0 rgba(0,0,0,.25))}
+.lane .place{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-family:var(--big);font-size:1.5rem;line-height:1;color:#fff;
+  text-shadow:0 2px 0 rgba(0,0,0,.5);pointer-events:none;animation:stamp .3s cubic-bezier(.2,1.4,.4,1)}
+.lane .place.p1{color:var(--gold);font-size:1.9rem}
+.lane.racing .ltag{opacity:.35}
+.duckres{min-height:2.4em;display:grid;place-items:center;gap:2px}
+.duckres b{font-family:var(--big);font-weight:400;font-size:1.9rem;line-height:1;color:var(--gold);text-shadow:0 3px 0 rgba(0,0,0,.5)}
+.duckres.lose b{color:var(--red)}
+.duckres span{font-size:.85rem;color:var(--ink-dim);text-shadow:none}

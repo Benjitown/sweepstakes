@@ -44,8 +44,8 @@ class Game(private val s: Save) {
     private fun oddNoises() {
         if (System.currentTimeMillis() >= nextChirp) {
             nextChirp = System.currentTimeMillis() + rnd.nextLong(150_000, 330_000)
-            println(c("\n  *chirp*", "dim") + " (a carbon monoxide alarm somewhere wants a new battery)")
-            say("odd_co", .7)
+            println(c("\n  *chirp*", "dim") + " (the smoke detector down the hall wants a new battery)")
+            say("odd_smoke", .7)
         }
     }
 

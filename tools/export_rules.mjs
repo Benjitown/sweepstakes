@@ -9,8 +9,8 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { START, TABLES, BOOST, CLEAR, GOLDEN, LADDER, CASINO } from '../src/data/economy.js';
 import { GEMS } from '../src/data/gems.js';
-import { FRIENDS, LINES, SURE } from '../src/content/chat-lines.js';
-import { QUIPS } from '../src/content/quips.js';
+import { FRIENDS, LINES, RUDE, SURE } from '../src/content/chat-lines.js';
+import { QUIPS, RUDE_QUIPS } from '../src/content/quips.js';
 import { DAILY, Daily } from '../src/game/daily.js';
 import { Solver } from '../src/board/solver.js';
 import { S } from '../src/core/state.js';
@@ -22,7 +22,8 @@ const GOLDEN_KEYS = ['2026-10-06', '2026-12-25', '2027-02-28', '2030-01-01'];
 const tables = TABLES.map(({ id, name, w, h, m, gems, lim, prog, min, cap, cost, blurb }) => ({ id, name, w, h, m, gems, lim, prog, min, cap, cost, blurb }));
 const gems = GEMS.map(({ k, x, w, name }) => ({ k, x, w, name }));
 const friends = Object.fromEntries(Object.entries(FRIENDS).map(([k, f]) => [k, f.name]));
-const lines = Object.fromEntries(Object.entries(LINES).map(([k, v]) => [k, v.map(([who, text]) => [who, text])]));
+// the terminal versions get the rude lines too (the web game has a switch for them in Stats)
+const lines = Object.fromEntries(Object.entries(LINES).map(([k, v]) => [k, v.concat(RUDE[k] || []).map(([who, text]) => [who, text])]));
 const styles = Object.entries(DAILY.styles).map(([who, [boom, lo, hi]]) => ({ who, boom, lo, hi }));
 
 // ---------- golden boards + golden runs (the strategy every port replays) ----------
@@ -49,7 +50,7 @@ const golden = GOLDEN_KEYS.map(key => {
 });
 const runs = GOLDEN_KEYS.map(key => play(key));
 
-const rules = { START, BOOST, CLEAR, GOLDEN, LADDER, CASINO, tables, gems, friends, lines, sure: SURE, quips: QUIPS,
+const rules = { START, BOOST, CLEAR, GOLDEN, LADDER, CASINO, tables, gems, friends, lines, sure: SURE, quips: QUIPS.concat(RUDE_QUIPS),
   daily: { epoch: DAILY.epoch, table: DAILY.table, limit: DAILY.limit, gems: DAILY.gems, prize: DAILY.prize, seed: DAILY.seed, chatSeed: DAILY.chatSeed, styles },
   golden, runs };
 

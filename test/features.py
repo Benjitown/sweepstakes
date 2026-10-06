@@ -72,10 +72,11 @@ async def run(browser, url, shots):
     ok(await pg.evaluate("__sw.Achievements.has('pocket')") and 'Pocket Money' in toast, f'cashing out unlocks Pocket Money ("{toast[:80]}")')
     await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(300)
     got = await pg.evaluate("document.querySelectorAll('#stats .ach.got').length")
-    ok(got >= 1 and await pg.evaluate("document.querySelectorAll('#stats .ach').length") == 40, f'Stats shows 40 badges, {got} earned')
+    total = await pg.evaluate('__sw.ACHIEVEMENTS.length')
+    ok(got >= 1 and await pg.evaluate("document.querySelectorAll('#stats .ach').length") == total, f'Stats shows all {total} badges, {got} earned')
     await pg.click('#stats .ach.got'); await pg.wait_for_timeout(100)
     ok('Pocket Money' in await pg.text_content('#achCap') or got > 1, 'tapping a badge explains it')
-    ok(await pg.evaluate("!!document.querySelector('#tg-vibe')") and 'v4.1' in await pg.text_content('#stats .ver'), 'Stats has the vibration switch and the version line')
+    ok(await pg.evaluate("!!document.querySelector('#tg-vibe')") and 'v4.3' in await pg.text_content('#stats .ver'), 'Stats has the vibration switch and the version line')
 
     # --- coin graph
     await pg.evaluate("(() => { const S = __sw.S; for (let k = 1; k <= 6; k++) { S.run.time += 10; S.coins = 1000 * 3 ** k; __sw.CoinChart.sample(); } __sw.renderAll(); })()")
