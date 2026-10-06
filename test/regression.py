@@ -88,7 +88,7 @@ async def run(browser, url, shots):
     ok(await pg.evaluate('__sw.S.life.lvl')>lv0 and await pg.evaluate('__sw.S.coins')>c0, f"level up {lv0}->{await pg.evaluate('__sw.S.life.lvl')}, coins {c0}->{await pg.evaluate('__sw.S.coins')}")
     await pg.wait_for_timeout(1800)
     # 8. rack
-    await fresh(pg, "__sw.S.addons=[];__sw.S.coins=1e6")
+    await fresh(pg, "__sw.S.addons=[];__sw.S.coins=1e6;__sw.Rack.roll()")  # a fresh rack: level-up rewards can take cards from it
     await pg.click('[data-tab="rack"]'); await pg.wait_for_timeout(200)
     await pg.click('#rack [data-buy="0"]'); await pg.wait_for_timeout(200)
     ok(await pg.evaluate("__sw.S.addons.length===1"), 'bought an add-on')

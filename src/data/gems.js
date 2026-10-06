@@ -1,6 +1,6 @@
 // Gem tiers hidden under tiles, and how often each one turns up.
 
-const GEMS = [
+export const GEMS = [
   { k: 'gem',     x: 1.2, w: .6,  name: 'Gem' },
   { k: 'ruby',    x: 1.5, w: .28, name: 'Ruby' },
   { k: 'diamond', x: 2,   w: .1,  name: 'Diamond' },

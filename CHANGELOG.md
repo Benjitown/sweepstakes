@@ -3,6 +3,17 @@
 Each version is also a save in the built-in version control. Run `python tools/vc.py log` to list them, or
 `python tools/vc.py export v3.0 v3.zip` to get any of them back.
 
+## 4.2.0 (6 Oct 2026)
+
+- **Terminal versions in Kotlin, C# and Python** (`ports/`), with boards at six tables, gems, golden boards, shields,
+  streaks, the shop, Double or Nothing, coin flips, New Game+ and the group chat.
+- **The Daily Challenge is identical everywhere.** Every version uses the same seeded randomness, solver and scoring
+  as the web game, so the same digs give the same multiplier in all four. Each port checks this with `--selftest`.
+- **One save file for all three terminal versions,** so your coins follow you between languages.
+- `tools/export_rules.mjs` generates each port's rules from the web game's data, and `test/ports.py` builds and
+  tests every port it finds a compiler for.
+- The web game itself is unchanged.
+
 ## 4.1.0 (6 Oct 2026)
 
 - **Daily Challenge.** One board a day, built from the date alone, so everyone gets the same mines, gems and opening,

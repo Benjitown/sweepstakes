@@ -59,3 +59,5 @@ export const LINES = {
   odd_meow:      [['nan', 'Has someone fed the cat? x'], ['tash', 'KITTY']],
 };
 export const CHANCE = { boom: .7, cash_small: .3, cash_big: .9, clear: .9, deal_big: .8, buy: .5, addon: .6, coward: .25, yolo: .3, streak: .8, fuse: .8, gem: .35, golden: .7, spin: .5 };
+// Double or Nothing asks this before each rung of the ladder.
+export const SURE = ['Are you sure?', 'Are you SURE sure?', 'Mate. Are you actually sure?', 'This is where sensible people stop.', 'Nan is crying. Are you sure?'];

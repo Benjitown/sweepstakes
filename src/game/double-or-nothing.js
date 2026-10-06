@@ -1,6 +1,7 @@
 // Double or Nothing: the offer, the are-you-sure, the flip, then win or lose.
 import { $, ico, fmt, pct } from '../core/util.js';
 import { START, LADDER } from '../data/economy.js';
+import { SURE } from '../content/chat-lines.js';
 import { bus } from '../core/bus.js';
 import { SaveGame, S, luck } from '../core/state.js';
 import { Sound } from '../audio/sound.js';
@@ -12,7 +13,6 @@ import { UI } from '../ui/ui.js';
    Double or Nothing moves Offer → Confirm → Resolve → Won/Lost.
    ===================================================================================== */
 const donChance = step => Math.min(.95, (1 / LADDER[step]) * luck());
-const SURE = ['Are you sure?', 'Are you SURE sure?', 'Mate. Are you actually sure?', 'This is where sensible people stop.', 'Nan is crying. Are you sure?'];
 class DonState { constructor(ladder, step) { this.ladder = ladder; this.step = step; } enter() {} }
 class OfferState extends DonState {
   enter() {

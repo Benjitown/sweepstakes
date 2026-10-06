@@ -81,8 +81,22 @@ class Repo:
         return sorted(out, key=lambda s: s['id'])
 
     def head(self):
+        """The newest save."""
         s = self.saves()
         return s[-1] if s else None
+
+    def current(self):
+        """The save your files are based on: the last one you saved or restored (falls back to the newest)."""
+        f = self.dir / 'HEAD'
+        if f.exists():
+            ref = f.read_text(encoding='utf-8').strip()
+            for s in self.saves():
+                if str(s['id']) == ref:
+                    return s
+        return self.head()
+
+    def set_current(self, sid):
+        (self.dir / 'HEAD').write_text(str(sid), encoding='utf-8')
 
     def resolve(self, ref):
         saves = self.saves()
@@ -128,9 +142,10 @@ class Repo:
         return out
 
     def changes(self, old, new):
-        """old/new: path -> hash. Returns (added, changed, deleted) path lists."""
-        added = sorted(p for p in new if p not in old)
-        deleted = sorted(p for p in old if p not in new)
+        """old/new: path -> hash. Returns (added, changed, deleted) path lists.
+        vc itself only counts as changed, never as added or deleted: old saves simply predate it."""
+        added = sorted(p for p in new if p not in old and p not in PROTECTED)
+        deleted = sorted(p for p in old if p not in new and p not in PROTECTED)
         changed = sorted(p for p in new if p in old and new[p] != old[p])
         return added, changed, deleted
 
@@ -148,22 +163,23 @@ def cmd_save(repo, args):
     if '--tag' in args:
         i = args.index('--tag'); tag = args[i + 1]; del args[i:i + 2]
     msg = ' '.join(args).strip() or 'save'
-    head = repo.head()
+    newest, cur = repo.head(), repo.current()
     if tag and any(s.get('tag') == tag for s in repo.saves()):
         sys.exit(f'vc: tag {tag} is already used')
     files = {p: repo.put(d) for p, d in repo.tree().items()}
-    a, c, d = repo.changes(head['files'] if head else {}, files)
-    if head and not (a or c or d):
-        print('vc: nothing changed since save', head['id'])
+    a, c, d = repo.changes(cur['files'] if cur else {}, files)
+    if cur and not (a or c or d):
+        print('vc: nothing changed since save', cur['id'])
         return
-    s = {'id': (head['id'] + 1) if head else 1, 'parent': head['id'] if head else None, 'tag': tag,
+    s = {'id': (newest['id'] + 1) if newest else 1, 'parent': cur['id'] if cur else None, 'tag': tag,
          'time': time.strftime('%Y-%m-%d %H:%M'), 'message': msg, 'files': files}
     repo.write_save(s)
+    repo.set_current(s['id'])
     print(f"saved #{s['id']}{' (' + tag + ')' if tag else ''}: {msg}  [{summary(a, c, d)}]")
 
 
 def cmd_status(repo, args):
-    head = repo.head()
+    head = repo.current()
     if not head:
         print('vc: no saves yet. Make one with: python tools/vc.py save "first save"')
         return
@@ -181,11 +197,15 @@ def cmd_log(repo, args):
     saves = repo.saves()
     if not saves:
         print('vc: no saves yet')
+    cur = repo.current()
     for s in reversed(saves):
         prev = repo.resolve(s['parent'])['files'] if s['parent'] else {}
         a, c, d = repo.changes(prev, s['files'])
         tag = f" [{s['tag']}]" if s.get('tag') else ''
-        print(f"#{s['id']:<3} {s['time']}{tag}  {s['message']}\n      {len(s['files'])} files, {summary(a, c, d)}")
+        mark = '*' if cur and s['id'] == cur['id'] else ' '
+        print(f"{mark}#{s['id']:<3} {s['time']}{tag}  {s['message']}\n       {len(s['files'])} files, {summary(a, c, d)}")
+    if saves:
+        print('(* = the save your files are based on)')
 
 
 def cmd_show(repo, args):
@@ -212,7 +232,7 @@ def cmd_diff(repo, args):
         sys.exit(__doc__)
     if not repo.head():
         sys.exit('vc: no saves yet')
-    a = repo.resolve(args[0]) if args else repo.head()
+    a = repo.resolve(args[0]) if args else repo.current()
     left = {p: (lambda h=h: repo.get(h)) for p, h in a['files'].items()}
     if len(args) == 2:
         b = repo.resolve(args[1])
@@ -240,9 +260,9 @@ def cmd_restore(repo, args):
         sys.exit(__doc__)
     s, paths = repo.resolve(args[0]), args[1:]
     cur = repo.current_hashes()
-    head = repo.head()
-    a, c, d = repo.changes(head['files'], cur) if head else ([], [], [])
-    if a or c or d:  # never lose work: save what's there first
+    base = repo.current()
+    a, c, d = repo.changes(base['files'], cur) if base else ([], [], [])
+    if a or c or d:  # never lose work: unsaved changes go into a backup save first
         cmd_save(repo, [f"backup before restoring #{s['id']}"])
     wanted = {p: h for p, h in s['files'].items() if p not in PROTECTED and
               (not paths or any(p == q or p.startswith(q.rstrip('/') + '/') for q in paths))}
@@ -255,8 +275,11 @@ def cmd_restore(repo, args):
         for p in cur:
             if p not in s['files'] and p not in PROTECTED:
                 (repo.root / p).unlink(); removed += 1
-    print(f"restored {len(wanted)} file(s) from save #{s['id']}" + (f', removed {removed} that it did not have' if removed else '')
-          + '. Save again to make this the latest.')
+    if not paths:
+        repo.set_current(s['id'])
+    name = f"#{s['id']}" + (f" ({s['tag']})" if s.get('tag') else '')
+    print(f"restored {len(wanted)} file(s) from save {name}" + (f', removed {removed} that it did not have' if removed else '')
+          + (f'. Your files now match save {name}.' if not paths else '.'))
 
 
 def cmd_tag(repo, args):

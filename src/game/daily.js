@@ -8,11 +8,17 @@ import { SaveGame, S, baseCap } from '../core/state.js';
 import { Board } from '../board/board.js';
 import { Solver } from '../board/solver.js';
 
-const EPOCH = Date.UTC(2026, 9, 6);      // Daily #1 is 6 October 2026
-const DAILY_LIMIT = 100, DAILY_GEMS = 3;
-export const PRIZE = .3; // the prize is this share of your top table's max stake, times your multiplier
-// how the group chat plays it: [chance of blowing up, worst mult, best mult]
-const STYLES = { nan: [0, 1.2, 2.6], kev: [.2, 1.1, 3.5], tash: [.3, 1.8, 8], priya: [.25, 2.5, 10], dave: [.45, 3, 18] };
+// Everything that makes a daily board. The Kotlin, C# and Python versions are generated from this, so all agree.
+export const DAILY = {
+  epoch: [2026, 10, 6],                  // Daily #1 is 6 October 2026
+  table: 'alley', limit: 100, gems: 3,
+  prize: .3,                             // the prize is this share of your top table's max stake, times your multiplier
+  seed: 'sweepstakes-daily-', chatSeed: 'sweepstakes-chat-',
+  // how the group chat plays it: [chance of blowing up, worst mult, best mult]
+  styles: { nan: [0, 1.2, 2.6], kev: [.2, 1.1, 3.5], tash: [.3, 1.8, 8], priya: [.25, 2.5, 10], dave: [.45, 3, 18] },
+};
+const EPOCH = Date.UTC(DAILY.epoch[0], DAILY.epoch[1] - 1, DAILY.epoch[2]);
+export const PRIZE = DAILY.prize;
 const EMOJI = { safe: '🟩', r1: '🟨', r2: '🟧', r3: '🟥', gem: '💎', boom: '💥', cash: '💰', clear: '🏁', limit: '🚀' };
 const pad = n => String(n).padStart(2, '0');
 
@@ -27,12 +33,12 @@ export const Daily = {
 
   // The board for a date. Same date, same board: the seed is the date, and nothing else is random.
   create(key) {
-    const rng = seeded(hashString('sweepstakes-daily-' + key)), t = TBY.alley;
-    const b = new Board({ slot: -1, table: t, stake: 0, mines: t.m, limit: DAILY_LIMIT });
+    const rng = seeded(hashString(DAILY.seed + key)), t = TBY[DAILY.table];
+    const b = new Board({ slot: -1, table: t, stake: 0, mines: t.m, limit: DAILY.limit });
     b.rng = rng;
     const start = (2 + Math.floor(rng() * (t.h - 4))) * t.w + 2 + Math.floor(rng() * (t.w - 4));
     b.placeMines(start); b.started = true; b.flood(start); b.base = b.revealed;
-    b.placeGems(DAILY_GEMS);
+    b.placeGems(DAILY.gems);
     return this.prep(b, key, []);
   },
   prep(b, key, moves) { Object.assign(b, { daily: key, moves }); return b; },
@@ -88,8 +94,8 @@ export const Daily = {
 
   // The group chat plays the same daily. Their scores come from the date too, so they're fixed for the day.
   friends(key) {
-    const rng = seeded(hashString('sweepstakes-chat-' + key));
-    return Object.entries(STYLES).map(([who, [boom, lo, hi]]) => {
+    const rng = seeded(hashString(DAILY.chatSeed + key));
+    return Object.entries(DAILY.styles).map(([who, [boom, lo, hi]]) => {
       const blew = rng() < boom, x = lo + (hi - lo) * rng() ** 2;
       return { who, mult: blew ? 0 : Math.round(x * 100) / 100 };
     });

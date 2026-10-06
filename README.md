@@ -2,6 +2,7 @@
 
 Minesweeper, but you're gambling. Dig for multipliers, cash out before you hit a mine, or go double or nothing.
 A browser game in plain HTML, CSS and JavaScript (ES modules), with no frameworks and nothing to install.
+There are also terminal versions in Kotlin, C# and Python in `ports/`, and they share the same Daily Challenge.
 
 What's in each version: [CHANGELOG.md](CHANGELOG.md).
 
@@ -10,6 +11,12 @@ What's in each version: [CHANGELOG.md](CHANGELOG.md).
 - **Built version:** open `dist/sweepstakes.html`. It's one self-contained file that works offline and can be sent to anyone.
 - **From source:** run `python tools/serve.py`, then open http://localhost:8000. Browsers only load ES modules over http, so
   `index.html` won't run if you double-click it. VS Code's Live Server works too.
+- **In a terminal:**
+  - `java -jar dist/sweepstakes-kotlin.jar` (Java 8+)
+  - `dist/sweepstakes-csharp.exe` (Windows, using the .NET built into Windows; on macOS/Linux `mono dist/sweepstakes-csharp.exe`)
+  - `python ports/python/sweepstakes.py`
+
+  See [ports/README.md](ports/README.md).
 
 ## Build
 
@@ -46,7 +53,8 @@ src/
   game/             the rules (game.js), commands, bots, rack, rank, double or nothing, daily, achievements
   ui/               one file per view: panels, boards, shop, modals, tutorial, daily, keys, coin graph...
 assets/             fonts (+ OFL licence) and the favicon
-tools/              build.py, serve.py, vc.py (version control), sim/ (economy simulator)
+tools/              build.py, serve.py, vc.py (version control), export_rules.mjs, sim/ (economy simulator)
+ports/              terminal versions in Kotlin, C# and Python (see ports/README.md)
 test/               Playwright test suites (python test/run.py)
 ```
 
@@ -65,11 +73,15 @@ The suites run against both the ES-module source and the built file:
 - **regression:** boards, gems, golden boards, the mine chain, payouts, banners, rank, the add-on rack, shop + bots,
   saving, the wheel, Ascension, Double or Nothing, chat and quips
 - **tutorial:** each step moves on when you actually do it
-- **features:** the Daily Challenge (including golden boards in `test/daily-golden.json`),
+- **features:** the Daily Challenge (including golden boards in `test/daily-golden.json` that every port must match),
   achievements, shortcuts, the coin graph, New Game+ and what's new
 - **layout:** desktop, tablet and phone sizes with no sideways scrolling
 
 Screenshots go to `test/screenshots/`.
+
+`python test/ports.py` checks the terminal versions (see [ports/README.md](ports/README.md)). It builds each one it
+finds a compiler for, checks that its Daily Challenge matches the web game exactly, plays a scripted game and passes
+one save file between them.
 
 ## Version control
 
