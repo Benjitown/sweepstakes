@@ -48,6 +48,8 @@ import { DuckRace } from './game/duck-race.js';
 import { Scratchcards } from './game/scratchcards.js';
 import { Quiz } from './game/quiz.js';
 import { Bingo } from './game/bingo.js';
+import { Fruity } from './game/fruity.js';
+import { FruityView } from './ui/fruity-view.js';
 import { Outside } from './game/outside.js';
 import { exposeForTests } from './debug.js';
 
@@ -55,14 +57,14 @@ $('#btnDon').onclick = () => DonLadder.start();
 $('#btnFlip').onclick = () => FlipView.open();
 $('#btnSpin').onclick = () => { if (Game.spinIn() <= 0) SpinView.open(); };
 $('#btnMute').onclick = () => { S.muted = !S.muted; if (!S.muted) Sound.msg(); RunPanel.render(); SaveGame.saveNow(); };
-StakeView.bind(); Tabs.bind(); UiSounds.bind(); Keys.bind(); HouseholdView.bind(); PowerView.bind();
+StakeView.bind(); Tabs.bind(); UiSounds.bind(); Keys.bind(); HouseholdView.bind(); PowerView.bind(); FruityView.bind();
 document.addEventListener('visibilitychange', () => { if (document.hidden) SaveGame.saveNow(); });
 addEventListener('pagehide', () => SaveGame.saveNow());
 setInterval(() => { if (document.hidden || Outside.on) return; S.run.time++; Outside.tick(); bus.emit('tick'); }, 1000); // the clock stops while you're outside
 
 (S.boards || []).forEach(o => { if (o && o.slot < boardCount()) { const b = Board.fromMemento(o); if (b) Game.slots[o.slot] = b; } });
 if (!TBY[S.sel] || !S.unlocked.includes(S.sel)) S.sel = 'penny';
-DuckRace.settle(); Scratchcards.settle(); Bingo.settle(); // a duck race, scratchcard or bingo ticket you left half-way still pays out
+DuckRace.settle(); Scratchcards.settle(); Bingo.settle(); Fruity.settle(); // a duck race, scratchcard, bingo ticket or Fruity win you left behind still pays out
 if (!S.rack || !S.rack.length || S.rackAt > S.run.time) Rack.roll();
 renderAll();
 TablesView.reveal();

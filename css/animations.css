@@ -43,5 +43,8 @@
 @keyframes ptree{from{transform:rotate(-2.5deg)}to{transform:rotate(2.5deg)}}
 @keyframes pbob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-2px) rotate(3deg)}}
 @keyframes psway{from{transform:rotate(-8deg)}to{transform:rotate(8deg)}}
+@keyframes bulb{0%{opacity:1;box-shadow:0 0 7px var(--gold)}33.3%,100%{opacity:.22;box-shadow:none}}
+@keyframes fwin{50%{background:#fff3b0}}
+@keyframes lampblink{50%{filter:brightness(.72)}}
 @keyframes chirp{0%,84%,100%{transform:none}88%{transform:rotate(-7deg) scale(1.1)}92%{transform:rotate(6deg) scale(1.1)}96%{transform:rotate(-3deg)}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}

@@ -77,10 +77,10 @@
 
 /* the booth tabs (coin flip / duck race) */
 .booth{display:flex;gap:6px;background:var(--panel-in);border-radius:12px;padding:4px;width:100%}
-.booth button{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;border:0;border-radius:9px;background:none;padding:6px 8px;cursor:pointer;
-  font-weight:700;color:var(--ink-dim);text-shadow:none}
+.booth button{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:0;border-radius:9px;background:none;
+  padding:5px 4px;cursor:pointer;font-size:.8rem;font-weight:700;color:var(--ink-dim);text-shadow:none}
 .booth button svg{width:26px;height:26px;flex:none}
-@media (max-width:440px){.booth button{flex-direction:column;gap:2px;font-size:.78rem;padding:5px 4px}.booth button svg{width:22px;height:22px}}
+@media (max-width:440px){.booth{gap:3px}.booth button{font-size:.72rem;padding:5px 2px}.booth button svg{width:22px;height:22px}}
 .booth button[aria-selected="true"]{background:var(--panel-hi);color:var(--ink);box-shadow:0 3px 0 var(--shadow);text-shadow:0 2px 0 rgba(0,0,0,.35)}
 
 /* the duck race: a pond with five lanes; each lane is also the button that backs that duck */

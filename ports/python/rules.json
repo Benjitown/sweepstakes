@@ -1142,6 +1142,172 @@
     "KITTY"
    ]
   ],
+  "odd_gull": [
+   [
+    "dave",
+    "is that a seagull? we’re nowhere near the sea"
+   ],
+   [
+    "nan",
+    "Don’t feed it love, they bite x"
+   ],
+   [
+    "tash",
+    "SEAGULL. GUARD YOUR CHIPS"
+   ],
+   [
+    "kev",
+    "that gull has a criminal record. I’ve seen the posters"
+   ],
+   [
+    "priya",
+    "it’s looking at your coins. it’s LOOKING at them"
+   ],
+   [
+    "dave",
+    "flying rat incoming"
+   ]
+  ],
+  "odd_powerdown": [
+   [
+    "dave",
+    "who didn’t top up the meter"
+   ],
+   [
+    "nan",
+    "Has the electric gone? I’ll get the candles love x"
+   ],
+   [
+    "tash",
+    "LIGHTS OUT. I can’t see my own mines"
+   ],
+   [
+    "kev",
+    "playing by the light of my phone. it’s on 4%"
+   ],
+   [
+    "priya",
+    "this is the most British thing that’s ever happened in this chat"
+   ],
+   [
+    "dave",
+    "put a quid in the meter, you tight git"
+   ],
+   [
+    "tash",
+    "who’s been running the tumble dryer"
+   ]
+  ],
+  "power_back": [
+   [
+    "dave",
+    "power’s back. we are SO back"
+   ],
+   [
+    "nan",
+    "Ooh that’s better. Blow the candles out love x"
+   ],
+   [
+    "kev",
+    "I’d just got used to the dark"
+   ],
+   [
+    "priya",
+    "emergency credit: the only credit you’ve got"
+   ],
+   [
+    "tash",
+    "about bloody time"
+   ]
+  ],
+  "power_topup": [
+   [
+    "priya",
+    "a responsible adult topped up the meter"
+   ],
+   [
+    "tash",
+    "look at you, paying bills"
+   ],
+   [
+    "dave",
+    "money well spent. probably"
+   ],
+   [
+    "nan",
+    "Good. You’ll ruin your eyes playing in the dark x"
+   ]
+  ],
+  "power_win": [
+   [
+    "tash",
+    "cashing out in the DARK. absolute cinema"
+   ],
+   [
+    "dave",
+    "danger money! DANGER MONEY!"
+   ],
+   [
+    "kev",
+    "you can’t even see the mines and you’re winning"
+   ],
+   [
+    "priya",
+    "the dark suits you"
+   ]
+  ],
+  "gull_shoo": [
+   [
+    "dave",
+    "get in. the gull’s been told"
+   ],
+   [
+    "tash",
+    "you fought a seagull and won. legend"
+   ],
+   [
+    "nan",
+    "Wave your arms at them love, works every time x"
+   ],
+   [
+    "priya",
+    "it’ll be back. with friends"
+   ],
+   [
+    "kev",
+    "the gull’s filing a complaint"
+   ]
+  ],
+  "gull_nicked": [
+   [
+    "dave",
+    "the seagull mugged you"
+   ],
+   [
+    "kev",
+    "it’s at the chippy now, spending your money"
+   ],
+   [
+    "tash",
+    "beaten by a bird. a BIRD"
+   ],
+   [
+    "priya",
+    "the gull knows your PIN now"
+   ],
+   [
+    "nan",
+    "Cheeky thing! They had your grandad’s pasty in Padstow once x"
+   ],
+   [
+    "dave",
+    "mugged off by a flying rat"
+   ],
+   [
+    "tash",
+    "robbed by a pigeon with a gym membership"
+   ]
+  ],
   "chirp_again": [
    [
     "tash",
@@ -1510,6 +1676,324 @@
    [
     "nan",
     "The answer was {answer} love. I got it straight away x"
+   ]
+  ],
+  "grass_back": [
+   [
+    "nan",
+    "There, doesn’t that feel better love? x"
+   ],
+   [
+    "priya",
+    "you went OUTSIDE? on purpose?"
+   ],
+   [
+    "kev",
+    "what’s it like out there. is it nice"
+   ],
+   [
+    "tash",
+    "touched grass. character development"
+   ],
+   [
+    "dave",
+    "the mines missed you. they said"
+   ]
+  ],
+  "grass_early": [
+   [
+    "nan",
+    "That wasn’t three minutes love x"
+   ],
+   [
+    "dave",
+    "lasted about as long as your last streak"
+   ],
+   [
+    "priya",
+    "the grass barely felt it"
+   ],
+   [
+    "tash",
+    "speedrunning fresh air"
+   ],
+   [
+    "dave",
+    "couldn’t even manage three minutes. addict"
+   ],
+   [
+    "tash",
+    "back already, you absolute goblin"
+   ]
+  ],
+  "fruity_win": [
+   [
+    "kev",
+    "told you it was due"
+   ],
+   [
+    "tash",
+    "FRUIT"
+   ],
+   [
+    "priya",
+    "the machine giveth"
+   ],
+   [
+    "nan",
+    "Ooh lovely, get yourself a lemonade love x"
+   ],
+   [
+    "dave",
+    "lemons. how fitting"
+   ],
+   [
+    "kev",
+    "it’s warming up now. I can feel it"
+   ]
+  ],
+  "fruity_big": [
+   [
+    "tash",
+    "RING RING. that’s the bells"
+   ],
+   [
+    "kev",
+    "IT WAS DUE. I SAID IT WAS DUE"
+   ],
+   [
+    "priya",
+    "statistically that was always going to happen eventually"
+   ],
+   [
+    "dave",
+    "right, your round then"
+   ],
+   [
+    "nan",
+    "Well I never! Put some of that away for a rainy day love x"
+   ]
+  ],
+  "fruity_jackpot": [
+   [
+    "tash",
+    "THREE SEVENS. I AM SCREAMING"
+   ],
+   [
+    "kev",
+    "I put forty quid in that machine last week and you walk up and do THAT"
+   ],
+   [
+    "nan",
+    "Jackpot! Don’t tell your grandad x"
+   ],
+   [
+    "dave",
+    "the booth’s going to need a new float"
+   ],
+   [
+    "priya",
+    "I’m framing a screenshot of this"
+   ]
+  ],
+  "fruity_nudge": [
+   [
+    "kev",
+    "nudge nudge"
+   ],
+   [
+    "tash",
+    "the nudge of a lifetime"
+   ],
+   [
+    "priya",
+    "surgical"
+   ],
+   [
+    "dave",
+    "even a stopped clock nudges right twice a day"
+   ]
+  ],
+  "fruity_hold": [
+   [
+    "kev",
+    "HOLD THEM. HOLD THEM BOTH"
+   ],
+   [
+    "tash",
+    "hold everything. hold my drink"
+   ],
+   [
+    "nan",
+    "Hold the nice ones love x"
+   ]
+  ],
+  "fruity_dry": [
+   [
+    "kev",
+    "it’s due mate. it’s got to be due"
+   ],
+   [
+    "priya",
+    "kev it doesn’t remember what it did last time"
+   ],
+   [
+    "nan",
+    "Those machines are a mug’s game love x"
+   ],
+   [
+    "dave",
+    "feed it another one, it looks hungry"
+   ],
+   [
+    "kev",
+    "the trick is you have to talk to it"
+   ],
+   [
+    "dave",
+    "you’re feeding a fruit machine. in a booth. on your own"
+   ],
+   [
+    "tash",
+    "absolute mug behaviour"
+   ]
+  ],
+  "fruity_double": [
+   [
+    "tash",
+    "DOUBLE"
+   ],
+   [
+    "kev",
+    "let it ride"
+   ],
+   [
+    "priya",
+    "every gamble’s a coin flip. you know that right"
+   ],
+   [
+    "dave",
+    "go again. coward if you don’t"
+   ]
+  ],
+  "fruity_gone": [
+   [
+    "dave",
+    "and it’s gone"
+   ],
+   [
+    "priya",
+    "that’s why it’s called gambling"
+   ],
+   [
+    "nan",
+    "Oh love x"
+   ],
+   [
+    "kev",
+    "unlucky. it was due though"
+   ],
+   [
+    "dave",
+    "greedy. absolute mug"
+   ],
+   [
+    "tash",
+    "gambled it away like a muppet"
+   ]
+  ],
+  "bingo_buy": [
+   [
+    "nan",
+    "Eyes down love! I’ll call them nice and slow x"
+   ],
+   [
+    "dave",
+    "bingo? what are you, 80?"
+   ],
+   [
+    "kev",
+    "got my lucky dabber"
+   ],
+   [
+    "priya",
+    "bingo is just minesweeper for nans"
+   ]
+  ],
+  "bingo_line": [
+   [
+    "nan",
+    "A line! Well done love x"
+   ],
+   [
+    "tash",
+    "LINE! somebody check it"
+   ],
+   [
+    "dave",
+    "a line. adorable"
+   ],
+   [
+    "kev",
+    "I was sweating on 47 the whole time"
+   ]
+  ],
+  "bingo_two": [
+   [
+    "nan",
+    "Two lines! I nearly dropped my sherry x"
+   ],
+   [
+    "tash",
+    "TWO LINES. the hall is in uproar"
+   ],
+   [
+    "priya",
+    "the regulars are glaring at you"
+   ]
+  ],
+  "bingo_house": [
+   [
+    "nan",
+    "HOUSE!!! You’ve won the big one love!! x"
+   ],
+   [
+    "dave",
+    "FULL HOUSE?? I’m coming to bingo next week"
+   ],
+   [
+    "tash",
+    "the whole community centre just booed you. iconic"
+   ],
+   [
+    "kev",
+    "I’ve played bingo for 11 years and never had a house"
+   ]
+  ],
+  "bingo_lose": [
+   [
+    "nan",
+    "Never mind love, there’s always next week x"
+   ],
+   [
+    "dave",
+    "not even a line. the nans are laughing at you"
+   ],
+   [
+    "kev",
+    "I needed 23 for the whole game"
+   ],
+   [
+    "priya",
+    "bingo’s rigged. ask any nan"
+   ],
+   [
+    "dave",
+    "beaten at bingo by a load of pensioners. pathetic"
+   ],
+   [
+    "tash",
+    "not a sodding line"
    ]
   ],
   "duck_start": [

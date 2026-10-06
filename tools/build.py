@@ -40,6 +40,8 @@ def bundle(entry):
             fail(f'missing module {path.relative_to(ROOT)}')
         text = path.read_text(encoding='utf-8')
         for m in IMPORT.finditer(text):
+            if m.group(1) and re.search(r'\bas\b', m.group(1)):
+                fail(f'{path.relative_to(ROOT)}: "import {{ x as y }}" is not supported by this bundler; import the name as it is')
             visit((path.parent / m.group(3)).resolve())
         state[path] = 'done'
         order.append((path, text))
