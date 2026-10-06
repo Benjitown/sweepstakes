@@ -77,7 +77,7 @@ async def run(browser, url, shots):
     c0 = await pg.evaluate('__sw.S.coins')
     profit = await pg.evaluate(WIN)
     tin = await pg.evaluate('__sw.S.life.tin')
-    want = max(1, int(profit * .03 + .5)) if profit and profit > 0 else 0
+    want = min(2500, max(1, int(profit * .03 + .5))) if profit and profit > 0 else 0  # (a big win can fill it in one go)
     ok(profit and profit > 0 and tin == want, f'a board cashes out +{profit}: Nan puts {tin} in the biscuit tin (3%)')
     ok(await pg.evaluate('__sw.S.coins') == c0 + profit, 'and none of it comes out of your winnings')
     await pg.wait_for_timeout(3000)
@@ -89,7 +89,7 @@ async def run(browser, url, shots):
     ok(await pg.evaluate('__sw.S.life.tin') == tin, 'a board that blows up adds nothing')
     # it fills up to two and a half times the starting coins, and then she sits on the lid
     cap = await pg.evaluate('__sw.Tin.cap()')
-    await pg.evaluate('__sw.Tin.put(1e9)'); await pg.wait_for_timeout(3000)
+    await pg.evaluate('(() => { __sw.S.life.tin = 0; __sw.Tin.put(1e9); })()'); await pg.wait_for_timeout(3000)
     more = await pg.evaluate('__sw.Tin.put(1e6)')
     lid = await pg.evaluate("[...document.querySelectorAll('#chat .msg')].some(m => /sit on the lid/.test(m.textContent))")
     ok(cap == 2500 and await pg.evaluate('__sw.S.life.tin') == cap and more == 0 and lid, f'the tin holds {cap:,} at most, and Nan says it’s full')

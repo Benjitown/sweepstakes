@@ -325,7 +325,7 @@ bus.on('bingo', ({ lines, prize }) => {
 
 /* ---------- Nan's biscuit tin: a little put by on every winning cash-out, handed over when you go bust ---------- */
 bus.on('board:cashout', ({ profit }) => Tin.put(profit));
-bus.on('tin', ({ was, full }) => { if (!was || full) setTimeout(() => Chat.say(was ? 'tin_full' : 'tin_first', {}, 1), 1600); });
+bus.on('tin', ({ was, full }) => { if (!was || full) setTimeout(() => Chat.say(full ? 'tin_full' : 'tin_first', {}, 1), 1600); });
 
 /* ---------- dares from the group chat: a friend bets you can't do something in time ---------- */
 bus.on('dare:due', () => { if (pref('dares') && !document.hidden && UI.modalClosed() && !Coach.active && !Outside.on && Dares.canOffer()) Dares.make(); });
