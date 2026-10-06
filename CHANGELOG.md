@@ -19,12 +19,12 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **Nan's bingo,** a fourth tab in the Flip Booth (or press B). Buy one of three 90-ball tickets and Nan calls 60 balls,
   with the old calls ("two little ducks, 22", and the ducks quack). Your ticket dabs itself; a line pays ×1.5, two lines
   ×5 and a full house ×250 (about 1 in 860), so it pays back about 91%. Nan reads the calls out with your browser's own
-  voice (switch it off in Stats), "Hurry up, Nan" skips to the end, and like the ducks and scratchcards the result is
+  voice (switch it off in Stats), "Faster please, Nan" skips to the end, and like the ducks and scratchcards the result is
   settled the moment you buy, so leaving mid-game still pays. Now and then she invites the group chat. New
   achievements: Eyes Down and Full House. The booth's tabs now have short names (Flip, Ducks, Scratch, Bingo).
 - **Go outside.** A button in Stats (or press G) takes you to a little park for three minutes: birds, a breeze, the
   duck from the pond. The whole game waits while you're out (the clock, the bots, the house), and staying out the
-  whole time pays a fresh air bonus. Come back early and you get nothing but a look from Nan. After an hour of play in
+  whole time pays a fresh air bonus. Come back early and there's no bonus, but Nan's glad you went. After an hour of play in
   one go, she suggests it herself. New achievement: Touched Grass.
 - **The Fruity,** a fruit machine in the corner of the Flip Booth (its fifth tab, or press P). Three reels, one win
   line: three of a kind pays from ×6 (lemons) to ×250 (sevens), and two cherries on the left pay ×2. A go that loses
@@ -57,6 +57,13 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **Biscuit, next door's dog.** If you hear barking, he trots in along the bottom of the screen and waits ("Woof?").
   Give him a biscuit (3% of the top table's max stake) and he sniffs out a mine on your board and sits on it: flagged,
   glowing orange for a moment. Ignore him and he wanders off. New achievement: Good Boy.
+- **Nan is always lovely.** Every one of her lines is warm and signs off with a kiss, she's out of the rude chat, and
+  nobody in the group chat has a go at her any more (the old digs at her, and at Grandad, are gone). When you lose she's
+  there with a kind word, and when you win she's told the whole street.
+- **Nan's biscuit tin.** Every time a board cashes out in profit, Nan puts a little of her own money by for you (3% of
+  the profit, never out of your winnings, up to 2,500). Go bust and she brings the tin round: the fresh run starts
+  with what's in it. Starting a fresh run yourself doesn't count. Stats shows what's in the tin. New achievement:
+  Rainy Day.
 - The Flip Booth's five tabs now show their icon above the name at every screen size.
 - `tools/build.py` now stops with a clear message on `import { x as y }`, which the bundler can't do.
 

@@ -127,7 +127,7 @@ async def run(browser, url, shots):
     await pg.click('#bingoFast'); await pg.wait_for_timeout(2000)
     daubed = await pg.evaluate("[...document.querySelectorAll('#modalBox .bn.daub')].map(e => +e.dataset.n).sort((a, b) => a - b).join()")
     want = await pg.evaluate("(() => { const g = __sw.BingoView.st.g; return g.ticket.flat().filter(n => n && g.calls.includes(n)).sort((a, b) => a - b).join(); })()")
-    ok(daubed == want and await pg.evaluate("__sw.BingoView.st.done"), f'“Hurry up, Nan” rattles through the rest; exactly the called numbers get dabbed ({len(want.split(",")) if want else 0})')
+    ok(daubed == want and await pg.evaluate("__sw.BingoView.st.done"), f'“Faster please, Nan” rattles through the rest; exactly the called numbers get dabbed ({len(want.split(",")) if want else 0})')
     ok(await pg.evaluate('__sw.S.coins') == c0 - 100 + g['prize'] and not await pg.evaluate('__sw.S.bingoOwed'), f"the result pays what it said it would (+{g['prize']:,})")
     # a fixed full house: the ticket's numbers come up early
     await pg.evaluate("(() => { delete __sw.S.life.ach.house; delete __sw.S.life.ach.bingo; })()")

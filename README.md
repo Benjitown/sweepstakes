@@ -55,7 +55,7 @@ src/
   game/             the rules (game.js), commands, bots, rack, rank, double or nothing, daily, achievements,
                     household (the door, the phone, the kitten, the seagull, the smoke detector, the ice cream van,
                     Biscuit the dog), the Banker, power cuts, storms, the duck race, scratchcards, Nan's bingo,
-                    the Fruity (fruit machine), the pub quiz, going outside, KEVCOIN, Nan's stars
+                    the Fruity (fruit machine), the pub quiz, going outside, KEVCOIN, Nan's stars, Nan's biscuit tin
   ui/               one file per view: panels, boards, shop, modals, tutorial, daily, keys, coin graph, household, ducks...
 assets/             fonts (+ OFL licence) and the favicon
 tools/              build.py, serve.py, vc.py (version control), export_rules.mjs, sim/ (economy, Fruity and KEVCOIN simulators)
@@ -94,6 +94,9 @@ The suites run against both the ES-module source and the built file:
   power, Lightning Reflexes) and KEVCOIN (the launch, trading with Kev's cut, the cap, a pump, the rug pull and the
   relaunch, and a seeded check that holding it loses money), the ice cream van (a cone, the sugar rush) and Nan's
   stars (the daily reading, the lucky number), the Banker (deal, no deal, beating his offer) and Biscuit the dog
+- **nan:** Nan is always kind (every line of hers signs off with a kiss, she's never in the rude chat, she never swears
+  and nobody has a go at her) and her biscuit tin (filling it, the cap, handing it over when you go bust, keeping it
+  when you start a fresh run yourself)
 - **layout:** desktop, tablet and phone sizes with no sideways scrolling
 
 Screenshots go to `test/screenshots/`.

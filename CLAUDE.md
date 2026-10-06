@@ -37,3 +37,6 @@ feature/<name> ──> experimental ──> dev ──> main
   `S.<game>Owed` amount until they're shown, so leaving half-way still pays (each has a `settle()` that main.js calls).
   The Fruity's payback comes from `node tools/sim/fruity.mjs`; re-run it after touching `src/data/fruity.js`.
 - The rude chat lines live in the `RUDE` / `RUDE_THREADS` / `RUDE_QUIPS` lists, which the "Rude chat" switch turns off.
+- **Nan is always loving and kind.** Every line of hers is warm and ends with " x"; she's never in the rude lists, never
+  swears, and nobody (chat, quips, blurbs, quiz) makes fun of her or Grandad. No jokes about age, illness or death
+  around her. `test/nan.py` checks this; keep it that way in anything new.

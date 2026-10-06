@@ -64,7 +64,7 @@ export const OutsideView = {
   // back in: the whole break pays the bonus (and the window waits for you); early, you're straight back at the table
   done({ full, coins, secs }) {
     clearInterval(this.tick); clearTimeout(this.amb);
-    if (!full) { UI.closeModal(); UI.toast(secs < 60 ? `Out for ${secs} seconds. Nan says that doesn’t count.` : `Out for ${clock(secs)}. Better than nothing.`); return; }
+    if (!full) { UI.closeModal(); UI.toast(secs < 60 ? `Out for ${secs} seconds. Nan says every little helps, love.` : `Out for ${clock(secs)}. Better than nothing.`); return; }
     UI.modalLocked = false;
     UI.modal(`<h3 class="green">That’s better</h3><div class="parkbox">${PARK}</div>
       <p>Three whole minutes of fresh air. The boards are right where you left them.</p>

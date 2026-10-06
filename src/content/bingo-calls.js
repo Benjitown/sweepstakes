@@ -17,6 +17,6 @@ export const BINGO_SWEAT = ['Sweating on {n}!', 'One to go: {n}!', 'Come on {n}�
 export const BINGO_END = {
   0: ['Not tonight, love. There’s always next week.', 'Nothing doing. Have a biscuit.', 'Not a sausage. Same again?'],
   1: ['A line! Lovely.', 'One line, well done love.', 'A line! Treat yourself to a sherry.'],
-  2: ['TWO LINES! Ooh, you’re on fire.', 'Two lines! I need a sit down.'],
-  3: ['HOUSE!!! FULL HOUSE!', 'HOUSE! Somebody fetch me my tablets!'],
+  2: ['TWO LINES! Ooh, you’re on fire.', 'Two lines! Look at you go, love!'],
+  3: ['HOUSE!!! FULL HOUSE!', 'HOUSE! Oh love, I’m so proud of you!'],
 };

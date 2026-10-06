@@ -26,7 +26,7 @@ import { Keys } from './ui/keys.js';
 import { CoinChart } from './ui/coin-chart.js';
 import { seeded, hashString } from './core/random.js';
 import { Household, DOOR, GULL } from './game/household.js';
-import { LINES, RUDE } from './content/chat-lines.js';
+import { LINES, RUDE, SURE } from './content/chat-lines.js';
 import { HouseholdView } from './ui/household-view.js';
 import { DuckRace } from './game/duck-race.js';
 import { DuckRaceView } from './ui/duck-race-view.js';
@@ -58,6 +58,11 @@ import { FruityView } from './ui/fruity-view.js';
 import { FRUITY_REELS, FRUITY_PAYS, FRUITY_STAKES, FRUITY_FEATURES } from './data/fruity.js';
 import { PowerView } from './ui/power-view.js';
 import { SCRATCH_CARDS, SCRATCH_PRIZES } from './data/scratchcards.js';
+import { Tin } from './game/biscuit-tin.js';
+import { TIN } from './data/biscuit-tin.js';
+import { THREADS, RUDE_THREADS } from './content/chat-threads.js';
+import { QUIPS, RUDE_QUIPS } from './content/quips.js';
+import { BINGO_END } from './content/bingo-calls.js';
 
 export function exposeForTests() {
   // no random knocks at the door mid-test (they'd pop up over what the tests click); the tests start them by hand
@@ -73,6 +78,7 @@ export function exposeForTests() {
     Daily, Achievements, ACHIEVEMENTS, DailyView, Keys, CoinChart, seeded, hashString, Household, HouseholdView, DuckRace, DuckRaceView, DOOR, GULL, LINES, RUDE,
     Scratchcards, ScratchView, SCRATCH_CARDS, SCRATCH_PRIZES, Quiz, QUIZ, PowerCut, PowerView, Storm, StormView, Kev, KevView, KEV, IceCream, VanView, Stars, StarsView, Banker, Dog, DogView, Bingo, BingoView, makeTicket, Outside, OutsideView, BINGO_TICKETS, BINGO_PAYS, BINGO_CALLS,
     Fruity, FruityRules, FruityView, FRUITY_REELS, FRUITY_PAYS, FRUITY_STAKES, FRUITY_FEATURES,
+    Tin, TIN, THREADS, RUDE_THREADS, QUIPS, RUDE_QUIPS, SURE, BINGO_END,
     get slots() { return Game.slots; },
   };
 }

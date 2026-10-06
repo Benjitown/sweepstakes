@@ -70,7 +70,7 @@ export const BingoView = {
         <div class="bgrid">${g.ticket.map((row, r) => row.map(n => n ? `<span class="bn" data-n="${n}" data-r="${r}">${n}</span>` : '<span class="bx"></span>').join('')).join('')}</div>
         <p class="bsweat" id="bSweat" aria-live="polite"></p></div>
       <div class="duckres" id="bingoRes" aria-live="polite"><span>Line ×${BINGO_PAYS[1]} · two lines ×${BINGO_PAYS[2]} · full house ×${BINGO_PAYS[3]}</span></div>
-      <div class="row"><button class="btn gold" type="button" id="bingoFast">Hurry up, Nan</button>
+      <div class="row"><button class="btn gold" type="button" id="bingoFast">Faster please, Nan</button>
         <button class="btn ghost" type="button" id="bingoShelf" hidden>Back to the shelf</button><button class="btn ghost" type="button" data-a="close" disabled>Leave</button></div>`,
       { close: () => UI.closeModal() }, true);
     $$('.booth button', UI.el.box).forEach(b => { b.disabled = true; });
