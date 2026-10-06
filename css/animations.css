@@ -46,5 +46,10 @@
 @keyframes bulb{0%{opacity:1;box-shadow:0 0 7px var(--gold)}33.3%,100%{opacity:.22;box-shadow:none}}
 @keyframes fwin{50%{background:#fff3b0}}
 @keyframes lampblink{50%{filter:brightness(.72)}}
+@keyframes rainfall{to{transform:translateY(120px)}}
+@keyframes rainfar{to{transform:translateY(180px)}}
+@keyframes stormclear{to{opacity:0}}
+@keyframes lightning{0%{opacity:0}8%{opacity:.34}22%{opacity:.06}32%{opacity:.24}100%{opacity:0}}
+@keyframes strike{0%{opacity:0}6%{opacity:.6}20%{opacity:.12}30%{opacity:.45}100%{opacity:0}}
 @keyframes chirp{0%,84%,100%{transform:none}88%{transform:rotate(-7deg) scale(1.1)}92%{transform:rotate(6deg) scale(1.1)}96%{transform:rotate(-3deg)}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
