@@ -47,7 +47,7 @@ async def run(browser, url, shots):
     await pg.evaluate(SING); await pg.wait_for_timeout(400)
     st = await pg.evaluate(f"({{ coins: __sw.S.coins, msg: document.getElementById('kMsg').textContent, life: __sw.S.life.karaoke, held: __sw.Music.holds.has('karaoke'), toasts: {TOASTS}, banner: document.getElementById('banner').textContent }})")
     ok(st['coins'] == c0 + 2 * fee and 'Standing ovation' in st['msg'] and '100%' in st['msg'], f'every note sung: a standing ovation, three times the fee back ({st["msg"]})')
-    ok(st['life']['ovations'] == 1 and st['life']['best'] == 100 and not st['held'] and 'STANDING OVATION' in st['banner'], 'Stats remember it, and the jukebox picks up again')
+    ok(st['life']['ovations'] == 1 and st['life']['best'] == 100 and not st['held'] and 'Standing ovation!' in st['toasts'], 'Stats remember it, and the jukebox picks up again')
     await pg.wait_for_timeout(2600)
     said = await pg.evaluate("[...document.querySelectorAll('#chat .msg')].slice(-3).map(m => m.textContent).join(' | ')")
     lines = await pg.evaluate("__sw.LINES.karaoke_great.map(l => l[1])")

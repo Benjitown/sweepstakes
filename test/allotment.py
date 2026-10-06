@@ -55,8 +55,8 @@ async def run(browser, url, shots):
     await pg.evaluate(RIPEN + "(0)")
     e2 = await pg.evaluate('__sw.S.life.plot.earned')
     await pg.click('#plot .bed.ripe'); await pg.wait_for_timeout(300)
-    st = await pg.evaluate(f"({{ pay: __sw.S.life.plot.earned - {e2}, rosettes: __sw.S.life.plot.rosettes, banner: document.getElementById('banner').textContent }})")
-    ok(st['pay'] == round(paid * 2.1 * .85 * 2) and st['rosettes'] == 1 and 'WHOPPER' in st['banner'], f'a whopper pays double ({st["pay"]}) and wins a rosette at the village show')
+    st = await pg.evaluate(f"({{ pay: __sw.S.life.plot.earned - {e2}, rosettes: __sw.S.life.plot.rosettes, toasts: {TOASTS} }})")
+    ok(st['pay'] == round(paid * 2.1 * .85 * 2) and st['rosettes'] == 1 and 'A whopper!' in st['toasts'], f'a whopper pays double ({st["pay"]}) and wins a rosette at the village show')
     ok(await pg.evaluate("__sw.Achievements.has('whopper')"), 'achievement: Best in Show')
 
     # --- slugs: only on growing crops
