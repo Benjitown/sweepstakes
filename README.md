@@ -53,7 +53,7 @@ src/
   audio/            Web Audio engine, game sounds, weird household noises
   board/            the board model, solver, factories, mine chain, payout decorators (+ New Game+ house edge)
   game/             the rules (game.js), commands, bots, rack, rank, double or nothing, daily, achievements,
-                    household (the door, the phone, the kitten, the seagull, the smoke detector), power cuts,
+                    household (the door, the phone, the kitten, the seagull, the smoke detector), power cuts, storms,
                     the duck race, scratchcards, Nan's bingo, the Fruity (fruit machine), the pub quiz, going outside
   ui/               one file per view: panels, boards, shop, modals, tutorial, daily, keys, coin graph, household, ducks...
 assets/             fonts (+ OFL licence) and the favicon
@@ -89,6 +89,8 @@ The suites run against both the ES-module source and the built file:
   back early, the fresh air bonus, Nan's nudge)
 - **fruity:** the fruit machine: what it pays back (worked out exactly), wins and the meter, nudges, holds, the gamble,
   the jackpot, the stakes, and leaving with a win in the meter
+- **wildcards:** the newest experimental bits: thunderstorms (lightning that shows the mines, a strike that cuts the
+  power, Lightning Reflexes)
 - **layout:** desktop, tablet and phone sizes with no sideways scrolling
 
 Screenshots go to `test/screenshots/`.

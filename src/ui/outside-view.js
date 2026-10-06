@@ -9,6 +9,7 @@ import { Outside } from '../game/outside.js';
 import { UI } from './ui.js';
 import { Chat } from './chat.js';
 import { Coach } from './tutorial.js';
+import { Storm } from '../game/storm.js';
 
 const BLADES = Array.from({ length: 27 }, (_, k) => `<path class="pblade" style="--d:-${(k * .37 % 2).toFixed(2)}s" d="M${6 + k * 13.3} 200 q3 -10 ${k % 2 ? 2 : -2} -${15 + k * 7 % 10}"/>`).join('');
 // the park: sky, sun, clouds and birds drifting by, two hills, a tree, a bench, the pond and its duck (css/booth.css moves them)
@@ -39,6 +40,7 @@ export const OutsideView = {
   // go outside (from Stats, the G key, or Nan's nudge); only from the table, not from another window
   open() {
     if (!UI.modalClosed() || Coach.active) return false;
+    if (Storm.on) { UI.toast('It’s chucking it down out there. Wait for the storm to pass.'); return false; }
     return Outside.go(); // wiring.js shows the park on the 'outside' event
   },
   show() {

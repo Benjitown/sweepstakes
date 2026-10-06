@@ -54,6 +54,7 @@ export const ACHIEVEMENTS = [
   { id: 'raffle',   tier: 2, icon: 'door',      name: 'Fixed the Roof',      desc: 'Win the school raffle.' },
   { id: 'gull',     tier: 1, icon: 'gull',      name: 'Not My Chips',        desc: 'Shoo a seagull off your coins.' },
   { id: 'dark',     tier: 2, icon: 'bulb',      name: 'Danger Money',        desc: 'Cash out a board in a power cut.' },
+  { id: 'storm',    tier: 2, icon: 'bolt',      name: 'Lightning Reflexes',  desc: 'Flag a mine within two seconds of a lightning flash.' },
   { id: 'scratch',  tier: 2, icon: 'ticket',    name: 'Scratch That Itch',   desc: 'Win ×20 or more on a scratchcard.' },
   { id: 'quiz',     tier: 2, icon: 'brain',     name: 'Know-It-All',         desc: 'Get 10 pub quiz questions right.' },
   { id: 'grass',    tier: 1, icon: 'clover',    name: 'Touched Grass',       desc: 'Stay outside for a whole break.' },

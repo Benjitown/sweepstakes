@@ -3,6 +3,7 @@ import { ACHIEVEMENTS, ACH_BY, ACH_REWARD } from '../data/achievements.js';
 import { bus } from '../core/bus.js';
 import { SaveGame, S, baseCap, boardCount, asc } from '../core/state.js';
 import { Rank } from './rank.js';
+import { Storm } from './storm.js';
 
 export const Achievements = {
   has(id) { return !!(S.life.ach && S.life.ach[id]); },
@@ -68,6 +69,7 @@ export const Achievements = {
     bus.on('daily:done', ({ streak, top }) => { u('daily'); if (streak >= 7) u('daily7'); if (top) u('dailytop'); });
     bus.on('tutorial:done', ({ completed }) => { if (completed) u('nan'); });
     bus.on('addon:fired', ({ id }) => { if (id === 'dark') u('dark'); });
+    bus.on('flag', ({ b, i, on: isOn, src }) => { if (isOn && src === 'you' && b.mine[i] && Storm.recent()) u('storm'); });
     bus.on('duck', ({ win, pay }) => { if (win) { u('duck'); if (pay >= 8) u('longshot'); } });
     bus.on('scratch', ({ win, x }) => { if (win && x >= 20) u('scratch'); });
     bus.on('outside', ({ on: isOn, full }) => { if (!isOn && full) u('grass'); });

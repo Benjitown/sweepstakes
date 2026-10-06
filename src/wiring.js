@@ -44,6 +44,8 @@ import { QuizView } from './ui/quiz-view.js';
 import { AudioEngine } from './audio/engine.js';
 import { PowerCut } from './game/power-cut.js';
 import { PowerView } from './ui/power-view.js';
+import { Storm } from './game/storm.js';
+import { StormView } from './ui/storm-view.js';
 
 const RED = 'var(--red)', GOLD = 'var(--gold)', GREEN = 'var(--green)', PURPLE = 'var(--purple)';
 export function renderAll(keepModal) {
@@ -181,8 +183,9 @@ const startsEvent = k => Household.EVENTS[k];
 const canStart = k => {
   const e = startsEvent(k); if (!e) return true;
   if (e === 'battery') return !WeirdNoises.chirping;
-  // the meter only runs out mid-game: a power cut with nothing on the tables is just a dark room
+  // the meter only runs out mid-game: a power cut with nothing on the tables is just a dark room (and a storm's no use either)
   if (e === 'powercut') return HouseholdView.free() && !PowerCut.on && Game.slots.some(b => b && b.started && !b.over);
+  if (e === 'storm') return HouseholdView.free() && Game.slots.some(b => b && b.started && !b.over);
   return HouseholdView.free();
 };
 bus.on('noise:due', () => { if (!Outside.on) WeirdNoises.surprise(WeirdNoises.pick(canStart)); }); // the house is quiet while you're out
@@ -213,6 +216,18 @@ bus.on('power', ({ on: isOn, why }) => {
   setTimeout(() => Chat.say(why === 'topup' ? 'power_topup' : 'power_back', {}, .8), 700);
 });
 bus.on('addon:fired', ({ id }) => { if (id === 'dark') Chat.say('power_win', {}, .5); });
+/* ---------- thunderstorms: each flash shows the mines; one strike in three storms takes the power out ---------- */
+bus.on('storm', e => {
+  if (e.on) { StormView.on(); setTimeout(() => Chat.say('storm_start', {}, .9), 2500); return; }
+  StormView.off(); UI.toast('The storm’s passed.'); setTimeout(() => Chat.say('storm_end', {}, .5), 800);
+});
+bus.on('storm:flash', e => {
+  StormView.flash(e);
+  if (e.strike) {
+    Haptics.buzz([60, 40, 120]); Chat.say('storm_strike', {}, 1);
+    if (!PowerCut.on && Game.slots.some(b => b && b.started && !b.over)) setTimeout(() => HouseholdView.powerCut(), 350);
+  } else if (Math.random() < .15) Chat.say('storm_flash', {}, 1);
+});
 /* ---------- the Flip Booth: coin flip, duck race, scratchcards, bingo, the Fruity ---------- */
 bus.on('booth', k => { FruityView.away(); ({ ducks: DuckRaceView, scratch: ScratchView, bingo: BingoView, fruity: FruityView }[k] || FlipView).open(); });
 bus.on('duck:start', () => Chat.say('duck_start'));

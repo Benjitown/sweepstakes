@@ -32,6 +32,10 @@ Each version is also a save in the built-in version control. Run `python tools/v
   go; the machine picks the best ones for you). Wins wait in the meter: collect them, or gamble them double or
   nothing, up to three times. It pays back about 88% (93% if you learn the reel bands by heart, so the house still
   wins); `node tools/sim/fruity.mjs` works it out. New achievements: Nudge Nudge, Let It Ride and Triple Seven.
+- **Thunderstorms.** Now and then distant thunder rolls in a storm: rain down the window and a darker room for a
+  couple of minutes. Every flash of lightning lights up every hidden mine on your boards for a split second, so
+  remember where they were. One storm in three, a strike lands right overhead and takes the power out. Nobody goes
+  outside in that. New achievement: Lightning Reflexes (flag a mine within two seconds of a flash).
 - The Flip Booth's five tabs now show their icon above the name at every screen size.
 - `tools/build.py` now stops with a clear message on `import { x as y }`, which the bundler can't do.
 

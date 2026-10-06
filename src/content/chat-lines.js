@@ -111,6 +111,13 @@ export const LINES = {
     ['tash', 'touched grass. character development'], ['dave', 'the mines missed you. they said']],
   grass_early:   [['nan', 'That wasn’t three minutes love x'], ['dave', 'lasted about as long as your last streak'], ['priya', 'the grass barely felt it'],
     ['tash', 'speedrunning fresh air']],
+  // thunderstorms
+  odd_thunder:   [['nan', 'Was that thunder? I’ve got washing out x'], ['kev', 'the dog’s gone under the bed. storm’s coming'], ['priya', 'that was thunder. the sky is about to get involved']],
+  storm_start:   [['nan', 'Unplug the telly love, there’s a storm x'], ['tash', 'the weather’s gone biblical'], ['kev', 'count between the flash and the bang. that’s how many miles. I think'],
+    ['priya', 'watch the boards when it flashes. you can see the mines. science'], ['dave', 'perfect weather for losing money indoors']],
+  storm_flash:   [['tash', 'DID YOU SEE THAT'], ['kev', 'one Mississippi… two Mississippi…'], ['priya', 'did you get them? the mines? tell me you got them'], ['nan', 'Ooh that was a big one x']],
+  storm_strike:  [['tash', 'THAT WAS RIGHT ON TOP OF US'], ['kev', 'it hit the substation. I heard it'], ['nan', 'Oh my days, the lights! x'], ['priya', 'zero Mississippi. that’s not great']],
+  storm_end:     [['nan', 'That’s blown over now love x'], ['kev', 'sun’s out. there’s a rainbow over the bins'], ['tash', 'storm’s gone. the drama isn’t'], ['priya', 'and just like that, the mines are invisible again']],
   // the Fruity
   fruity_win:    [['kev', 'told you it was due'], ['tash', 'FRUIT'], ['priya', 'the machine giveth'], ['nan', 'Ooh lovely, get yourself a lemonade love x'],
     ['dave', 'lemons. how fitting'], ['kev', 'it’s warming up now. I can feel it']],
@@ -167,6 +174,7 @@ export const RUDE = {
   grass_early: [['dave', 'couldn’t even manage three minutes. addict'], ['tash', 'back already, you absolute goblin']],
   bingo_lose: [['dave', 'beaten at bingo by a load of pensioners. pathetic'], ['tash', 'not a sodding line']],
   fruity_dry: [['dave', 'you’re feeding a fruit machine. in a booth. on your own'], ['tash', 'absolute mug behaviour']],
+  storm_start: [['dave', 'the sky’s trying to smite your stake'], ['tash', 'it’s absolutely chucking it down, the gutters are crying']],
   fruity_gone: [['dave', 'greedy. absolute mug'], ['tash', 'gambled it away like a muppet']],
   odd_powerdown: [['dave', 'put a quid in the meter, you tight git'], ['tash', 'who’s been running the tumble dryer']],
   power_back: [['tash', 'about bloody time']],
