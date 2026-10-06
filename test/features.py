@@ -76,7 +76,7 @@ async def run(browser, url, shots):
     ok(got >= 1 and await pg.evaluate("document.querySelectorAll('#stats .ach').length") == total, f'Stats shows all {total} badges, {got} earned')
     await pg.click('#stats .ach.got'); await pg.wait_for_timeout(100)
     ok('Pocket Money' in await pg.text_content('#achCap') or got > 1, 'tapping a badge explains it')
-    ok(await pg.evaluate("!!document.querySelector('#tg-vibe')") and 'v4.3' in await pg.text_content('#stats .ver'), 'Stats has the vibration switch and the version line')
+    ok(await pg.evaluate("!!document.querySelector('#tg-vibe')") and ('v' + await pg.evaluate('__sw.VERSION')) in await pg.text_content('#stats .ver'), 'Stats has the vibration switch and the version line')
 
     # --- coin graph
     await pg.evaluate("(() => { const S = __sw.S; for (let k = 1; k <= 6; k++) { S.run.time += 10; S.coins = 1000 * 3 ** k; __sw.CoinChart.sample(); } __sw.renderAll(); })()")
