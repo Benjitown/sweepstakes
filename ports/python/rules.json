@@ -2174,6 +2174,26 @@
     "Ooh lovely! Mind Biscuit, he hates the bangs x"
    ]
   ],
+  "darts_nan_won": [
+   [
+    "nan",
+    "Ooh, you beat Dave! Clever thing x"
+   ],
+   [
+    "nan",
+    "That’s my champion x"
+   ]
+  ],
+  "darts_nan_lost": [
+   [
+    "nan",
+    "Never mind love, Dave practises every night x"
+   ],
+   [
+    "nan",
+    "You threw lovely love x"
+   ]
+  ],
   "boot_open": [
    [
     "dave",

@@ -59,6 +59,8 @@ import { DareView } from './ui/dare-view.js';
 import { Seasons } from './game/seasons.js';
 import { ClawView } from './ui/claw-view.js';
 import { CarBoot } from './game/car-boot.js';
+import { Darts } from './game/darts.js';
+import { DartsView } from './ui/darts-view.js';
 import { CarBootView } from './ui/car-boot-view.js';
 import { SeasonView } from './ui/season-view.js';
 import { PUMPKIN } from './data/seasons.js';
@@ -354,6 +356,12 @@ bus.on('trick', () => {
 });
 bus.on('household', ({ o }) => { if (o.fx === 'xmas') setTimeout(() => Chat.say('xmas_card', {}, .8), 1400); });
 bus.on('board:cashout', ({ mult }) => { if (mult >= 5 && Seasons.is('bonfire')) { SeasonView.fireworks(mult >= 50 ? 5 : mult >= 15 ? 3 : 2); setTimeout(() => Chat.say('fireworks', {}, .5), 1600); } });
+
+/* ---------- darts at the Red Lion: Dave challenges you (the dares switch covers it) ---------- */
+bus.on('darts:due', () => { if (pref('dares') && !document.hidden && UI.modalClosed() && !Coach.active && !Outside.on && Darts.canOffer()) Darts.make(); });
+bus.on('darts:offer', o => DartsView.offer(o));
+bus.on('darts:declined', o => DartsView.declined(o));
+bus.on('darts:done', m => { DartsView.done(m); RunPanel.render(); Rank.award(m.result === 'won' ? 6 : 2); });
 
 /* ---------- the car boot sale ---------- */
 bus.on('boot:due', () => { if (pref('odd') && !document.hidden && HouseholdView.free() && !Outside.on && S.coins >= 50) { CarBootView.invite(); setTimeout(() => Chat.say('boot_open', {}, .8), 1200); } });

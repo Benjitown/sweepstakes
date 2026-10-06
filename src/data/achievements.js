@@ -71,6 +71,8 @@ export const ACHIEVEMENTS = [
   { id: 'claw',     tier: 1, icon: 'claw',      name: 'Claw Blimey',         desc: 'Win a prize on the claw machine.' },
   { id: 'crown',    tier: 3, icon: 'crown',     name: 'Heavy Is the Head',   desc: 'Get the golden crown out of the claw machine.' },
   { id: 'haggle',   tier: 1, icon: 'boot',      name: 'Haggler',             desc: 'Talk the bloke at the car boot sale down, and buy it.' },
+  { id: 'darts',    tier: 1, icon: 'dart',      name: 'Arrows',              desc: 'Beat Big Dave at darts.' },
+  { id: 'ton80',    tier: 3, icon: 'dart',      name: 'One Hundred and Eighty!', desc: 'Three treble twenties at the Red Lion.' },
   { id: 'quiz',     tier: 2, icon: 'brain',     name: 'Know-It-All',         desc: 'Get 10 pub quiz questions right.' },
   { id: 'grass',    tier: 1, icon: 'clover',    name: 'Touched Grass',       desc: 'Stay outside for a whole break.' },
   { id: 'bingo',    tier: 1, icon: 'bingo',     name: 'Eyes Down',           desc: 'Get a line at Nan’s bingo.' },

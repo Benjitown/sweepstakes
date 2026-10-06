@@ -148,6 +148,9 @@ export const LINES = {
     ['nan', 'Never mind love, I’ll come round with a bucket and sponge x'], ['priya', 'you have to respect the hustle']],
   xmas_card:     [['nan', 'Did my card come love? Don’t spend it all at once x'], ['tash', 'nan’s cards are the best bit of Christmas'], ['dave', 'there’s glitter in my keyboard and I wasn’t even there']],
   fireworks:     [['dave', 'FIREWORKS'], ['kev', 'ooooh. aaaaah.'], ['tash', 'that one was green. I love the green ones'], ['nan', 'Ooh lovely! Mind Biscuit, he hates the bangs x']],
+  // darts at the Red Lion (Dave has his own lines in ui/darts-view.js; Nan just cheers)
+  darts_nan_won: [['nan', 'Ooh, you beat Dave! Clever thing x'], ['nan', 'That’s my champion x']],
+  darts_nan_lost: [['nan', 'Never mind love, Dave practises every night x'], ['nan', 'You threw lovely love x']],
   // the car boot sale
   boot_open:     [['dave', 'car boot at the end of the road. the bloke’s got a box of add-on cards and a very suspicious hat'], ['kev', 'car boot sale. I got a lamp there once. it’s haunted'],
     ['nan', 'Ooh, a car boot! Have a look for me love, I’m after a nice teapot x'], ['priya', 'car boot rules: never pay the first price']],

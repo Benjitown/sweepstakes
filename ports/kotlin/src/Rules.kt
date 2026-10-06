@@ -235,6 +235,8 @@ object Rules {
         "egged" to listOf("dave" to "they EGGED you", "tash" to "no sweets, no mercy", "kev" to "egg on the window. that’s an afternoon with a sponge", "nan" to "Never mind love, I’ll come round with a bucket and sponge x", "priya" to "you have to respect the hustle"),
         "xmas_card" to listOf("nan" to "Did my card come love? Don’t spend it all at once x", "tash" to "nan’s cards are the best bit of Christmas", "dave" to "there’s glitter in my keyboard and I wasn’t even there"),
         "fireworks" to listOf("dave" to "FIREWORKS", "kev" to "ooooh. aaaaah.", "tash" to "that one was green. I love the green ones", "nan" to "Ooh lovely! Mind Biscuit, he hates the bangs x"),
+        "darts_nan_won" to listOf("nan" to "Ooh, you beat Dave! Clever thing x", "nan" to "That’s my champion x"),
+        "darts_nan_lost" to listOf("nan" to "Never mind love, Dave practises every night x", "nan" to "You threw lovely love x"),
         "boot_open" to listOf("dave" to "car boot at the end of the road. the bloke’s got a box of add-on cards and a very suspicious hat", "kev" to "car boot sale. I got a lamp there once. it’s haunted", "nan" to "Ooh, a car boot! Have a look for me love, I’m after a nice teapot x", "priya" to "car boot rules: never pay the first price"),
         "boot_bought" to listOf("kev" to "you bought something at a car boot? bold", "nan" to "Ooh, a bargain! x", "tash" to "no refunds. you know that, right", "dave" to "did he give you a receipt. he did not give you a receipt"),
         "boot_box" to listOf("tash" to "MYSTERY BOX", "priya" to "it’s always a lamp. how was it not a lamp", "dave" to "what’s in the box. WHAT’S IN THE BOX"),
