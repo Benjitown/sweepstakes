@@ -68,5 +68,19 @@ export const TRACKS = [
       ['G3 C4 E4', 'C3 _ _', [[0, 'C5', 6]]],
       ['G3 C4 E4', 'C3 _ G2', []],
     ] },
+  // only on the jukebox at Halloween: a spooky swing in D minor, with a theremin
+  { id: 'haunted', season: 'halloween', bpm: 100, beats: 4, sub: 2, swing: .6, keys: 'organ', lead: 'theremin', low: 'upright', kit: 'brush', leadFrom: 1,
+    comp: [[2, 1.5, .8], [6, 1.5, .8]],
+    drums: { kick: ['x...x...', .5], brush: ['..x...x.', .8] },
+    bars: [
+      ['A3 D4 F4', 'D2 A2 D3 A2', [[0, 'D5', 2], [2, 'F5', 2], [4, 'A5', 3], [7, 'G#5', 1]]],
+      ['A3 D4 F4', 'D2 A2 C3 C#3', [[0, 'A5', 4], [4, 'F5', 2], [6, 'D5', 2]]],
+      ['G3 Bb3 D4', 'G2 D3 Bb2 D3', [[0, 'G5', 2], [2, 'Bb5', 2], [4, 'D6', 3], [7, 'C#6', 1]]],
+      ['G3 C#4 E4', 'A2 E3 C#3 E3', [[0, 'C#6', 4], [4, 'A5', 2], [6, 'E5', 2]]],
+      ['A3 D4 F4', 'D2 A2 D3 A2', [[0, 'D5', 2], [2, 'F5', 2], [4, 'A5', 2], [6, 'D6', 2]]],
+      ['Bb3 D4 F4', 'Bb2 F2 Bb2 F2', [[0, 'D6', 3], [3, 'C6', 1], [4, 'Bb5', 4]]],
+      [['G3 Bb3 D4', 'G3 C#4 E4'], 'G2 D3 A2 E3', [[0, 'G5', 2], [2, 'Bb5', 2], [4, 'A5', 2], [6, 'C#6', 2]]],
+      ['A3 D4 F4', 'D2 A2 D2 C#2', [[0, 'D6', 6]]],
+    ] },
 ];
 export const TRACK_BY = Object.fromEntries(TRACKS.map(t => [t.id, t]));

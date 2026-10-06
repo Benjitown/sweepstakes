@@ -60,7 +60,7 @@ export const Achievements = {
     bus.on('bust', () => u('bust'));
     bus.on('plot:picked', ({ whopper }) => { if (whopper) u('whopper'); if (S.life.plot && S.life.plot.picked >= 10) u('veg'); });
     bus.on('paper:answer', ({ right }) => { if (right) u('puzzle'); });
-    bus.on('music', ({ id, on }) => { if (!on || !id) return; const r = S.life.records = S.life.records || {}; r[id] = 1; if (TRACKS.every(t => r[t.id])) u('records'); });
+    bus.on('music', ({ id, on }) => { if (!on || !id) return; const r = S.life.records = S.life.records || {}; r[id] = 1; if (TRACKS.filter(t => !t.season).every(t => r[t.id])) u('records'); });
     bus.on('upgrade:bought', ({ u: up }) => {
       if (up.id === 'sweepBot') u('auto');
       if (up.id === 'boards') { if (boardCount() >= 4) u('boards4'); if (boardCount() >= 8) u('boards8'); }

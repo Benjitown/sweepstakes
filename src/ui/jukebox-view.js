@@ -24,7 +24,7 @@ const JUKE_ART = `<svg class="jbox" viewBox="0 0 120 150" aria-hidden="true">
 export const JukeboxView = {
   open() {
     const v = Math.round(Music.volume() / MUSIC.LEVEL * 100);
-    const recs = [...TRACKS.map(t => [t.id, RECORDS[t.id]]), ['shuffle', SHUFFLE]];
+    const recs = [...Music.available().map(t => [t.id, RECORDS[t.id]]), ['shuffle', SHUFFLE]];
     UI.modal(`<div class="juke">${JUKE_ART}<h3>The jukebox</h3>
       <p class="jnow" id="jukeNow" aria-live="polite"></p>
       <ul class="jlist" aria-label="Records">${recs.map(([id, r]) => `<li><button type="button" class="jrec" data-rec="${id}" aria-pressed="false">
