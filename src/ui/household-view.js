@@ -7,6 +7,7 @@ import { Sound } from '../audio/sound.js';
 import { WeirdNoises } from '../audio/noises.js';
 import { Game } from '../game/game.js';
 import { Household, MISSED } from '../game/household.js';
+import { PowerCut } from '../game/power-cut.js';
 import { UI } from './ui.js';
 import { Coach } from './tutorial.js';
 
@@ -63,6 +64,7 @@ export const HouseholdView = {
   start(kind, k, handle) {
     if (kind === 'kitten') this.walkKitten();
     else if (kind === 'gull') this.swoopGull();
+    else if (kind === 'powercut') this.powerCut();
     else if (ASK[kind]) this.ask(kind, k, handle);
   },
 
@@ -133,6 +135,15 @@ export const HouseholdView = {
       Household.petKitten();
       setTimeout(() => { btn.classList.remove('pet'); if (anim) anim.play(); else gone(); }, 2400);
     };
+  },
+
+  /* a power cut: the lights go out (ui/power-view.js does the dark); this card says why, and offers a top-up */
+  powerCut() {
+    if (!PowerCut.start()) return;
+    const cost = PowerCut.cost();
+    this.show({ icon: 'bulb', mood: 'bad', title: 'The meter’s run out', ms: ASK_MS,
+      text: `The lights go out and the fridge sighs. Until the power’s back, boards cashed out in the dark pay +${Math.round(PowerCut.BONUS * 100)}% danger money.`,
+      buttons: [[`Top up (${fmt(cost)})`, 'gold', () => { if (!PowerCut.topUp()) UI.toast('You can’t afford the meter. Torch it is.'); }], ['Play in the dark', 'purple']] });
   },
 
   /* the seagull: swoops down onto your coins and pecks at them. Tap it before it flies off with some. */

@@ -12,6 +12,10 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **A seagull** after your coins. You'll hear it first. Then it swoops onto your coin counter and starts pecking: tap
   it to shoo it off (it drops whatever it nicked from someone else), or it flies away with a small bite of your coins.
   Like everything around the house, it never takes you near bust. New achievement: Not My Chips.
+- **Power cuts.** Now and then, mid-game, the prepaid meter runs out: the relay clunks, the fridge winds down and the
+  lights go off. You play by torchlight (the beam follows your pointer, or your keyboard focus), and every board you
+  cash out in the dark pays +50% danger money on its profit. Top the meter up from the bar at the top of the screen,
+  or wait for the emergency credit to kick in. New achievement: Danger Money.
 
 ## 4.4.0 (6 Oct 2026)
 

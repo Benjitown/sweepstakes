@@ -53,6 +53,7 @@ export const ACHIEVEMENTS = [
   { id: 'battery',  tier: 1, icon: 'battery',   name: 'DIY Hero',            desc: 'Change the smoke detector’s battery.' },
   { id: 'raffle',   tier: 2, icon: 'door',      name: 'Fixed the Roof',      desc: 'Win the school raffle.' },
   { id: 'gull',     tier: 1, icon: 'gull',      name: 'Not My Chips',        desc: 'Shoo a seagull off your coins.' },
+  { id: 'dark',     tier: 2, icon: 'bulb',      name: 'Danger Money',        desc: 'Cash out a board in a power cut.' },
   { id: 'scratch',  tier: 2, icon: 'ticket',    name: 'Scratch That Itch',   desc: 'Win ×20 or more on a scratchcard.' },
   { id: 'quiz',     tier: 2, icon: 'brain',     name: 'Know-It-All',         desc: 'Get 10 pub quiz questions right.' },
 ];

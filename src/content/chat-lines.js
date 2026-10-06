@@ -68,6 +68,14 @@ export const LINES = {
   odd_meow:      [['nan', 'Has someone fed the cat? x'], ['tash', 'KITTY']],
   odd_gull:      [['dave', 'is that a seagull? we’re nowhere near the sea'], ['nan', 'Don’t feed it love, they bite x'], ['tash', 'SEAGULL. GUARD YOUR CHIPS'],
     ['kev', 'that gull has a criminal record. I’ve seen the posters'], ['priya', 'it’s looking at your coins. it’s LOOKING at them']],
+  odd_powerdown: [['dave', 'who didn’t top up the meter'], ['nan', 'Has the electric gone? I’ll get the candles love x'], ['tash', 'LIGHTS OUT. I can’t see my own mines'],
+    ['kev', 'playing by the light of my phone. it’s on 4%'], ['priya', 'this is the most British thing that’s ever happened in this chat']],
+  power_back:    [['dave', 'power’s back. we are SO back'], ['nan', 'Ooh that’s better. Blow the candles out love x'], ['kev', 'I’d just got used to the dark'],
+    ['priya', 'emergency credit: the only credit you’ve got']],
+  power_topup:   [['priya', 'a responsible adult topped up the meter'], ['tash', 'look at you, paying bills'], ['dave', 'money well spent. probably'],
+    ['nan', 'Good. You’ll ruin your eyes playing in the dark x']],
+  power_win:     [['tash', 'cashing out in the DARK. absolute cinema'], ['dave', 'danger money! DANGER MONEY!'], ['kev', 'you can’t even see the mines and you’re winning'],
+    ['priya', 'the dark suits you']],
   gull_shoo:     [['dave', 'get in. the gull’s been told'], ['tash', 'you fought a seagull and won. legend'], ['nan', 'Wave your arms at them love, works every time x'],
     ['priya', 'it’ll be back. with friends'], ['kev', 'the gull’s filing a complaint']],
   gull_nicked:   [['dave', 'the seagull mugged you'], ['kev', 'it’s at the chippy now, spending your money'], ['tash', 'beaten by a bird. a BIRD'],
@@ -132,6 +140,8 @@ export const RUDE = {
   odd_carAlarm: [['dave', 'turn it off, you absolute weapon']],
   gull_nicked: [['dave', 'mugged off by a flying rat'], ['tash', 'robbed by a pigeon with a gym membership']],
   odd_gull:  [['dave', 'flying rat incoming']],
+  odd_powerdown: [['dave', 'put a quid in the meter, you tight git'], ['tash', 'who’s been running the tumble dryer']],
+  power_back: [['tash', 'about bloody time']],
 };
 export const CHANCE = { duck_start: .6, boom: .7, cash_small: .3, cash_big: .9, clear: .9, deal_big: .8, buy: .5, addon: .6, coward: .25, yolo: .3, streak: .8, fuse: .8, gem: .35, golden: .7, spin: .5 };
 // Double or Nothing asks this before each rung of the ladder.

@@ -32,5 +32,7 @@
 @keyframes kheart{0%{transform:translate(-50%,0) scale(.4);opacity:0}20%{opacity:1}100%{transform:translate(calc(-50% + var(--kx,0px)),-48px) scale(1);opacity:0}}
 @keyframes gflap{from{transform:rotate(-24deg)}to{transform:rotate(26deg) scaleY(.5)}}
 @keyframes gpeck{0%,55%,100%{transform:none}65%{transform:rotate(calc(16deg * var(--gd,1))) translateY(3px)}75%{transform:none}85%{transform:rotate(calc(14deg * var(--gd,1))) translateY(2px)}}
+@keyframes powercut{0%{opacity:0}12%{opacity:1}22%{opacity:.15}30%{opacity:1}40%{opacity:.3}52%,100%{opacity:1}}
+@keyframes powerback{0%{opacity:1}20%{opacity:.2}35%{opacity:.9}55%{opacity:.1}70%{opacity:.6}85%,100%{opacity:0}}
 @keyframes chirp{0%,84%,100%{transform:none}88%{transform:rotate(-7deg) scale(1.1)}92%{transform:rotate(6deg) scale(1.1)}96%{transform:rotate(-3deg)}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
