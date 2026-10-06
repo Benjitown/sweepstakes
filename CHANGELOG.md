@@ -35,7 +35,8 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **Thunderstorms.** Now and then distant thunder rolls in a storm: rain down the window and a darker room for a
   couple of minutes. Every flash of lightning lights up every hidden mine on your boards for a split second, so
   remember where they were. One storm in three, a strike lands right overhead and takes the power out. Nobody goes
-  outside in that. New achievement: Lightning Reflexes (flag a mine within two seconds of a flash).
+  outside in that. New achievement: Lightning Reflexes (flag a mine within two seconds of a flash). Half the time,
+  when it's passed, there's a rainbow: a pot of gold at the end of it, so your next board's golden.
 - **KEVCOIN.** A minute or so into a run, Kev launches a cryptocurrency in the group chat, with a ticker in the chat's
   header (or press K). The price wanders, a little downhill. Now and then Kev hypes it, and then it pumps (and gives
   half of it back) or it dumps, and you can't tell which from his post. Once in a while the devs vanish: a rug pull,
@@ -57,6 +58,31 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **Biscuit, next door's dog.** If you hear barking, he trots in along the bottom of the screen and waits ("Woof?").
   Give him a biscuit (3% of the top table's max stake) and he sniffs out a mine on your board and sits on it: flagged,
   glowing orange for a moment. Ignore him and he wanders off. New achievement: Good Boy.
+- **The Daily Sweep,** the local paper, written from your run. Every twenty minutes of play it comes through the
+  letterbox (a chip in the header says so): the run's biggest moment on the front page (a jackpot gem, Dave beaten at
+  darts, a rug pull, a giant marrow at the village show), two more stories down the side, the weather, KEVCOIN's
+  price, Nan's stars and the small ads. At the bottom, Spot the Mine: a little board where exactly one covered tile
+  has to be a mine. Tap the right one for a prize. Go bust and the bust screen's "Read all about it" opens a special
+  edition.
+- **The Sweepstake,** the paper's lottery. Buy Lucky Dip lines (five numbers from 30, up to five lines a draw) in
+  The Daily Sweep, and the next paper prints the draw and pays out: three numbers ×12, four ×200, all five ×10,000
+  (about 1 in 142,500). Like any lottery it's a bad bet: about half the money comes back, worked out exactly. A big
+  win makes the front page.
+- **New achievements:** Green Fingers (pick 10 crops), Best in Show (grow a whopper), Read All About It (solve the
+  paper's puzzle) and Name That Tune (put every record on the jukebox).
+- **The allotment,** a fourth tab (or press 4). Four beds and six packets of seeds, from radishes (two minutes) to
+  pumpkins (fourteen). They grow by the minute while you play, so they wait while you're outside, and when they're
+  ripe a chip in the header says so. Pick them and the farm shop buys them, usually for two or three times what the
+  seeds cost (a packet's price follows your top table's max stake), and the slower the crop, the better it pays by
+  the minute. Slugs might get a crop that's still growing, a thunderstorm waters the lot (two minutes closer), one
+  in twelve comes up a whopper (double, and a rosette at the village show), and in October pumpkins fetch 30% more.
+  Big Dave has the next plot, and has opinions about marrows.
+- **The jukebox.** Music at last. The button next to mute (or J) opens the Red Lion's jukebox, with four records
+  synthesised note by note in your browser: High Roller Lounge (slow swing on an electric piano, brushes and a double
+  bass), Last Orders (a knees-up on the pub's old upright), Insert Coin (Kev's eight-bit tune) and Nan's Wireless (a
+  gentle waltz on a music box), plus shuffle. It sits quietly under the game, with a Music slider in the jukebox and in
+  Stats. It stops while you're muted, outside or in another tab, and when the power goes the record winds down. Switch
+  it off in the jukebox or in Stats. Everyone in the group chat has an opinion about your record.
 - **Board styles,** in Stats: Card table felt, Neon, Nan's knitting (purple wool, cable stitch) and Gold leaf, for
   the tiles on every board (and Double or Nothing's). Each is bought once with coins and kept for good: going bust
   doesn't take it back, and swapping between the ones you own is free. New achievement: Interior Design.

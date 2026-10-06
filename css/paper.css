@@ -1,0 +1,52 @@
+/* The Daily Sweep: newsprint in a modal, and the chip that says it's come. */
+.modal:has(.paper){background:#efe9da;box-shadow:0 0 0 3px #c9bfa6,0 10px 0 3px var(--shadow);max-width:500px}
+.paper{color:#1d1b16;text-shadow:none;display:grid;gap:8px;text-align:left;width:100%;font-family:Georgia,'Times New Roman',serif}
+.mast{text-align:center;border-bottom:3px double #1d1b16;padding-bottom:4px}
+.mast b{display:block;font-family:var(--big);font-weight:400;font-size:2.7rem;line-height:.9;letter-spacing:.02em}
+.mast small{display:flex;justify-content:space-between;gap:4px 8px;font-size:.7rem;border-top:1px solid #1d1b16;margin-top:4px;padding-top:3px;flex-wrap:wrap}
+.special{margin:0;text-align:center;background:#1d1b16;color:#efe9da;font-family:var(--big);font-size:1.25rem;letter-spacing:.2em;text-transform:uppercase}
+.modal .paper .head{font-family:var(--big);font-weight:400;font-size:2.4rem;line-height:.95;color:#1d1b16;text-shadow:none;margin:0;text-align:left}
+.paper p{margin:0;font-size:.8rem;line-height:1.3;max-width:none}
+.paper .stand{font-style:italic;font-size:.92rem}
+.front{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:10px;border-top:1px solid #1d1b16;padding-top:8px}
+.photo{margin:0;background:radial-gradient(circle,#bdb5a2 1px,transparent 1.3px) 0 0/5px 5px,#ddd5c2;border:1px solid #1d1b16;display:grid;place-items:center;align-content:center;padding:10px 6px;gap:6px;min-height:120px}
+.photo svg{width:76px;height:76px;filter:grayscale(1) contrast(1.15)}
+.photo figcaption{font-size:.66rem;font-style:italic;text-align:center}
+.sidecol{display:grid;gap:8px;align-content:start}
+.sidecol article{border-bottom:1px solid #b8ae97;padding-bottom:6px}
+.sidecol article:last-child{border-bottom:0}
+.paper h4{margin:0 0 3px;font-family:var(--big);font-weight:400;font-size:1.2rem;line-height:.95}
+.cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;border-top:3px double #1d1b16;padding-top:6px}
+.paper h5{margin:0 0 3px;font-family:var(--pixel);font-weight:400;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase}
+.paper .cols p{font-size:.74rem}
+.ads{border-top:1px solid #1d1b16;padding-top:6px;columns:2;column-gap:12px}
+.ads h5{column-span:all}
+.paper .ads p{break-inside:avoid;margin-bottom:5px;font-size:.72rem}
+.puzzle{border:2px solid #1d1b16;padding:8px;display:grid;gap:6px;justify-items:center;text-align:center}
+.puzzle h5 small{text-transform:none;letter-spacing:0;font-family:Georgia,serif;font-style:italic;margin-left:6px}
+.pgrid{display:grid;grid-template-columns:repeat(var(--w),32px);gap:3px}
+.pt{width:32px;height:32px;display:grid;place-items:center;border-radius:4px;font-family:var(--big);font-size:1.35rem;line-height:1}
+button.pt{border:0;background:#8d8676;box-shadow:inset 0 2px 0 #aaa392,inset 0 -3px 0 #5f594c;cursor:pointer;padding:0}
+button.pt:hover:not(:disabled){background:#a29a87}
+button.pt:disabled{cursor:default}
+button.pt.mine{background:#1d1b16} button.pt.mine svg{width:24px;height:24px}
+button.pt.wrong{background:#b3362e}
+.pt.open{background:#ddd5c2}
+.pt.n1{color:#1f5fa8} .pt.n2{color:#2f7d3a} .pt.n3{color:#b3362e} .pt.n4{color:#3b2a7a} .pt.n5,.pt.n6{color:#7a2a2a}
+.paper .pres{font-style:italic}
+.paper .row .btn{font-family:var(--pixel)}
+@media (max-width:440px){.front{grid-template-columns:1fr}.cols{grid-template-columns:1fr}.ads{columns:1}.modal .paper .head{font-size:2.05rem}}
+.paperchip{display:flex;align-items:center;gap:6px;border:0;font:inherit;cursor:pointer;background:#efe9da;color:#1d1b16;text-shadow:none;box-shadow:0 3px 0 #9d9480;border-radius:8px;padding:3px 10px 3px 6px;font-weight:700}
+.paperchip svg{width:20px;height:20px}
+@media (max-width:760px){.chips .paperchip{position:absolute;right:14px;top:100%;font-size:.78rem;padding:4px 12px 5px 8px;gap:5px;border-radius:0 0 10px 10px}
+  .chips .paperchip svg{width:16px;height:16px}
+  .chips .chirpchip:not([hidden]) ~ .paperchip{top:calc(100% + 30px)}}
+.lotto{border-top:3px double #1d1b16;padding-top:6px;display:grid;gap:5px;justify-items:start}
+.lotto h5 small{text-transform:none;letter-spacing:0;font-family:Georgia,serif;font-style:italic;margin-left:6px}
+.balls{display:flex;gap:5px;flex-wrap:wrap}
+.balls i{width:28px;height:28px;border-radius:50%;background:#1d1b16;color:#efe9da;display:grid;place-items:center;font-style:normal;font-family:var(--big);font-size:1.2rem}
+.paper .lotto .line{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.lotto .line b{width:24px;height:24px;border-radius:50%;border:1.5px solid #1d1b16;display:grid;place-items:center;font-family:var(--big);font-weight:400;font-size:1.05rem}
+.lotto .line b.hit{background:#ffd23f}
+.lotto .line span{font-size:.75rem;margin-left:6px;font-style:italic}
+.lotto .btn{font-family:var(--pixel);font-size:.85rem}

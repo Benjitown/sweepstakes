@@ -73,8 +73,10 @@ export const UI = {
       ${tin ? `<div class="tincard">${ico('tin')}<p><b>Nan’s biscuit tin.</b> It isn’t biscuits. It’s <b class="num">${fmt(tin)}</b> she’s been putting by for you, a little every time you won.
         <q>For a rainy day, love. I’m always here x</q></p></div>` : ''}
       <div class="roast">${roast.map(([w, t]) => Chat.bubble(w, t)).join('')}</div>
-      <button class="btn green big" type="button" data-a="again">Start again with ${fmt(START + tin)}</button>`,
-      { again: () => { this.closeModal(); bus.emit('reset'); } }, true);
+      <button class="btn green big" type="button" data-a="again">Start again with ${fmt(START + tin)}</button>
+      <button class="clink" type="button" data-a="paper">Read all about it</button>`,
+      { again: () => { this.closeModal(); bus.emit('reset'); },
+        paper: () => bus.emit('paper:bust', { label: `Start again with ${fmt(START + tin)}`, go: () => { this.closeModal(); bus.emit('reset'); } }) }, true);
     bus.emit('reset', { keepModal: true });
   },
 };

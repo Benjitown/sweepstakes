@@ -1,5 +1,6 @@
 // The save state S, the save game, and quick questions about S (upgrade levels, Ascension, caps, luck).
 import { START, TABLES, MAXB, ASC_CAP } from '../data/economy.js';
+import { MUSIC } from '../data/jukebox.js';
 
 /* =====================================================================================
    Memento · https://refactoring.guru/design-patterns/memento
@@ -11,9 +12,9 @@ export function freshRun(life, prefs = {}) {
     tog: { coward: true, yolo: true, restake: true, goggles: true }, streak: 0, owned: false, asc: 0,
     addons: [], rack: [], rackAt: 0, rerolls: 0, spinAt: -1e9, goldNext: 0, wheel: 0, duckOwed: 0, scratchOwed: 0, bingoOwed: 0, fruityOwed: 0, clawOwed: 0, sugar: 0,
     muted: !!prefs.muted, crt: prefs.crt !== false, quips: prefs.quips !== false, odd: prefs.odd !== false, vibe: prefs.vibe !== false, rude: prefs.rude !== false, quiz: prefs.quiz !== false, nanvoice: prefs.nanvoice !== false, dares: prefs.dares !== false, seasons: prefs.seasons !== false,
-    vol: prefs.vol ?? 1, noiseVol: prefs.noiseVol ?? 1,
+    vol: prefs.vol ?? 1, noiseVol: prefs.noiseVol ?? 1, music: prefs.music !== false, musicVol: prefs.musicVol ?? MUSIC.VOL, track: prefs.track || 'lounge',
     run: { start: Date.now(), time: 0, boards: 0, wins: 0, losses: 0, biggest: 0, peak: START, don: 0, hist: [[0, START]] },
-    life: life || freshLife(), boards: [] };
+    life: life || freshLife(), boards: [], plot: [] };
 }
 export const SaveGame = {
   KEY: 'sweepstakes.save.v3', timer: 0,
@@ -28,6 +29,7 @@ export const SaveGame = {
 };
 export let S = SaveGame.load() || freshRun();
 S.life = Object.assign(freshLife(), S.life);
+if (typeof S.musicVol !== 'number') S.musicVol = MUSIC.VOL; // saves from before the jukebox
 // the only way to swap in a whole new state (a bust starts a fresh run)
 export function setState(next) { S = next; }
 

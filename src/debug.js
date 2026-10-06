@@ -83,6 +83,20 @@ import { TIN } from './data/biscuit-tin.js';
 import { THREADS, RUDE_THREADS } from './content/chat-threads.js';
 import { QUIPS, RUDE_QUIPS } from './content/quips.js';
 import { BINGO_END } from './content/bingo-calls.js';
+import { Music, musicMidi } from './audio/music.js';
+import { JukeboxView } from './ui/jukebox-view.js';
+import { MUSIC, TRACKS, TRACK_BY } from './data/jukebox.js';
+import { RECORDS } from './content/jukebox.js';
+import { Allotment } from './game/allotment.js';
+import { AllotmentView } from './ui/allotment-view.js';
+import { PLOT, CROPS, CROP_BY } from './data/allotment.js';
+import { VEG } from './content/allotment.js';
+import { News, Paper } from './game/paper.js';
+import { PaperView } from './ui/paper-view.js';
+import { PAPER, STORY_WEIGHT } from './data/paper.js';
+import { STORIES } from './content/paper.js';
+import { Sweepstake } from './game/sweepstake.js';
+import { DRAW } from './data/sweepstake.js';
 
 export function exposeForTests() {
   // no random knocks at the door mid-test (they'd pop up over what the tests click); the tests start them by hand
@@ -95,6 +109,9 @@ export function exposeForTests() {
   clearTimeout(QuizNight.timer); QuizNight.schedule = () => {}; // or quiz night
   Kev.second = () => {}; // KEVCOIN neither launches nor moves on its own; the tests call Kev.launch() and Kev.tick()
   Stars.second = () => {}; // and Nan doesn't read the stars unless a test asks
+  Paper.auto = false; // nor does the paper come unless a test delivers it
+  Music.hold('test', true); // and the jukebox stays quiet unless a test puts a record on
+  Storm.RAINBOW = 0; // no surprise rainbows (they make your next board golden) unless a test asks
   clearTimeout(Chat.ambientT); Chat.ambient = () => {}; // nor do the friends start chatting among themselves mid-check (Chat.thread() still works)
   window.__sw = {
     get S() { return S; }, Game, Solver, Rack, Rank, bus, NOISES, WeirdNoises, Quips, Chat, Coach, SpinView,
@@ -103,6 +120,7 @@ export function exposeForTests() {
     Scratchcards, ScratchView, SCRATCH_CARDS, SCRATCH_PRIZES, Quiz, QUIZ, PowerCut, PowerView, Storm, StormView, Kev, KevView, KEV, IceCream, VanView, Stars, StarsView, Banker, Dog, DogView, Bingo, BingoView, makeTicket, Outside, OutsideView, BINGO_TICKETS, BINGO_PAYS, BINGO_CALLS,
     Fruity, FruityRules, FruityView, FRUITY_REELS, FRUITY_PAYS, FRUITY_STAKES, FRUITY_FEATURES,
     Tin, TIN, Dares, DareView, DARES, DARE, Seasons, SeasonView, SEASONS, PUMPKIN, TRICK, XMAS, Claw, ClawView, CLAW, CLAW_PRIZES, CLAW_BY, CarBoot, CarBootView, BOOT, Darts, DartsView, DARTS, DARTBOARD, QuizNight, QuizNightView, NIGHT, Skins, SKINS, THREADS, RUDE_THREADS, QUIPS, RUDE_QUIPS, SURE, BINGO_END,
+    Music, musicMidi, JukeboxView, MUSIC, TRACKS, TRACK_BY, RECORDS, Allotment, AllotmentView, PLOT, CROPS, CROP_BY, VEG, News, Paper, PaperView, PAPER, STORY_WEIGHT, STORIES, Sweepstake, DRAW,
     get slots() { return Game.slots; },
   };
 }

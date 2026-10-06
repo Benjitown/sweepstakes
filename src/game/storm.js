@@ -10,6 +10,7 @@ export const Storm = {
   FIRST: 4,         // seconds to the first flash
   GAP: [7, 13],     // seconds between flashes
   STRIKE: 1 / 3,    // the chance that one of the flashes is a strike right overhead
+  RAINBOW: .5,      // and the chance of a rainbow when it's passed (a pot of gold: your next board's golden)
   rng: Math.random, // the tests swap this
   left() { return this.on ? Math.max(0, Math.ceil((this.until - Date.now()) / 1000)) : 0; },
   start(seconds = this.SECONDS) {
@@ -36,7 +37,9 @@ export const Storm = {
   end() {
     if (!this.on) return false;
     clearTimeout(this.timer); clearTimeout(this.flashTimer); this.on = false;
-    bus.emit('storm', { on: false, flashes: this.flashes });
+    const rainbow = this.rng() < this.RAINBOW;
+    if (rainbow) { S.goldNext++; const h = S.life.house = S.life.house || {}; h.rainbows = (h.rainbows || 0) + 1; SaveGame.save(); }
+    bus.emit('storm', { on: false, flashes: this.flashes, rainbow });
     return true;
   },
 };

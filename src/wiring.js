@@ -1,6 +1,6 @@
 // What reacts to each game event (views, sounds, chat, rank). This one list is the whole wiring diagram.
 import { ico, fmt, fmtX, dur } from './core/util.js';
-import { START, TABLES, SPIN_EVERY, ROMAN } from './data/economy.js';
+import { START, TABLES, SPIN_EVERY, ROMAN, LADDER } from './data/economy.js';
 import { ABY } from './data/addons.js';
 import { bus } from './core/bus.js';
 import { SaveGame, S, lvl, asc, pref, has } from './core/state.js';
@@ -67,6 +67,14 @@ import { CarBootView } from './ui/car-boot-view.js';
 import { SeasonView } from './ui/season-view.js';
 import { PUMPKIN } from './data/seasons.js';
 import { TREAT_CARD, EGGED_CARD } from './content/seasons.js';
+import { Music } from './audio/music.js';
+import { JukeboxView } from './ui/jukebox-view.js';
+import { Allotment } from './game/allotment.js';
+import { AllotmentView } from './ui/allotment-view.js';
+import { VEG } from './content/allotment.js';
+import { News, Paper } from './game/paper.js';
+import { PaperView } from './ui/paper-view.js';
+import { FRIENDS } from './content/chat-lines.js';
 
 const RED = 'var(--red)', GOLD = 'var(--gold)', GREEN = 'var(--green)', PURPLE = 'var(--purple)';
 export function renderAll(keepModal) {
@@ -233,6 +241,7 @@ bus.on('household', e => {
 });
 bus.on('kitten:gone', ({ petted }) => { if (!petted) Chat.say('kitten_gone', {}, .7); });
 bus.on('power', ({ on: isOn, why }) => {
+  Music.hold('power', isOn); // the jukebox goes with the lights
   if (isOn) { PowerView.on(); return; }
   PowerView.off(); WeirdNoises.play('powerup');
   if (why === 'reset') return;
@@ -281,7 +290,9 @@ bus.on('reset', () => KevView.ticker());
 /* ---------- thunderstorms: each flash shows the mines; one strike in three storms takes the power out ---------- */
 bus.on('storm', e => {
   if (e.on) { StormView.on(); setTimeout(() => Chat.say('storm_start', {}, .9), 2500); return; }
-  StormView.off(); UI.toast('The storm’s passed.'); setTimeout(() => Chat.say('storm_end', {}, .5), 800);
+  StormView.off();
+  if (e.rainbow) { StormView.rainbow(); RunPanel.render(); UI.toast('The storm’s passed, and there’s a rainbow! A pot of gold at the end of it: your next board’s golden.'); setTimeout(() => Chat.say('rainbow', {}, 1), 900); }
+  else { UI.toast('The storm’s passed.'); setTimeout(() => Chat.say('storm_end', {}, .5), 800); }
 });
 bus.on('storm:flash', e => {
   if (document.hidden) return; // nobody's watching: no flash, no thunder, no strike
@@ -374,6 +385,74 @@ bus.on('boot:due', () => { if (pref('odd') && !document.hidden && HouseholdView.
 bus.on('boot:bought', () => setTimeout(() => Chat.say('boot_bought', {}, .5), 800));
 bus.on('boot:box', () => setTimeout(() => Chat.say('boot_box', {}, .8), 800));
 
+/* ---------- the allotment: it grows by the minute of play; storms water it ---------- */
+bus.on('tick', () => { Allotment.second(); AllotmentView.tick(); });
+bus.on('plot:planted', ({ id }) => { Sound.buy(); AllotmentView.render(); if (Math.random() < .3) setTimeout(() => Chat.say('plot_planted', { veg: VEG[id].veg }, .6), 800); });
+bus.on('plot:ripe', ({ id }) => {
+  AllotmentView.render(); AllotmentView.chip(); Sound.select(3);
+  if (!AllotmentView.showing()) UI.toast(`Ready to pick: your ${VEG[id].veg} (the Allotment tab).`);
+  setTimeout(() => Chat.say('plot_ripe', { veg: VEG[id].veg }, .6), 900);
+});
+bus.on('plot:picked', r => {
+  AllotmentView.picked(r); RunPanel.render(); Rank.award(r.whopper ? 12 : 4);
+  if (r.whopper) { Banner.show('WHOPPER!', 'First prize at the village show', 'green', true); Sound.bigwin(1); FX.confetti(90); setTimeout(() => Chat.say('plot_whopper', {}, 1), 900); }
+  else { Sound.cash(); if (Math.random() < .35) setTimeout(() => Chat.say('plot_pick', {}, 1), 900); }
+});
+bus.on('plot:slugs', ({ id }) => { UI.toast(`Slugs got your ${VEG[id].veg}.`); AllotmentView.render(); setTimeout(() => Chat.say('plot_slugs', {}, 1), 900); });
+bus.on('plot:rain', () => { AllotmentView.render(); UI.toast('The rain’s watered your allotment: everything’s two minutes closer.'); setTimeout(() => Chat.say('plot_rain', {}, .5), 2400); });
+bus.on('storm', e => { if (!e.on) setTimeout(() => Allotment.rain(), 1200); });
+bus.on('reset', () => { AllotmentView.chip(); if (AllotmentView.showing()) AllotmentView.render(); });
+
+/* ---------- The Daily Sweep: the newsroom notes the run's big moments; the paper comes every twenty minutes ---------- */
+bus.on('board:cashout', ({ b, why, profit, mult, amount }) => {
+  if (mult >= 15 && profit > 0) News.note('cashout_big', { profit: fmt(profit), mult: fmtX(mult), table: b.t.name });
+  if (why === 'clear') News.note('clear', { table: b.t.name });
+  if (why === 'banker') News.note('banker_deal', { paid: fmt(amount) });
+  else if (b.refused && amount > b.refused) News.note('banker_beat', { offer: fmt(b.refused), paid: fmt(amount) });
+});
+bus.on('board:gem', ({ b, tier }) => { if (tier.k === 'jackpot') News.note('jackpot', { table: b.t.name }); });
+bus.on('board:boom', ({ b, src }) => { if (src !== 'bot' && b.stake >= Math.max(500, S.coins * .25)) News.note('boom_big', { stake: fmt(b.stake), table: b.t.name }); });
+bus.on('don:win', ({ step }) => News.note('don_win', { x: LADDER[step] }));
+bus.on('kev:launch', () => News.note('kev_launch'));
+bus.on('kev:rug', () => News.note('rug', { v: (S.kev ? S.kev.v : 1) + 1 }));
+bus.on('storm', e => News.note(e.on ? 'storm' : e.rainbow ? 'rainbow' : '_'));
+bus.on('power', ({ on: isOn }) => { if (isOn) News.note('power'); });
+bus.on('darts:done', m => News.note(m.result === 'won' ? 'darts_won' : m.result === 'lost' ? 'darts_lost' : '_', { total: m.total, dave: m.daveTotal }));
+bus.on('night:done', o => { if (o.all) News.note('night_full'); });
+bus.on('duck', ({ win, pay }) => { if (win && pay >= 8) News.note('duck_long', { x: fmtX(pay) }); });
+bus.on('bingo', ({ lines }) => { if (lines >= 3) News.note('bingo_house'); });
+bus.on('scratch', ({ x }) => { if (x >= 20) News.note('scratch_big', { x }); });
+bus.on('fruity', ({ x }) => { if (x >= 250) News.note('fruity_jackpot'); });
+bus.on('plot:picked', ({ whopper, id }) => { if (whopper) News.note('whopper', { veg: VEG[id].name }); });
+bus.on('plot:slugs', ({ id }) => News.note('slugs', { veg: VEG[id].veg }));
+bus.on('claw:grab', ({ won }) => { if (won) News.note('claw_win'); });
+bus.on('table:unlocked', ({ t }) => News.note('unlock', { table: t.name }));
+bus.on('ascended', () => News.note('ascend'));
+bus.on('casino', () => News.note('casino'));
+bus.on('levelup', ({ newRank, name }) => { if (newRank) News.note('levelup', { rank: name }); });
+bus.on('dare:won', d => News.note('dare_won', { who: (FRIENDS[d.who] || {}).name || 'A friend' }));
+bus.on('household', e => { if (e.kind === 'gullNicked') News.note('gull'); });
+bus.on('tick', () => Paper.second());
+bus.on('lotto:bought', () => { Sound.buy(); RunPanel.render(); });
+bus.on('lotto:drawn', ({ total, lines }) => {
+  const best = Math.max(0, ...lines.map(l => l.hits)), top = lines.find(l => l.hits === best);
+  if (best >= 5) { News.note('lotto_jackpot', { pay: fmt(top.pay) }); Banner.show('JACKPOT!', 'All five on the Sweepstake', 'red', true); FX.confetti(200); Sound.bigwin(3); }
+  else if (best === 4) News.note('lotto_four', { pay: fmt(top.pay) });
+  if (total) { UI.toast(`+${fmt(total)} on the Sweepstake! It’s in the paper.`); RunPanel.render(); setTimeout(() => Chat.say(best >= 5 ? 'lotto_jackpot' : 'lotto_win', {}, 1), 2600); }
+});
+bus.on('paper', () => { Sound.letterbox(); PaperView.chip(); UI.toast('The Daily Sweep’s come through the letterbox.'); });
+bus.on('paper:answer', ({ right, prize }) => { if (right) { Sound.cash(); UI.toast(`+${fmt(prize)}: you spotted the mine.`); RunPanel.render(); } else Sound.unflag(); });
+bus.on('paper:bust', a => PaperView.open(Paper.compose(Game.lastRun || S.run, 'bust'), a)); // the bust screen's "Read all about it"
+bus.on('reset', () => PaperView.chip());
+
+/* ---------- the jukebox ---------- */
+bus.on('bust', () => Music.scratch()); // the needle comes off the record
+bus.on('board:boom', ({ b, src }) => { if (src !== 'bot' && b.stake >= Math.max(500, S.coins * .25)) Music.scratch(); });
+bus.on('music', ({ first }) => {
+  JukeboxView.now();
+  if (first && !S.life.juke) { S.life.juke = 1; SaveGame.save(); UI.toast('The jukebox is on. Change the record with the jukebox button (or J), or switch it off in there.'); }
+});
+
 /* ---------- board styles ---------- */
 bus.on('skin', () => { document.body.dataset.skin = Skins.current(); });
 
@@ -397,6 +476,7 @@ bus.on('fruity:gamble', ({ won, streak }) => Chat.say(won ? 'fruity_double' : 'f
 
 /* ---------- touching grass ---------- */
 bus.on('outside', e => {
+  Music.hold('outside', e.on);
   if (e.on) { OutsideView.show(); return; }
   OutsideView.done(e);
   setTimeout(() => Chat.say(e.full ? 'grass_back' : 'grass_early', {}, .9), 800);

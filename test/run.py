@@ -3,7 +3,7 @@
 
     python test/run.py                      everything (about 4 minutes)
     python test/run.py modules              only the ES-module source, served over http
-    python test/run.py bundle --only layout one target, chosen suites (regression, tutorial, features, household, extras, mayhem, fruity, wildcards, nan, antics, layout)
+    python test/run.py bundle --only layout one target, chosen suites (regression, tutorial, features, household, extras, mayhem, fruity, wildcards, nan, antics, jukebox, allotment, paper, layout)
 
 Needs Playwright once:  pip install playwright  &&  python -m playwright install chromium
 Screenshots land in test/screenshots/<target>/. Exits non-zero if anything fails.
@@ -17,10 +17,10 @@ sys.path[:0] = [str(HERE), str(ROOT / 'tools')]
 from playwright.async_api import async_playwright  # noqa: E402
 from common import LAUNCH_ARGS  # noqa: E402
 from serve import make_server  # noqa: E402
-import antics, extras, features, fruity, household, layout, mayhem, nan, regression, tutorial, wildcards  # noqa: E402
+import allotment, antics, extras, features, fruity, household, jukebox, layout, mayhem, nan, paper, regression, tutorial, wildcards  # noqa: E402
 
 SUITES = {'regression': regression, 'tutorial': tutorial, 'features': features, 'household': household, 'extras': extras, 'mayhem': mayhem,
-          'fruity': fruity, 'wildcards': wildcards, 'nan': nan, 'antics': antics, 'layout': layout}
+          'fruity': fruity, 'wildcards': wildcards, 'nan': nan, 'antics': antics, 'jukebox': jukebox, 'allotment': allotment, 'paper': paper, 'layout': layout}
 
 
 async def main(targets, suites):
