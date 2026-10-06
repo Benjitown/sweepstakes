@@ -148,6 +148,9 @@ export const LINES = {
     ['nan', 'Never mind love, I’ll come round with a bucket and sponge x'], ['priya', 'you have to respect the hustle']],
   xmas_card:     [['nan', 'Did my card come love? Don’t spend it all at once x'], ['tash', 'nan’s cards are the best bit of Christmas'], ['dave', 'there’s glitter in my keyboard and I wasn’t even there']],
   fireworks:     [['dave', 'FIREWORKS'], ['kev', 'ooooh. aaaaah.'], ['tash', 'that one was green. I love the green ones'], ['nan', 'Ooh lovely! Mind Biscuit, he hates the bangs x']],
+  // quiz night (Priya runs it; Nan's very proud either way)
+  night_nan_good: [['nan', 'Clever clogs! You get that from me x'], ['nan', 'Ooh well done love! x']],
+  night_nan_bad: [['nan', 'Those questions were very hard love. I didn’t know any either x'], ['nan', 'It’s the taking part love x']],
   // darts at the Red Lion (Dave has his own lines in ui/darts-view.js; Nan just cheers)
   darts_nan_won: [['nan', 'Ooh, you beat Dave! Clever thing x'], ['nan', 'That’s my champion x']],
   darts_nan_lost: [['nan', 'Never mind love, Dave practises every night x'], ['nan', 'You threw lovely love x']],
