@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Runs the test suites against the source modules and the built single file.
 
-    python test/run.py                      everything (about 4 minutes)
+    python test/run.py                      everything (about 15 minutes)
     python test/run.py modules              only the ES-module source, served over http
     python test/run.py bundle --only layout one target, chosen suites (regression, tutorial, features, household, extras, mayhem, fruity, wildcards, nan, antics, jukebox, allotment, paper, karaoke, layout)
 

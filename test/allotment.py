@@ -50,13 +50,13 @@ async def run(browser, url, shots):
        f'picked: the farm shop paid {pay} for {cost} of seeds, the bed’s empty again and the chip’s gone')
 
     # --- a whopper
-    await pg.evaluate("(() => { delete __sw.S.life.ach.whopper; __sw.Allotment.rng = () => 0; __sw.Allotment.plant('carrot'); })()")
+    await pg.evaluate("(() => { delete __sw.S.life.ach.whopper; window.__whop = null; __sw.bus.on('plot:picked', r => { window.__whop = r; }); __sw.Allotment.rng = () => 0; __sw.Allotment.plant('carrot'); })()")
     paid = await pg.evaluate("__sw.S.plot[0].paid")
     await pg.evaluate(RIPEN + "(0)")
     e2 = await pg.evaluate('__sw.S.life.plot.earned')
     await pg.click('#plot .bed.ripe'); await pg.wait_for_timeout(300)
-    st = await pg.evaluate(f"({{ pay: __sw.S.life.plot.earned - {e2}, rosettes: __sw.S.life.plot.rosettes, toasts: {TOASTS} }})")
-    ok(st['pay'] == round(paid * 2.1 * .85 * 2) and st['rosettes'] == 1 and 'A whopper!' in st['toasts'], f'a whopper pays double ({st["pay"]}) and wins a rosette at the village show')
+    st = await pg.evaluate(f"({{ pay: __sw.S.life.plot.earned - {e2}, rosettes: __sw.S.life.plot.rosettes, whopper: !!(window.__whop && window.__whop.whopper) }})")
+    ok(st['pay'] == round(paid * 2.1 * .85 * 2) and st['rosettes'] == 1 and st['whopper'], f'a whopper pays double ({st["pay"]}) and wins a rosette at the village show')
     ok(await pg.evaluate("__sw.Achievements.has('whopper')"), 'achievement: Best in Show')
 
     # --- slugs: only on growing crops

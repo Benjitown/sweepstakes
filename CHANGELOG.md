@@ -91,8 +91,9 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **The jukebox.** Music at last. The button next to mute (or J) opens the Red Lion's jukebox, with four records
   synthesised note by note in your browser: High Roller Lounge (slow swing on an electric piano, brushes and a double
   bass), Last Orders (a knees-up on the pub's old upright), Insert Coin (Kev's eight-bit tune) and Nan's Wireless (a
-  gentle waltz on a music box), plus shuffle. In October there's a fifth, The Haunted Arcade (spooky organ and a
-  theremin), and at Christmas, Tinsel on the Telly (sleigh bells and a celesta). It sits quietly under the game, with a Music slider in the jukebox and in
+  gentle waltz on a music box), plus shuffle. Each season adds one: The Haunted Arcade in October (spooky organ
+  and a theremin), Penny for the Guy on Bonfire Night (a jig) and Tinsel on the Telly at Christmas (sleigh bells and a
+  celesta). It sits quietly under the game, with a Music slider in the jukebox and in
   Stats. It stops while you're muted, outside or in another tab, and when the power goes the record winds down. Switch
   it off in the jukebox or in Stats. Everyone in the group chat has an opinion about your record.
 - **Board styles,** in Stats: Card table felt, Neon, Nan's knitting (purple wool, cable stitch) and Gold leaf, for
