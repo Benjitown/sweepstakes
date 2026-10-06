@@ -56,6 +56,9 @@ export const Sound = (() => {
     gamble(k) { tone(k ? 880 : 660, .05, 'square', .07); },
     // the paper through the letterbox: the flap clacks, the paper thumps on the mat
     letterbox() { noise(.04, .5, 1800, 0, 'bandpass'); tone(420, .05, 'square', .06, 0, 300); noise(.12, .45, 600, .12); tone(95, .14, 'sine', .4, .12, 60); },
+    // the Red Lion's crowd: applause (lots of little claps) or a good-natured boo
+    cheer() { for (let k = 0; k < 40; k++) noise(.04, .1 + Math.random() * .12, 1500 + Math.random() * 2000, k * .04 + Math.random() * .05, 'bandpass'); },
+    boo() { tone(190, .9, 'sawtooth', .04, 0, 120); tone(160, 1, 'sawtooth', .035, .12, 105); tone(140, .9, 'triangle', .1, .05, 95); },
     // a dart in the board: a short thunk
     dart() { noise(.03, .45, 900, 0, 'bandpass'); tone(170, .06, 'square', .12, 0, 70); tone(75, .1, 'sine', .3); },
     // the claw machine paying out: an eight-bit arpeggio

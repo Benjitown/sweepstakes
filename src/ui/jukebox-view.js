@@ -1,6 +1,6 @@
 // The jukebox (the button by the mute button, or J): put a record on, shuffle them, turn it down or switch it off.
 // src/audio/music.js plays them; the notes are in src/data/jukebox.js and the records' names in src/content/jukebox.js.
-import { $, $$, esc } from '../core/util.js';
+import { $, $$, esc, fmt } from '../core/util.js';
 import { S, SaveGame, pref } from '../core/state.js';
 import { MUSIC, TRACKS } from '../data/jukebox.js';
 import { RECORDS, SHUFFLE } from '../content/jukebox.js';
@@ -9,6 +9,8 @@ import { Music } from '../audio/music.js';
 import { AudioEngine } from '../audio/engine.js';
 import { Chat } from './chat.js';
 import { UI } from './ui.js';
+import { KaraokeView } from './karaoke-view.js';
+import { Karaoke } from '../game/karaoke.js';
 
 const JUKE_ART = `<svg class="jbox" viewBox="0 0 120 150" aria-hidden="true">
   <path d="M8 146 V62 A52 52 0 0 1 112 62 V146 Z" fill="#5a2a82" stroke="#141b1d" stroke-width="4" stroke-linejoin="round"/>
@@ -28,10 +30,12 @@ export const JukeboxView = {
       <ul class="jlist" aria-label="Records">${recs.map(([id, r]) => `<li><button type="button" class="jrec" data-rec="${id}" aria-pressed="false">
         <kbd>${r.code}</kbd><b>${esc(r.name)}</b><small>${esc(r.by)}</small><span>${esc(r.blurb)}</span></button></li>`).join('')}</ul>
       <label class="sl" for="jukeVol"><span>Music</span><input type="range" id="jukeVol" min="0" max="100" step="5" value="${v}"><output class="num" id="jukeVolO">${v}%</output></label>
+      <button class="btn blue" type="button" id="jukeSing">${Karaoke.wait() > 0 ? `Karaoke: the machine’s resting (${Math.ceil(Karaoke.wait() / 60)} min)` : `Karaoke: sing Last Orders (${fmt(Karaoke.fee())})`}</button>
       <div class="row"><button class="btn ghost" type="button" id="jukeOff"></button><button class="btn green" type="button" data-a="close">Done</button></div></div>`,
       { close: () => UI.closeModal() });
     $$('.jrec', UI.el.box).forEach(b => b.onclick = () => this.choose(b.dataset.rec));
     $('#jukeOff').onclick = () => this.toggle();
+    $('#jukeSing').onclick = () => KaraokeView.open();
     const inp = $('#jukeVol'), out = $('#jukeVolO');
     inp.oninput = () => { S.musicVol = +inp.value / 100; out.textContent = inp.value + '%'; Music.applyVolume(); Sound.slide(S.musicVol); };
     inp.onchange = () => SaveGame.saveNow();
