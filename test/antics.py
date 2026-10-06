@@ -393,6 +393,14 @@ async def run(browser, url, shots):
     await pg.click('#stats [data-skin="classic"]'); await pg.wait_for_timeout(200)
     ok(await pg.evaluate("document.body.dataset.skin === 'classic' && __sw.Skins.owned('felt')"), 'and you can swap back to Classic (and back again) for free')
     await pg.click('[data-tab="shop"]')
+    # --- after a storm, sometimes a rainbow: a pot of gold, so your next board's golden
+    g0 = await pg.evaluate("(() => { __sw.HouseholdView.clear(); __sw.UI.closeModal(); return __sw.S.goldNext; })()")
+    await pg.evaluate("(() => { __sw.Storm.RAINBOW = 1; __sw.Storm.start(30); __sw.Storm.end(); __sw.Storm.RAINBOW = 0; })()"); await pg.wait_for_timeout(700)
+    ok(await pg.evaluate('__sw.S.goldNext') == g0 + 1 and await pg.evaluate("!!document.querySelector('.rainbow')") and 'rainbow' in await toasts(pg)
+       and not await pg.evaluate("document.querySelector('#goldChip').hidden"), 'after a storm, sometimes a rainbow: a pot of gold at the end of it, and your next board’s golden')
+    await pg.screenshot(path=str(shots / 'rainbow.png'))
+    await pg.evaluate("(() => { __sw.Storm.start(30); __sw.Storm.end(); })()"); await pg.wait_for_timeout(300)
+    ok(await pg.evaluate('__sw.S.goldNext') == g0 + 1, 'and sometimes just the sun coming out')
     # the chat's material: no question asked twice, three different answers each, no quip or thread twice
     dupes = await pg.evaluate("""(() => { const q = __sw.QUIZ.map(x => x[0]), qs = q.filter((x, i) => q.indexOf(x) !== i);
       const odd = __sw.QUIZ.filter(x => x.length !== 4 || new Set(x.slice(1)).size !== 3).map(x => x[0]);

@@ -34,6 +34,13 @@ export const StormView = {
     }
     return lit;
   },
+  // after the storm, sometimes: a rainbow across the sky for a while
+  rainbow() {
+    const old = document.querySelector('.rainbow'); if (old) old.remove();
+    const el = document.createElement('div'); el.className = 'rainbow'; el.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(el); setTimeout(() => el.remove(), 20000);
+    return el;
+  },
   off() {
     if (this.rain) { this.rain.stop(); this.rain = null; }
     const el = this.el; this.el = null;
