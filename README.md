@@ -53,11 +53,12 @@ src/
   audio/            Web Audio engine, game sounds, weird household noises
   board/            the board model, solver, factories, mine chain, payout decorators (+ New Game+ house edge)
   game/             the rules (game.js), commands, bots, rack, rank, double or nothing, daily, achievements,
-                    household (the door, the phone, the kitten, the seagull, the smoke detector), power cuts,
-                    the duck race, scratchcards, Nan's bingo, the Fruity (fruit machine), the pub quiz, going outside
+                    household (the door, the phone, the kitten, the seagull, the smoke detector, the ice cream van),
+                    power cuts, storms, the duck race, scratchcards, Nan's bingo, the Fruity (fruit machine),
+                    the pub quiz, going outside, KEVCOIN, Nan's stars
   ui/               one file per view: panels, boards, shop, modals, tutorial, daily, keys, coin graph, household, ducks...
 assets/             fonts (+ OFL licence) and the favicon
-tools/              build.py, serve.py, vc.py (version control), export_rules.mjs, sim/ (economy + Fruity simulators)
+tools/              build.py, serve.py, vc.py (version control), export_rules.mjs, sim/ (economy, Fruity and KEVCOIN simulators)
 ports/              terminal versions in Kotlin, C# and Python (see ports/README.md)
 test/               Playwright test suites (python test/run.py)
 ```
@@ -89,6 +90,10 @@ The suites run against both the ES-module source and the built file:
   back early, the fresh air bonus, Nan's nudge)
 - **fruity:** the fruit machine: what it pays back (worked out exactly), wins and the meter, nudges, holds, the gamble,
   the jackpot, the stakes, and leaving with a win in the meter
+- **wildcards:** the newest experimental bits: thunderstorms (lightning that shows the mines, a strike that cuts the
+  power, Lightning Reflexes) and KEVCOIN (the launch, trading with Kev's cut, the cap, a pump, the rug pull and the
+  relaunch, and a seeded check that holding it loses money), the ice cream van (a cone, the sugar rush) and Nan's
+  stars (the daily reading, the lucky number)
 - **layout:** desktop, tablet and phone sizes with no sideways scrolling
 
 Screenshots go to `test/screenshots/`.

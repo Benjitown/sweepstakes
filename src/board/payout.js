@@ -2,6 +2,7 @@
 import { fmt } from '../core/util.js';
 import { S, hasA } from '../core/state.js';
 import { PowerCut } from '../game/power-cut.js';
+import { IceCream } from '../game/ice-cream.js';
 
 /* =====================================================================================
    Decorator · https://refactoring.guru/design-patterns/decorator
@@ -41,10 +42,19 @@ class DarkPayout extends PayoutDecorator {
     return r;
   }
 }
+// A sugar rush from the ice cream van: the next winning cash-out gets +25% on its profit (one cone, one cash-out).
+class SugarPayout extends PayoutDecorator {
+  pay(b, why) {
+    const r = super.pay(b, why), profit = r.amount - b.stake;
+    if (profit > 0 && S.sugar > 0) { const e = Math.floor(profit * IceCream.RUSH); S.sugar--; r.amount += e; r.extras.push(['sugar', `Sugar rush +${fmt(e)}`]); }
+    return r;
+  }
+}
 export const HOUSE_EDGE = .25;
 const PAYOUT_DECORATORS = [['egg', NestEggPayout], ['flagfan', FlagFanaticPayout], ['compound', CompoundPayout], ['dinner', ChickenDinnerPayout]];
 export const buildPayout = () => {
   let p = PAYOUT_DECORATORS.reduce((acc, [id, D]) => hasA(id) ? new D(acc) : acc, new Payout());
   if (S.life.casinos) p = new HouseEdgePayout(p);
+  if (S.sugar > 0) p = new SugarPayout(p);
   return PowerCut.on ? new DarkPayout(p) : p;
 };

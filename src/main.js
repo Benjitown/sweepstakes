@@ -50,6 +50,7 @@ import { Quiz } from './game/quiz.js';
 import { Bingo } from './game/bingo.js';
 import { Fruity } from './game/fruity.js';
 import { FruityView } from './ui/fruity-view.js';
+import { KevView } from './ui/kevcoin-view.js';
 import { Outside } from './game/outside.js';
 import { exposeForTests } from './debug.js';
 
@@ -67,6 +68,7 @@ if (!TBY[S.sel] || !S.unlocked.includes(S.sel)) S.sel = 'penny';
 DuckRace.settle(); Scratchcards.settle(); Bingo.settle(); Fruity.settle(); // a duck race, scratchcard, bingo ticket or Fruity win you left behind still pays out
 if (!S.rack || !S.rack.length || S.rackAt > S.run.time) Rack.roll();
 renderAll();
+KevView.bind();
 TablesView.reveal();
 Bots.timer = setTimeout(() => Bots.tick(), Bots.delay());
 WeirdNoises.schedule();

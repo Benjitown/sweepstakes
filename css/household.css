@@ -34,6 +34,18 @@
 .kitten:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:12px}
 .kheart{position:absolute;left:50%;top:-4px;width:22px;height:20px;pointer-events:none;animation:kheart 1.2s ease-out forwards}
 
+/* the ice cream van: drives along the bottom (above the kitten's level), wheels turning; tap it for a cone */
+.van{position:fixed;left:0;bottom:calc(2px + env(safe-area-inset-bottom,0px));z-index:46;width:150px;height:92px;padding:0;border:0;background:none;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.van .vb{display:block;width:100%;height:100%;animation:vbob .3s ease-in-out infinite alternate}
+.van svg{width:100%;height:100%;display:block;overflow:visible}
+.van .vwheel{transform-box:fill-box;transform-origin:center;animation:spinicon .5s linear infinite}
+.van .vtext{font-family:var(--big);font-size:14px;fill:#ff4f8b;letter-spacing:.04em}
+.van.serving .vb,.van.serving .vwheel{animation-play-state:paused}
+.van.served{pointer-events:none}
+.van .vcone{position:absolute;left:61px;top:-6px;width:30px;height:42px;pointer-events:none;animation:vcone 1.6s ease-out forwards}
+.van:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:12px}
+
 /* the seagull: swoops onto your coins (in front of the run panel), pecks, and flies off with some unless you tap it */
 .gull{--gd:1;position:fixed;left:0;top:0;z-index:47;width:84px;height:56px;padding:0;border:0;background:none;cursor:pointer;
   -webkit-tap-highlight-color:transparent;touch-action:manipulation}

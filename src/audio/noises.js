@@ -59,6 +59,20 @@ function tweet(a, out, s, f0, f1, d) { // one chirp of a small bird
   o.type = 'sine'; o.frequency.setValueAtTime(f0, s); o.frequency.exponentialRampToValueAtTime(f1, s + d);
   o.connect(g).connect(out); o.start(s); o.stop(s + d + .02);
 }
+function rumble(a, out, s, d, f, v) { // a roll of thunder: low noise that swells, then grumbles away unevenly
+  const n = a.createBufferSource(), lp = a.createBiquadFilter(), g = a.createGain();
+  n.buffer = nbuf(a, d); lp.type = 'lowpass'; lp.Q.value = .8; lp.frequency.setValueAtTime(f, s); lp.frequency.exponentialRampToValueAtTime(f * .4, s + d);
+  g.gain.setValueAtTime(.0001, s); g.gain.exponentialRampToValueAtTime(v, s + .25 + Math.random() * .3);
+  for (let t = s + .55; t < s + d - .5; t += .2 + Math.random() * .35) g.gain.exponentialRampToValueAtTime(v * (.3 + Math.random() * .7) * (1 - .7 * (t - s) / d), t);
+  g.gain.exponentialRampToValueAtTime(.0001, s + d);
+  n.connect(lp).connect(g).connect(out); n.start(s);
+}
+// Greensleeves (traditional, 16th century): [note, beats] from A minor's first half; the van plays it at a gallop
+const GREENSLEEVES = [['A4', 1], ['C5', 2], ['D5', 1], ['E5', 1.5], ['F5', .5], ['E5', 1], ['D5', 2], ['B4', 1], ['G4', 1.5], ['A4', .5], ['B4', 1], ['C5', 2], ['A4', 1],
+  ['A4', 1.5], ['G#4', .5], ['A4', 1], ['B4', 2], ['G#4', 1], ['E4', 2], ['A4', 1], ['C5', 2], ['D5', 1], ['E5', 1.5], ['F5', .5], ['E5', 1], ['D5', 2], ['B4', 1],
+  ['G4', 1.5], ['A4', .5], ['B4', 1], ['C5', 1.5], ['B4', .5], ['A4', 1], ['G#4', 1.5], ['F#4', .5], ['G#4', 1], ['A4', 3]];
+const NOTE_HZ = { E4: 329.63, 'F#4': 369.99, G4: 392, 'G#4': 415.3, A4: 440, B4: 493.88, C5: 523.25, D5: 587.33, E5: 659.25, F5: 698.46 };
+const VAN_BEAT = .24;
 function knuckle(a, out, s, v) { // knuckle on a wooden door: a dull thump with a bit of crack
   const n = a.createBufferSource(), bp = a.createBiquadFilter(), g = envG(a, s, v, .002, .004, .07);
   n.buffer = nbuf(a, .08); bp.type = 'bandpass'; bp.frequency.value = 190 + Math.random() * 50; bp.Q.value = 3.5;
@@ -213,6 +227,44 @@ export const NOISES = {
     const d = 3, n = a.createBufferSource(), bp = a.createBiquadFilter(), g = envG(a, t, 1, 1.2, .5, 1.3);
     n.buffer = nbuf(a, d); bp.type = 'bandpass'; bp.Q.value = .7; bp.frequency.setValueAtTime(380, t); bp.frequency.linearRampToValueAtTime(900, t + 1.5); bp.frequency.linearRampToValueAtTime(480, t + d);
     n.connect(bp).connect(g).connect(out); n.start(t);
+  } },
+  icecream: { volume: 2.4, w: .35, dur: GREENSLEEVES.reduce((s, [, b]) => s + b, 0) * VAN_BEAT, play(a, out, t) { // the ice cream van, coming down the road
+    const d = this.dur + .4, pass = a.createGain(), bp = a.createBiquadFilter(), lfo = a.createOscillator(), wob = a.createGain();
+    pass.gain.setValueAtTime(.12, t); pass.gain.linearRampToValueAtTime(1, t + d * .45); pass.gain.linearRampToValueAtTime(.08, t + d); // here it comes, there it goes
+    bp.type = 'bandpass'; bp.frequency.value = 1900; bp.Q.value = .7; bp.connect(pass).connect(out); // a tinny horn speaker
+    lfo.frequency.value = 5.5; wob.gain.value = 22; lfo.connect(wob); lfo.start(t); lfo.stop(t + d); // the tape's had a hard life: ±22 cents of warble
+    let s = t;
+    for (const [n, beats] of GREENSLEEVES) {
+      const f = NOTE_HZ[n], len = beats * VAN_BEAT, g = envG(a, s, .5, .005, len * .25, len * .7), doppler = 30 - 60 * (s - t) / d;
+      for (const [type, mul, v] of [['square', 2, .55], ['sine', 4, .25]]) {
+        const o = a.createOscillator(), og = a.createGain(); o.type = type; o.frequency.value = f * mul; o.detune.value = doppler; wob.connect(o.detune);
+        og.gain.value = v; o.connect(og).connect(g); o.start(s); o.stop(s + len + .05);
+      }
+      g.connect(bp); s += len;
+    }
+  } },
+  thunder: { volume: 6, w: .45, play(a, out, t) { // thunder a few miles off (and the start of a storm)
+    rumble(a, out, t, 3.2 + Math.random() * 1.2, 240, .9); rumble(a, out, t + .35, 2.6, 130, .7);
+  } },
+  crack: { volume: 3, w: 0, play(a, out, t) { // lightning right overhead: a sharp crack, then the roll
+    const c = a.createBufferSource(), hp = a.createBiquadFilter(), cg = envG(a, t, .12, .002, .05, .3);
+    c.buffer = nbuf(a, .4); hp.type = 'highpass'; hp.frequency.value = 1300; c.connect(hp).connect(cg).connect(out); c.start(t);
+    rumble(a, out, t + .04, 3.8, 520, 1); rumble(a, out, t + .25, 3.2, 170, .8);
+  } },
+  rain: { volume: .8, w: 0, play(a, out, t) { // rain on the window: a hiss and drops pattering; up to three minutes (the storm stops it sooner)
+    const d = 180, g = a.createGain();
+    g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(1, t + 3); g.gain.setValueAtTime(1, t + d - 4); g.gain.exponentialRampToValueAtTime(.0001, t + d);
+    g.connect(out);
+    const hiss = a.createBufferSource(), hp = a.createBiquadFilter(), lp = a.createBiquadFilter(), hg = a.createGain();
+    hiss.buffer = nbuf(a, 2.3); hiss.loop = true; hp.type = 'highpass'; hp.frequency.value = 700; lp.type = 'lowpass'; lp.frequency.value = 4500; hg.gain.value = .45;
+    hiss.connect(hp).connect(lp).connect(hg).connect(g); hiss.start(t); hiss.stop(t + d);
+    // the drops: a few seconds of little clicks at random, looped (3.7 s against the hiss's 2.3, so it doesn't sound like a loop)
+    const len = Math.floor(a.sampleRate * 3.7), buf = a.createBuffer(1, len, a.sampleRate), x = buf.getChannelData(0);
+    for (let k = 0; k < 140; k++) { const at = Math.floor(Math.random() * (len - 600)), amp = .2 + Math.random() * .8, dec = 60 + Math.random() * 200;
+      for (let i = 0; i < 600; i++) x[at + i] += (Math.random() * 2 - 1) * amp * Math.exp(-i / dec); }
+    const drops = a.createBufferSource(), bp = a.createBiquadFilter(), dg = a.createGain();
+    drops.buffer = buf; drops.loop = true; bp.type = 'bandpass'; bp.frequency.value = 2600; bp.Q.value = .6; dg.gain.value = .6;
+    drops.connect(bp).connect(dg).connect(g); drops.start(t); drops.stop(t + d);
   } },
   meow: { volume: 1.75, w: .8, play(a, out, t) {
     const d = .75, o = a.createOscillator(), f1 = a.createBiquadFilter(), f2 = a.createBiquadFilter(), mix = a.createGain(), g = envG(a, t, 1, .08, d * .6 - .08, d * .4);

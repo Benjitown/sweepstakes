@@ -8,6 +8,8 @@ import { WeirdNoises } from '../audio/noises.js';
 import { Game } from '../game/game.js';
 import { Household, MISSED } from '../game/household.js';
 import { PowerCut } from '../game/power-cut.js';
+import { Storm } from '../game/storm.js';
+import { VanView } from './van-view.js';
 import { UI } from './ui.js';
 import { Coach } from './tutorial.js';
 
@@ -60,11 +62,13 @@ export const HouseholdView = {
   GULL_MS: 3600, // how long the seagull pecks at your coins before it flies off with some
   bind() { $('#chirpChip').onclick = () => this.fixBattery(); },
   // is now a good time for something to happen? Never in a window, in the tutorial, or while something else is happening.
-  free() { return UI.modalClosed() && !Coach.active && !this.card && !this.kitten && !this.gull; },
+  free() { return UI.modalClosed() && !Coach.active && !this.card && !this.kitten && !this.gull && !VanView.van && !Storm.on; },
   start(kind, k, handle) {
     if (kind === 'kitten') this.walkKitten();
     else if (kind === 'gull') this.swoopGull();
     else if (kind === 'powercut') this.powerCut();
+    else if (kind === 'storm') this.storm();
+    else if (kind === 'van') VanView.drive(handle);
     else if (ASK[kind]) this.ask(kind, k, handle);
   },
 
@@ -93,6 +97,7 @@ export const HouseholdView = {
   clear() {
     this.close(); if (this.kitten) { this.kitten.remove(); this.kitten = null; }
     if (this.gull) { this.gull.leave(); this.gull = null; }
+    VanView.clear();
   },
 
   ask(kind, k, handle) {
@@ -144,6 +149,14 @@ export const HouseholdView = {
     this.show({ icon: 'bulb', mood: 'bad', title: 'The meter’s run out', ms: ASK_MS,
       text: `The lights go out and the fridge sighs. Until the power’s back, boards cashed out in the dark pay +${Math.round(PowerCut.BONUS * 100)}% danger money.`,
       buttons: [[`Top up (${fmt(cost)})`, 'gold', () => { if (!PowerCut.topUp()) UI.toast('You can’t afford the meter. Torch it is.'); }], ['Play in the dark', 'purple']] });
+  },
+
+  // thunder in the distance, then the rain: the lightning shows the mines, if you're quick
+  storm() {
+    if (!Storm.start()) return;
+    this.show({ icon: 'bolt', mood: 'weird', title: 'Thunderstorm',
+      text: 'Rain’s hammering on the window. When the lightning flashes, watch your boards: for a split second you can see every mine.',
+      buttons: [['Eyes peeled', 'blue']] });
   },
 
   /* the seagull: swoops down onto your coins and pecks at them. Tap it before it flies off with some. */

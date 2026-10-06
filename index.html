@@ -22,6 +22,8 @@
 <link rel="stylesheet" href="css/booth.css">
 <link rel="stylesheet" href="css/outside.css">
 <link rel="stylesheet" href="css/fruity.css">
+<link rel="stylesheet" href="css/storm.css">
+<link rel="stylesheet" href="css/kevcoin.css">
 <link rel="stylesheet" href="css/animations.css">
 </head>
 <body>
@@ -38,6 +40,7 @@
       <div class="ascbadge" id="ascBadge" hidden><svg aria-hidden="true"><use href="#i-asc"/></svg><span class="long"></span><span class="short"></span></div>
       <div class="streak" id="streak" hidden title="Win streak: bonus on profit"><svg aria-hidden="true"><use href="#i-flame"/></svg><span class="long"></span><span class="short"></span></div>
       <div class="goldchip" id="goldChip" hidden title="Golden boards waiting for you"><svg aria-hidden="true"><use href="#i-crown"/></svg><span class="long"></span><span class="short"></span></div>
+      <div class="sugarchip" id="sugarChip" hidden title="Sugar rush: +25% on the profit of your next winning cash-out"><svg aria-hidden="true"><use href="#i-cone"/></svg><span class="long"></span><span class="short"></span></div>
       <button class="chirpchip" id="chirpChip" type="button" hidden title="The smoke detector wants a new battery"><svg aria-hidden="true"><use href="#i-battery"/></svg><span class="long">Change the battery</span><span class="short">Fix</span></button></div>
     <div class="inset goal" id="goal"><span class="lbl goal-l"></span><span class="goal-bar"><i></i></span></div>
     <div class="run-actions">
@@ -81,7 +84,7 @@
       <div id="stats" class="stats" role="tabpanel" hidden></div>
     </div>
     <div class="panel">
-      <h2>The Group Chat<small>5 members, 0 sense</small></h2>
+      <h2 class="chathead">The Group Chat<small>5 members, 0 sense</small><button type="button" class="kevtick" id="kevTicker" hidden></button></h2>
       <div id="chat" class="chat" aria-live="polite"></div>
     </div>
   </aside>
@@ -269,6 +272,22 @@
   <rect x="38" y="32" width="10" height="10" rx="2" fill="#ffd23f" stroke="#141b1d" stroke-width="2.5"/>
  </g>
  <circle cx="50" cy="49" r="10" fill="#ffd23f" stroke="#141b1d" stroke-width="3.5"/><path d="M46 46 a5 5 0 0 1 6 -2" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+</symbol>
+<symbol id="i-kevcoin" viewBox="0 0 64 64">
+ <circle cx="32" cy="32" r="25" fill="#ffa31a" stroke="#141b1d" stroke-width="4"/>
+ <circle cx="32" cy="32" r="18" fill="none" stroke="#ad6800" stroke-width="2.5" stroke-dasharray="3 4"/>
+ <path d="M26 20 v24 M26 34 l12 -14 M30 30 l9 14" fill="none" stroke="#141b1d" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+ <path d="M18 19 q4 -6 11 -7" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".6"/>
+</symbol>
+<symbol id="i-cone" viewBox="0 0 64 64">
+ <path d="M18 30 l14 30 l14 -30 z" fill="#e0a85a" stroke="#141b1d" stroke-width="4" stroke-linejoin="round"/><path d="M24 36 l12 12 M30 34 l10 10 M36 34 l-12 12 M42 36 l-12 14" stroke="#ad6800" stroke-width="2"/>
+ <circle cx="32" cy="23" r="15" fill="#fff8e6" stroke="#141b1d" stroke-width="4"/><path d="M20 20 q12 9 24 0" fill="none" stroke="#ff4f8b" stroke-width="4" stroke-linecap="round"/>
+ <path d="M38 12 l8 -9" stroke="#7a4a1e" stroke-width="5" stroke-linecap="round"/>
+</symbol>
+<symbol id="i-stars" viewBox="0 0 64 64">
+ <path d="M28 6 l6 15 l16 1 l-12 10 l4 16 l-14 -9 l-14 9 l4 -16 l-12 -10 l16 -1 z" fill="#ffd23f" stroke="#141b1d" stroke-width="4" stroke-linejoin="round"/>
+ <path d="M50 38 l2.5 6 l6.5 .5 l-5 4 l1.6 6.5 l-5.6 -3.6 l-5.6 3.6 l1.6 -6.5 l-5 -4 l6.5 -.5 z" fill="#a275f0" stroke="#141b1d" stroke-width="3" stroke-linejoin="round"/>
+ <path d="M22 18 q3 -4 7 -5" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".7"/>
 </symbol>
 <!-- the Fruity's reel symbols -->
 <symbol id="i-cherry" viewBox="0 0 64 64">

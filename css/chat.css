@@ -15,3 +15,9 @@
 .qopt.wrong{background:var(--red);opacity:1}
 .qprize{display:block;font-size:.7rem;color:var(--ink-dim)}
 .qtimer{position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--gold);transform-origin:left;animation:htimer var(--qt,25s) linear forwards}
+/* Nan's stars: twelve signs to pick from, then her reading with the day's lucky number on a gold tag */
+.qopts.signs{grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
+.qopts.signs .qopt{padding:4px 2px;font-size:.74rem;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.msg.stars .bubble{box-shadow:inset 0 0 0 2px var(--purple)}
+.msg.stars .lucky{display:flex;align-items:center;gap:6px;width:max-content;margin:6px 0 2px;padding:2px 9px;border-radius:8px;background:var(--gold);color:#3b2b00;font-size:.78rem;font-weight:700}
+.msg.stars .lucky b{display:inline;color:inherit;font-family:var(--big);font-weight:400;font-size:1.25rem;line-height:1}
