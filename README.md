@@ -87,6 +87,10 @@ Screenshots go to `test/screenshots/`.
 finds a compiler for, checks that its Daily Challenge matches the web game exactly, plays a scripted game and passes
 one save file between them.
 
+On GitHub, Actions runs all of this on every push and pull request (`.github/workflows/ci.yml`), and attaches the
+built game to each run so any branch can be played. Every push to main also publishes the game to GitHub Pages
+(`.github/workflows/pages.yml`) once Pages is switched on: Settings > Pages > Source: GitHub Actions.
+
 ## Branches and version control
 
 The project lives in git, on GitHub. Work moves through three branches:
