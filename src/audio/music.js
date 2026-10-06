@@ -9,6 +9,8 @@ import { MUSIC, TRACKS, TRACK_BY } from '../data/jukebox.js';
 const MUSIC_PITCH = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 };
 export const musicMidi = s => { const m = /^([A-G])(#|b)?(\d)$/.exec(s); return m ? 12 * (+m[3] + 1) + MUSIC_PITCH[m[1]] + (m[2] === '#' ? 1 : m[2] === 'b' ? -1 : 0) : 0; };
 const musicHz = s => 440 * 2 ** ((musicMidi(s) - 69) / 12);
+// when step s of a bar of track T starts, in seconds from the start of the bar (swing pushes the off-beats late)
+export const stepAt = (T, s) => { const beat = 60 / T.bpm; return Math.floor(s / T.sub) * beat + (T.sub === 2 && s % 2 ? T.swing * beat : (s % T.sub) * beat / T.sub); };
 const musicNoise = new WeakMap(); // a second of white noise per audio context, shared by every drum hit
 
 // a gain that swells to v in atk seconds, then dies away to nothing by `end`
@@ -159,7 +161,7 @@ export const Music = {
   // one bar of track T (bar k, time round `loop`) from time t0 into out; returns how long the bar lasts
   bar(a, out, T, k, loop, t0) {
     const beat = 60 / T.bpm, step = beat / T.sub, n = T.beats * T.sub, [ch, low, tune] = T.bars[k], mix = MIX[T.id];
-    const at = s => t0 + Math.floor(s / T.sub) * beat + (T.sub === 2 && s % 2 ? T.swing * beat : (s % T.sub) * step);
+    const at = s => t0 + stepAt(T, s);
     const chordAt = s => (Array.isArray(ch) ? ch[s < n / 2 ? 0 : 1] : ch).split(' ');
     const play = (voice, note, s, len, v) => { VOICES[voice](a, out, musicHz(note), at(s), len * step, v); this.notes++; };
     T.comp.forEach(([s, len, v]) => chordAt(s).forEach(note => play(T.keys, note, s, len, mix.keys * v)));

@@ -112,6 +112,8 @@ The suites run against both the ES-module source and the built file:
 - **paper:** The Daily Sweep: the newsroom noting the run's big moments, the paper arriving, the front page (the
   biggest story leads), Spot the Mine (one or two certain mines; right pays once), the Sweepstake (Lucky Dip lines,
   the draw, the payouts, about half back), a quiet run, the bust screen's special edition, Stats and the phone
+- **karaoke:** the notes timed to the record (swing and all), the scoring (great, good, missed, bum notes), a standing
+  ovation and what it pays, the machine's rest, being booed off, singing with the sound muted, and the phone
 - **jukebox:** the records (every note a real note that fits its bar), putting one on, every record playing, shuffle,
   the Music switch and slider, and when the music stops (muted, outside, a power cut) and starts again
 - **layout:** desktop, tablet and phone sizes with no sideways scrolling

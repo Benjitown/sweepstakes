@@ -445,6 +445,14 @@ bus.on('paper:answer', ({ right, prize }) => { if (right) { Sound.cash(); UI.toa
 bus.on('paper:bust', a => PaperView.open(Paper.compose(Game.lastRun || S.run, 'bust'), a)); // the bust screen's "Read all about it"
 bus.on('reset', () => PaperView.chip());
 
+/* ---------- karaoke at the Red Lion ---------- */
+bus.on('karaoke:done', r => {
+  r.x >= 2 ? Sound.cheer() : r.x ? Sound.cash() : Sound.boo(); RunPanel.render(); Rank.award(2 + Math.round(8 * r.score));
+  if (r.x >= 3) { FX.confetti(120); Banner.show('STANDING OVATION', `${Math.round(r.score * 100)}% at the karaoke`, 'gold', true); }
+  UI.toast(r.pay ? `${r.verdict} +${fmt(r.pay)} from the karaoke pot.` : `${r.verdict} The pot stays behind the bar.`);
+  setTimeout(() => Chat.say(r.x >= 2 ? 'karaoke_great' : 'karaoke_bad', {}, 1), 1500);
+});
+
 /* ---------- the jukebox ---------- */
 bus.on('bust', () => Music.scratch()); // the needle comes off the record
 bus.on('board:boom', ({ b, src }) => { if (src !== 'bot' && b.stake >= Math.max(500, S.coins * .25)) Music.scratch(); });
