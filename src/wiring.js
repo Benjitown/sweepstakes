@@ -58,6 +58,7 @@ import { Dares } from './game/dares.js';
 import { DareView } from './ui/dare-view.js';
 import { Seasons } from './game/seasons.js';
 import { ClawView } from './ui/claw-view.js';
+import { Skins } from './game/skins.js';
 import { CarBoot } from './game/car-boot.js';
 import { Darts } from './game/darts.js';
 import { QuizNightView } from './ui/quiz-night-view.js';
@@ -372,6 +373,9 @@ bus.on('darts:done', m => { DartsView.done(m); RunPanel.render(); Rank.award(m.r
 bus.on('boot:due', () => { if (pref('odd') && !document.hidden && HouseholdView.free() && !Outside.on && S.coins >= 50) { CarBootView.invite(); setTimeout(() => Chat.say('boot_open', {}, .8), 1200); } });
 bus.on('boot:bought', () => setTimeout(() => Chat.say('boot_bought', {}, .5), 800));
 bus.on('boot:box', () => setTimeout(() => Chat.say('boot_box', {}, .8), 800));
+
+/* ---------- board styles ---------- */
+bus.on('skin', () => { document.body.dataset.skin = Skins.current(); });
 
 /* ---------- the claw machine ---------- */
 bus.on('claw:grab', ({ won, fx }) => { Rank.award(won ? 5 : 1); if (won) { RunPanel.render(); if (fx === 'golden') UI.toast('The golden crown! Your next board is golden.'); } });

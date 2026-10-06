@@ -54,6 +54,12 @@ export const Sound = (() => {
     reel(k = 0) { noise(.06, .4, 700 + k * 160, 0, 'bandpass'); tone(150 - k * 12, .09, 'square', .1, 0, 80); },
     nudge() { tone(520, .05, 'square', .09, 0, 300); noise(.04, .3, 1200, 0, 'bandpass'); tone(160, .07, 'sine', .25, .03, 90); },
     gamble(k) { tone(k ? 880 : 660, .05, 'square', .07); },
+    // a dart in the board: a short thunk
+    dart() { noise(.03, .45, 900, 0, 'bandpass'); tone(170, .06, 'square', .12, 0, 70); tone(75, .1, 'sine', .3); },
+    // the claw machine paying out: an eight-bit arpeggio
+    arcade() { [0, 4, 7, 12, 16, 19, 24].forEach((s, k) => tone(659.25 * 2 ** (s / 12), .09, 'square', .07, k * .055)); },
+    // the claw closing: a servo whirr and a clack
+    claw() { tone(300, .2, 'sawtooth', .04, 0, 520); noise(.03, .3, 2200, .2, 'bandpass'); },
     scratch() { if (!gate('scratch', 65)) return; noise(.07, .16, 2600 + Math.random() * 1400, 0, 'bandpass'); },
     coach() { tone(note(10), .06, 'sine', .14); tone(note(13), .09, 'sine', .12, .06); },
   };

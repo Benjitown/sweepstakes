@@ -65,7 +65,7 @@ export const DartsView = {
     let total = 0;
     m.dave.forEach((d, k) => setTimeout(() => {
       if (!this.live()) return;
-      this.mark(d, 'dave'); total += d.s; $('#dDave').textContent = k < 2 ? total : m.daveTotal; Sound.flag();
+      this.mark(d, 'dave'); total += d.s; $('#dDave').textContent = k < 2 ? total : m.daveTotal; Sound.dart();
       this.say(k < 2 ? `Dave: ${d.label}.` : `Dave: ${d.label}. That’s ${m.daveTotal}. Your go: press Throw when your aim’s where you want it.`);
       if (k === 2) { $('#dThrow').disabled = false; this.wobble(); }
     }, 700 + k * 650));
@@ -91,7 +91,7 @@ export const DartsView = {
   throw() {
     const m = Darts.match; if (!m) return;
     const d = Darts.throwAt(this.aim[0], this.aim[1]); if (!d) return;
-    this.mark(d, 'you'); Sound.flag();
+    this.mark(d, 'you'); Sound.dart();
     const n = m.mine.length, mine = m.mine.reduce((t, x) => t + x.s, 0);
     $('#dYou').textContent = mine;
     if (n < 3) this.say(`${d.label}! ${3 - n} to go.`);

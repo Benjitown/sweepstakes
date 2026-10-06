@@ -5,7 +5,7 @@ export const DARES = [
   { id: 'clean', task: 'clear a whole board without a single flag on it',    secs: 240 },
   { id: 'three', task: 'win three boards in a row',                          secs: 240 },
   { id: 'gem',   task: 'dig up a gem',                                       secs: 150 },
-  { id: 'quick', task: 'cash out a board in profit within 15 seconds of your first dig', secs: 150 },
+  { id: 'quick', task: 'cash out a board at ×1.5 or more within 15 seconds of your first dig', secs: 150 },
 ];
 export const DARE_BY = Object.fromEntries(DARES.map(d => [d.id, d]));
 export const DARE = {

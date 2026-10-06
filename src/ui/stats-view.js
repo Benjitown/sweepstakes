@@ -24,6 +24,8 @@ import { Stars } from '../game/horoscope.js';
 import { Tin } from '../game/biscuit-tin.js';
 import { SeasonView } from './season-view.js';
 import { CLAW_BY } from '../data/claw.js';
+import { SKINS, SKIN_BY } from '../data/skins.js';
+import { Skins } from '../game/skins.js';
 import { StarsView } from './stars-view.js';
 import { SIGNS } from '../content/horoscopes.js';
 
@@ -77,6 +79,8 @@ export const StatsView = {
         <li>The Fruity, in the corner of the booth: three on the line pays. A go that loses may light up nudges (drop the symbol above onto the line) or holds (keep up to two reels for the next go). Wins wait in the meter: collect them, or gamble them double or nothing.</li>
         <li>Go outside now and then (the button below, or G). The game pauses, and three whole minutes out pays a fresh air bonus.</li>
         <li>Progress saves in this browser. The coins aren’t real money.</li></ol>
+      <h2>Board style</h2><div class="skins">${SKINS.map(k => { const own = Skins.owned(k.id), on = Skins.current() === k.id;
+        return `<button type="button" class="skin" data-skin="${k.id}" style="--sk:${k.tile}" aria-pressed="${on}" title="${esc(k.blurb)}"><i></i><b>${esc(k.name)}</b><small>${on ? 'On' : own ? 'Yours' : fmt(k.cost)}</small></button>`; }).join('')}</div>
       <div class="sliders">${[['vol', 'Volume'], ['noiseVol', 'Household noises']].map(([k, label]) => { const v = Math.round(level(k) * 100);
         return `<label class="sl" for="sl-${k}"><span>${label}</span><input type="range" id="sl-${k}" min="0" max="100" step="5" value="${v}"><output class="num" id="sl-${k}-o">${v}%</output></label>`; }).join('')}</div>
       <div class="toggles"><label class="sw"><input type="checkbox" id="tg-crt" ${pref('crt') ? 'checked' : ''}> Scanlines</label>
@@ -101,6 +105,13 @@ export const StatsView = {
       const inp = $('#sl-' + k), out = $('#sl-' + k + '-o');
       inp.oninput = () => { S[k] = +inp.value / 100; out.textContent = inp.value + '%'; AudioEngine.get().applyVolume(); Sound.slide(S[k]); };
       inp.onchange = () => { SaveGame.saveNow(); sample(); };
+    });
+    $$('#stats [data-skin]').forEach(b => b.onclick = () => {
+      const k = SKIN_BY[b.dataset.skin];
+      if (Skins.owned(k.id)) Skins.wear(k.id);
+      else if (Skins.buy(k.id)) { Sound.buy(); UI.toast(`${k.name}: yours. ${k.blurb}`); }
+      else return UI.toast(`${k.name} costs ${fmt(k.cost)}.`);
+      this.render();
     });
     $('#btnTut').onclick = () => Coach.start(true);
     $('#btnGrass').onclick = () => OutsideView.open();

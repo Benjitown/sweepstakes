@@ -72,6 +72,7 @@ export const Achievements = {
     bus.on('pumpkin', ({ n }) => { if (n >= 5) u('pumpkin'); });
     bus.on('treat', () => u('treat'));
     bus.on('boot:haggled', () => u('haggle'));
+    bus.on('skin:bought', () => u('skin'));
     bus.on('night:done', ({ all }) => { if (all) u('night5'); });
     bus.on('darts:done', ({ result, total }) => { if (result === 'won') u('darts'); if (total === 180) u('ton80'); });
     bus.on('claw:grab', ({ won, prize }) => { if (won) { u('claw'); if (prize.id === 'crown') u('crown'); } });
