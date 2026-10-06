@@ -14,6 +14,7 @@ import { Chat } from './ui/chat.js';
 import { Quips } from './ui/quip-popups.js';
 import { Banner } from './ui/banner.js';
 import { UI } from './ui/ui.js';
+import { VERSION } from './version.js';
 import { SpinView } from './ui/spin-view.js';
 import { Coach } from './ui/tutorial.js';
 import { renderAll } from './wiring.js';
@@ -35,7 +36,7 @@ export function exposeForTests() {
   clearTimeout(WeirdNoises.timer); WeirdNoises.schedule = () => {};
   window.__sw = {
     get S() { return S; }, Game, Solver, Rack, Rank, bus, NOISES, WeirdNoises, Quips, Chat, Coach, SpinView,
-    Banner, FX, UI, renderAll, invoke, DigCommand, SaveGame, TABLES, AudioEngine,
+    Banner, FX, UI, VERSION, renderAll, invoke, DigCommand, SaveGame, TABLES, AudioEngine,
     Daily, Achievements, ACHIEVEMENTS, DailyView, Keys, CoinChart, seeded, hashString, Household, HouseholdView, DuckRace, DuckRaceView, DOOR, LINES, RUDE,
     get slots() { return Game.slots; },
   };
