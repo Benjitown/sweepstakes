@@ -1,6 +1,6 @@
 // Odd household noises that play at random: the smoke detector's 3am chirp, knocks, kittens, ducks, the phone...
 import { bus } from '../core/bus.js';
-import { pref } from '../core/state.js';
+import { pref, level } from '../core/state.js';
 import { AudioEngine } from './engine.js';
 
 /* =====================================================================================
@@ -173,8 +173,8 @@ export const WeirdNoises = {
   // plays a noise now; returns a handle with stop() so an event can cut it short (waving a tea towel at the alarm)
   play(k) {
     const eng = AudioEngine.get(), a = eng.ready(); if (!a) return { stop() {} };
-    const g = a.createGain(); g.gain.value = NOISES[k].volume; g.connect(eng.master); NOISES[k].play(a, g, a.currentTime + .03);
-    return { stop() { try { g.gain.setTargetAtTime(0, a.currentTime, .03); } catch (e) { /* already gone */ } } };
+    const g = a.createGain(); g.gain.value = NOISES[k].volume * level('noiseVol'); g.connect(eng.master); NOISES[k].play(a, g, a.currentTime + .03);
+    return { gain: g, stop() { try { g.gain.setTargetAtTime(0, a.currentTime, .03); } catch (e) { /* already gone */ } } };
   },
   // a random noise, weighted by w; `ok` can rule some out (no knock at the door while a window is open, say)
   pick(ok = () => true) {

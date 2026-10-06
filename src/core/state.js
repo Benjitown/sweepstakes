@@ -11,6 +11,7 @@ export function freshRun(life, prefs = {}) {
     tog: { coward: true, yolo: true, restake: true, goggles: true }, streak: 0, owned: false, asc: 0,
     addons: [], rack: [], rackAt: 0, rerolls: 0, spinAt: -1e9, goldNext: 0, wheel: 0, duckOwed: 0,
     muted: !!prefs.muted, crt: prefs.crt !== false, quips: prefs.quips !== false, odd: prefs.odd !== false, vibe: prefs.vibe !== false, rude: prefs.rude !== false,
+    vol: prefs.vol ?? 1, noiseVol: prefs.noiseVol ?? 1,
     run: { start: Date.now(), time: 0, boards: 0, wins: 0, losses: 0, biggest: 0, peak: START, don: 0, hist: [[0, START]] },
     life: life || freshLife(), boards: [] };
 }
@@ -34,6 +35,8 @@ export const lvl = id => S.upg[id] || 0;
 export const has = id => lvl(id) > 0;
 export const on = id => has(id) && S.tog[id];
 export const pref = k => S[k] !== false;
+// a 0–1 level setting (vol, noiseVol); missing in older saves means full volume
+export const level = k => typeof S[k] === 'number' ? Math.max(0, Math.min(1, S[k])) : 1;
 export const hasA = id => S.addons.some(a => a.id === id);
 export const boardCount = () => Math.min(MAXB, 1 + lvl('boards'));
 export const asc = () => S.asc || 0;
