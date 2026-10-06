@@ -67,6 +67,8 @@ import { CarBootView } from './ui/car-boot-view.js';
 import { SeasonView } from './ui/season-view.js';
 import { PUMPKIN } from './data/seasons.js';
 import { TREAT_CARD, EGGED_CARD } from './content/seasons.js';
+import { Music } from './audio/music.js';
+import { JukeboxView } from './ui/jukebox-view.js';
 
 const RED = 'var(--red)', GOLD = 'var(--gold)', GREEN = 'var(--green)', PURPLE = 'var(--purple)';
 export function renderAll(keepModal) {
@@ -233,6 +235,7 @@ bus.on('household', e => {
 });
 bus.on('kitten:gone', ({ petted }) => { if (!petted) Chat.say('kitten_gone', {}, .7); });
 bus.on('power', ({ on: isOn, why }) => {
+  Music.hold('power', isOn); // the jukebox goes with the lights
   if (isOn) { PowerView.on(); return; }
   PowerView.off(); WeirdNoises.play('powerup');
   if (why === 'reset') return;
@@ -376,6 +379,12 @@ bus.on('boot:due', () => { if (pref('odd') && !document.hidden && HouseholdView.
 bus.on('boot:bought', () => setTimeout(() => Chat.say('boot_bought', {}, .5), 800));
 bus.on('boot:box', () => setTimeout(() => Chat.say('boot_box', {}, .8), 800));
 
+/* ---------- the jukebox ---------- */
+bus.on('music', ({ first }) => {
+  JukeboxView.now();
+  if (first && !S.life.juke) { S.life.juke = 1; SaveGame.save(); UI.toast('The jukebox is on. Change the record with the jukebox button (or J), or switch it off in there.'); }
+});
+
 /* ---------- board styles ---------- */
 bus.on('skin', () => { document.body.dataset.skin = Skins.current(); });
 
@@ -399,6 +408,7 @@ bus.on('fruity:gamble', ({ won, streak }) => Chat.say(won ? 'fruity_double' : 'f
 
 /* ---------- touching grass ---------- */
 bus.on('outside', e => {
+  Music.hold('outside', e.on);
   if (e.on) { OutsideView.show(); return; }
   OutsideView.done(e);
   setTimeout(() => Chat.say(e.full ? 'grass_back' : 'grass_early', {}, .9), 800);

@@ -120,6 +120,15 @@ export const LINES = {
   storm_end:     [['nan', 'That’s blown over now love x'], ['kev', 'sun’s out. there’s a rainbow over the bins'], ['tash', 'storm’s gone. the drama isn’t'], ['priya', 'and just like that, the mines are invisible again']],
   rainbow:       [['nan', 'Ooh look, a rainbow love! Make a wish x'], ['tash', 'DOUBLE RAINBOW. no, single. still'], ['priya', 'there’s a pot of gold at the end of it. that’s just science'],
     ['kev', 'the rainbow ends at my house. I checked. it’s just the bins']],
+  // the jukebox: everyone has an opinion about your record
+  juke_lounge:   [['priya', 'very James Bond. are you wearing a bow tie'], ['dave', 'lift music. I love it'], ['nan', 'Ooh very posh. Shall I put my pearls on x'],
+    ['kev', 'this is what they play when you’re on hold to the bank']],
+  juke_pub:      [['dave', 'THIS IS MY SONG'], ['tash', 'Dave has already taken his shirt off'], ['nan', 'I know all the words to this one, love x'], ['priya', 'someone get Dave off the table']],
+  juke_chip:     [['kev', 'that’s my track. half a KEVCOIN to download it'], ['tash', 'what is this noise'], ['nan', 'Very jolly! Like the arcade on the pier x'],
+    ['dave', 'this is giving me a headache and a high score']],
+  juke_waltz:    [['nan', 'Oh I love this one. Come and have a dance with your Nan x'], ['priya', 'this is actually lovely'], ['dave', 'Big Dave waltzes. Big Dave is graceful'],
+    ['tash', 'I’m waltzing round the kitchen. don’t tell anyone']],
+  juke_off:      [['dave', 'who turned the music off'], ['nan', 'Bit of peace and quiet. Lovely x'], ['tash', 'thank you. finally']],
   // Biscuit the dog
   odd_bark:      [['nan', 'Is that next door’s dog again? He’s called Biscuit x'], ['kev', 'DOG. I repeat. DOG'], ['priya', 'dogs can smell mines, apparently. and fear'],
     ['tash', 'who’s a good boy'], ['dave', 'that dog owes me a sandwich']],
