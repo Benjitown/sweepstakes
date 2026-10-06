@@ -77,6 +77,14 @@ async def run(browser, url, shots):
     await pg.click('#kQuit'); await pg.wait_for_timeout(200); await pg.click('#kQuit')
     await pg.evaluate("__sw.S.muted = false")
 
+    # --- the invite in the group chat
+    await pg.evaluate("(() => { __sw.S.karaokeAt = 0; __sw.KaraokeView.invite(); })()"); await pg.wait_for_timeout(300)
+    inv = await pg.evaluate("(() => { const m = [...document.querySelectorAll('#chat .karaoke-invite')].pop(); return m ? m.textContent : ''; })()")
+    ok('Grab the mic' in inv and 'Not tonight' in inv, 'now and then the group chat calls you up for karaoke')
+    await pg.evaluate("[...document.querySelectorAll('#chat .karaoke-invite')].pop().querySelector('[data-a=\"sing\"]').click()"); await pg.wait_for_timeout(300)
+    ok(await pg.evaluate("!!__sw.Karaoke.live && !!document.getElementById('kLane')"), 'Grab the mic: straight up on stage')
+    await pg.click('#kQuit'); await pg.wait_for_timeout(200); await pg.click('#kQuit'); await pg.wait_for_timeout(150)
+
     # --- the phone
     pctx, pp, perrs = await open_page(browser, url, width=360, height=780, mobile=True, wait=1200)
     await pp.evaluate(SETUP)

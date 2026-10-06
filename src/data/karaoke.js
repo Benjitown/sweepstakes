@@ -10,4 +10,6 @@ export const KARAOKE = {
   GOOD: .16,         // and for a good one
   REST: 180,         // seconds of play before the machine's free again
   SPEED: 150,        // pixels a second the notes slide towards the mic
+  EVERY: [480, 960], // seconds between invites from the group chat
+  ANSWER: 40,        // seconds to say yes before someone else grabs the mic
 };

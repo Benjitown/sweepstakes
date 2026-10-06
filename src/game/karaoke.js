@@ -10,7 +10,13 @@ import { stepAt } from '../audio/music.js';
 import { Game } from './game.js';
 
 export const Karaoke = {
-  live: null,
+  live: null, timer: 0,
+  // now and then someone in the group chat says the karaoke's on
+  schedule(first) {
+    clearTimeout(this.timer);
+    const [lo, hi] = KARAOKE.EVERY;
+    this.timer = setTimeout(() => { bus.emit('karaoke:due'); this.schedule(); }, (first ?? lo + Math.random() * (hi - lo)) * 1000);
+  },
   fee: () => nice(Math.max(10, baseCap() * KARAOKE.FEE)),
   wait: () => Math.max(0, (S.karaokeAt || 0) - S.run.time),
   // every note to sing, in seconds from the start: a bar to count you in, then the tune, twice
