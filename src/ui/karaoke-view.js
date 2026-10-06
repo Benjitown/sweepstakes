@@ -1,7 +1,9 @@
 // Karaoke on screen: the tune's notes slide along a lane towards the mic, high notes higher, and you press Sing (or
 // Space) as each one reaches it. The record plays under you with the tune as a guide; the jukebox waits until you're
 // done. src/game/karaoke.js keeps the score.
-import { $, $$, fmt, esc, ico } from '../core/util.js';
+import { $, $$, fmt, esc, ico, rnd } from '../core/util.js';
+import { FRIENDS } from '../content/chat-lines.js';
+import { Chat } from './chat.js';
 import { S } from '../core/state.js';
 import { KARAOKE } from '../data/karaoke.js';
 import { TRACK_BY } from '../data/jukebox.js';
@@ -15,6 +17,23 @@ import { UI } from './ui.js';
 const MIC_X = 54;
 export const KaraokeView = {
   raf: 0, t0: 0, presses: [], keyFn: null, done: 0, audio: null,
+  expire: 0,
+  // the invite in the group chat (Priya or Big Dave): grab the mic, or not tonight
+  invite() {
+    const who = rnd(['priya', 'dave']), f = FRIENDS[who], chat = $('#chat'), fee = Karaoke.fee();
+    chat.insertAdjacentHTML('beforeend', `<div class="msg invite karaoke-invite">${Chat.avatar(f)}<div class="bubble" style="--fc:${f.col}"><b>${esc(f.name)}</b>
+      <span>${esc(rnd(who === 'dave' ? ['karaoke at the Red Lion. I’ve done Last Orders twice already. your turn', 'KARAOKE. the mic is free. the crowd is ready. the crowd is mostly me']
+        : ['karaoke’s on at the Red Lion. you’re up after Dave (please)', 'the karaoke machine is warmed up and Dave needs replacing. you in?']))}</span>
+      <div class="qopts"><button type="button" class="qopt" data-a="sing">${ico('juke', 'ic')} Grab the mic (${fmt(fee)})</button><button type="button" class="qopt" data-a="no">Not tonight</button></div></div></div>`);
+    while (chat.children.length > 40) chat.firstChild.remove();
+    chat.scrollTop = chat.scrollHeight; Sound.msg();
+    const el = chat.lastElementChild, settle = how => { clearTimeout(this.expire); $$('.qopt', el).forEach(b => { b.disabled = true; if (b.dataset.a === how) b.classList.add('right'); }); };
+    $('[data-a="sing"]', el).onclick = () => { if (!UI.modalClosed()) return UI.toast('Finish what you’re doing first.'); settle('sing'); this.open(); };
+    $('[data-a="no"]', el).onclick = () => { settle('no'); setTimeout(() => Chat.post(who, who === 'dave' ? 'fine. I’ll do it AGAIN' : 'Dave’s doing it again then. thanks'), 600); };
+    clearTimeout(this.expire); this.expire = setTimeout(() => settle(''), KARAOKE.ANSWER * 1000);
+    const r = chat.getBoundingClientRect();
+    if (r.top > innerHeight || r.bottom < 0) UI.toast('Karaoke’s on at the Red Lion (in the group chat).');
+  },
   // the song's clock, in seconds: the audio clock when there's sound (so the notes match the record), else the page's
   clock() { return this.audio ? this.audio.currentTime : performance.now() / 1000; },
   open() {

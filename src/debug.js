@@ -112,6 +112,7 @@ export function exposeForTests() {
   clearTimeout(QuizNight.timer); QuizNight.schedule = () => {}; // or quiz night
   Kev.second = () => {}; // KEVCOIN neither launches nor moves on its own; the tests call Kev.launch() and Kev.tick()
   Stars.second = () => {}; // and Nan doesn't read the stars unless a test asks
+  clearTimeout(Karaoke.timer); Karaoke.schedule = () => {}; // nor does anyone call you up for karaoke
   Paper.auto = false; // nor does the paper come unless a test delivers it
   Music.hold('test', true); // and the jukebox stays quiet unless a test puts a record on
   Storm.RAINBOW = 0; // no surprise rainbows (they make your next board golden) unless a test asks

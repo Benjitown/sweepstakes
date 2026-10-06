@@ -65,6 +65,7 @@ import { Music } from './audio/music.js';
 import { JukeboxView } from './ui/jukebox-view.js';
 import { AllotmentView } from './ui/allotment-view.js';
 import { PaperView } from './ui/paper-view.js';
+import { Karaoke } from './game/karaoke.js';
 import { exposeForTests } from './debug.js';
 
 $('#btnDon').onclick = () => DonLadder.start();
@@ -99,6 +100,7 @@ Dares.schedule();
 CarBoot.schedule();
 Darts.schedule();
 QuizNight.schedule();
+Karaoke.schedule();
 Chat.ambient();
 const hi = LINES.hello.slice().sort(() => Math.random() - .5);
 setTimeout(() => Chat.post(...hi[0]), 600);
