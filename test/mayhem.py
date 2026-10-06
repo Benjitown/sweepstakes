@@ -1,4 +1,4 @@
-"""Mayhem suite (experimental): the seagull after your coins, power cuts."""
+"""Mayhem suite (experimental): the seagull after your coins, power cuts, Nan's bingo."""
 from common import Results, open_page
 
 CLEAR = '__sw.HouseholdView.clear()'
@@ -90,6 +90,75 @@ async def run(browser, url, shots):
        'or wait, and the emergency credit kicks in')
     await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
     ok('Power cuts' in await text(pg, '#stats') and '1 topped up' in await text(pg, '#stats'), 'Stats counts power cuts and top-ups')
+
+    # --- Nan's bingo: the tickets are proper 90-ball tickets
+    bad = await pg.evaluate("""(() => { let bad = 0;
+      for (let i = 0; i < 300; i++) { const t = __sw.makeTicket(), nums = t.flat().filter(Boolean);
+        if (nums.length !== 15 || new Set(nums).size !== 15 || t.some(r => r.filter(Boolean).length !== 5)) bad++;
+        for (let c = 0; c < 9; c++) { const col = [0, 1, 2].map(r => t[r][c]).filter(Boolean), lo = c ? c * 10 : 1, hi = c === 8 ? 90 : c * 10 + 9;
+          if (!col.length || col.some((n, k) => n < lo || n > hi || (k && n <= col[k - 1]))) bad++; } }
+      return bad; })()""")
+    ok(bad == 0, '300 tickets: 15 numbers, 5 a row, every column used, each in its own decade and sorted top to bottom')
+    odds = await pg.evaluate("""(() => { const n = 6000, h = [0, 0, 0, 0], all = [...Array(90)].map((_, k) => k + 1);
+      for (let i = 0; i < n; i++) { const c = all.slice().sort(() => Math.random() - .5).slice(0, __sw.BINGO_CALLS); h[__sw.Bingo.score(__sw.makeTicket(), c).lines]++; }
+      return h.map(x => x / n); })()""")
+    house = 1
+    for i in range(15): house *= (60 - i) / (90 - i)
+    rtp = odds[1] * 1.5 + odds[2] * 5 + house * 250
+    ok(.24 < odds[1] < .35 and .02 < odds[2] < .055 and .86 < rtp < .99,
+       f'60 calls: a line {odds[1]:.1%}, two lines {odds[2]:.1%}, a full house 1 in {1 / house:.0f}; it pays back about {rtp:.0%}')
+    # the shelf (the booth's Bingo tab) and buying a ticket
+    await pg.evaluate("(() => { __sw.Coach.finish(); __sw.S.coins = 50000; __sw.S.upg.flip = 1; __sw.S.nanvoice = false; __sw.renderAll(); })()")
+    await pg.click('#btnFlip'); await pg.wait_for_timeout(300)
+    await pg.click('#modalBox [data-booth="bingo"]'); await pg.wait_for_timeout(300)
+    prices = await pg.evaluate("[...document.querySelectorAll('#modalBox .bticket .num')].map(e => e.textContent)")
+    ok(prices == ['20', '100', '500'], f'the booth’s Bingo tab sells three tickets: {prices}')
+    await pg.screenshot(path=str(shots / 'bingo_shelf.png'))
+    c0 = await pg.evaluate('__sw.S.coins')
+    await pg.click('#modalBox .bticket[data-kind="proper"]'); await pg.wait_for_timeout(300)
+    g = await pg.evaluate("(() => { const g = __sw.Bingo.game; return { price: g.price, prize: g.prize, lines: g.lines, owed: __sw.S.bingoOwed, nums: document.querySelectorAll('#modalBox .bn').length }; })()")
+    ok(await pg.evaluate('__sw.S.coins') == c0 - 100 and g['nums'] == 15 and g['owed'] == g['prize'], f"a Proper Bingo ticket costs 100 and shows its 15 numbers (this one: {['nothing', 'a line', 'two lines', 'a full house'][g['lines']]})")
+    await pg.keyboard.press('Escape'); await pg.wait_for_timeout(200)
+    ok(await pg.evaluate("!!document.querySelector('#modalBox .bcard')"), 'Escape can’t walk out on Nan mid-game')
+    await pg.wait_for_timeout(1500)
+    ok(await pg.evaluate("__sw.BingoView.st.k >= 1 && document.querySelectorAll('#modalBox .trail i').length >= 0 && /Call [1-9]/.test(document.querySelector('#bCount').textContent)"), 'Nan starts calling')
+    await pg.screenshot(path=str(shots / 'bingo_calling.png'))
+    await pg.evaluate("(() => { __sw.BingoView.FAST_MS = 15; })()")
+    await pg.click('#bingoFast'); await pg.wait_for_timeout(2000)
+    daubed = await pg.evaluate("[...document.querySelectorAll('#modalBox .bn.daub')].map(e => +e.dataset.n).sort((a, b) => a - b).join()")
+    want = await pg.evaluate("(() => { const g = __sw.BingoView.st.g; return g.ticket.flat().filter(n => n && g.calls.includes(n)).sort((a, b) => a - b).join(); })()")
+    ok(daubed == want and await pg.evaluate("__sw.BingoView.st.done"), f'“Hurry up, Nan” rattles through the rest; exactly the called numbers get dabbed ({len(want.split(",")) if want else 0})')
+    ok(await pg.evaluate('__sw.S.coins') == c0 - 100 + g['prize'] and not await pg.evaluate('__sw.S.bingoOwed'), f"the result pays what it said it would (+{g['prize']:,})")
+    # a fixed full house: the ticket's numbers come up early
+    await pg.evaluate("(() => { delete __sw.S.life.ach.house; delete __sw.S.life.ach.bingo; })()")
+    c0, bonus = await pg.evaluate(f"[__sw.S.coins, {reward}('house') + {reward}('bingo')]")
+    await pg.evaluate("""(() => { const g = __sw.Bingo.buy('proper'), nums = g.ticket.flat().filter(Boolean), rest = [...Array(90)].map((_, k) => k + 1).filter(n => !nums.includes(n));
+      g.calls = [...rest.slice(0, 20), ...nums, ...rest.slice(20, 45)]; Object.assign(g, __sw.Bingo.score(g.ticket, g.calls));
+      const prize = Math.floor(g.price * g.x); __sw.S.bingoOwed += prize - g.prize; g.prize = prize; __sw.BingoView.FAST_MS = 15; __sw.BingoView.play(g); })()""")
+    await pg.click('#bingoFast'); await pg.wait_for_timeout(2200)
+    res = await text(pg, '#bingoRes')
+    ok(await pg.evaluate('__sw.S.coins') == c0 - 100 + 25000 + bonus and 'Full house' in res, f'a full house pays ×250 (+25,000): “{res[:40]}”')
+    ok(await pg.evaluate("__sw.Achievements.has('house') && __sw.Achievements.has('bingo') && document.querySelectorAll('#modalBox .bn.lined').length === 15"),
+       'every number goes gold, and Eyes Down and Full House unlock')
+    await pg.screenshot(path=str(shots / 'bingo_house.png'))
+    # leave mid-game (reload): the winnings still arrive
+    await pg.evaluate("""(() => { const g = __sw.Bingo.buy('penny'), nums = g.ticket[0].filter(Boolean), rest = [...Array(90)].map((_, k) => k + 1).filter(n => !g.ticket.flat().includes(n));
+      g.calls = [...nums, ...rest.slice(0, 55)]; Object.assign(g, __sw.Bingo.score(g.ticket, g.calls)); const prize = Math.floor(g.price * g.x);
+      __sw.S.bingoOwed += prize - g.prize; g.prize = prize; __sw.SaveGame.saveNow(); __sw.BingoView.play(g); })()""")
+    c0, owed = await pg.evaluate("[__sw.S.coins, __sw.S.bingoOwed]")
+    await pg.reload(); await pg.wait_for_timeout(1300)
+    ok(owed == 30 and await pg.evaluate('__sw.S.coins') == c0 + 30 and not await pg.evaluate('__sw.S.bingoOwed'), 'leave with a line on the way and it pays on your next visit (×1.5 of 20)')
+    # Nan's invite in the chat, and B for bingo
+    await pg.evaluate("(() => { __sw.Coach.finish(); __sw.S.upg.flip = 1; __sw.S.coins = 50000; __sw.renderAll(); __sw.bus.emit('bingo:due'); })()"); await pg.wait_for_timeout(200)
+    ok(await pg.evaluate("!!document.querySelector('#chat .msg.invite .qopt')"), 'now and then Nan invites the chat to bingo')
+    await pg.click('#chat .msg.invite .qopt'); await pg.wait_for_timeout(300)
+    ok(await pg.evaluate("document.querySelectorAll('#modalBox .bticket').length === 3"), 'and her button opens the bingo hall')
+    await pg.keyboard.press('Escape'); await pg.wait_for_timeout(200)
+    await pg.evaluate("document.activeElement && document.activeElement.blur()"); await pg.keyboard.press('b'); await pg.wait_for_timeout(300)
+    ok(await pg.evaluate("document.querySelectorAll('#modalBox .bticket').length === 3"), 'B opens it too')
+    await pg.keyboard.press('Escape'); await pg.wait_for_timeout(200)
+    await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
+    ok('Nan’s bingo' in await text(pg, '#stats') and await pg.evaluate("!!document.querySelector('#tg-nanvoice')"), 'Stats shows your bingo record and the “Nan reads the bingo” switch')
 
     ok(not errs, 'no console errors' + (': ' + '; '.join(errs[:3]) if errs else ''))
     await ctx.close()

@@ -107,6 +107,13 @@ export const LINES = {
     ['priya', 'the answer was {answer}. we don’t talk about this'], ['tash', 'it was {answer} babe']],
   quiz_slow:     [['dave', 'too slow. it was {answer}'], ['tash', 'asleep? it was {answer}'], ['nan', 'The answer was {answer} love. I got it straight away x']],
   // the duck race
+  bingo_buy:     [['nan', 'Eyes down love! I’ll call them nice and slow x'], ['dave', 'bingo? what are you, 80?'], ['kev', 'got my lucky dabber'], ['priya', 'bingo is just minesweeper for nans']],
+  bingo_line:    [['nan', 'A line! Well done love x'], ['tash', 'LINE! somebody check it'], ['dave', 'a line. adorable'], ['kev', 'I was sweating on 47 the whole time']],
+  bingo_two:     [['nan', 'Two lines! I nearly dropped my sherry x'], ['tash', 'TWO LINES. the hall is in uproar'], ['priya', 'the regulars are glaring at you']],
+  bingo_house:   [['nan', 'HOUSE!!! You’ve won the big one love!! x'], ['dave', 'FULL HOUSE?? I’m coming to bingo next week'], ['tash', 'the whole community centre just booed you. iconic'],
+    ['kev', 'I’ve played bingo for 11 years and never had a house']],
+  bingo_lose:    [['nan', 'Never mind love, there’s always next week x'], ['dave', 'not even a line. the nans are laughing at you'], ['kev', 'I needed 23 for the whole game'],
+    ['priya', 'bingo’s rigged. ask any nan']],
   duck_start:    [['dave', 'COME ON THE YELLOW ONE'], ['tash', 'my money’s on whichever one looks the most unhinged'], ['kev', 'the ducks are on something. I can tell'],
     ['nan', 'Which one’s ours love? x'], ['priya', 'I’ve got a tenner on the slowest one. for the story']],
   duck_win:      [['dave', 'THE DUCK DID IT'], ['tash', 'that duck deserves a knighthood'], ['nan', 'Lovely ducks x'], ['kev', 'I’m crying. over a duck'], ['priya', 'bread for that duck. all of the bread']],
@@ -140,6 +147,7 @@ export const RUDE = {
   odd_carAlarm: [['dave', 'turn it off, you absolute weapon']],
   gull_nicked: [['dave', 'mugged off by a flying rat'], ['tash', 'robbed by a pigeon with a gym membership']],
   odd_gull:  [['dave', 'flying rat incoming']],
+  bingo_lose: [['dave', 'beaten at bingo by a load of pensioners. pathetic'], ['tash', 'not a sodding line']],
   odd_powerdown: [['dave', 'put a quid in the meter, you tight git'], ['tash', 'who’s been running the tumble dryer']],
   power_back: [['tash', 'about bloody time']],
 };

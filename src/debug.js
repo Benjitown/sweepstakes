@@ -35,6 +35,9 @@ import { ScratchView } from './ui/scratch-view.js';
 import { Quiz } from './game/quiz.js';
 import { QUIZ } from './content/quiz.js';
 import { PowerCut } from './game/power-cut.js';
+import { Bingo, makeTicket } from './game/bingo.js';
+import { BingoView } from './ui/bingo-view.js';
+import { BINGO_TICKETS, BINGO_PAYS, BINGO_CALLS } from './data/bingo.js';
 import { PowerView } from './ui/power-view.js';
 import { SCRATCH_CARDS, SCRATCH_PRIZES } from './data/scratchcards.js';
 
@@ -42,11 +45,12 @@ export function exposeForTests() {
   // no random knocks at the door mid-test (they'd pop up over what the tests click); the tests start them by hand
   clearTimeout(WeirdNoises.timer); WeirdNoises.schedule = () => {};
   clearTimeout(Quiz.timer); Quiz.schedule = () => {};
+  clearTimeout(Bingo.timer); Bingo.schedule = () => {};
   window.__sw = {
     get S() { return S; }, Game, Solver, Rack, Rank, bus, NOISES, WeirdNoises, Quips, Chat, Coach, SpinView,
     Banner, FX, UI, VERSION, renderAll, invoke, DigCommand, SaveGame, TABLES, AudioEngine,
     Daily, Achievements, ACHIEVEMENTS, DailyView, Keys, CoinChart, seeded, hashString, Household, HouseholdView, DuckRace, DuckRaceView, DOOR, GULL, LINES, RUDE,
-    Scratchcards, ScratchView, SCRATCH_CARDS, SCRATCH_PRIZES, Quiz, QUIZ, PowerCut, PowerView,
+    Scratchcards, ScratchView, SCRATCH_CARDS, SCRATCH_PRIZES, Quiz, QUIZ, PowerCut, PowerView, Bingo, BingoView, makeTicket, BINGO_TICKETS, BINGO_PAYS, BINGO_CALLS,
     get slots() { return Game.slots; },
   };
 }

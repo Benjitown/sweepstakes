@@ -1,5 +1,5 @@
 """Layout suite: desktop, tablet and phone screenshots (mid-game, the tutorial, the wheel, the daily, the duck race, a knock at
-the door, a seagull, a power cut); nothing may overflow sideways, and every header chip must fit on a 360px phone."""
+the door, a seagull, a power cut, Nan's bingo); nothing may overflow sideways, and every header chip must fit on a 360px phone."""
 from common import Results, open_page
 
 MID_GAME = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.coins = 4.2e8; S.unlocked = ['penny', 'den', 'alley', 'roller'];
@@ -12,6 +12,8 @@ ALL_CHIPS = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.asc = 2; S.stre
 HOUSE = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.coins = 50000; __sw.renderAll(); __sw.Household.answerDoor(0); __sw.HouseholdView.walkKitten(); __sw.HouseholdView.swoopGull();
   __sw.UI.toast('A toast, to check it clears the card'); })()'''
 POWER = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.coins = 50000; __sw.renderAll(); __sw.PowerCut.start(); })()'''
+BINGO = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.coins = 50000; S.upg.flip = 1; S.nanvoice = false; __sw.renderAll(); __sw.BingoView.open();
+  document.querySelector('#modalBox .bticket[data-kind="big"]').click(); })()'''
 DUCKS = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.coins = 50000; S.upg.flip = 1; __sw.renderAll(); __sw.DuckRaceView.open(); })()'''
 
 
@@ -50,5 +52,6 @@ async def run(browser, url, shots):
     await shot(R, browser, url, shots, 'phone_house.png', 390, 844, HOUSE, mobile=True, wait=1500)
     await shot(R, browser, url, shots, 'phone_power_cut.png', 360, 640, POWER, mobile=True, wait=1200)
     await shot(R, browser, url, shots, 'phone_duck_race.png', 360, 640, DUCKS, mobile=True, wait=500)
+    await shot(R, browser, url, shots, 'phone_bingo.png', 360, 640, BINGO, mobile=True, wait=3000)
     await shot(R, browser, url, shots, 'desktop_duck_race.png', 1366, 900, DUCKS, wait=500)
     return R

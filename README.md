@@ -53,7 +53,8 @@ src/
   audio/            Web Audio engine, game sounds, weird household noises
   board/            the board model, solver, factories, mine chain, payout decorators (+ New Game+ house edge)
   game/             the rules (game.js), commands, bots, rack, rank, double or nothing, daily, achievements,
-                    household (the door, the phone, the kitten, the seagull, the smoke detector), the duck race
+                    household (the door, the phone, the kitten, the seagull, the smoke detector), power cuts,
+                    the duck race, scratchcards, Nan's bingo, the pub quiz
   ui/               one file per view: panels, boards, shop, modals, tutorial, daily, keys, coin graph, household, ducks...
 assets/             fonts (+ OFL licence) and the favicon
 tools/              build.py, serve.py, vc.py (version control), export_rules.mjs, sim/ (economy simulator)
@@ -83,7 +84,8 @@ The suites run against both the ES-module source and the built file:
 - **extras:** the experimental features: scratchcards (odds, panels, scratching with the mouse, leaving mid-card) and
   the pub quiz (asking, answering, running out of time, the switch)
 - **mayhem:** the newest experimental features: the seagull (swooping in, pecking, shooing it, losing coins to it) and
-  power cuts (the dark, the torch, danger money, topping up, the emergency credit)
+  power cuts (the dark, the torch, danger money, topping up, the emergency credit) and Nan's bingo (the tickets, the
+  odds, the calls, dabbing, a full house, leaving mid-game, her invite)
 - **layout:** desktop, tablet and phone sizes with no sideways scrolling
 
 Screenshots go to `test/screenshots/`.
