@@ -52,6 +52,7 @@ export const ACHIEVEMENTS = [
   { id: 'kitten',   tier: 1, icon: 'kitten',    name: 'Cat Person',          desc: 'Pet the kitten.' },
   { id: 'battery',  tier: 1, icon: 'battery',   name: 'DIY Hero',            desc: 'Change the smoke detector’s battery.' },
   { id: 'raffle',   tier: 2, icon: 'door',      name: 'Fixed the Roof',      desc: 'Win the school raffle.' },
+  { id: 'gull',     tier: 1, icon: 'gull',      name: 'Not My Chips',        desc: 'Shoo a seagull off your coins.' },
   { id: 'scratch',  tier: 2, icon: 'ticket',    name: 'Scratch That Itch',   desc: 'Win ×20 or more on a scratchcard.' },
   { id: 'quiz',     tier: 2, icon: 'brain',     name: 'Know-It-All',         desc: 'Get 10 pub quiz questions right.' },
 ];

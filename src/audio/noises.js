@@ -43,6 +43,17 @@ function mew(a, out, s, p = 1, d = .3) { // a kitten: high, short, rising then f
   f2.type = 'bandpass'; f2.Q.value = 8; f2.frequency.setValueAtTime(3200 * p, s); f2.frequency.linearRampToValueAtTime(2400 * p, s + d);
   o.connect(f1).connect(mix); o.connect(f2).connect(mix); mix.connect(g).connect(out); o.start(s); o.stop(s + d + .05);
 }
+function gullCall(a, out, s, p = 1, d = .32) { // a herring gull's "kyow": nasal and harsh, it leaps up then slides down
+  const o = a.createOscillator(), lfo = a.createOscillator(), lg = a.createGain(), f1 = a.createBiquadFilter(), f2 = a.createBiquadFilter(), mix = a.createGain();
+  const g = envG(a, s, 1, .012, d * .5, d * .45), f0 = 1000 * p;
+  o.type = 'sawtooth'; o.frequency.setValueAtTime(f0 * .78, s); o.frequency.linearRampToValueAtTime(f0 * 1.22, s + d * .16); o.frequency.exponentialRampToValueAtTime(f0 * .7, s + d);
+  lfo.frequency.value = 37; lg.gain.value = f0 * .045; lfo.connect(lg).connect(o.frequency); // the rasp
+  f1.type = 'bandpass'; f1.frequency.value = 1850 * p; f1.Q.value = 4; f2.type = 'bandpass'; f2.frequency.value = 3250 * p; f2.Q.value = 5;
+  o.connect(f1).connect(mix); o.connect(f2).connect(mix); mix.connect(g).connect(out);
+  o.start(s); o.stop(s + d + .05); lfo.start(s); lfo.stop(s + d + .05);
+  const n = a.createBufferSource(), bp = a.createBiquadFilter(), ng = envG(a, s, .25, .01, d * .4, d * .4); // a bit of breath
+  n.buffer = nbuf(a, d + .05); bp.type = 'bandpass'; bp.frequency.value = 2600 * p; bp.Q.value = 2; n.connect(bp).connect(ng).connect(out); n.start(s);
+}
 function knuckle(a, out, s, v) { // knuckle on a wooden door: a dull thump with a bit of crack
   const n = a.createBufferSource(), bp = a.createBiquadFilter(), g = envG(a, s, v, .002, .004, .07);
   n.buffer = nbuf(a, .08); bp.type = 'bandpass'; bp.frequency.value = 190 + Math.random() * 50; bp.Q.value = 3.5;
@@ -159,6 +170,12 @@ export const NOISES = {
     bp.connect(out);
     for (let s = t; s < t + d; s += .009 + .02 * Math.abs(Math.sin((s - t) * 6)) + Math.random() * .006) { const src = a.createBufferSource(); src.buffer = click; src.connect(bp); src.start(s); }
   } },
+  gull: { volume: 1.55, w: .9, play(a, out, t) { // a herring gull on the roof: two long cries, then that laugh (it's after your coins)
+    const r = room(a, out, .03, .08);
+    gullCall(a, r, t, 1, .4); gullCall(a, r, t + .52, .95, .36);
+    for (let k = 0; k < 5; k++) gullCall(a, r, t + 1.02 + k * .15, 1.1 - k * .045, .11);
+  } },
+  gullShoo: { volume: 1.4, w: 0, play(a, out, t) { gullCall(a, out, t, 1.3, .2); gullCall(a, out, t + .19, 1.42, .17); } }, // shooed: a panicked squawk
   meow: { volume: 1.75, w: .8, play(a, out, t) {
     const d = .75, o = a.createOscillator(), f1 = a.createBiquadFilter(), f2 = a.createBiquadFilter(), mix = a.createGain(), g = envG(a, t, 1, .08, d * .6 - .08, d * .4);
     o.type = 'sawtooth'; o.frequency.setValueAtTime(520, t); o.frequency.linearRampToValueAtTime(800, t + d * .35); o.frequency.linearRampToValueAtTime(470, t + d);

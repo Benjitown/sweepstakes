@@ -3,6 +3,16 @@
 Each version is also a save in the built-in version control. Run `python tools/vc.py log` to list them, or
 `python tools/vc.py export v3.0 v3.zip` to get any of them back.
 
+## Unreleased (on experimental and dev)
+
+- **Scratchcards** in the Flip Booth: three cards off the corner shop's shelf, nine panels each, three of a kind wins.
+  Scratch the foil off with the mouse or a finger, or scratch it all at once.
+- **The pub quiz:** now and then a friend asks the group chat a question with three answers. Get it right in 25
+  seconds for a few coins. Switch it off in Stats.
+- **A seagull** after your coins. You'll hear it first. Then it swoops onto your coin counter and starts pecking: tap
+  it to shoo it off (it drops whatever it nicked from someone else), or it flies away with a small bite of your coins.
+  Like everything around the house, it never takes you near bust. New achievement: Not My Chips.
+
 ## 4.4.0 (6 Oct 2026)
 
 - **Volume controls.** Two sliders in Stats: Volume for everything, and Household noises for the door, the phone, the

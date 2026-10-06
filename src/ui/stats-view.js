@@ -33,7 +33,7 @@ export const StatsView = {
       <dt>Gems found</dt><dd>${fmt(L.gems)}</dd><dt>Jackpot gems</dt><dd>${L.jackpots}</dd><dt>Highest Ascension</dt><dd>${ROMAN[L.bestAsc || 0]}</dd>
       <dt>Casinos bought</dt><dd>${L.casinos}</dd><dt>Highest ladder rung</dt><dd>${L.donBest ? '×' + LADDER[L.donBest - 1] : 'none'}</dd>
       ${L.casinos ? `<dt>House edge</dt><dd>+${Math.round(HOUSE_EDGE * 100 * L.casinos)}% profit</dd>` : ''}
-      <dt>Duck races won</dt><dd>${L.ducks || 0}</dd><dt>Pub quiz</dt><dd>${L.quiz ? `${L.quiz.right} right of ${L.quiz.asked}` : 'not yet'}</dd><dt>Scratchcards</dt><dd>${L.scratch ? `${L.scratch.bought} bought, best ×${L.scratch.best}` : 'none yet'}</dd><dt>Kittens petted</dt><dd>${(L.house && L.house.kitten) || 0}</dd>
+      <dt>Duck races won</dt><dd>${L.ducks || 0}</dd><dt>Pub quiz</dt><dd>${L.quiz ? `${L.quiz.right} right of ${L.quiz.asked}` : 'not yet'}</dd><dt>Scratchcards</dt><dd>${L.scratch ? `${L.scratch.bought} bought, best ×${L.scratch.best}` : 'none yet'}</dd><dt>Kittens petted</dt><dd>${(L.house && L.house.kitten) || 0}</dd><dt>Seagulls shooed</dt><dd>${(L.house && L.house.gull) || 0}${L.house && L.house.gullNicked ? ` (${L.house.gullNicked} got away)` : ''}</dd>
       <dt>Best daily</dt><dd>${L.daily && L.daily.best ? '×' + fmtX(L.daily.best) : 'not yet'}</dd><dt>Daily streak</dt><dd>${L.daily && L.daily.streak ? L.daily.streak + ' day' + (L.daily.streak > 1 ? 's' : '') : '0'}</dd></dl>
       <h2>Achievements <small>${Achievements.count()}/${ACHIEVEMENTS.length}</small></h2>
       <div class="achs">${ACHIEVEMENTS.map(a => { const got = Achievements.has(a.id); return `<button type="button" class="ach t${a.tier}${got ? ' got' : ''}" data-ach="${a.id}" title="${esc(a.name)}: ${esc(a.desc)}" aria-label="${esc(a.name)}, ${got ? 'unlocked' : 'locked'}: ${esc(a.desc)}">${ico(got ? a.icon : 'lock')}</button>`; }).join('')}</div>
@@ -52,7 +52,7 @@ export const StatsView = {
         <li>Run out of coins and you’re stuffed. Start again from ${fmt(START)}.</li>
         <li>The Daily Challenge (first chip by the tables) is one board a day, the same for everyone. No add-ons or stake: you play for the multiplier.</li>
         <li>Buying the casino adds +25% to every win’s profit for good. Each casino you buy stacks.</li>
-        <li>Life carries on around you. Answer the door, pet the kitten, change the smoke detector’s battery. It might pay. It might not.</li>
+        <li>Life carries on around you. Answer the door, pet the kitten, shoo the seagull off your coins, change the smoke detector’s battery. It might pay. It might not.</li>
         <li>The Flip Booth has a duck pond out back: back a duck, and long shots pay more.</li>
         <li>Progress saves in this browser. The coins aren’t real money.</li></ol>
       <div class="sliders">${[['vol', 'Volume'], ['noiseVol', 'Household noises']].map(([k, label]) => { const v = Math.round(level(k) * 100);
