@@ -16,11 +16,19 @@ import { Banner } from './ui/banner.js';
 import { SpinView } from './ui/spin-view.js';
 import { Coach } from './ui/tutorial.js';
 import { renderAll } from './wiring.js';
+import { Daily } from './game/daily.js';
+import { Achievements } from './game/achievements.js';
+import { ACHIEVEMENTS } from './data/achievements.js';
+import { DailyView } from './ui/daily-view.js';
+import { Keys } from './ui/keys.js';
+import { CoinChart } from './ui/coin-chart.js';
+import { seeded, hashString } from './core/random.js';
 
 export function exposeForTests() {
   window.__sw = {
     get S() { return S; }, Game, Solver, Rack, Rank, bus, NOISES, WeirdNoises, Quips, Chat, Coach, SpinView,
     Banner, FX, renderAll, invoke, DigCommand, SaveGame, TABLES, AudioEngine,
+    Daily, Achievements, ACHIEVEMENTS, DailyView, Keys, CoinChart, seeded, hashString,
     get slots() { return Game.slots; },
   };
 }

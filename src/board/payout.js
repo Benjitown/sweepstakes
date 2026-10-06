@@ -24,5 +24,17 @@ class CompoundPayout extends PayoutDecorator {
 class ChickenDinnerPayout extends PayoutDecorator {
   pay(b, why) { const r = super.pay(b, why); if (why === 'coward' && r.amount > b.stake) { const e = Math.floor((r.amount - b.stake) * .3); r.amount += e; r.extras.push(['dinner', `Dinner +${fmt(e)}`]); } return r; }
 }
+// New Game+: every casino you've ever bought adds +25% to the profit of every board, forever.
+class HouseEdgePayout extends PayoutDecorator {
+  pay(b, why) {
+    const r = super.pay(b, why), n = S.life.casinos || 0, profit = r.amount - b.stake;
+    if (n && profit > 0) { const e = Math.floor(profit * HOUSE_EDGE * n); r.amount += e; r.extras.push(['house', `House edge +${fmt(e)}`]); }
+    return r;
+  }
+}
+export const HOUSE_EDGE = .25;
 const PAYOUT_DECORATORS = [['egg', NestEggPayout], ['flagfan', FlagFanaticPayout], ['compound', CompoundPayout], ['dinner', ChickenDinnerPayout]];
-export const buildPayout = () => PAYOUT_DECORATORS.reduce((p, [id, D]) => hasA(id) ? new D(p) : p, new Payout());
+export const buildPayout = () => {
+  const p = PAYOUT_DECORATORS.reduce((acc, [id, D]) => hasA(id) ? new D(acc) : acc, new Payout());
+  return S.life.casinos ? new HouseEdgePayout(p) : p;
+};

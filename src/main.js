@@ -38,13 +38,17 @@ import { Tabs } from './ui/tabs.js';
 import { UiSounds } from './ui/ui-sounds.js';
 import { Coach } from './ui/tutorial.js';
 import { renderAll } from './wiring.js';
+import { Keys } from './ui/keys.js';
+import { WhatsNew } from './ui/whats-new.js';
+import { Achievements } from './game/achievements.js';
+import { DailyView } from './ui/daily-view.js';
 import { exposeForTests } from './debug.js';
 
 $('#btnDon').onclick = () => DonLadder.start();
 $('#btnFlip').onclick = () => FlipView.open();
 $('#btnSpin').onclick = () => { if (Game.spinIn() <= 0) SpinView.open(); };
 $('#btnMute').onclick = () => { S.muted = !S.muted; if (!S.muted) Sound.msg(); RunPanel.render(); SaveGame.saveNow(); };
-StakeView.bind(); Tabs.bind(); UiSounds.bind();
+StakeView.bind(); Tabs.bind(); UiSounds.bind(); Keys.bind();
 document.addEventListener('visibilitychange', () => { if (document.hidden) SaveGame.saveNow(); });
 addEventListener('pagehide', () => SaveGame.saveNow());
 setInterval(() => { if (document.hidden) return; S.run.time++; bus.emit('tick'); }, 1000);
@@ -61,6 +65,11 @@ const hi = LINES.hello.slice().sort(() => Math.random() - .5);
 setTimeout(() => Chat.post(...hi[0]), 600);
 setTimeout(() => Chat.post(...hi[1]), 2000);
 if (!S.life.tut) setTimeout(() => Coach.start(), 900);
+WhatsNew.maybe();
+if (S.life.tut) {
+  setTimeout(() => Achievements.catchUp(), 2500);                    // credit for what returning players already did
+  setTimeout(() => DailyView.nudge(), 25000 + Math.random() * 20000); // someone in the chat has done today's daily
+}
 
 // ?test in the URL hands the game's internals to the regression tests (test/run.py)
 if (new URLSearchParams(location.search).has('test')) exposeForTests();

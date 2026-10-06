@@ -15,7 +15,8 @@ async def play_board(pg, slot, maxsteps=80):
         tgt = info['s'] if info['s']>=0 else info['g']
         await pg.click(f'#boards [data-slot="{slot}"] .grid .c[data-i="{tgt}"]'); await pg.wait_for_timeout(50)
 async def fresh(pg, setup=''):
-    await pg.evaluate(f"(()=>{{__sw.Coach.finish(); __sw.Game.slots.fill(null); {setup}; __sw.renderAll();}})()"); await pg.wait_for_timeout(150)
+    # every achievement pre-unlocked, so their payouts don't move the coin counts these checks compare
+    await pg.evaluate(f"(()=>{{__sw.Coach.finish(); __sw.Game.slots.fill(null); __sw.S.life.ach=Object.fromEntries(__sw.ACHIEVEMENTS.map(a=>[a.id,1])); {setup}; __sw.renderAll();}})()"); await pg.wait_for_timeout(150)
 async def deal_open(pg, slot=0):
     await pg.click('#dealAll'); await pg.wait_for_timeout(200)
     w=await pg.evaluate(f'__sw.slots[{slot}].t.w')

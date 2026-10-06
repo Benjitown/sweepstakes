@@ -6,5 +6,5 @@ const GEMS = [
   { k: 'diamond', x: 2,   w: .1,  name: 'Diamond' },
   { k: 'jackpot', x: 5,   w: .02, name: 'JACKPOT' },
 ];
-export const rollGem = () => { let r = Math.random(); for (const g of GEMS) { r -= g.w; if (r <= 0) return g; } return GEMS[0]; };
+export const rollGem = (rng = Math.random) => { let r = rng(); for (const g of GEMS) { r -= g.w; if (r <= 0) return g; } return GEMS[0]; };
 export const gemTier = x => GEMS.find(g => Math.abs(g.x - x) < 1e-6) || GEMS[0];

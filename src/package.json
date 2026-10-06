@@ -1,0 +1,4 @@
+{
+  "type": "module",
+  "description": "Tells Node these files are ES modules (browsers ignore this). Used by tools/export_rules.mjs."
+}

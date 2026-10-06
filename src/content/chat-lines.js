@@ -8,6 +8,19 @@ export const FRIENDS = {
   priya: { name: 'Priya',         col: '#ffd23f', bg: '#a8714a', extra: '<path d="M4 14 Q20 3 36 14" fill="none" stroke="#ffd23f" stroke-width="4.5"/>', mouth: 'M15 27 q5 4 10 0' },
 };
 export const LINES = {
+  // the Daily Challenge ({x} is their multiplier; Nan never blows up, she plays it safe)
+  daily_nudge: [['dave', 'did the daily. ×{x}. genius behaviour, frankly'], ['tash', 'daily’s up. ×{x}. not saying I’m better than you but I am'],
+    ['kev', 'today’s daily: ×{x}. told my manager. he did not care'], ['priya', 'daily done. ×{x}. your move'], ['nan', 'I did the daily puzzle love. ×{x}. Is that good x']],
+  daily_nudge_boom: [['dave', 'the daily blew up in my face. we don’t talk about it'], ['tash', 'the daily is rigged. one dig. ONE'],
+    ['kev', 'exploded on the daily before my coffee. great start to the day'], ['priya', 'daily: boom. logging off forever (back in 5)']],
+  daily_top: [['dave', 'how. HOW'], ['tash', 'screenshot or it didn’t happen'], ['nan', 'Top of the class! I’m telling everyone at bingo x'],
+    ['kev', 'printing this for the office fridge'], ['priya', 'fine. FINE. tomorrow you’re going down']],
+  daily_ok: [['priya', '×{x}. respectable. not good. respectable'], ['dave', '×{x}? I’ve seen better. from Nan'], ['tash', 'not bad for someone who digs like that'],
+    ['kev', '×{x} is my new lucky number. I don’t have a lucky number'], ['nan', 'Well done love, ×{x}! Have a biscuit x']],
+  daily_boom: [['dave', 'HAHAHAHA the daily got you'], ['nan', 'Never mind love, there’s always tomorrow x'], ['kev', 'the daily got me too once. solidarity'],
+    ['tash', 'one go. ONE. and you spent it like that'], ['priya', 'see you tomorrow, champ']],
+  achievement: [['tash', 'achievement unlocked: being insufferable about it'], ['dave', 'you get a little badge for that? cute'],
+    ['nan', 'Ooh a trophy! I’ll put it on the fridge x'], ['kev', 'I have zero of those. zero'], ['priya', '“{name}”. adding it to your obituary']],
   hello:    [['dave', 'right, who’s in'], ['tash', 'oh here we go again'], ['nan', 'Don’t stay up too late love x'], ['priya', 'house rules: no crying at the table'], ['kev', 'I brought snacks. the snacks are mines'], ['nan', 'Is this the gambling one? Lovely x']],
   deal_big: [['dave', '{stake} on ONE board? absolute scenes'], ['tash', 'oh we’re doing this are we'], ['kev', 'my palms are sweating and I’m not even playing'], ['priya', 'screenshotting this for evidence'], ['nan', 'Be careful love x'], ['tash', 'hold my earrings']],
   boom:     [['dave', 'BAHAHAHA'], ['tash', 'that tile had a FACE on it'], ['kev', 'F'], ['priya', 'that mine had a family'], ['nan', 'Was that thunder love? x'], ['dave', 'you clicked that with your whole chest'], ['tash', 'down {stake}. thoughts and prayers'], ['kev', 'the bomb said “ok” and then did a crime'], ['priya', 'the googly eyes saw everything']],

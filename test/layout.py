@@ -35,4 +35,6 @@ async def run(browser, url, shots):
     await shot(R, browser, url, shots, 'phone_tutorial.png', 390, 844, None, mobile=True, tutorial=True)
     await shot(R, browser, url, shots, 'phone_wheel.png', 390, 844, "__sw.Coach.finish(); document.querySelector('#btnSpin').click()",
                mobile=True, wait=800, tutorial=True)
+    await shot(R, browser, url, shots, 'phone_daily.png', 390, 844, "__sw.Coach.finish(); __sw.DailyView.open()", mobile=True, wait=500, tutorial=True)
+    await shot(R, browser, url, shots, 'desktop_daily.png', 1366, 900, "__sw.Coach.finish(); __sw.DailyView.open()", wait=500, tutorial=True)
     return R

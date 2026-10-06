@@ -46,6 +46,7 @@ export const Sound = (() => {
     win() { [0, 7, 12, 16, 19, 24, 28, 31].forEach((s, k) => tone(392 * 2 ** (s / 12), .3, 'triangle', .36, k * .075)); [0, 4, 7].forEach(s => tone(784 * 2 ** (s / 12), 1.1, 'sine', .13, .65)); },
     bigwin(level) { const n = 5 + level * 3; for (let k = 0; k < n; k++) tone(note(8 + k), .14, 'triangle', .22, k * .06); [0, 4, 7, 12].forEach(s => tone(523.25 * 2 ** (s / 12), 1.2, 'sine', .1, n * .06)); },
     levelup() { [0, 4, 7, 12, 7, 12, 16, 19].forEach((s, k) => tone(523.25 * 2 ** (s / 12), .14, 'square', .07, k * .07)); tone(1046.5, .7, 'triangle', .18, .56); },
+    achievement(tier = 1) { const st = [0, 4, 7, 12, 16].slice(0, 2 + tier); st.forEach((x, k) => tone(659.25 * 2 ** (x / 12), .12, 'square', .07, k * .06)); tone(tier === 3 ? 1975.5 : 1318.5, .45, 'triangle', .12, st.length * .06); },
     bust() { tone(392, .38, 'triangle', .35, 0, 370); tone(370, .38, 'triangle', .35, .4, 349); tone(349, 1.1, 'triangle', .35, .8, 290); tone(196, 1.9, 'sawtooth', .05, 0, 145); },
     ascend() { [0, 5, 7, 12, 17, 19, 24].forEach((s, k) => tone(196 * 2 ** (s / 12), .6, 'sawtooth', .05, k * .12)); [0, 7, 12, 16].forEach((s, k) => tone(392 * 2 ** (s / 12), 1.4, 'triangle', .28, .9 + k * .05)); },
     hold(p) { tone(220 + p * 660, .05, 'sine', .08); },

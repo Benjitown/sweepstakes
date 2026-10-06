@@ -11,23 +11,23 @@ export class Board {
       mine: new Uint8Array(n), open: new Uint8Array(n), flag: new Uint8Array(n), num: new Int8Array(n), gem: new Float64Array(n),
       started: false, revealed: 0, base: 0, safe: n - mines, over: false, result: '', mode: 'dig',
       probed: new Set(), defused: new Set(), G: 1, J: 1, golden: false, guesses: 0, combo: 0, gemsTotal: table.gems, gemsFound: 0,
-      human: false, fp: 0, t0: 0, fuseUsed: false, ded: null, dedB: null });
+      human: false, fp: 0, t0: 0, fuseUsed: false, ded: null, dedB: null, rng: Math.random });
   }
   calcNums() { for (let i = 0; i < this.n; i++) { let c = 0; for (const j of this.nb[i]) c += this.mine[j]; this.num[i] = c; } }
   placeMines(first) {
     const ban = new Set([first, ...this.nb[first]]);
     let pool = []; for (let i = 0; i < this.n; i++) if (!ban.has(i)) pool.push(i);
     if (pool.length < this.m) { pool = []; for (let i = 0; i < this.n; i++) if (i !== first) pool.push(i); }
-    for (let k = pool.length - 1; k > 0; k--) { const j = Math.floor(Math.random() * (k + 1)); [pool[k], pool[j]] = [pool[j], pool[k]]; }
+    for (let k = pool.length - 1; k > 0; k--) { const j = Math.floor(this.rng() * (k + 1)); [pool[k], pool[j]] = [pool[j], pool[k]]; }
     for (let k = 0; k < this.m; k++) this.mine[pool[k]] = 1;
     this.calcNums();
   }
   // Gems go only where the opening didn't reach, so you have to dig into the unknown to find them.
   placeGems(count) {
     const pool = []; for (let i = 0; i < this.n; i++) if (!this.open[i] && !this.mine[i]) pool.push(i);
-    for (let k = pool.length - 1; k > 0; k--) { const j = Math.floor(Math.random() * (k + 1)); [pool[k], pool[j]] = [pool[j], pool[k]]; }
+    for (let k = pool.length - 1; k > 0; k--) { const j = Math.floor(this.rng() * (k + 1)); [pool[k], pool[j]] = [pool[j], pool[k]]; }
     this.gemsTotal = Math.min(count, pool.length);
-    for (let k = 0; k < this.gemsTotal; k++) this.gem[pool[k]] = rollGem().x;
+    for (let k = 0; k < this.gemsTotal; k++) this.gem[pool[k]] = rollGem(this.rng).x;
   }
   flood(i) {
     const st = [i], out = [];

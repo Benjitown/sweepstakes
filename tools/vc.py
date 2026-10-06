@@ -308,4 +308,7 @@ def main(argv):
 if __name__ == '__main__':
     if hasattr(sys.stdout, 'reconfigure'):
         sys.stdout.reconfigure(errors='replace')
-    main(sys.argv[1:])
+    try:
+        main(sys.argv[1:])
+    except BrokenPipeError:  # e.g. piped into head
+        pass

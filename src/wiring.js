@@ -24,6 +24,11 @@ import { SpinView } from './ui/spin-view.js';
 import { StatsView } from './ui/stats-view.js';
 import { Tabs } from './ui/tabs.js';
 import { Coach } from './ui/tutorial.js';
+import { Achievements } from './game/achievements.js';
+import { DailyView } from './ui/daily-view.js';
+import { CoinChart } from './ui/coin-chart.js';
+import { Haptics } from './ui/haptics.js';
+import { HOUSE_EDGE } from './board/payout.js';
 
 const RED = 'var(--red)', GOLD = 'var(--gold)', GREEN = 'var(--green)', PURPLE = 'var(--purple)';
 export function renderAll(keepModal) {
@@ -58,7 +63,7 @@ bus.on('board:risky', ({ b, i, k, p, src, combo }) => {
 });
 bus.on('board:gem', ({ b, i, x, tier }) => {
   BoardsView.float(b, i, `${tier.name.toUpperCase()} ×${x}`, tier.k === 'jackpot' ? RED : GOLD, true);
-  Sound.gem(tier.k);
+  Sound.gem(tier.k); if (b.human) Haptics.buzz([15, 25, 15]);
   const c = b.cells && b.cells[i];
   if (c) { const r = c.getBoundingClientRect(); FX.confetti(tier.k === 'jackpot' ? 120 : 18, { x: r.left + r.width / 2, y: r.top }); }
   if (tier.k === 'jackpot') { Banner.show('JACKPOT!', `×5 on ${b.t.name}`, 'red', true); Background.flashGold(); Chat.say('jackpot', {}, 1); }
@@ -73,7 +78,7 @@ bus.on('board:defused', ({ by }) => {
 });
 bus.on('addon:fired', ({ id, b, i, text }) => { AddonStrip.jiggle(id); if (b && text) BoardsView.float(b, i, text, PURPLE); });
 bus.on('board:boom', ({ b, i, src, left, missed }) => {
-  Sound.boom(); BoardsView.boom(b, i);
+  Sound.boom(); BoardsView.boom(b, i); if (b.human) Haptics.buzz([70, 40, 120]);
   // near misses sting, so say them out loud
   const sub = left > 0 && left <= 5 ? `${left} tile${left > 1 ? 's' : ''} from a clean sweep` : missed ? `${missed} gem${missed > 1 ? 's' : ''} still down there` : '';
   BoardsView.stamp(b, `−${fmt(b.stake)}`, 'lose', sub);
@@ -89,6 +94,7 @@ bus.on('board:cashout', ({ b, why, profit, mult, missed }) => {
   else { Sound.cash(); BoardsView.stamp(b, `+${fmt(profit)}`, 'win', sub); Chat.say(why === 'coward' ? 'coward' : profit >= Math.max(300, b.stake) ? 'cash_big' : 'cash_small', { profit: fmt(profit) }); }
   const tier = mult >= 50 ? 3 : mult >= 15 ? 2 : mult >= 5 ? 1 : 0;
   if (tier && (b.human || tier >= 2) && Banner.show(['', 'BIG WIN', 'HUGE WIN', 'MEGA WIN'][tier], `+${fmt(profit)} · ×${fmtX(mult)}`, ['', 'gold', 'orange', 'red'][tier])) { Sound.bigwin(tier); FX.confetti(60 * tier); }
+  if (b.human && (tier || why === 'clear')) Haptics.buzz([25, 30, 25]);
   if (why === 'manual') Quips.maybe(.12);
   Rank.award(xpFor(b, why === 'clear')); Coach.event('board:over');
 });
@@ -96,7 +102,7 @@ bus.on('board:ended', ({ b }) => { BoardsView.render(b.slot); RunPanel.render();
 bus.on('streak', ({ n }) => { if (n >= 3) Chat.say('streak', { streak: n }); RunPanel.render(); });
 bus.on('xp', () => RunPanel.rank());
 bus.on('levelup', ({ lvl: L, name, newRank, coins, extra }) => {
-  Sound.levelup(); FX.confetti(70, { x: innerWidth / 2, y: innerHeight * .35 });
+  Sound.levelup(); FX.confetti(70, { x: innerWidth / 2, y: innerHeight * .35 }); Haptics.buzz([20, 30, 20, 30, 40]);
   Banner.show(`LEVEL ${L}`, newRank ? `New rank: ${name}` : `+${fmt(coins)}${extra}`, 'purple', true);
   UI.toast(`Level ${L}! +${fmt(coins)} coins${extra}.`);
   Game.setCoins(S.coins, true, { from: { x: innerWidth / 2, y: innerHeight * .4, ok: true }, amount: coins });
@@ -125,7 +131,8 @@ bus.on('casino', () => {
   Sound.win(); FX.confetti(260); Chat.say('casino', {}, 1); setTimeout(() => Chat.say('casino', {}, 1), 1500); ShopView.render();
   UI.modal(`${ico('crown', 'bigicon')}<h3>You own the casino</h3>
     <p>From ${fmt(START)} coins to the deeds in ${dur(S.run.time)}, at Ascension ${ROMAN[asc()]}. You busted ${S.life.busts} time${S.life.busts === 1 ? '' : 's'} getting here.</p>
-    <div class="row"><button class="btn green" type="button" data-a="keep">Keep playing</button><button class="btn ghost" type="button" data-a="new">Start a fresh run</button></div>`,
+    <p class="perk">New Game+: every casino you’ve owned adds +${Math.round(HOUSE_EDGE * 100)}% to the profit of every win, forever. You’re on +${Math.round(HOUSE_EDGE * 100 * S.life.casinos)}%.</p>
+    <div class="row"><button class="btn green" type="button" data-a="keep">Keep playing</button><button class="btn gold" type="button" data-a="new">New Game+ (fresh run)</button></div>`,
     { keep: () => UI.closeModal(), new: () => { UI.closeModal(); Game.resetRun(); } });
 });
 bus.on('spin:landed', ({ prize, from }) => {
@@ -138,17 +145,58 @@ bus.on('spin:landed', ({ prize, from }) => {
 bus.on('modal:closed', () => { if (SpinView.pending) { const prize = SpinView.pending; SpinView.pending = null; bus.emit('spin:done', { prize }); } });
 bus.on('spin:done', () => Coach.event('spin:done'));
 bus.on('don:offer', ({ step }) => Chat.say('don_offer', {}, step ? .9 : .7));
-bus.on('don:win', ({ step }) => { Sound.win(); FX.confetti(220); Chat.say('don_win', {}, 1); Quips.maybe(.35); Rank.award(20 * (step + 1)); });
+bus.on('don:win', ({ step }) => { Sound.win(); Haptics.buzz([40, 40, 80]); FX.confetti(220); Chat.say('don_win', {}, 1); Quips.maybe(.35); Rank.award(20 * (step + 1)); });
 bus.on('flip', ({ win, bet }) => {
   if (win) { Sound.cash(); UI.toast(`+${fmt(bet)}! The coin likes you.`); Chat.say('flip_win'); Quips.maybe(.15); }
   else { Sound.boom(); UI.toast(`−${fmt(bet)}. The coin does not like you.`); Chat.say('flip_lose'); }
 });
-bus.on('bust', ({ reason }) => { Sound.bust(); Chat.say(reason === 'don' ? 'don_lose' : 'bust', {}, 1); });
+bus.on('bust', ({ reason }) => { Sound.bust(); Haptics.buzz(220); Chat.say(reason === 'don' ? 'don_lose' : 'bust', {}, 1); });
 bus.on('odd', ({ k }) => { if (Math.random() < .55) setTimeout(() => Chat.say('odd_' + k, {}, 1), 1700 + Math.random() * 1600); });
 bus.on('tick', () => {
   RunPanel.spin(); Rack.tick(); RackView.tick();
   if (S.run.time % 15 === 0) SaveGame.save();
+  if (S.run.time % 10 === 0) CoinChart.sample();
   if (Tabs.showing('stats') && S.run.time % 5 === 0) StatsView.render();
   if (S.run.time % 20 === 0 && UI.modalClosed()) Quips.maybe(.18);
   if (S.run.time === S.spinAt + SPIN_EVERY) { UI.toast('Free spin ready!'); Sound.select(2); }
+});
+
+/* ---------- achievements ---------- */
+Achievements.listen();
+bus.on('achievement', ({ a, coins }) => {
+  Sound.achievement(a.tier); Haptics.buzz(30);
+  UI.toast(`Achievement: ${a.name}. +${fmt(coins)}`);
+  if (a.tier === 3) Banner.show('ACHIEVEMENT', a.name, 'purple');
+  Game.setCoins(S.coins, true, { from: { x: innerWidth / 2, y: innerHeight - 90, ok: true }, amount: coins });
+  Chat.say('achievement', { name: a.name }, .4);
+  if (Tabs.showing('stats')) StatsView.render();
+});
+bus.on('achievements:caught-up', ({ ids }) => {
+  Sound.achievement(2); UI.toast(`${ids.length} achievement${ids.length > 1 ? 's' : ''} unlocked for what you’d already done.`);
+  Game.setCoins(S.coins, true); if (Tabs.showing('stats')) StatsView.render();
+});
+
+/* ---------- the Daily Challenge ---------- */
+bus.on('daily:dig', ({ b, i, opened, p, k, gem }) => {
+  opened.forEach(j => BoardsView.cell(b, j));
+  if (p > 0) { BoardsView.float(b, i, `×${k.toFixed(2)}${b.combo > 1 ? ` · COMBO ${b.combo}` : ''}`, p < .2 ? GREEN : p < .35 ? GOLD : RED, b.combo > 2); Sound.risky(p, b.combo); }
+  else Sound.reveal(b.frac());
+  if (gem) { BoardsView.float(b, i, `${gem.name.toUpperCase()} ×${gem.x}`, gem.k === 'jackpot' ? RED : GOLD, true); Sound.gem(gem.k); Haptics.buzz([15, 25, 15]); }
+  DailyView.hud(b);
+});
+bus.on('daily:flag', ({ b, i, on: isOn }) => { BoardsView.cell(b, i); isOn ? Sound.flag() : Sound.unflag(); });
+bus.on('daily:done', ({ b, why, i, result, top }) => {
+  DailyView.hud(b);
+  if (why === 'boom') {
+    Sound.boom(); BoardsView.boom(b, i); BoardsView.stamp(b, 'BOOM', 'lose', `after ${result.digs} dig${result.digs === 1 ? '' : 's'}`);
+    Haptics.buzz([70, 40, 120]); Chat.say('daily_boom', {}, .9);
+  } else {
+    why === 'cash' ? Sound.cash() : Sound.clear(); FX.confetti(top ? 160 : 60); BoardsView.ghostMines(b);
+    BoardsView.stamp(b, `×${fmtX(result.mult)}`, 'win', result.prize ? `+${fmt(result.prize)} coins` : '');
+    Haptics.buzz([25, 30, 25]); Chat.say(top ? 'daily_top' : 'daily_ok', { x: fmtX(result.mult) }, .9);
+    if (result.prize) Game.setCoins(S.coins, true, { from: b.el, amount: result.prize });
+  }
+  Rank.award(15 + Math.round(5 * Math.min(20, result.mult)));
+  TablesView.render();
+  setTimeout(() => { if (!UI.modalClosed() && b.el && b.el.isConnected) DailyView.results(); }, 1700);
 });

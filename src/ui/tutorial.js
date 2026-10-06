@@ -1,5 +1,6 @@
 // The tutorial: Fuse the bomb walks you through your first board.
 import { $, $$, esc, reduced } from '../core/util.js';
+import { bus } from '../core/bus.js';
 import { SaveGame, S } from '../core/state.js';
 import { Sound } from '../audio/sound.js';
 import { Game } from '../game/game.js';
@@ -78,7 +79,9 @@ export const Coach = {
     this.raf = requestAnimationFrame(() => this.track());
   },
   finish() {
+    const completed = this.i >= STEPS.length;
     this.active = false; cancelAnimationFrame(this.raf); this.el.wrap.hidden = true;
     S.life.tut = true; SaveGame.saveNow(); Sound.select(3);
+    bus.emit('tutorial:done', { completed });
   },
 };

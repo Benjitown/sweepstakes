@@ -3,6 +3,8 @@
 Minesweeper, but you're gambling. Dig for multipliers, cash out before you hit a mine, or go double or nothing.
 A browser game in plain HTML, CSS and JavaScript (ES modules), with no frameworks and nothing to install.
 
+What's in each version: [CHANGELOG.md](CHANGELOG.md).
+
 ## Play it
 
 - **Built version:** open `dist/sweepstakes.html`. It's one self-contained file that works offline and can be sent to anyone.
@@ -35,13 +37,14 @@ src/
   main.js           entry point + the design-pattern map (refactoring.guru)
   wiring.js         what reacts to each game event: the whole wiring diagram in one list
   debug.js          ?test in the URL exposes internals for the test suite
-  core/             util (helpers), bus (events), state (the save + quick questions about it)
-  data/             every tuning number: tables, gems, upgrades, add-ons, ranks, the wheel
+  version.js        the version number and the "what's new" list
+  core/             util (helpers), bus (events), state (the save + quick questions about it), random (seeded)
+  data/             every tuning number: tables, gems, upgrades, add-ons, ranks, the wheel, achievements
   content/          every joke: chat lines, chat threads, quips
   audio/            Web Audio engine, game sounds, weird household noises
-  board/            the board model, solver, factories, mine chain, payout decorators
-  game/             the rules (game.js), commands, bots, rack, rank, double or nothing
-  ui/               one file per view: panels, boards, shop, modals, tutorial...
+  board/            the board model, solver, factories, mine chain, payout decorators (+ New Game+ house edge)
+  game/             the rules (game.js), commands, bots, rack, rank, double or nothing, daily, achievements
+  ui/               one file per view: panels, boards, shop, modals, tutorial, daily, keys, coin graph...
 assets/             fonts (+ OFL licence) and the favicon
 tools/              build.py, serve.py, vc.py (version control), sim/ (economy simulator)
 test/               Playwright test suites (python test/run.py)
@@ -62,6 +65,8 @@ The suites run against both the ES-module source and the built file:
 - **regression:** boards, gems, golden boards, the mine chain, payouts, banners, rank, the add-on rack, shop + bots,
   saving, the wheel, Ascension, Double or Nothing, chat and quips
 - **tutorial:** each step moves on when you actually do it
+- **features:** the Daily Challenge (including golden boards in `test/daily-golden.json`),
+  achievements, shortcuts, the coin graph, New Game+ and what's new
 - **layout:** desktop, tablet and phone sizes with no sideways scrolling
 
 Screenshots go to `test/screenshots/`.

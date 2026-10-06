@@ -1,12 +1,18 @@
 // The table picker.
-import { $, ico, fmt, fmtLim } from '../core/util.js';
+import { $, ico, fmt, fmtLim, esc } from '../core/util.js';
 import { TABLES } from '../data/economy.js';
 import { S, ascMines, ascLim } from '../core/state.js';
 import { Game } from '../game/game.js';
+import { DailyView } from './daily-view.js';
 
 export const TablesView = {
   render() {
     const el = $('#tables'), keep = el.scrollLeft; el.innerHTML = '';
+    const d = DailyView.chip(), dc = document.createElement('button');
+    dc.type = 'button'; dc.className = 'tbl daily' + (d.fresh ? ' fresh' : ''); dc.dataset.t = 'daily';
+    dc.innerHTML = `${ico('calendar')}<span><b>Daily #${d.n}</b><small>${esc(d.sub)}</small></span>`;
+    dc.onclick = () => DailyView.open();
+    el.appendChild(dc);
     for (const t of TABLES) {
       const unl = S.unlocked.includes(t.id), b = document.createElement('button');
       b.type = 'button'; b.className = 'tbl' + (unl ? '' : ' locked'); b.style.setProperty('--tc', t.col); b.dataset.t = t.id;
@@ -18,8 +24,10 @@ export const TablesView = {
     }
     el.scrollLeft = keep; // re-renders on every coin change must not yank the phone's sideways scroll
   },
-  reveal() {
+  reveal() { // on phones the row scrolls sideways: keep the selected table in view (and the daily chip too, if both fit)
     const el = $('#tables'), sel = $('[aria-selected="true"]', el);
-    if (sel && el.scrollWidth > el.clientWidth) el.scrollLeft = Math.max(0, sel.offsetLeft - el.offsetLeft - 16);
+    if (!sel || el.scrollWidth <= el.clientWidth) return;
+    const left = sel.offsetLeft - el.offsetLeft;
+    el.scrollLeft = left + sel.offsetWidth <= el.clientWidth ? 0 : Math.max(0, left - 16);
   },
 };

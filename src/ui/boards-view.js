@@ -72,27 +72,30 @@ export const BoardsView = {
       c.className = 'c'; c.textContent = ''; c.setAttribute('aria-label', `Row ${y} column ${x}: hidden`);
     }
   },
-  bindGrid(b, grid) {
+  // Taps dig (or chord on a number), right-click / long-press / F flags. `act` lets another view reuse the same
+  // input handling with its own rules: the Daily Challenge passes { tap, flag }.
+  bindGrid(b, grid, act = {
+    tap: i => invoke(b.mode === 'flag' ? (b.open[i] ? new ChordCommand(b, i) : new FlagCommand(b, i))
+      : b.mode === 'probe' ? new ProbeCommand(b, i)
+      : b.open[i] ? new ChordCommand(b, i) : new DigCommand(b, i)),
+    flag: i => invoke(new FlagCommand(b, i)),
+  }) {
     let lp = 0, suppress = false;
     const cellOf = e => e.target.closest && e.target.closest('.c');
     grid.addEventListener('click', e => {
       const c = cellOf(e); if (!c) return;
       if (suppress) { suppress = false; return; }
-      const i = +c.dataset.i;
-      const cmd = b.mode === 'flag' ? (b.open[i] ? new ChordCommand(b, i) : new FlagCommand(b, i))
-        : b.mode === 'probe' ? new ProbeCommand(b, i)
-        : b.open[i] ? new ChordCommand(b, i) : new DigCommand(b, i);
-      invoke(cmd);
+      act.tap(+c.dataset.i);
       Quips.maybe(.03, e.clientX, e.clientY);
     });
-    grid.addEventListener('contextmenu', e => { const c = cellOf(e); if (!c) return; e.preventDefault(); if (suppress) return; invoke(new FlagCommand(b, +c.dataset.i)); Quips.maybe(.04, e.clientX, e.clientY); });
+    grid.addEventListener('contextmenu', e => { const c = cellOf(e); if (!c) return; e.preventDefault(); if (suppress) return; act.flag(+c.dataset.i); Quips.maybe(.04, e.clientX, e.clientY); });
     grid.addEventListener('pointerdown', e => {
       if (e.pointerType !== 'touch') return; const c = cellOf(e); if (!c) return;
       clearTimeout(lp); suppress = false;
-      lp = setTimeout(() => { suppress = true; invoke(new FlagCommand(b, +c.dataset.i)); if (navigator.vibrate) try { navigator.vibrate(15); } catch (er) {} }, 380);
+      lp = setTimeout(() => { suppress = true; act.flag(+c.dataset.i); if (navigator.vibrate) try { navigator.vibrate(15); } catch (er) {} }, 380);
     });
     ['pointerup', 'pointercancel', 'pointerleave'].forEach(ev => grid.addEventListener(ev, () => clearTimeout(lp)));
-    grid.addEventListener('keydown', e => { if (e.key !== 'f' && e.key !== 'F') return; const c = cellOf(e); if (!c) return; e.preventDefault(); invoke(new FlagCommand(b, +c.dataset.i)); });
+    grid.addEventListener('keydown', e => { if (e.key !== 'f' && e.key !== 'F') return; const c = cellOf(e); if (!c) return; e.preventDefault(); act.flag(+c.dataset.i); });
   },
   hud(b) {
     if (!b.el) return;
