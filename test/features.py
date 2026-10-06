@@ -1,5 +1,5 @@
 """v4.1 suite: the Daily Challenge (identical boards from the date, the flow, saving, sharing), achievements,
-keyboard shortcuts, the coin graph, New Game+, what's new and the vibration switch."""
+keyboard shortcuts, the coin graph, New Game+, what's new, the vibration switch and the volume sliders."""
 import json, pathlib
 from common import Results, open_page
 
@@ -122,6 +122,15 @@ async def run(browser, url, shots):
     n0 = await pg.evaluate("document.querySelectorAll('#chat .msg').length")
     await pg.evaluate("(() => { __sw.S.life.daily = null; __sw.DailyView.nudge(); })()")
     ok(await pg.evaluate("document.querySelectorAll('#chat .msg').length") == n0 + 1, 'a friend brags about their daily score in the chat')
+
+    # --- volume: the two sliders in Stats set the master and household-noise levels, and survive going bust
+    await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
+    await pg.evaluate('''(() => { for (const [id, v] of [['#sl-vol', 40], ['#sl-noiseVol', 25]]) { const s = document.querySelector(id); s.value = v;
+      s.dispatchEvent(new Event('input')); s.dispatchEvent(new Event('change')); } })()''')
+    g = await pg.evaluate("[__sw.S.vol, __sw.S.noiseVol, __sw.AudioEngine.get().master.gain.value, __sw.WeirdNoises.play('duck').gain.gain.value, __sw.NOISES.duck.volume, document.querySelector('#sl-vol-o').textContent]")
+    ok(g[0] == .4 and g[1] == .25 and abs(g[2] - .088) < 1e-6 and abs(g[3] - g[4] * .25) < 1e-6 and g[5] == '40%',
+       f'volume sliders: master gain {g[2]:.3f} (.22 at 40%), a duck plays at {g[3]:.3f} (25% of {g[4]})')
+    ok(await pg.evaluate("(() => { __sw.Game.bust('manual', true); return [__sw.S.vol, __sw.S.noiseVol]; })()") == [.4, .25], '…and they survive going bust')
 
     ok(not errs, 'no console errors' + (': ' + '; '.join(errs[:3]) if errs else ''))
     await ctx.close()

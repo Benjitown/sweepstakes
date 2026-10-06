@@ -255,7 +255,7 @@ export const Game = {
     this.lastRun = { ...S.run, reason };
     S.life.busts++; S.life.time += S.run.time;
     this.slots.fill(null);
-    setState(freshRun(S.life, { muted: S.muted, crt: pref('crt'), quips: pref('quips'), odd: pref('odd'), vibe: pref('vibe'), rude: pref('rude') }));
+    setState(freshRun(S.life, { muted: S.muted, crt: pref('crt'), quips: pref('quips'), odd: pref('odd'), vibe: pref('vibe'), rude: pref('rude'), vol: S.vol, noiseVol: S.noiseVol }));
     Rack.roll(); SaveGame.saveNow();
     if (!deferModal) UI.showBust(reason);
   },
