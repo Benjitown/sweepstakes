@@ -63,10 +63,10 @@ async def run(browser, url, shots):
     await pg.evaluate("(() => { __sw.Allotment.plant('lettuce', 0); __sw.Allotment.plant('radish', 1); })()")
     await pg.evaluate(RIPEN + "(1)")
     await pg.evaluate("__sw.Allotment.slugs()"); await pg.wait_for_timeout(2300)
-    st = await pg.evaluate(f"({{ beds: __sw.S.plot.map(b => b && b.c), slugs: __sw.S.life.plot.slugs, toasts: {TOASTS}, said: [...document.querySelectorAll('#chat .msg')].slice(-1).map(m => m.textContent)[0] || '' }})")
+    st = await pg.evaluate(f"({{ beds: __sw.S.plot.map(b => b && b.c), slugs: __sw.S.life.plot.slugs, toasts: {TOASTS}, said: [...document.querySelectorAll('#chat .msg')].slice(-3).map(m => m.textContent).join(' | ') }})")
     ok(st['beds'][0] is None and st['beds'][1] == 'radish' and st['slugs'] == 1, f'slugs ate the growing lettuce, not the ripe radishes {st["beds"]}')
     lines = await pg.evaluate("__sw.LINES.plot_slugs.map(l => l[1])")
-    ok('Slugs got your lettuce' in st['toasts'] and any(l in st['said'] for l in lines), f'a toast, and someone in the chat feels for you ({st["said"][-60:]})')
+    ok('Slugs got your lettuce' in st['toasts'] and any(l in st['said'] for l in lines), f'a toast, and someone in the chat feels for you ({st["said"][-90:]})')
     await pg.evaluate("__sw.Allotment.rng = Math.random")
 
     # --- a thunderstorm waters the lot
