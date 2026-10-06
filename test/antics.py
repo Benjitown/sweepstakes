@@ -1,5 +1,6 @@
 """Antics suite (experimental): dares from the group chat (the offer, You're on / Nah / no answer, the clock in the
-header, doing it in time for double, running out of time, the switch, each dare's rule)."""
+header, doing it in time for double, running out of time, the switch, each dare's rule) and the seasons (the calendar,
+Halloween's pumpkins, bats and trick or treaters, Bonfire Night's fireworks, Christmas snow and Nan's card)."""
 from common import Results, open_page
 
 SETUP = """(() => { __sw.Coach.finish(); const S = __sw.S; S.coins = 50000; S.unlocked = ['penny', 'den']; S.sel = 'den'; S.life.lvl = 5; S.life.xp = 0;
@@ -55,7 +56,7 @@ async def run(browser, url, shots):
     c0 = await pg.evaluate('__sw.S.coins'); stake = await pg.evaluate('__sw.Dares.offer.stake')
     await pg.evaluate(DARE_BTN % 'on'); await pg.wait_for_timeout(400)
     chip = await text(pg, '#dareChip .long')
-    ok(await pg.evaluate('__sw.S.coins') == c0 - stake and await pg.evaluate('!!__sw.S.dare && __sw.S.dare.id === "quick"') and 'Big Dave’s dare · 2:3' in chip,
+    ok(await pg.evaluate('__sw.S.coins') == c0 - stake and await pg.evaluate('!!__sw.S.dare && __sw.S.dare.id === "quick"') and 'Big Dave’s dare · 2:' in chip,
        f'You’re on: {stake:,} goes in the pot and the clock starts in the header ({chip})')
     ok('Dare on' in await toasts(pg), 'a toast says what you have to do')
     await pg.screenshot(path=str(shots / 'dare_on.png'))
@@ -120,6 +121,86 @@ async def run(browser, url, shots):
     await pg.evaluate("__sw.Dares.decline('slow')")
     await pg.click('[data-tab="shop"]')
 
+    # --- the seasons: by the calendar
+    when = await pg.evaluate("""(() => { const X = __sw.Seasons, f = X.force; X.force = null; const at = d => X.now(new Date(d));
+      const r = { oct1: at('2026-10-01T09:00'), oct15: at('2026-10-15T12:00'), oct31: at('2026-10-31T23:00'), nov5: at('2026-11-05T19:00'), nov8: at('2026-11-08T12:00'),
+        dec25: at('2026-12-25T10:00'), dec27: at('2026-12-27T10:00'), jun: at('2026-06-01T12:00') };
+      __sw.S.seasons = false; r.off = at('2026-10-15T12:00'); __sw.S.seasons = true; X.force = f; return r; })()""")
+    ok(when == {'oct1': 'halloween', 'oct15': 'halloween', 'oct31': 'halloween', 'nov5': 'bonfire', 'nov8': None, 'dec25': 'xmas', 'dec27': None, 'jun': None, 'off': None},
+       f'the calendar: Halloween all October, Bonfire Night 1–7 November, Christmas 1–26 December, nothing in June, nothing with the switch off')
+    ok(await pg.evaluate("!document.body.dataset.season && !document.querySelector('#seasonDeco')"), 'the tests start with no season (?test picks none)')
+    # Halloween: a purple room, a pumpkin by the logo, the odd bat
+    await pg.evaluate("(() => { __sw.Seasons.force = 'halloween'; __sw.SeasonView.apply(); __sw.SeasonView.bat(); })()"); await pg.wait_for_timeout(1500)
+    ok(await pg.evaluate("document.body.dataset.season === 'halloween' && document.querySelector('#seasonDeco use').getAttribute('href') === '#i-pumpkin' && !!document.querySelector('.bat')"),
+       'Halloween: the room goes purple, a pumpkin sits by the logo, and a bat flaps across')
+    await pg.screenshot(path=str(shots / 'halloween.png'))
+    # a pumpkin under a safe tile the opening didn't reach: dig it up for ×1.15
+    PUMP = """(() => { const old = __sw.slots[0]; if (old) { old.over = true; __sw.Game.endBoard(old); }
+      __sw.Seasons.rng = () => 0; __sw.Game.deal(0); const b = __sw.slots[0]; __sw.invoke(new __sw.DigCommand(b, Math.floor(b.t.h / 2) * b.t.w + Math.floor(b.t.w / 2)));
+      __sw.Seasons.rng = Math.random; const j = b.pumpkin; if (j < 0 || b.over) return { j };
+      const hid = !b.open[j] && !b.mine[j] && !b.gem[j]; let k = 1; __sw.bus.on('board:risky', e => { if (e.b === b && e.i === j) k = e.k; });
+      const g0 = b.G; __sw.Game.dig(b, j);
+      return { j, hid, at: b.pumpkinAt, ratio: b.G / g0 / k, pk: b.cells[j].classList.contains('pk'), n: __sw.S.life.pumpkins || 0 }; })()"""
+    await pg.evaluate("(() => { __sw.S.life.pumpkins = 4; delete __sw.S.life.ach.pumpkin; })()")
+    r = await pg.evaluate(PUMP); await pg.wait_for_timeout(150)
+    floats = await pg.evaluate("[...document.querySelectorAll('.float')].map(e => e.textContent).join(' ')")
+    await pg.wait_for_timeout(250)
+    ok(r.get('j', -1) >= 0 and r['hid'] and r['at'] == r['j'] and abs(r['ratio'] - 1.15) < 1e-9 and r['pk'],
+       f"a pumpkin hides under a safe tile the opening didn’t reach; dig it up and the pot goes ×1.15 ({r})")
+    ok(r.get('n') == 5 and await pg.evaluate("__sw.Achievements.has('pumpkin')"), 'the fifth pumpkin: Pumpkin Patch')
+    ok('PUMPKIN ×1.15' in floats, f'and it says so on the board ({floats[:60]})')
+    await pg.screenshot(path=str(shots / 'pumpkin.png'))
+    none = await pg.evaluate("""(() => { const b = __sw.slots[0], out = {}; __sw.Seasons.rng = () => .99; out.unlucky = __sw.Seasons.pumpkinFor(b);
+      __sw.Seasons.rng = () => 0; __sw.Seasons.force = 'none'; out.offSeason = __sw.Seasons.pumpkinFor(b); __sw.Seasons.force = 'halloween'; __sw.Seasons.rng = Math.random; return out; })()""")
+    ok(none == {'unlucky': -1, 'offSeason': -1}, 'half the boards have no pumpkin, and none out of season')
+    await pg.evaluate("(() => { const b = __sw.slots[0]; if (b) { b.over = true; __sw.Game.endBoard(b); } __sw.HouseholdView.clear(); })()")
+    # trick or treat: sweets for a sugar rush...
+    await pg.evaluate("(() => { __sw.Seasons.rng = () => 0; delete __sw.S.life.ach.treat; __sw.S.sugar = 0; __sw.Household.answerDoor(); __sw.Seasons.rng = Math.random; })()"); await pg.wait_for_timeout(300)
+    card = await text(pg, '.happening')
+    sweets = await pg.evaluate('__sw.Seasons.sweets()')
+    ok('Trick or treat!' in card and f'Give them sweets ({sweets:,})' in card and 'Pretend you’re out' in card, f'Halloween at the door: trick or treaters ({card[:70]}…)')
+    await pg.screenshot(path=str(shots / 'trick_or_treat.png'))
+    c0 = await pg.evaluate('__sw.S.coins')
+    await pg.click('.happening [data-h="0"]'); await pg.wait_for_timeout(400)
+    bonus = await pg.evaluate("__sw.Achievements.reward(__sw.ACHIEVEMENTS.find(a => a.id === 'treat'))")
+    ok(await pg.evaluate('__sw.S.coins') == c0 - sweets + bonus and await pg.evaluate('__sw.S.sugar') == 1 and 'Treat!' in await text(pg, '.happening')
+       and await pg.evaluate("__sw.Achievements.has('treat') && !document.querySelector('#sugarChip').hidden"),
+       f'give them sweets ({sweets:,}): they give you a sugar rush back (+25% on your next winning cash-out), and Trick or Treat unlocks')
+    # ...or eggs on the window
+    await pg.evaluate("(() => { __sw.HouseholdView.clear(); __sw.TRICK.EGGS_MS = 1200; __sw.Seasons.rng = () => 0; __sw.Household.answerDoor(); __sw.Seasons.rng = Math.random; })()"); await pg.wait_for_timeout(300)
+    await pg.click('.happening [data-h="1"]'); await pg.wait_for_timeout(700)
+    eggs = await pg.evaluate("document.querySelectorAll('#eggs .egg').length")
+    ok(eggs == 3 and 'Trick!' in await text(pg, '.happening'), f'pretend you’re out and they egg the window ({eggs} eggs)')
+    await pg.screenshot(path=str(shots / 'egged.png'))
+    await pg.wait_for_timeout(2000)
+    ok(await pg.evaluate("!document.querySelector('#eggs')"), 'the eggs come off in the end')
+    await pg.evaluate("(() => { __sw.HouseholdView.clear(); __sw.TRICK.EGGS_MS = 40000; })()")
+    # Bonfire Night: fireworks over a big win
+    fw = await pg.evaluate("""(() => { __sw.Seasons.force = 'bonfire'; __sw.SeasonView.apply(); const real = __sw.FX.fireworks; let n = 0; __sw.FX.fireworks = k => { n += k; };
+      const old = __sw.slots[0]; if (old) { old.over = true; __sw.Game.endBoard(old); }
+      __sw.Game.deal(0); const b = __sw.slots[0]; __sw.invoke(new __sw.DigCommand(b, Math.floor(b.t.h / 2) * b.t.w + Math.floor(b.t.w / 2)));
+      let small = -1; if (!b.over) { b.G = 1; __sw.Game.cashOut(b); small = n; }
+      const o2 = __sw.slots[0]; if (o2) { o2.over = true; __sw.Game.endBoard(o2); }
+      __sw.Game.deal(0); const c = __sw.slots[0]; __sw.invoke(new __sw.DigCommand(c, Math.floor(c.t.h / 2) * c.t.w + Math.floor(c.t.w / 2)));
+      if (!c.over) { c.G = 10; __sw.Game.cashOut(c); }
+      __sw.FX.fireworks = real; return { deco: document.querySelector('#seasonDeco use').getAttribute('href'), small, big: n }; })()""")
+    ok(fw['deco'] == '#i-firework' and fw['small'] == 0 and fw['big'] >= 2, f'Bonfire Night: a rocket by the logo, and fireworks over a big win, not a small one ({fw})')
+    # Christmas: snow, and a card from Nan (once a day)
+    await pg.evaluate("(() => { __sw.HouseholdView.clear(); __sw.Seasons.force = 'xmas'; __sw.SeasonView.apply(); delete __sw.S.life.xmasCard; })()"); await pg.wait_for_timeout(300)
+    ok(await pg.evaluate("document.querySelectorAll('#snow i').length === 36 && document.querySelector('#seasonDeco use').getAttribute('href') === '#i-holly'"), 'Christmas: snow past the window, holly by the logo')
+    c0 = await pg.evaluate('__sw.S.coins')
+    first = await pg.evaluate("__sw.Household.answerDoor().o.title"); await pg.wait_for_timeout(300)
+    got = await pg.evaluate('__sw.S.coins') - c0
+    card = await text(pg, '.happening')
+    second = await pg.evaluate("(() => { __sw.HouseholdView.clear(); return __sw.Household.answerDoor().o.title; })()")
+    ok(first == 'A card from Nan' and got > 0 and 'All my love, Nan x' in card and second != 'A card from Nan', f'a card from Nan with {got:,} in it (just the one a day)')
+    await pg.screenshot(path=str(shots / 'xmas.png'))
+    # and out of season again
+    await pg.evaluate("(() => { __sw.HouseholdView.clear(); __sw.Seasons.force = 'none'; __sw.SeasonView.apply(); })()"); await pg.wait_for_timeout(200)
+    ok(await pg.evaluate("!document.body.dataset.season && !document.querySelector('#seasonDeco') && !document.querySelector('#snow')"), 'out of season: the room’s back to normal')
+
+    ids = await pg.evaluate("[...document.querySelectorAll('svg symbol')].map(s => s.id)")
+    ok(len(ids) == len(set(ids)), f'every icon in the sheet has its own id ({len(ids)} icons{", doubled: " + str(sorted({x for x in ids if ids.count(x) > 1})) if len(ids) != len(set(ids)) else ""})')
     ok(not errs, f'no console errors {errs[:3]}')
     await ctx.close()
     return R

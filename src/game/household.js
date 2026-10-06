@@ -5,6 +5,9 @@ import { bus } from '../core/bus.js';
 import { SaveGame, S, baseCap } from '../core/state.js';
 import { WeirdNoises } from '../audio/noises.js';
 import { Game } from './game.js';
+import { Seasons } from './seasons.js';
+import { TRICK, XMAS } from '../data/seasons.js';
+import { TRICK_CARD, XMAS_CARD } from '../content/seasons.js';
 
 // coins: a share of your top table's max stake when it's good, a share of your coins (capped) when it's bad.
 // fx: card, golden, shield, spin, streak0, streak1, raffle (offers a ticket), duck (offers a race)
@@ -106,7 +109,13 @@ export const Household = {
     bus.emit('household', { kind, o, coins, card });
     return { o, coins, card };
   },
-  answerDoor(pick) { return this.resolve('door', DOOR, pick); },
+  answerDoor(pick) {
+    // in season: trick or treaters all October, and Nan's Christmas card (once a day)
+    const k = pick == null && Seasons.now(), day = new Date().toDateString();
+    if (k === 'halloween' && Seasons.rng() < TRICK.CHANCE) return this.resolve('door', [{ ...TRICK_CARD, w: 1 }], 0);
+    if (k === 'xmas' && S.life.xmasCard !== day) { S.life.xmasCard = day; return this.resolve('door', [{ ...XMAS_CARD, w: 1, coins: XMAS.CARD }], 0); }
+    return this.resolve('door', DOOR, pick);
+  },
   answerPhone(pick) { return this.resolve('phone', PHONE, pick); },
   petKitten(pick) { return this.resolve('kitten', KITTEN, pick); },
   shooGull(pick) { return this.resolve('gull', GULL.shoo, pick); },

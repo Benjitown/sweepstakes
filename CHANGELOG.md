@@ -57,6 +57,14 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **Biscuit, next door's dog.** If you hear barking, he trots in along the bottom of the screen and waits ("Woof?").
   Give him a biscuit (3% of the top table's max stake) and he sniffs out a mine on your board and sits on it: flagged,
   glowing orange for a moment. Ignore him and he wanders off. New achievement: Good Boy.
+- **The seasons,** by your device's calendar. **Halloween (all October):** the room goes purple, a pumpkin sits by
+  the logo and the odd bat flaps past. Half the boards hide a pumpkin under a safe tile the opening didn't reach: dig
+  it up and the pot goes ×1.15. Trick or treaters come to the door: give them sweets and they give you a sugar rush
+  back (+25% on your next winning cash-out), or pretend you're out and they egg the window. **Bonfire Night (1–7
+  November):** fireworks over every win of ×5 or more, and a few in the distance. **Christmas (1–26 December):** snow
+  past the window, holly by the logo, and a card from Nan through the door with something in it. Try one out any
+  time with `?season=halloween` (or `bonfire`, `xmas`, `none`) on the address, or switch them off with "Seasonal
+  bits" in Stats. New achievements: Pumpkin Patch and Trick or Treat.
 - **Dares.** Now and then someone in the group chat dares you: Tash bets 5,000 you can't cash out a board at ×3 in
   three minutes, Dave that you can't clear one without a single flag, Priya that you can't win three in a row. Say
   "You're on" and your stake goes in the pot (a tenth of your coins); do it before the clock in the header runs out

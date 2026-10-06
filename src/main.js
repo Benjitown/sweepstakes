@@ -54,6 +54,8 @@ import { KevView } from './ui/kevcoin-view.js';
 import { Outside } from './game/outside.js';
 import { Dares } from './game/dares.js';
 import { DareView } from './ui/dare-view.js';
+import { Seasons } from './game/seasons.js';
+import { SeasonView } from './ui/season-view.js';
 import { exposeForTests } from './debug.js';
 
 $('#btnDon').onclick = () => DonLadder.start();
@@ -71,6 +73,10 @@ DuckRace.settle(); Scratchcards.settle(); Bingo.settle(); Fruity.settle(); // a 
 if (!S.rack || !S.rack.length || S.rackAt > S.run.time) Rack.roll();
 renderAll();
 KevView.bind(); DareView.bind();
+// the season (?season=halloween / bonfire / xmas / none tries one out; the tests pick their own)
+const trySeason = new URLSearchParams(location.search).get('season');
+if (trySeason !== null) Seasons.force = trySeason; else if (new URLSearchParams(location.search).has('test')) Seasons.force = 'none';
+const season = SeasonView.apply();
 TablesView.reveal();
 Bots.timer = setTimeout(() => Bots.tick(), Bots.delay());
 WeirdNoises.schedule();
@@ -81,6 +87,7 @@ Chat.ambient();
 const hi = LINES.hello.slice().sort(() => Math.random() - .5);
 setTimeout(() => Chat.post(...hi[0]), 600);
 setTimeout(() => Chat.post(...hi[1]), 2000);
+if (season) { const sh = LINES[season + '_hi'].slice().sort(() => Math.random() - .5); setTimeout(() => Chat.post(...sh[0]), 3800); setTimeout(() => Chat.post(...sh[1]), 5600); }
 if (!S.life.tut) setTimeout(() => Coach.start(), 900);
 WhatsNew.maybe();
 if (S.life.tut) {

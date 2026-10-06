@@ -69,6 +69,8 @@ export const Achievements = {
     bus.on('daily:done', ({ streak, top }) => { u('daily'); if (streak >= 7) u('daily7'); if (top) u('dailytop'); });
     bus.on('tutorial:done', ({ completed }) => { if (completed) u('nan'); });
     bus.on('tin:open', () => u('tin'));
+    bus.on('pumpkin', ({ n }) => { if (n >= 5) u('pumpkin'); });
+    bus.on('treat', () => u('treat'));
     bus.on('dare:won', () => { u('dare'); if ((S.life.dares && S.life.dares.won || 0) >= 3) u('dare3'); });
     bus.on('addon:fired', ({ id }) => { if (id === 'dark') u('dark'); });
     bus.on('kev:trade', ({ buy, x }) => { if (!buy && x >= 2) u('moon'); });
