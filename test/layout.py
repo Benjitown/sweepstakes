@@ -8,7 +8,7 @@ MID_GAME = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.coins = 4.2e8; S
   S.life.lvl = 14; S.life.xp = 300; __sw.renderAll(); document.querySelector('#dealAll').click();
   setTimeout(() => { for (const b of __sw.slots) if (b) __sw.invoke(new __sw.DigCommand(b, Math.floor(b.t.h / 2) * b.t.w + Math.floor(b.t.w / 2))); }, 200); })()'''
 ALL_CHIPS = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.asc = 2; S.streak = 7; S.goldNext = 3; S.life.lvl = 23; S.coins = 4.2e12; __sw.renderAll();
-  __sw.HouseholdView.chirp(true); })()'''
+  __sw.HouseholdView.chirp(true); S.dare = { id: 'x3', who: 'tash', stake: 100, secs: 180, left: 175, task: 'cash out a board at ×3 or more' }; __sw.DareView.chip(); })()'''
 HOUSE = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.coins = 50000; __sw.renderAll(); __sw.Household.answerDoor(0); __sw.HouseholdView.walkKitten(); __sw.HouseholdView.swoopGull();
   __sw.UI.toast('A toast, to check it clears the card'); })()'''
 POWER = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.coins = 50000; __sw.renderAll(); __sw.PowerCut.start(); })()'''
@@ -32,12 +32,16 @@ async def shot(R, browser, url, shots, name, w, h, setup=None, mobile=False, wai
     if name.startswith('phone_chips'):
         clipped = await pg.evaluate('''(() => { const c = document.querySelector('#chips').getBoundingClientRect();
           return [...document.querySelectorAll('#chips > *')].filter(e => !e.hidden && getComputedStyle(e).display !== 'none')
-            .filter(e => e.id !== 'chirpChip')
+            .filter(e => e.id !== 'chirpChip' && e.id !== 'dareChip')
             .filter(e => { const r = e.getBoundingClientRect(); return r.right > c.right + .5 || r.bottom > c.bottom + .5; }).map(e => e.id); })()''')
         R.ok(not clipped, f'{name}: every header chip fits ({clipped or "none clipped"})')
         tab = await pg.evaluate('''(() => { const r = document.querySelector('#chirpChip').getBoundingClientRect(), h = document.querySelector('.run').getBoundingClientRect();
           return r.width > 0 && r.left >= 0 && r.right <= innerWidth && r.top >= h.bottom - 1; })()''')
         R.ok(tab, f'{name}: the smoke detector chip hangs below the header, on screen')
+        dare = await pg.evaluate('''(() => { const r = document.querySelector('#dareChip').getBoundingClientRect(), h = document.querySelector('.run').getBoundingClientRect(),
+          c = document.querySelector('#chirpChip').getBoundingClientRect();
+          return r.width > 0 && r.left >= 0 && r.right <= innerWidth && r.top >= h.bottom - 1 && r.right <= c.left; })()''')
+        R.ok(dare, f'{name}: so does a dare’s clock, on the left, clear of it')
     await ctx.close()
 
 

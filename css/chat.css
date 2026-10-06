@@ -14,6 +14,8 @@
 .qopt.right{background:var(--green);opacity:1}
 .qopt.wrong{background:var(--red);opacity:1}
 .qprize{display:block;font-size:.7rem;color:var(--ink-dim)}
+/* a dare from one of the friends */
+.msg.invite.dare .bubble{box-shadow:inset 0 0 0 2px var(--orange)}
 .qtimer{position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--gold);transform-origin:left;animation:htimer var(--qt,25s) linear forwards}
 /* Nan's stars: twelve signs to pick from, then her reading with the day's lucky number on a gold tag */
 .qopts.signs{grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}

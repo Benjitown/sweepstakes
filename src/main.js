@@ -52,6 +52,8 @@ import { Fruity } from './game/fruity.js';
 import { FruityView } from './ui/fruity-view.js';
 import { KevView } from './ui/kevcoin-view.js';
 import { Outside } from './game/outside.js';
+import { Dares } from './game/dares.js';
+import { DareView } from './ui/dare-view.js';
 import { exposeForTests } from './debug.js';
 
 $('#btnDon').onclick = () => DonLadder.start();
@@ -68,12 +70,13 @@ if (!TBY[S.sel] || !S.unlocked.includes(S.sel)) S.sel = 'penny';
 DuckRace.settle(); Scratchcards.settle(); Bingo.settle(); Fruity.settle(); // a duck race, scratchcard, bingo ticket or Fruity win you left behind still pays out
 if (!S.rack || !S.rack.length || S.rackAt > S.run.time) Rack.roll();
 renderAll();
-KevView.bind();
+KevView.bind(); DareView.bind();
 TablesView.reveal();
 Bots.timer = setTimeout(() => Bots.tick(), Bots.delay());
 WeirdNoises.schedule();
 Quiz.schedule();
 Bingo.schedule();
+Dares.schedule();
 Chat.ambient();
 const hi = LINES.hello.slice().sort(() => Math.random() - .5);
 setTimeout(() => Chat.post(...hi[0]), 600);

@@ -55,7 +55,8 @@ src/
   game/             the rules (game.js), commands, bots, rack, rank, double or nothing, daily, achievements,
                     household (the door, the phone, the kitten, the seagull, the smoke detector, the ice cream van,
                     Biscuit the dog), the Banker, power cuts, storms, the duck race, scratchcards, Nan's bingo,
-                    the Fruity (fruit machine), the pub quiz, going outside, KEVCOIN, Nan's stars, Nan's biscuit tin
+                    the Fruity (fruit machine), the pub quiz, going outside, KEVCOIN, Nan's stars, Nan's biscuit tin,
+                    dares from the group chat
   ui/               one file per view: panels, boards, shop, modals, tutorial, daily, keys, coin graph, household, ducks...
 assets/             fonts (+ OFL licence) and the favicon
 tools/              build.py, serve.py, vc.py (version control), export_rules.mjs, sim/ (economy, Fruity and KEVCOIN simulators)
@@ -97,6 +98,8 @@ The suites run against both the ES-module source and the built file:
 - **nan:** Nan is always kind (every line of hers signs off with a kiss, she's never in the rude chat, she never swears
   and nobody has a go at her) and her biscuit tin (filling it, the cap, handing it over when you go bust, keeping it
   when you start a fresh run yourself)
+- **antics:** dares from the group chat (the offer, You're on, Nah, no answer, the clock in the header and when it
+  stops, doing it in time, running out of time, each dare's rule, the switch)
 - **layout:** desktop, tablet and phone sizes with no sideways scrolling
 
 Screenshots go to `test/screenshots/`.
