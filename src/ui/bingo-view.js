@@ -127,14 +127,17 @@ export const BingoView = {
     st.done = true; UI.modalLocked = false; Voice.hush();
     const { g } = st, again = Bingo.price(g.kind);
     Bingo.settle();
-    $$('.booth button, [data-a="close"]', UI.el.box).forEach(b => { b.disabled = false; });
+    // the result in the hall (if the hall's still on screen: something else may have closed the window)
     const res = $('#bingoRes');
-    if (g.prize) { res.className = 'duckres'; res.innerHTML = `<b>${RESULT[g.lines]}! +${fmt(g.prize)}</b><span>×${g.x} your money · ${esc(rnd(BINGO_END[g.lines]))}</span>`; }
-    else { res.className = 'duckres lose'; res.innerHTML = `<b>No luck</b><span>${esc(rnd(BINGO_END[0]))}</span>`; }
-    const go = $('#bingoFast');
-    go.disabled = S.coins < again; go.textContent = `Another ticket (${fmt(again)})`; go.onclick = () => this.buy(g.kind.id);
-    const shelf = $('#bingoShelf'); shelf.hidden = false; shelf.onclick = () => this.shelf();
-    Game.setCoins(S.coins, !!g.prize, g.prize ? { from: $('.bcard', UI.el.box), amount: g.prize } : null);
+    if (res) {
+      $$('.booth button, [data-a="close"]', UI.el.box).forEach(b => { b.disabled = false; });
+      if (g.prize) { res.className = 'duckres'; res.innerHTML = `<b>${RESULT[g.lines]}! +${fmt(g.prize)}</b><span>×${g.x} your money · ${esc(rnd(BINGO_END[g.lines]))}</span>`; }
+      else { res.className = 'duckres lose'; res.innerHTML = `<b>No luck</b><span>${esc(rnd(BINGO_END[0]))}</span>`; }
+      const go = $('#bingoFast');
+      go.disabled = S.coins < again; go.textContent = `Another ticket (${fmt(again)})`; go.onclick = () => this.buy(g.kind.id);
+      const shelf = $('#bingoShelf'); shelf.hidden = false; shelf.onclick = () => this.shelf();
+    }
+    Game.setCoins(S.coins, !!g.prize, g.prize && res ? { from: $('.bcard', UI.el.box), amount: g.prize } : null);
     bus.emit('bingo', { lines: g.lines, x: g.x, prize: g.prize, price: g.price, kind: g.kind.id });
     if (S.coins < TABLES[0].min && !Game.slots.some(Boolean)) setTimeout(() => { if (this.st === st && !UI.modalClosed()) UI.closeModal(); }, 1800);
   },
