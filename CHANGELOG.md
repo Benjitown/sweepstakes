@@ -82,7 +82,8 @@ Each version is also a save in the built-in version control. Run `python tools/v
   you with the tune as a guide, counted in with four clicks, and the jukebox waits until you're done. Your fee goes
   in the pot: 60% of the notes gets it back, 80% doubles it and 95% trebles it, with a standing ovation. Pressing
   between notes counts as a bum note. The machine needs three minutes' rest between singers.
-- **A record scratch** when you go bust or a big board blows up: the needle skids and the music ducks.
+- **A record scratch** when you go bust or a big board blows up: the needle skids and the music ducks. The jukebox
+  also turns down while Nan calls the bingo.
 - **The jukebox.** Music at last. The button next to mute (or J) opens the Red Lion's jukebox, with four records
   synthesised note by note in your browser: High Roller Lounge (slow swing on an electric piano, brushes and a double
   bass), Last Orders (a knees-up on the pub's old upright), Insert Coin (Kev's eight-bit tune) and Nan's Wireless (a
