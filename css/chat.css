@@ -5,3 +5,13 @@
 .bubble{background:var(--panel-in);border-radius:4px 12px 12px 12px;padding:5px 10px;text-shadow:none;min-width:0}
 .bubble b{display:block;font-size:.75rem;color:var(--fc)}
 .bubble span{font-size:.92rem}
+/* the pub quiz: a question bubble with three answers and a shrinking timer */
+.msg.quiz .bubble{position:relative;overflow:hidden;box-shadow:inset 0 0 0 2px var(--gold);padding-bottom:9px}
+.qopts{display:grid;gap:5px;margin:6px 0 4px}
+.qopt{border:0;border-radius:8px;background:var(--panel-hi);color:var(--ink);font:inherit;font-size:.85rem;padding:5px 9px;text-align:left;cursor:pointer;box-shadow:0 2px 0 var(--shadow)}
+.qopt:hover:not(:disabled){background:var(--blue)}
+.qopt:disabled{cursor:default;opacity:.6}
+.qopt.right{background:var(--green);opacity:1}
+.qopt.wrong{background:var(--red);opacity:1}
+.qprize{display:block;font-size:.7rem;color:var(--ink-dim)}
+.qtimer{position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--gold);transform-origin:left;animation:htimer var(--qt,25s) linear forwards}
