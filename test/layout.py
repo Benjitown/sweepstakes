@@ -1,5 +1,5 @@
 """Layout suite: desktop, tablet and phone screenshots (mid-game, the tutorial, the wheel, the daily, the duck race, a knock at
-the door, a seagull, a power cut, Nan's bingo, the park, the Fruity, going bust with Nan's biscuit tin); nothing may overflow sideways, and every header chip must fit on a 360px phone."""
+the door, a seagull, a power cut, Nan's bingo, the park, the Fruity, going bust with Nan's biscuit tin, the claw machine); nothing may overflow sideways, and every header chip must fit on a 360px phone."""
 from common import Results, open_page
 
 MID_GAME = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.coins = 4.2e8; S.unlocked = ['penny', 'den', 'alley', 'roller'];
@@ -17,6 +17,7 @@ BINGO = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.coins = 50000; S.up
 FRUITY = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.coins = 50000; S.upg.flip = 1; __sw.renderAll(); __sw.FruityView.open(); })()'''
 GRASS = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.coins = 50000; __sw.renderAll(); __sw.OutsideView.open(); })()'''
 TIN = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.life.tin = 2500; S.coins = 3; __sw.Game.slots.fill(null); __sw.renderAll(); __sw.Game.checkBust(); })()'''
+CLAWM = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.coins = 50000; S.upg.flip = 1; __sw.renderAll(); __sw.ClawView.open(); })()'''
 DUCKS = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.coins = 50000; S.upg.flip = 1; __sw.renderAll(); __sw.DuckRaceView.open(); })()'''
 
 
@@ -63,6 +64,7 @@ async def run(browser, url, shots):
     await shot(R, browser, url, shots, 'phone_outside.png', 360, 640, GRASS, mobile=True, wait=800)
     await shot(R, browser, url, shots, 'phone_fruity.png', 360, 640, FRUITY, mobile=True, wait=500)
     await shot(R, browser, url, shots, 'phone_bust_tin.png', 360, 640, TIN, mobile=True, wait=900)
+    await shot(R, browser, url, shots, 'phone_claw.png', 360, 640, CLAWM, mobile=True, wait=600)
     await shot(R, browser, url, shots, 'desktop_duck_race.png', 1366, 900, DUCKS, wait=500)
     await shot(R, browser, url, shots, 'desktop_fruity.png', 1366, 900, FRUITY, wait=500)
     return R

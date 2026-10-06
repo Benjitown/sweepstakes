@@ -31,7 +31,7 @@ export const UI = {
   // the tabs at the top of the Flip Booth: coin flip | duck race | scratchcards | bingo | the Fruity (wiring.js switches on the 'booth' event)
   boothTabs(on) {
     return `<div class="booth" role="tablist" aria-label="The booth">${[['flip', 'coin', 'Coin flip', 'Flip'], ['ducks', 'duck', 'Duck race', 'Ducks'],
-      ['scratch', 'ticket', 'Scratchcards', 'Scratch'], ['bingo', 'bingo', 'Bingo', 'Bingo'], ['fruity', 'cherry', 'The Fruity (fruit machine)', 'Fruity']].map(([k, icon, label, short]) =>
+      ['scratch', 'ticket', 'Scratchcards', 'Scratch'], ['bingo', 'bingo', 'Bingo', 'Bingo'], ['fruity', 'cherry', 'The Fruity (fruit machine)', 'Fruity'], ['claw', 'claw', 'The claw machine', 'Claw']].map(([k, icon, label, short]) =>
       `<button type="button" role="tab" aria-selected="${k === on}" data-booth="${k}" title="${label}" aria-label="${label}">${ico(icon)}<span>${short}</span></button>`).join('')}</div>`;
   },
   toast(msg) {

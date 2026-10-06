@@ -49,6 +49,7 @@ import { Scratchcards } from './game/scratchcards.js';
 import { Quiz } from './game/quiz.js';
 import { Bingo } from './game/bingo.js';
 import { Fruity } from './game/fruity.js';
+import { Claw } from './game/claw.js';
 import { FruityView } from './ui/fruity-view.js';
 import { KevView } from './ui/kevcoin-view.js';
 import { Outside } from './game/outside.js';
@@ -69,7 +70,7 @@ setInterval(() => { if (document.hidden || Outside.on) return; S.run.time++; Out
 
 (S.boards || []).forEach(o => { if (o && o.slot < boardCount()) { const b = Board.fromMemento(o); if (b) Game.slots[o.slot] = b; } });
 if (!TBY[S.sel] || !S.unlocked.includes(S.sel)) S.sel = 'penny';
-DuckRace.settle(); Scratchcards.settle(); Bingo.settle(); Fruity.settle(); // a duck race, scratchcard, bingo ticket or Fruity win you left behind still pays out
+DuckRace.settle(); Scratchcards.settle(); Bingo.settle(); Fruity.settle(); Claw.settle(); // a duck race, scratchcard, bingo ticket, Fruity win or claw prize you left behind still pays out
 if (!S.rack || !S.rack.length || S.rackAt > S.run.time) Rack.roll();
 renderAll();
 KevView.bind(); DareView.bind();

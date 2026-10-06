@@ -2174,6 +2174,56 @@
     "Ooh lovely! Mind Biscuit, he hates the bangs x"
    ]
   ],
+  "claw_win": [
+   [
+    "tash",
+    "THE CLAW HAS CHOSEN"
+   ],
+   [
+    "kev",
+    "those machines are rigged. well done though"
+   ],
+   [
+    "nan",
+    "Ooh, is that for me? x"
+   ],
+   [
+    "dave",
+    "I once put forty quid in one of those for a plastic frog. respect"
+   ],
+   [
+    "priya",
+    "the claw giveth"
+   ]
+  ],
+  "claw_drop": [
+   [
+    "dave",
+    "IT DROPPED IT. it always drops it"
+   ],
+   [
+    "tash",
+    "that claw has the grip of a wet sock"
+   ],
+   [
+    "kev",
+    "that’s the law of the claw"
+   ],
+   [
+    "nan",
+    "So close love! x"
+   ]
+  ],
+  "claw_miss": [
+   [
+    "priya",
+    "you grabbed air. premium air"
+   ],
+   [
+    "kev",
+    "a bit to the left. no, your other left"
+   ]
+  ],
   "tin_first": [
    [
     "nan",

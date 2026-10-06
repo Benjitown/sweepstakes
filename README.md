@@ -56,7 +56,7 @@ src/
                     household (the door, the phone, the kitten, the seagull, the smoke detector, the ice cream van,
                     Biscuit the dog), the Banker, power cuts, storms, the duck race, scratchcards, Nan's bingo,
                     the Fruity (fruit machine), the pub quiz, going outside, KEVCOIN, Nan's stars, Nan's biscuit tin,
-                    dares from the group chat, the seasons (Halloween, Bonfire Night, Christmas)
+                    dares from the group chat, the seasons (Halloween, Bonfire Night, Christmas), the claw machine
   ui/               one file per view: panels, boards, shop, modals, tutorial, daily, keys, coin graph, household, ducks...
 assets/             fonts (+ OFL licence) and the favicon
 tools/              build.py, serve.py, vc.py (version control), export_rules.mjs, sim/ (economy, Fruity and KEVCOIN simulators)
@@ -100,8 +100,9 @@ The suites run against both the ES-module source and the built file:
   when you start a fresh run yourself)
 - **antics:** dares from the group chat (the offer, You're on, Nah, no answer, the clock in the header and when it
   stops, doing it in time, running out of time, each dare's rule, the switch) and the seasons (the calendar, Halloween's
-  pumpkins, bats and trick or treaters, Bonfire Night's fireworks, Christmas snow and Nan's card), plus a check that
-  every icon in the sheet has its own id
+  pumpkins, bats and trick or treaters, Bonfire Night's fireworks, Christmas snow and Nan's card), the claw machine
+  (the swing, what it pays back, a win, a drop, a slip, a miss, leaving mid-grab), plus a check that every icon in the
+  sheet has its own id
 - **layout:** desktop, tablet and phone sizes with no sideways scrolling
 
 Screenshots go to `test/screenshots/`.
