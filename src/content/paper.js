@@ -4,6 +4,8 @@ export const STORIES = {
   casino: [['LOCAL GAMBLER BUYS THE CASINO'], ['The new owner promises “mostly the same, but mine”.']],
   bust: [['STUFFED', 'IT’S ALL GONE', 'RUN ENDS IN RUIN'], ['Lasted {lasted} and peaked at {peak}. The rank survives; nothing else does.']],
   bust_don: [['DOUBLE OR NOTHING SAYS NOTHING'], ['Everything on one go. Lasted {lasted}, peaked at {peak}.']],
+  lotto_jackpot: [['SWEEPSTAKE JACKPOT WON LOCALLY', 'ALL FIVE NUMBERS UP!'], ['{pay} on a single line. The newsagent has asked for a photo.']],
+  lotto_four: [['FOUR NUMBERS UP ON THE SWEEPSTAKE'], ['{pay} on one line. One number away from the jackpot, as everyone keeps saying.']],
   jackpot: [['JACKPOT GEM FOUND', '×5! JACKPOT AT {table}'], ['Neighbours report screaming.', 'A ×5 gem, right where nobody was looking.']],
   bingo_house: [['FULL HOUSE AT NAN’S BINGO'], ['Nan says she’s never been prouder, and she’s told the whole street.']],
   fruity_jackpot: [['THREE SEVENS ON THE FRUITY'], ['The landlord is having the machine looked at.']],
@@ -35,7 +37,7 @@ export const STORIES = {
 };
 // what the "photo" on the front page shows (an icon from the sheet, printed in newsprint grey)
 export const STORY_ART = {
-  casino: 'casino', bust: 'skull', bust_don: 'dice', jackpot: 'gem', bingo_house: 'bingo', fruity_jackpot: 'lucky7', ascend: 'asc', don_win: 'dice',
+  casino: 'casino', bust: 'skull', bust_don: 'dice', lotto_jackpot: 'ticket', lotto_four: 'ticket', jackpot: 'gem', bingo_house: 'bingo', fruity_jackpot: 'lucky7', ascend: 'asc', don_win: 'dice',
   cashout_big: 'coin', rug: 'kevcoin', whopper: 'veg', night_full: 'brain', scratch_big: 'ticket', duck_long: 'duck', boom_big: 'bomb', darts_won: 'dart',
   banker_beat: 'phone', unlock: 'crown', clear: 'flag', rainbow: 'clover', claw_win: 'claw', banker_deal: 'phone', dare_won: 'dare', storm: 'bolt',
   power: 'bulb', kev_launch: 'kevcoin', darts_lost: 'dart', levelup: 'trophy', gull: 'gull', slugs: 'veg', quiet: 'coin',

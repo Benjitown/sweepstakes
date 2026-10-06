@@ -9,6 +9,7 @@ import { STORIES, STORY_ART, SMALL_ADS, PAPER_WEATHER } from '../content/paper.j
 import { Game } from './game.js';
 import { Seasons } from './seasons.js';
 import { Stars } from './horoscope.js';
+import { Sweepstake } from './sweepstake.js';
 
 const fill = (t, vars) => t.replace(/\{(\w+)\}/g, (_, k) => vars[k] ?? '');
 const pickOf = (a, rng) => a[Math.floor(rng() * a.length)];
@@ -32,7 +33,9 @@ export const Paper = {
   },
   deliver() {
     const L = S.life; L.paper = L.paper || { delivered: 0, solved: 0 };
+    const lotto = Sweepstake.draw(); // last night's Sweepstake, drawn as the paper goes to print
     const p = S.paper = this.compose(S.run, 'daily', ++L.paper.delivered);
+    p.lotto = lotto;
     SaveGame.save(); bus.emit('paper', p);
     return p;
   },

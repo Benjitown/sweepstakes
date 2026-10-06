@@ -81,8 +81,30 @@ async def run(browser, url, shots):
     ok('2 papers, 1 puzzle solved' in await pg.evaluate("document.getElementById('stats').textContent"), 'Stats: papers delivered and puzzles solved')
     await pg.click('[data-tab="shop"]')
 
+    # --- the Sweepstake: Lucky Dip lines in the paper, drawn when the next one comes
+    pb = await pg.evaluate('__sw.Sweepstake.payback()')
+    ok(.45 < pb < .55, f'the Sweepstake pays back about half ({pb:.1%}), worked out exactly')
+    await pg.evaluate("(() => { __sw.S.lotto = null; __sw.S.coins = 50000; __sw.Paper.deliver(); __sw.PaperView.open(); })()"); await pg.wait_for_timeout(300)
+    price = await pg.evaluate('__sw.Sweepstake.price()'); c3 = await pg.evaluate('__sw.S.coins')
+    for _ in range(5):
+        await pg.click('#lottoDip'); await pg.wait_for_timeout(120)
+    st = await pg.evaluate("({ n: __sw.Sweepstake.lines().length, coins: __sw.S.coins, btn: document.getElementById('lottoDip').textContent, off: document.getElementById('lottoDip').disabled, next: document.querySelector('#paperLotto .next').textContent })")
+    ok(st['n'] == 5 and st['coins'] == c3 - 5 * price and st['off'] and 'your lot' in st['btn'] and 'Your lines for the next draw' in st['next'], f'five Lucky Dips at {price} each, and that’s your lot for one draw')
+    d = await pg.evaluate("""(() => { __sw.UI.closeModal(); const dip = __sw.Sweepstake.dip;
+      __sw.S.lotto.lines = [{ nums: [1, 2, 3, 4, 5], paid: 10 }, { nums: [1, 2, 3, 20, 21], paid: 10 }, { nums: [1, 2, 3, 4, 30], paid: 10 }, { nums: [6, 7, 8, 9, 10], paid: 10 }];
+      __sw.Sweepstake.dip = () => [1, 2, 3, 4, 5]; window.__c4 = __sw.S.coins; __sw.Paper.deliver(); __sw.Sweepstake.dip = dip;
+      return { ...__sw.S.paper.lotto, gained: __sw.S.coins - window.__c4, head: __sw.S.paper.lead.head, left: __sw.Sweepstake.lines().length }; })()""")
+    ok([l['hits'] for l in d['lines']] == [5, 3, 4, 0] and [l['pay'] for l in d['lines']] == [100000, 120, 2000, 0] and d['total'] == 102120,
+       f'the draw: all five pays ×10,000, four ×200, three ×12 ({[l["pay"] for l in d["lines"]]})')
+    ok(d['gained'] >= 102120 and d['left'] == 0, f'paid as the paper comes, and the lines are used up (+{d["gained"]})')
+    ok('SWEEPSTAKE' in d['head'] or 'ALL FIVE' in d['head'], f'a jackpot makes the front page: “{d["head"]}”')
+    await pg.evaluate("__sw.PaperView.open()"); await pg.wait_for_timeout(300)
+    st = await pg.evaluate("({ balls: document.querySelectorAll('#paperLotto .balls i').length, hits: document.querySelectorAll('#paperLotto .line b.hit').length, btn: document.getElementById('lottoDip').textContent })")
+    ok(st['balls'] == 5 and st['hits'] == 12 and 'Lucky Dip' in st['btn'], f'the paper prints the numbers and your lines’ hits ({st})')
+    await pg.evaluate("__sw.UI.closeModal()")
+
     # --- going bust: a special edition
-    await pg.evaluate("(() => { __sw.News.note('cashout_big', { profit: '12,345', mult: '20.0', table: 'Dodgy Den' }); __sw.Game.slots.fill(null); __sw.Game.bust('broke'); })()"); await pg.wait_for_timeout(400)
+    await pg.evaluate("(() => { __sw.S.run.news = []; __sw.News.note('cashout_big', { profit: '12,345', mult: '20.0', table: 'Dodgy Den' }); __sw.Game.slots.fill(null); __sw.Game.bust('broke'); })()"); await pg.wait_for_timeout(400)
     await pg.click('#modalBox [data-a="paper"]'); await pg.wait_for_timeout(300)
     st = await pg.evaluate("""(() => { const q = s => (document.querySelector('#modalBox ' + s) || {}).textContent || '';
       return { special: q('.special'), head: q('.head'), stand: q('.stand'), side: q('.sidecol'), btn: q('[data-a="after"]'), puzzle: !!document.querySelector('#modalBox .puzzle') }; })()""")
