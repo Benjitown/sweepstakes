@@ -1,8 +1,8 @@
 """Wildcards suite (experimental): thunderstorms (the rain, lightning that shows the mines, a strike that takes the
 power out, Lightning Reflexes) and KEVCOIN (the launch, the ticker, buying and selling with Kev's cut, the cap, hype
 pumps, the rug pull and the relaunch, and whether holding it loses money on average) and the ice cream van (the
-drive-by, a cone, the sugar rush on the next winning cash-out) and Nan's stars (your sign, the daily reading, the lucky
-number's ×1.25)."""
+drive-by, a cone, the sugar rush on the next winning cash-out) Nan's stars (your sign, the daily reading, the lucky
+number's ×1.25) and the Banker (deal, no deal, beating his offer)."""
 from common import Results, open_page
 
 SETUP = """(() => { __sw.Coach.finish(); const S = __sw.S; S.coins = 50000; S.unlocked = ['penny', 'den']; S.sel = 'den'; S.life.lvl = 5; S.life.xp = 0;
@@ -189,6 +189,38 @@ async def run(browser, url, shots):
     ok(f"Leo · lucky number today: {h['lucky']}" in await text(pg, '#stats'), 'Stats shows your sign and today’s lucky number')
     await pg.click('#btnSign'); await pg.wait_for_timeout(200)
     ok(await pg.evaluate("document.querySelectorAll('#chat .msg.starsask').length") == 2, '“change” has Nan ask again')
+    await pg.click('[data-tab="shop"]')
+
+    # --- the Banker: he rings about a board with profit on it, offering its pot plus a premium
+    await pg.evaluate("(() => { __sw.HouseholdView.clear(); ['deal', 'nodeal'].forEach(k => delete __sw.S.life.ach[k]); __sw.Banker.rng = () => .5; __sw.S.life.starsRead = ''; })()")  # (no lucky number boosting the opening)
+    await pg.evaluate(DEAL)
+    ok(await pg.evaluate("__sw.Banker.target() === null"), 'no call about a board without much profit on it')
+    pot, stake = await pg.evaluate("(() => { const b = __sw.slots[0]; b.G *= 1.6; return [b.pot(), b.stake]; })()")
+    await pg.evaluate("__sw.WeirdNoises.surprise('bankerRing')"); await pg.wait_for_timeout(300)
+    premium = int((pot - stake) * .375 + .5)  # (JS rounds halves up; Python's round() wouldn't)
+    card = await text(pg, '.happening')
+    ok('Banker' in card and 'its pot (' in card and (premium >= 10000 or f'plus {premium:,} on top' in card) and await pg.evaluate("__sw.slots[0].called && __sw.Banker.target() === null"),
+       f'a profitable board: the Banker rings, offering its pot ({pot:,}) plus {premium:,} (and he only calls once about it)')
+    await pg.screenshot(path=str(shots / 'banker.png'))
+    c0, bonus = await pg.evaluate("[__sw.S.coins, __sw.Achievements.reward(__sw.ACHIEVEMENTS.find(a => a.id === 'deal'))]")
+    await pg.click('.happening [data-h="0"]'); await pg.wait_for_timeout(300)
+    ok(await pg.evaluate('__sw.S.coins') == c0 + pot + premium + bonus and await pg.evaluate("__sw.slots[0].over && __sw.Achievements.has('deal')"),
+       f'Deal: the board’s sold for {pot + premium:,}, and Deal! unlocks')
+    # no deal, then beat him
+    await pg.wait_for_timeout(1300); await pg.evaluate(DEAL)
+    pot, stake = await pg.evaluate("(() => { const b = __sw.slots[0]; b.G *= 1.6; return [b.pot(), b.stake]; })()")
+    await pg.evaluate("__sw.WeirdNoises.surprise('bankerRing')"); await pg.wait_for_timeout(300)
+    await pg.click('.happening [data-h="1"]'); await pg.wait_for_timeout(200)
+    offered = pot + int((pot - stake) * .375 + .5)
+    ok(await pg.evaluate("__sw.slots[0].refused") == offered and not await pg.evaluate("__sw.slots[0].over"), f'No deal: you play on (he’d offered {offered:,})')
+    c0, bonus = await pg.evaluate("[__sw.S.coins, __sw.Achievements.reward(__sw.ACHIEVEMENTS.find(a => a.id === 'nodeal'))]")
+    pot2 = await pg.evaluate("(() => { const b = __sw.slots[0]; b.G *= 2; return b.pot(); })()")
+    await pg.evaluate("__sw.Game.cashOut(__sw.slots[0], 'manual')"); await pg.wait_for_timeout(300)
+    ok(await pg.evaluate('__sw.S.coins') == c0 + pot2 + bonus and await pg.evaluate("__sw.Achievements.has('nodeal')")
+       and await pg.evaluate("[...document.querySelectorAll('.toast')].some(t => /more than the Banker offered/.test(t.textContent))"),
+       f'cash it out later for {pot2:,}, more than he offered: No Deal unlocks')
+    await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
+    ok('1 deal, 1 no deal' in await text(pg, '#stats'), 'Stats counts your deals')
     await pg.click('[data-tab="shop"]')
 
     ok(not errs, 'no console errors' + (': ' + '; '.join(errs[:3]) if errs else ''))

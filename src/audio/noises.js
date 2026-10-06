@@ -147,6 +147,13 @@ export const NOISES = {
       am.connect(g).connect(out); lfo.start(s); lfo.stop(s + .45);
     }
   } },
+  bankerRing: { volume: .62, w: .35, play(a, out, t) { // an office desk phone: a warbling two-tone trill, twice (it's the Banker)
+    for (const c of [0, 1.4]) {
+      const g = envG(a, t + c, 1, .01, .75, .05);
+      for (let k = 0; k < 13; k++) { const o = a.createOscillator(), og = envG(a, t + c + k * .06, .6, .004, .03, .02); o.type = 'sine'; o.frequency.value = k % 2 ? 1060 : 1320; o.connect(og).connect(g); o.start(t + c + k * .06); o.stop(t + c + k * .06 + .07); }
+      g.connect(out);
+    }
+  } },
   carAlarm: { volume: .32, w: .5, play(a, out, t) { // somebody's car, three streets away
     const o = a.createOscillator(), lp = a.createBiquadFilter(), hp = a.createBiquadFilter(), d = 2.4, g = envG(a, t, 1, .05, d - .3, .25);
     o.type = 'sawtooth'; for (let k = 0; k < 6; k++) { o.frequency.setValueAtTime(650, t + k * .4); o.frequency.linearRampToValueAtTime(1350, t + k * .4 + .38); }

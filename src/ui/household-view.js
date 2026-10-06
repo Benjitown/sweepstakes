@@ -10,6 +10,7 @@ import { Household, MISSED } from '../game/household.js';
 import { PowerCut } from '../game/power-cut.js';
 import { Storm } from '../game/storm.js';
 import { VanView } from './van-view.js';
+import { Banker } from '../game/banker.js';
 import { UI } from './ui.js';
 import { Coach } from './tutorial.js';
 
@@ -69,6 +70,7 @@ export const HouseholdView = {
     else if (kind === 'powercut') this.powerCut();
     else if (kind === 'storm') this.storm();
     else if (kind === 'van') VanView.drive(handle);
+    else if (kind === 'banker') this.banker(handle);
     else if (ASK[kind]) this.ask(kind, k, handle);
   },
 
@@ -149,6 +151,17 @@ export const HouseholdView = {
     this.show({ icon: 'bulb', mood: 'bad', title: 'The meter’s run out', ms: ASK_MS,
       text: `The lights go out and the fridge sighs. Until the power’s back, boards cashed out in the dark pay +${Math.round(PowerCut.BONUS * 100)}% danger money.`,
       buttons: [[`Top up (${fmt(cost)})`, 'gold', () => { if (!PowerCut.topUp()) UI.toast('You can’t afford the meter. Torch it is.'); }], ['Play in the dark', 'purple']] });
+  },
+
+  // the Banker rings with an offer for your best board: deal or no deal
+  banker(handle) {
+    const o = Banker.offer(); if (!o) return;
+    const { b, pot, premium } = o;
+    this.show({ icon: 'phone', mood: 'good', title: 'The Banker’s on the phone', ms: ASK_MS,
+      text: `He’ll buy your ${b.t.name} board right now: its pot (${fmt(pot)}) plus ${fmt(premium)} on top. Deal or no deal?`,
+      buttons: [[`Deal · ${fmt(pot + premium)}`, 'gold', () => { if (handle) handle.stop(); if (!Banker.deal(b)) UI.toast('Too late: that board’s already over.'); }],
+        ['No deal', 'ghost', () => { if (handle) handle.stop(); Banker.noDeal(b); }]],
+      onTimeout: () => Banker.noDeal(b) });
   },
 
   // thunder in the distance, then the rain: the lightning shows the mines, if you're quick

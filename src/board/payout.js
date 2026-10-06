@@ -50,11 +50,16 @@ class SugarPayout extends PayoutDecorator {
     return r;
   }
 }
+// A board sold to the Banker (game/banker.js): its pot plus the premium he offered.
+class BankerPayout extends PayoutDecorator {
+  pay(b, why) { const r = super.pay(b, why); if (why === 'banker' && b.premium > 0) { r.amount += b.premium; r.extras.push(['banker', `The Banker +${fmt(b.premium)}`]); } return r; }
+}
 export const HOUSE_EDGE = .25;
 const PAYOUT_DECORATORS = [['egg', NestEggPayout], ['flagfan', FlagFanaticPayout], ['compound', CompoundPayout], ['dinner', ChickenDinnerPayout]];
 export const buildPayout = () => {
   let p = PAYOUT_DECORATORS.reduce((acc, [id, D]) => hasA(id) ? new D(acc) : acc, new Payout());
   if (S.life.casinos) p = new HouseEdgePayout(p);
   if (S.sugar > 0) p = new SugarPayout(p);
+  p = new BankerPayout(p);
   return PowerCut.on ? new DarkPayout(p) : p;
 };
