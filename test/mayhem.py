@@ -189,7 +189,7 @@ async def run(browser, url, shots):
     c0 = await pg.evaluate('__sw.S.coins')
     await pg.click('#grassIn'); await pg.wait_for_timeout(250)
     early = await pg.evaluate(f"[__sw.UI.modalClosed(), __sw.Outside.on, [...document.querySelectorAll('.toast')].map(t => t.textContent).join(' | '), __sw.S.coins - {c0}, __sw.Achievements.has('grass')]")
-    ok(early[0] and not early[1] and 'doesn’t count' in early[2] and early[3] == 0 and not early[4], f'back in early: no bonus (“{early[2][:60]}”)')
+    ok(early[0] and not early[1] and 'every little helps' in early[2] and early[3] == 0 and not early[4], f'back in early: no bonus (“{early[2][:60]}”)')
     await pg.wait_for_timeout(1350)
     back = await pg.evaluate(snap)
     ok(back[0] > after[0] and back[2] > after[2], f'the goblin picks his flags back up and the clock runs again ({after} → {back})')

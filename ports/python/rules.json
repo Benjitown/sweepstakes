@@ -1984,6 +1984,36 @@
     "Clever clogs! x"
    ]
   ],
+  "dare_nan_on": [
+   [
+    "nan",
+    "Be careful love. I’ll be cheering you on x"
+   ],
+   [
+    "nan",
+    "Go on love, show them x"
+   ]
+  ],
+  "dare_nan_won": [
+   [
+    "nan",
+    "Well done love! I knew you could x"
+   ],
+   [
+    "nan",
+    "That showed them! Proud of you x"
+   ]
+  ],
+  "dare_nan_lost": [
+   [
+    "nan",
+    "Never mind love. They shouldn’t be betting with you anyway x"
+   ],
+   [
+    "nan",
+    "You gave it a good go love x"
+   ]
+  ],
   "tin_first": [
    [
     "nan",

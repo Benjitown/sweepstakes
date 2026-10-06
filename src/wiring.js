@@ -54,6 +54,8 @@ import { StarsView } from './ui/stars-view.js';
 import { Banker } from './game/banker.js';
 import { Dog } from './game/dog.js';
 import { Tin } from './game/biscuit-tin.js';
+import { Dares } from './game/dares.js';
+import { DareView } from './ui/dare-view.js';
 
 const RED = 'var(--red)', GOLD = 'var(--gold)', GREEN = 'var(--green)', PURPLE = 'var(--purple)';
 export function renderAll(keepModal) {
@@ -315,6 +317,20 @@ bus.on('bingo', ({ lines, prize }) => {
 /* ---------- Nan's biscuit tin: a little put by on every winning cash-out, handed over when you go bust ---------- */
 bus.on('board:cashout', ({ profit }) => Tin.put(profit));
 bus.on('tin', ({ was, full }) => { if (!was || full) setTimeout(() => Chat.say(was ? 'tin_full' : 'tin_first', {}, 1), 1600); });
+
+/* ---------- dares from the group chat: a friend bets you can't do something in time ---------- */
+bus.on('dare:due', () => { if (pref('dares') && !document.hidden && UI.modalClosed() && !Coach.active && !Outside.on && Dares.canOffer()) Dares.make(); });
+bus.on('dare:offer', o => DareView.offer(o));
+bus.on('dare:on', d => DareView.on(d));
+bus.on('dare:won', d => DareView.won(d));
+bus.on('dare:lost', d => DareView.lost(d));
+bus.on('dare:declined', o => DareView.declined(o));
+bus.on('board:cashout', e => Dares.check('cashout', e));
+bus.on('board:boom', e => Dares.check('boom', e));
+bus.on('board:gem', e => Dares.check('gem', e));
+bus.on('flag', ({ b, on: isOn }) => { if (isOn) b.flagged = true; });
+bus.on('tick', () => { if (S.dare) { Dares.second(); DareView.chip(); } });
+bus.on('reset', () => DareView.chip());
 
 /* ---------- the Fruity ---------- */
 bus.on('fruity', ({ x, win, nudged, holds, dry }) => {

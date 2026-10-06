@@ -64,6 +64,8 @@ export const ACHIEVEMENTS = [
   { id: 'moon',     tier: 2, icon: 'kevcoin',   name: 'To the Moon',         desc: 'Sell KEVCOIN for at least twice what you paid.' },
   { id: 'rugged',   tier: 1, icon: 'kevcoin',   name: 'Rugged',              desc: 'Be holding KEVCOIN when the devs vanish.' },
   { id: 'scratch',  tier: 2, icon: 'ticket',    name: 'Scratch That Itch',   desc: 'Win ×20 or more on a scratchcard.' },
+  { id: 'dare',     tier: 1, icon: 'dare',      name: 'Dared and Done',      desc: 'Win a dare from the group chat.' },
+  { id: 'dare3',    tier: 2, icon: 'dare',      name: 'Triple Dog Dare',     desc: 'Win three dares from the group chat.' },
   { id: 'quiz',     tier: 2, icon: 'brain',     name: 'Know-It-All',         desc: 'Get 10 pub quiz questions right.' },
   { id: 'grass',    tier: 1, icon: 'clover',    name: 'Touched Grass',       desc: 'Stay outside for a whole break.' },
   { id: 'bingo',    tier: 1, icon: 'bingo',     name: 'Eyes Down',           desc: 'Get a line at Nan’s bingo.' },

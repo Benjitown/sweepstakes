@@ -57,6 +57,12 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **Biscuit, next door's dog.** If you hear barking, he trots in along the bottom of the screen and waits ("Woof?").
   Give him a biscuit (3% of the top table's max stake) and he sniffs out a mine on your board and sits on it: flagged,
   glowing orange for a moment. Ignore him and he wanders off. New achievement: Good Boy.
+- **Dares.** Now and then someone in the group chat dares you: Tash bets 5,000 you can't cash out a board at ×3 in
+  three minutes, Dave that you can't clear one without a single flag, Priya that you can't win three in a row. Say
+  "You're on" and your stake goes in the pot (a tenth of your coins); do it before the clock in the header runs out
+  and you get double back. Say "Nah" and you get clucked at. The clock stops while you're outside, Nan never bets
+  against you (she cheers), and "Dares from the chat" in Stats switches them off. New achievements: Dared and Done
+  and Triple Dog Dare.
 - **Nan is always lovely.** Every one of her lines is warm and signs off with a kiss, she's out of the rude chat, and
   nobody in the group chat has a go at her any more (the old digs at her, and at Grandad, are gone). When you lose she's
   there with a kind word, and when you win she's told the whole street.

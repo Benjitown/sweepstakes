@@ -128,6 +128,10 @@ export const LINES = {
   banker_deal:   [['nan', 'A bird in the hand love x'], ['dave', 'took the deal. sensible. boring. sensible'], ['priya', 'locking in profit. very grown up'], ['kev', 'what did the banker sound like. was he tall']],
   banker_nodeal: [['tash', 'NO DEAL. iconic'], ['dave', 'turned down free money. respect'], ['priya', 'the banker’s going to remember that'], ['kev', 'he sounded nervous tbh'], ['nan', 'Ooh you’re brave love x']],
   banker_beat:   [['tash', 'you BEAT THE BANKER'], ['dave', 'and he said no deal like a legend'], ['priya', 'somewhere a banker is crying into his spreadsheet'], ['nan', 'Clever clogs! x']],
+  // dares (the friend who dared you has their own lines in content/dares.js; Nan just cheers)
+  dare_nan_on:   [['nan', 'Be careful love. I’ll be cheering you on x'], ['nan', 'Go on love, show them x']],
+  dare_nan_won:  [['nan', 'Well done love! I knew you could x'], ['nan', 'That showed them! Proud of you x']],
+  dare_nan_lost: [['nan', 'Never mind love. They shouldn’t be betting with you anyway x'], ['nan', 'You gave it a good go love x']],
   // Nan's biscuit tin
   tin_first:     [['nan', 'I’m putting a little bit by in the biscuit tin for you love. Just in case x'], ['nan', 'A bit more in the biscuit tin for you love. For a rainy day x']],
   tin_full:      [['nan', 'The biscuit tin’s full love! I’ve had to sit on the lid x']],
