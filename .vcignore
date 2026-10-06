@@ -1,0 +1,17 @@
+# files vc never saves (one pattern per line; a trailing / means a folder)
+.vc/
+.git/
+dist/
+test/screenshots/
+__pycache__/
+*.pyc
+node_modules/
+.gradle/
+build/
+bin/
+obj/
+*.class
+*.jar
+*.exe
+.DS_Store
+Thumbs.db
