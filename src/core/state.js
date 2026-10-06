@@ -14,7 +14,7 @@ export function freshRun(life, prefs = {}) {
     muted: !!prefs.muted, crt: prefs.crt !== false, quips: prefs.quips !== false, odd: prefs.odd !== false, vibe: prefs.vibe !== false, rude: prefs.rude !== false, quiz: prefs.quiz !== false, nanvoice: prefs.nanvoice !== false, dares: prefs.dares !== false, seasons: prefs.seasons !== false,
     vol: prefs.vol ?? 1, noiseVol: prefs.noiseVol ?? 1, music: prefs.music !== false, musicVol: prefs.musicVol ?? MUSIC.VOL, track: prefs.track || 'lounge',
     run: { start: Date.now(), time: 0, boards: 0, wins: 0, losses: 0, biggest: 0, peak: START, don: 0, hist: [[0, START]] },
-    life: life || freshLife(), boards: [] };
+    life: life || freshLife(), boards: [], plot: [] };
 }
 export const SaveGame = {
   KEY: 'sweepstakes.save.v3', timer: 0,

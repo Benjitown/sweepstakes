@@ -57,7 +57,7 @@ src/
                     Biscuit the dog), the Banker, power cuts, storms, the duck race, scratchcards, Nan's bingo,
                     the Fruity (fruit machine), the pub quiz, going outside, KEVCOIN, Nan's stars, Nan's biscuit tin,
                     dares from the group chat, the seasons (Halloween, Bonfire Night, Christmas), the claw machine, the car
-                    boot sale, darts with Big Dave, quiz night, board styles
+                    boot sale, darts with Big Dave, quiz night, board styles, the allotment
   ui/               one file per view: panels, boards, shop, modals, tutorial, daily, keys, coin graph, household, ducks...
 assets/             fonts (+ OFL licence) and the favicon
 tools/              build.py, serve.py, vc.py (version control), export_rules.mjs, sim/ (economy, Fruity and KEVCOIN simulators)
@@ -107,6 +107,8 @@ The suites run against both the ES-module source and the built file:
   dartboard's scores, a win with 180, a loss, a draw, walking away), quiz night (a perfect round, a mixed one,
   running out of time, leaving half-way), board styles (buying, wearing, keeping them when you go bust), plus checks
   that every icon in the sheet has its own id and the pub quiz never repeats itself
+- **allotment:** the tab, the seed packets' prices, planting, growing by the minute, ripe (and the chip), picking,
+  a whopper, slugs, a thunderstorm watering the lot, full beds, October pumpkins, the 4 key, Stats, a fresh run and the phone
 - **jukebox:** the records (every note a real note that fits its bar), putting one on, every record playing, shuffle,
   the Music switch and slider, and when the music stops (muted, outside, a power cut) and starts again
 - **layout:** desktop, tablet and phone sizes with no sideways scrolling

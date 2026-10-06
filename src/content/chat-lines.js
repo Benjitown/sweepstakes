@@ -120,6 +120,17 @@ export const LINES = {
   storm_end:     [['nan', 'That’s blown over now love x'], ['kev', 'sun’s out. there’s a rainbow over the bins'], ['tash', 'storm’s gone. the drama isn’t'], ['priya', 'and just like that, the mines are invisible again']],
   rainbow:       [['nan', 'Ooh look, a rainbow love! Make a wish x'], ['tash', 'DOUBLE RAINBOW. no, single. still'], ['priya', 'there’s a pot of gold at the end of it. that’s just science'],
     ['kev', 'the rainbow ends at my house. I checked. it’s just the bins']],
+  // the allotment ({veg} is what's growing)
+  plot_planted:  [['nan', 'Ooh, {veg}! Don’t forget to water, love x'], ['dave', 'planting {veg} next to MY plot. bold'], ['priya', 'a person who grows {veg} now. who are you']],
+  plot_ripe:     [['nan', 'Time to pick your {veg}, love x'], ['dave', '{veg} ready on your plot. I’ve kept the pigeons off'], ['priya', 'allotment update: {veg}, ripe'],
+    ['kev', 'walked past your plot. {veg}, ripe. I didn’t touch anything (I touched one)']],
+  plot_pick:     [['nan', 'Lovely! I’ll do you a nice stew with those x'], ['dave', 'farm to table. the table is the casino'], ['priya', 'look at you, growing things'],
+    ['tash', 'organic. locally sourced. smug']],
+  plot_whopper:  [['dave', 'that is NOT bigger than mine. it is. it’s bigger than mine'], ['nan', 'First prize! I’m so proud of you, love x'],
+    ['priya', 'they’re putting your photo up in the village hall'], ['kev', 'I’ll give you 3 KEVCOIN for it. final offer']],
+  plot_slugs:    [['nan', 'Never mind, love. The slugs have to eat too. Plant some more x'], ['dave', 'slugs. the silent enemy'], ['tash', 'nature is healing. and eating your veg'],
+    ['kev', 'try a beer trap. I tried one. I drank the beer']],
+  plot_rain:     [['nan', 'Lovely drop of rain for the garden x'], ['priya', 'free watering for the allotment at least'], ['dave', 'good for the marrows, this']],
   // the jukebox: everyone has an opinion about your record
   juke_lounge:   [['priya', 'very James Bond. are you wearing a bow tie'], ['dave', 'lift music. I love it'], ['nan', 'Ooh very posh. Shall I put my pearls on x'],
     ['kev', 'this is what they play when you’re on hold to the bank']],

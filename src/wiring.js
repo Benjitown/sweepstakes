@@ -69,6 +69,9 @@ import { PUMPKIN } from './data/seasons.js';
 import { TREAT_CARD, EGGED_CARD } from './content/seasons.js';
 import { Music } from './audio/music.js';
 import { JukeboxView } from './ui/jukebox-view.js';
+import { Allotment } from './game/allotment.js';
+import { AllotmentView } from './ui/allotment-view.js';
+import { VEG } from './content/allotment.js';
 
 const RED = 'var(--red)', GOLD = 'var(--gold)', GREEN = 'var(--green)', PURPLE = 'var(--purple)';
 export function renderAll(keepModal) {
@@ -378,6 +381,24 @@ bus.on('darts:done', m => { DartsView.done(m); RunPanel.render(); Rank.award(m.r
 bus.on('boot:due', () => { if (pref('odd') && !document.hidden && HouseholdView.free() && !Outside.on && S.coins >= 50) { CarBootView.invite(); setTimeout(() => Chat.say('boot_open', {}, .8), 1200); } });
 bus.on('boot:bought', () => setTimeout(() => Chat.say('boot_bought', {}, .5), 800));
 bus.on('boot:box', () => setTimeout(() => Chat.say('boot_box', {}, .8), 800));
+
+/* ---------- the allotment: it grows by the minute of play; storms water it ---------- */
+bus.on('tick', () => { Allotment.second(); AllotmentView.tick(); });
+bus.on('plot:planted', ({ id }) => { Sound.buy(); AllotmentView.render(); if (Math.random() < .3) setTimeout(() => Chat.say('plot_planted', { veg: VEG[id].veg }, .6), 800); });
+bus.on('plot:ripe', ({ id }) => {
+  AllotmentView.render(); AllotmentView.chip(); Sound.select(3);
+  if (!AllotmentView.showing()) UI.toast(`Ready to pick: your ${VEG[id].veg} (the Allotment tab).`);
+  setTimeout(() => Chat.say('plot_ripe', { veg: VEG[id].veg }, .6), 900);
+});
+bus.on('plot:picked', r => {
+  AllotmentView.picked(r); RunPanel.render(); Rank.award(r.whopper ? 12 : 4);
+  if (r.whopper) { Banner.show('WHOPPER!', 'First prize at the village show', 'green', true); Sound.bigwin(1); FX.confetti(90); setTimeout(() => Chat.say('plot_whopper', {}, 1), 900); }
+  else { Sound.cash(); if (Math.random() < .35) setTimeout(() => Chat.say('plot_pick', {}, 1), 900); }
+});
+bus.on('plot:slugs', ({ id }) => { UI.toast(`Slugs got your ${VEG[id].veg}.`); AllotmentView.render(); setTimeout(() => Chat.say('plot_slugs', {}, 1), 900); });
+bus.on('plot:rain', () => { AllotmentView.render(); UI.toast('The rain’s watered your allotment: everything’s two minutes closer.'); setTimeout(() => Chat.say('plot_rain', {}, .5), 2400); });
+bus.on('storm', e => { if (!e.on) setTimeout(() => Allotment.rain(), 1200); });
+bus.on('reset', () => { AllotmentView.chip(); if (AllotmentView.showing()) AllotmentView.render(); });
 
 /* ---------- the jukebox ---------- */
 bus.on('music', ({ first }) => {
