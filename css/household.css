@@ -1,4 +1,5 @@
-/* Around the house: the someone's-at-the-door card, the kitten that wanders past, the smoke detector chip and the duck race. */
+/* Around the house: the someone's-at-the-door card, the kitten that wanders past, the smoke detector chip, and the Flip
+   Booth's other tabs: the duck race and scratchcards. */
 /* the card that pops up when something happens (bottom right; full width on phones) */
 .happening{--hc:var(--gold);position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:45;width:min(360px,calc(100vw - 32px));
   display:grid;grid-template-columns:52px minmax(0,1fr);gap:10px 12px;align-items:start;background:var(--panel);border-radius:16px;
@@ -48,6 +49,7 @@
 .booth button{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;border:0;border-radius:9px;background:none;padding:6px 8px;cursor:pointer;
   font-weight:700;color:var(--ink-dim);text-shadow:none}
 .booth button svg{width:26px;height:26px;flex:none}
+@media (max-width:440px){.booth button{flex-direction:column;gap:2px;font-size:.78rem;padding:5px 4px}.booth button svg{width:22px;height:22px}}
 .booth button[aria-selected="true"]{background:var(--panel-hi);color:var(--ink);box-shadow:0 3px 0 var(--shadow);text-shadow:0 2px 0 rgba(0,0,0,.35)}
 
 /* the duck race: a pond with five lanes; each lane is also the button that backs that duck */
@@ -71,3 +73,31 @@
 .duckres b{font-family:var(--big);font-weight:400;font-size:1.9rem;line-height:1;color:var(--gold);text-shadow:0 3px 0 rgba(0,0,0,.5)}
 .duckres.lose b{color:var(--red)}
 .duckres span{font-size:.85rem;color:var(--ink-dim);text-shadow:none}
+
+/* scratchcards: the shelf, the prize list, and the card you scratch (a foil canvas over nine panels) */
+.shelf{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;width:100%}
+.ticket{--tc:var(--green);border:0;border-radius:12px;background:var(--tc);color:#141b1d;text-shadow:none;padding:8px 6px 10px;cursor:pointer;
+  display:grid;justify-items:center;align-content:start;gap:3px;box-shadow:0 0 0 3px #141b1d,0 5px 0 3px rgba(0,0,0,.35);font:inherit;transform:rotate(-2deg);
+  transition:transform .12s}
+.ticket:nth-child(2){transform:rotate(1.5deg)} .ticket:nth-child(3){transform:rotate(-1deg)}
+.ticket:hover:not(:disabled){transform:translateY(-3px) rotate(0)}
+.ticket:disabled{filter:grayscale(.8) brightness(.7);cursor:not-allowed}
+.ticket svg{width:40px;height:40px}
+.ticket b{font-family:var(--big);font-weight:400;font-size:1.3rem;line-height:.95;text-wrap:balance}
+.ticket .num{font-weight:700;background:rgba(255,255,255,.55);border-radius:6px;padding:0 6px}
+.ticket small{font-size:.66rem;line-height:1.2;opacity:.85}
+.paytable{list-style:none;margin:0;padding:8px 12px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 16px;background:var(--panel-in);border-radius:10px;width:100%}
+.paytable li{display:flex;align-items:center;gap:1px;min-width:0}
+.paytable svg{width:20px;height:20px;flex:none}
+.paytable b{margin-left:auto;color:var(--gold);font-family:var(--big);font-weight:400;font-size:1.25rem;line-height:1}
+.scard{--tc:var(--green);background:var(--tc);border-radius:16px;padding:10px 12px 8px;box-shadow:0 0 0 3px #141b1d,0 7px 0 3px var(--shadow);
+  width:min(330px,100%);display:grid;gap:8px;color:#141b1d;text-shadow:none}
+.shead{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.shead b{font-family:var(--big);font-weight:400;font-size:1.8rem;line-height:1}
+.shead .num{font-weight:700;background:rgba(255,255,255,.55);border-radius:6px;padding:0 6px}
+.sgrid{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;background:rgba(0,0,0,.14);border-radius:12px;padding:8px}
+.spanel{aspect-ratio:1;border-radius:8px;background:#fff8e6;display:grid;place-items:center;box-shadow:inset 0 0 0 2px rgba(20,27,29,.2)}
+.spanel svg{width:68%;height:68%}
+.spanel.match{background:#fff3b0;box-shadow:inset 0 0 0 3px var(--gold-lo),0 0 18px rgba(255,210,63,.85);animation:bump .45s}
+.foil{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair;border-radius:12px}
+.sfoot{margin:0;font-size:.72rem;text-align:center;opacity:.8}

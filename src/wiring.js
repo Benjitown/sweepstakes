@@ -3,7 +3,7 @@ import { ico, fmt, fmtX, dur } from './core/util.js';
 import { START, TABLES, SPIN_EVERY, ROMAN } from './data/economy.js';
 import { ABY } from './data/addons.js';
 import { bus } from './core/bus.js';
-import { SaveGame, S, lvl, asc } from './core/state.js';
+import { SaveGame, S, lvl, asc, pref } from './core/state.js';
 import { Sound } from './audio/sound.js';
 import { Game } from './game/game.js';
 import { Rack } from './game/rack.js';
@@ -34,6 +34,10 @@ import { Household } from './game/household.js';
 import { HouseholdView } from './ui/household-view.js';
 import { FlipView } from './ui/flip-view.js';
 import { DuckRaceView } from './ui/duck-race-view.js';
+import { ScratchView } from './ui/scratch-view.js';
+import { Quiz } from './game/quiz.js';
+import { QuizView } from './ui/quiz-view.js';
+import { AudioEngine } from './audio/engine.js';
 
 const RED = 'var(--red)', GOLD = 'var(--gold)', GREEN = 'var(--green)', PURPLE = 'var(--purple)';
 export function renderAll(keepModal) {
@@ -189,7 +193,7 @@ bus.on('household', e => {
 });
 bus.on('kitten:gone', ({ petted }) => { if (!petted) Chat.say('kitten_gone', {}, .7); });
 /* ---------- the Flip Booth: coin flip and duck race ---------- */
-bus.on('booth', k => k === 'ducks' ? DuckRaceView.open() : FlipView.open());
+bus.on('booth', k => ({ ducks: DuckRaceView, scratch: ScratchView }[k] || FlipView).open());
 bus.on('duck:start', () => Chat.say('duck_start'));
 bus.on('duck', ({ win, prize, bet, pay }) => {
   if (win) {
@@ -199,6 +203,31 @@ bus.on('duck', ({ win, prize, bet, pay }) => {
   } else { WeirdNoises.play('duck'); UI.toast(`−${fmt(bet)}. Your duck had other plans.`); Chat.say('duck_lose', {}, .7); }
   Rank.award(win ? 8 : 3); RunPanel.render();
 });
+
+bus.on('scratch:bought', () => Chat.say('scratch_buy', {}, .25));
+bus.on('scratch', ({ win, x, prize, price }) => {
+  if (win) {
+    x >= 5 ? Sound.win() : Sound.cash(); FX.confetti(x >= 100 ? 220 : x >= 20 ? 120 : 50);
+    UI.toast(x > 1 ? `+${fmt(prize)}! Three of a kind.` : 'Your money back. The newsagent shrugs.');
+    if (x >= 100) Banner.show('JACKPOT!', `×${x} scratchcard`, 'red', true);
+    else if (x >= 20) Banner.show('SCRATCH WIN', `+${fmt(prize)}`, 'gold');
+    Chat.say(x > 1 ? 'scratch_win' : 'scratch_evens', {}, x >= 20 ? 1 : .6); Haptics.buzz([25, 30, 25]);
+  } else Chat.say('scratch_lose', {}, .35);
+  Rank.award(win ? 4 + Math.min(20, x) : 2); RunPanel.render();
+});
+
+/* ---------- the pub quiz ---------- */
+bus.on('quiz:due', () => { if (pref('quiz') && !document.hidden && UI.modalClosed() && !Coach.active && AudioEngine.get().unlocked) Quiz.ask(); });
+bus.on('quiz:ask', L => QuizView.show(L));
+const spoken = answer => answer.replace(/^(A|An|The) /, w => w.toLowerCase()); // "it was a unicorn", not "it was A unicorn"
+bus.on('quiz:answer', L => {
+  const el = QuizView.settle(L, L.k);
+  if (L.correct) {
+    Sound.cash(); Game.setCoins(S.coins, true, { from: el && el.querySelector('.qopt.right'), amount: L.prize });
+    Chat.say('quiz_right', { answer: spoken(L.answer) }, 1); Rank.award(3);
+  } else { Sound.unflag(); Chat.say('quiz_wrong', { answer: spoken(L.answer) }, 1); }
+});
+bus.on('quiz:timeout', L => { QuizView.settle(L, -1); Chat.say('quiz_slow', { answer: spoken(L.answer) }, 1); });
 
 /* ---------- achievements ---------- */
 Achievements.listen();

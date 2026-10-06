@@ -136,9 +136,9 @@ async def run(browser, url, shots):
     # --- the Flip Booth tabs switch between the coin flip and the ducks
     await pg.evaluate("(() => { __sw.Coach.finish(); __sw.S.upg.flip = 1; __sw.renderAll(); })()")
     await pg.click('#btnFlip'); await pg.wait_for_timeout(300)
-    await pg.click('#modalBox [data-a="booth-ducks"]'); await pg.wait_for_timeout(200)
+    await pg.click('#modalBox [data-booth="ducks"]'); await pg.wait_for_timeout(200)
     ducks = await pg.evaluate("!!document.querySelector('#modalBox .pond')")
-    await pg.click('#modalBox [data-a="booth-flip"]'); await pg.wait_for_timeout(200)
+    await pg.click('#modalBox [data-booth="flip"]'); await pg.wait_for_timeout(200)
     ok(ducks and await pg.evaluate("!!document.querySelector('#flipGo')"), 'the booth’s tabs go coin flip ⇄ duck race')
     await pg.keyboard.press('Escape'); await pg.wait_for_timeout(200)
 
@@ -157,7 +157,8 @@ async def run(browser, url, shots):
       await new Promise(r => setTimeout(r, 1200)); C.post = post; return got; })()""")
     ok(any(t in rude for t in said), 'switched back on, the rude ones come back')
 
-    ok(await pg.evaluate("document.querySelectorAll('#stats .ach').length") == await pg.evaluate('__sw.ACHIEVEMENTS.length') == 45, 'Stats shows 45 badges')
+    n = await pg.evaluate('__sw.ACHIEVEMENTS.length')
+    ok(await pg.evaluate("document.querySelectorAll('#stats .ach').length") == n >= 45, f'Stats shows all {n} badges')
     ok(not errs, 'no console errors' + (': ' + '; '.join(errs[:3]) if errs else ''))
     await ctx.close()
     return R

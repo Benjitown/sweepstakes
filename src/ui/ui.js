@@ -18,6 +18,7 @@ export const UI = {
     const wasClosed = this.el.modal.hidden;
     this.el.box.innerHTML = html; this.el.modal.hidden = false; this.modalLocked = locked;
     $$('[data-a]', this.el.box).forEach(b => b.onclick = () => actions[b.dataset.a] && actions[b.dataset.a]());
+    $$('[data-booth]', this.el.box).forEach(b => b.onclick = () => { if (b.getAttribute('aria-selected') !== 'true') bus.emit('booth', b.dataset.booth); });
     const f = $('button:not(:disabled)', this.el.box); if (f) f.focus({ preventScroll: true });
     if (wasClosed) Sound.open();
     Background.refresh();
@@ -27,10 +28,10 @@ export const UI = {
     this.el.modal.hidden = true; this.el.box.innerHTML = ''; this.modalLocked = false; this.moodLock = null;
     RunPanel.render(); Background.refresh(); Game.checkBust(); bus.emit('modal:closed');
   },
-  // the tabs at the top of the Flip Booth: coin flip | duck race (wiring.js switches on the 'booth' event)
+  // the tabs at the top of the Flip Booth: coin flip | duck race | scratchcards (wiring.js switches on the 'booth' event)
   boothTabs(on) {
-    return `<div class="booth" role="tablist" aria-label="The booth">${[['flip', 'coin', 'Coin flip'], ['ducks', 'duck', 'Duck race']].map(([k, icon, label]) =>
-      `<button type="button" role="tab" aria-selected="${k === on}" data-a="booth-${k}">${ico(icon)}${label}</button>`).join('')}</div>`;
+    return `<div class="booth" role="tablist" aria-label="The booth">${[['flip', 'coin', 'Coin flip'], ['ducks', 'duck', 'Duck race'], ['scratch', 'ticket', 'Scratchcards']].map(([k, icon, label]) =>
+      `<button type="button" role="tab" aria-selected="${k === on}" data-booth="${k}">${ico(icon)}<span>${label}</span></button>`).join('')}</div>`;
   },
   toast(msg) {
     const d = document.createElement('div'); d.className = 'toast'; d.textContent = msg; $('#toasts').appendChild(d);
