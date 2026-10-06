@@ -16,6 +16,7 @@ import { mineChain } from '../board/mine-chain.js';
 import { buildPayout } from '../board/payout.js';
 import { DigCommand, invoke } from './commands.js';
 import { Rack } from './rack.js';
+import { Stars } from './horoscope.js';
 import { UI } from '../ui/ui.js';
 
 /* =====================================================================================
@@ -105,6 +106,9 @@ export const Game = {
     if (p > 0 && hasA('nester') && opened.length >= 10) fire('nester', i, 1.3, 'Nester ×1.3');
     if (hasA('sevens')) { const s = opened.filter(j => b.num[j] === 7); if (s.length) fire('sevens', s[0], 1.77 ** s.length, `Sevens ×${(1.77 ** s.length).toFixed(2)}`); }
     if (hasA('eight')) { const s = opened.filter(j => b.num[j] === 8); if (s.length) fire('eight', s[0], 8 ** s.length, `Eight Ball ×${8 ** s.length}`); }
+    // Nan's stars: the first time a board uncovers today's lucky number, ×1.25 (game/horoscope.js)
+    const lucky = b.starred ? 0 : Stars.luckyToday(), hit = lucky ? opened.find(j => b.num[j] === lucky) : undefined;
+    if (hit !== undefined) { b.starred = true; fire('stars', hit, Stars.BONUS, `Written in the stars ×${Stars.BONUS}`); }
   },
   defuse(b, i, by) {
     b.flag[i] = 1; b.defused.add(i);

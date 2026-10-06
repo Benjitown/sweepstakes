@@ -1,7 +1,8 @@
 """Wildcards suite (experimental): thunderstorms (the rain, lightning that shows the mines, a strike that takes the
 power out, Lightning Reflexes) and KEVCOIN (the launch, the ticker, buying and selling with Kev's cut, the cap, hype
 pumps, the rug pull and the relaunch, and whether holding it loses money on average) and the ice cream van (the
-drive-by, a cone, the sugar rush on the next winning cash-out)."""
+drive-by, a cone, the sugar rush on the next winning cash-out) and Nan's stars (your sign, the daily reading, the lucky
+number's ×1.25)."""
 from common import Results, open_page
 
 SETUP = """(() => { __sw.Coach.finish(); const S = __sw.S; S.coins = 50000; S.unlocked = ['penny', 'den']; S.sel = 'den'; S.life.lvl = 5; S.life.xp = 0;
@@ -150,6 +151,44 @@ async def run(browser, url, shots):
     ok(await pg.evaluate("!document.querySelector('.van') && [...document.querySelectorAll('.toast')].some(t => /van’s gone/.test(t.textContent))"), 'miss it and it drives off')
     await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
     ok('Ice creams' in await text(pg, '#stats'), 'Stats counts your ice creams')
+    await pg.click('[data-tab="shop"]')
+
+    # --- Nan's stars: the same reading all day for a sign, a lucky number from 2 to 6
+    same = await pg.evaluate("(() => { const a = __sw.Stars.read('2026-10-06', 4), b = __sw.Stars.read('2026-10-06', 4); return a.text === b.text && a.lucky === b.lucky; })()")
+    spread = await pg.evaluate('''(() => { const seen = new Set(), texts = new Set(); for (let d = 1; d <= 28; d++) for (let s = 0; s < 12; s++) {
+      const h = __sw.Stars.read(`2026-11-${String(d).padStart(2, '0')}`, s); seen.add(h.lucky); texts.add(h.text); } return [[...seen].sort().join(), texts.size]; })()''')
+    ok(same and spread[0] == '2,3,4,5,6' and spread[1] > 250, f'a reading is fixed by the day and the sign; lucky numbers run 2 to 6 ({spread[1]} different readings in 336)')
+    await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
+    ok('Nan hasn’t asked yet' in await text(pg, '#stats') and await pg.evaluate("__sw.Stars.luckyToday() === 0"), 'no sign, no lucky number')
+    await pg.click('[data-tab="shop"]')
+    await pg.evaluate("__sw.StarsView.ask()"); await pg.wait_for_timeout(200)
+    ok(await pg.evaluate("document.querySelectorAll('#chat .msg.starsask .qopt').length") == 12, 'Nan asks your star sign in the chat: twelve buttons')
+    await pg.locator('#chat .msg.starsask').last.locator('[data-sign="4"]').click(); await pg.wait_for_timeout(1000)
+    h = await pg.evaluate("__sw.Stars.read()")
+    reading = await pg.evaluate("[...document.querySelectorAll('#chat .msg.stars')].pop().textContent")
+    ok(await pg.evaluate("__sw.S.life.sign") == 4 and 'Leo' in reading and f"Lucky number {h['lucky']}" in reading and await pg.evaluate("__sw.Stars.luckyToday()") == h['lucky'],
+       f"pick Leo and she reads your stars, lucky number {h['lucky']} (“{h['text'][:50]}…”)")
+    await pg.screenshot(path=str(shots / 'stars.png'))
+    # the first time a board uncovers the lucky number: ×1.25, once
+    got = await pg.evaluate(f'''(() => {{ delete __sw.S.life.ach.stars; window._stars = []; __sw.bus.on('addon:fired', e => {{ if (e.id === 'stars') window._stars.push(e.text); }});
+      const real = __sw.Stars.luckyToday.bind(__sw.Stars);
+      for (let tries = 0; tries < 30; tries++) {{
+        __sw.Stars.luckyToday = () => 0; {DEAL}; const b = __sw.slots[0];
+        const open = new Set(); for (let i = 0; i < b.n; i++) if (b.open[i]) open.add(b.num[i]);
+        const hidden = n => {{ const r = []; for (let i = 0; i < b.n; i++) if (!b.open[i] && !b.mine[i] && b.num[i] === n) r.push(i); return r; }};
+        const N = [2, 3, 4, 5, 6].find(n => !open.has(n) && hidden(n).length >= 2); if (!N) continue;
+        __sw.Stars.luckyToday = () => N; const [i, j] = hidden(N), g0 = b.G;
+        __sw.Game.tileAddons(b, i, [i], 0); const g1 = b.G; __sw.Game.tileAddons(b, j, [j], 0);
+        __sw.Stars.luckyToday = real;
+        return {{ N, k: g1 / g0, again: b.G / g1, fired: window._stars.length, text: window._stars[0] }};
+      }}
+      __sw.Stars.luckyToday = real; return null; }})()''')
+    ok(got and abs(got['k'] - 1.25) < 1e-9 and got['again'] == 1 and got['fired'] == 1 and await pg.evaluate("__sw.Achievements.has('stars')"),
+       f"uncover a {got and got['N']}: “{got and got['text']}” (the second one doesn’t count), and Written in the Stars unlocks")
+    await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
+    ok(f"Leo · lucky number today: {h['lucky']}" in await text(pg, '#stats'), 'Stats shows your sign and today’s lucky number')
+    await pg.click('#btnSign'); await pg.wait_for_timeout(200)
+    ok(await pg.evaluate("document.querySelectorAll('#chat .msg.starsask').length") == 2, '“change” has Nan ask again')
     await pg.click('[data-tab="shop"]')
 
     ok(not errs, 'no console errors' + (': ' + '; '.join(errs[:3]) if errs else ''))

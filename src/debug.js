@@ -41,6 +41,8 @@ import { KevView } from './ui/kevcoin-view.js';
 import { KEV } from './data/kevcoin.js';
 import { IceCream } from './game/ice-cream.js';
 import { VanView } from './ui/van-view.js';
+import { Stars } from './game/horoscope.js';
+import { StarsView } from './ui/stars-view.js';
 import { StormView } from './ui/storm-view.js';
 import { Outside } from './game/outside.js';
 import { OutsideView } from './ui/outside-view.js';
@@ -60,12 +62,13 @@ export function exposeForTests() {
   clearTimeout(Quiz.timer); Quiz.schedule = () => {};
   clearTimeout(Bingo.timer); Bingo.schedule = () => {};
   Kev.second = () => {}; // KEVCOIN neither launches nor moves on its own; the tests call Kev.launch() and Kev.tick()
+  Stars.second = () => {}; // and Nan doesn't read the stars unless a test asks
   clearTimeout(Chat.ambientT); Chat.ambient = () => {}; // nor do the friends start chatting among themselves mid-check (Chat.thread() still works)
   window.__sw = {
     get S() { return S; }, Game, Solver, Rack, Rank, bus, NOISES, WeirdNoises, Quips, Chat, Coach, SpinView,
     Banner, FX, UI, VERSION, renderAll, invoke, DigCommand, SaveGame, TABLES, AudioEngine,
     Daily, Achievements, ACHIEVEMENTS, DailyView, Keys, CoinChart, seeded, hashString, Household, HouseholdView, DuckRace, DuckRaceView, DOOR, GULL, LINES, RUDE,
-    Scratchcards, ScratchView, SCRATCH_CARDS, SCRATCH_PRIZES, Quiz, QUIZ, PowerCut, PowerView, Storm, StormView, Kev, KevView, KEV, IceCream, VanView, Bingo, BingoView, makeTicket, Outside, OutsideView, BINGO_TICKETS, BINGO_PAYS, BINGO_CALLS,
+    Scratchcards, ScratchView, SCRATCH_CARDS, SCRATCH_PRIZES, Quiz, QUIZ, PowerCut, PowerView, Storm, StormView, Kev, KevView, KEV, IceCream, VanView, Stars, StarsView, Bingo, BingoView, makeTicket, Outside, OutsideView, BINGO_TICKETS, BINGO_PAYS, BINGO_CALLS,
     Fruity, FruityRules, FruityView, FRUITY_REELS, FRUITY_PAYS, FRUITY_STAKES, FRUITY_FEATURES,
     get slots() { return Game.slots; },
   };

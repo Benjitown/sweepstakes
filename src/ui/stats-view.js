@@ -20,6 +20,9 @@ import { Keys } from './keys.js';
 import { Chat } from './chat.js';
 import { Quips } from './quip-popups.js';
 import { OutsideView } from './outside-view.js';
+import { Stars } from '../game/horoscope.js';
+import { StarsView } from './stars-view.js';
+import { SIGNS } from '../content/horoscopes.js';
 
 export const StatsView = {
   // don't redraw the tab under someone dragging a slider
@@ -35,7 +38,7 @@ export const StatsView = {
       <dt>Casinos bought</dt><dd>${L.casinos}</dd><dt>Highest ladder rung</dt><dd>${L.donBest ? '×' + LADDER[L.donBest - 1] : 'none'}</dd>
       ${L.casinos ? `<dt>House edge</dt><dd>+${Math.round(HOUSE_EDGE * 100 * L.casinos)}% profit</dd>` : ''}
       <dt>Duck races won</dt><dd>${L.ducks || 0}</dd><dt>Pub quiz</dt><dd>${L.quiz ? `${L.quiz.right} right of ${L.quiz.asked}` : 'not yet'}</dd><dt>Nan’s bingo</dt><dd>${L.bingo ? `${L.bingo.tickets} ticket${L.bingo.tickets === 1 ? '' : 's'}, ${L.bingo.houses ? `${L.bingo.houses} full house${L.bingo.houses > 1 ? 's' : ''}` : `${L.bingo.lines + L.bingo.twos} with a line`}` : 'not yet'}</dd><dt>Scratchcards</dt><dd>${L.scratch ? `${L.scratch.bought} bought, best ×${L.scratch.best}` : 'none yet'}</dd><dt>KEVCOIN</dt><dd>${L.kev && L.kev.bought ? `bought ${fmt(L.kev.bought)}, sold ${fmt(L.kev.sold)}${L.kev.best ? `, best ×${L.kev.best.toFixed(2)}` : ''}${L.kev.rugged ? `, rugged ${L.kev.rugged}×` : ''}` : 'not yet'}</dd><dt>The Fruity</dt><dd>${L.fruity ? `${L.fruity.goes} go${L.fruity.goes === 1 ? '' : 's'}${L.fruity.best ? `, best ×${L.fruity.best}` : ''}${L.fruity.sevens ? `, ${L.fruity.sevens} jackpot${L.fruity.sevens > 1 ? 's' : ''}` : ''}` : 'not yet'}</dd><dt>Kittens petted</dt><dd>${(L.house && L.house.kitten) || 0}</dd><dt>Power cuts</dt><dd>${(L.house && L.house.powercut) || 0}${L.house && L.house.topups ? ` (${L.house.topups} topped up)` : ''}</dd><dt>Storms</dt><dd>${(L.house && L.house.storm) || 0}</dd><dt>Ice creams</dt><dd>${(L.house && L.house.icecream) || 0}</dd><dt>Seagulls shooed</dt><dd>${(L.house && L.house.gull) || 0}${L.house && L.house.gullNicked ? ` (${L.house.gullNicked} got away)` : ''}</dd>
-      <dt>Touched grass</dt><dd>${L.outside ? `${L.outside.breaks} time${L.outside.breaks === 1 ? '' : 's'}${L.outside.full < L.outside.breaks ? ` (${L.outside.full} for the full 3 minutes)` : ''}` : 'never'}</dd><dt>Best daily</dt><dd>${L.daily && L.daily.best ? '×' + fmtX(L.daily.best) : 'not yet'}</dd><dt>Daily streak</dt><dd>${L.daily && L.daily.streak ? L.daily.streak + ' day' + (L.daily.streak > 1 ? 's' : '') : '0'}</dd></dl>
+      <dt>Touched grass</dt><dd>${L.outside ? `${L.outside.breaks} time${L.outside.breaks === 1 ? '' : 's'}${L.outside.full < L.outside.breaks ? ` (${L.outside.full} for the full 3 minutes)` : ''}` : 'never'}</dd><dt>Star sign</dt><dd>${Stars.sign() >= 0 ? `${SIGNS[Stars.sign()]}${Stars.luckyToday() ? ` · lucky number today: ${Stars.luckyToday()}` : ''} <button class="clink" type="button" id="btnSign">change</button>` : 'Nan hasn’t asked yet'}</dd><dt>Best daily</dt><dd>${L.daily && L.daily.best ? '×' + fmtX(L.daily.best) : 'not yet'}</dd><dt>Daily streak</dt><dd>${L.daily && L.daily.streak ? L.daily.streak + ' day' + (L.daily.streak > 1 ? 's' : '') : '0'}</dd></dl>
       <h2>Achievements <small>${Achievements.count()}/${ACHIEVEMENTS.length}</small></h2>
       <div class="achs">${ACHIEVEMENTS.map(a => { const got = Achievements.has(a.id); return `<button type="button" class="ach t${a.tier}${got ? ' got' : ''}" data-ach="${a.id}" title="${esc(a.name)}: ${esc(a.desc)}" aria-label="${esc(a.name)}, ${got ? 'unlocked' : 'locked'}: ${esc(a.desc)}">${ico(got ? a.icon : 'lock')}</button>`; }).join('')}</div>
       <p class="achcap hint" id="achCap">Tap a badge to see what it wants from you.</p>
@@ -55,6 +58,7 @@ export const StatsView = {
         <li>Buying the casino adds +25% to every win’s profit for good. Each casino you buy stacks.</li>
         <li>Life carries on around you. Answer the door, pet the kitten, shoo the seagull off your coins, change the smoke detector’s battery, keep playing through a power cut (for danger money). It might pay. It might not.</li>
         <li>Kev launches a cryptocurrency a minute or so into a run. It goes up, it goes down, and sometimes the devs vanish. He takes 5% on every trade. Its ticker is in the chat (or press K).</li>
+        <li>Nan reads your stars from the paper once a day, with a lucky number: the first time a board uncovers it that day, the pot goes ×1.25.</li>
         <li>When you hear the ice cream van, catch it: a cone gives you a sugar rush, +25% on the profit of your next winning cash-out.</li>
         <li>In a thunderstorm, watch the boards: each flash of lightning shows every mine for a split second. One storm in three, a strike takes the power out.</li>
         <li>The Flip Booth has a duck pond out back: back a duck, and long shots pay more. Nan calls the bingo there too: a line, two lines or a full house in 60 calls.</li>
@@ -85,6 +89,7 @@ export const StatsView = {
     });
     $('#btnTut').onclick = () => Coach.start(true);
     $('#btnGrass').onclick = () => OutsideView.open();
+    const sg = $('#btnSign'); if (sg) sg.onclick = () => { StarsView.ask(); UI.toast('Nan’s asking in the group chat.'); };
     $('#btnNews').onclick = () => WhatsNew.show();
     $('#btnKeys').onclick = () => Keys.help();
     $$('#stats .ach').forEach(el => { el.onclick = () => { const a = ACH_BY[el.dataset.ach], got = Achievements.has(a.id);

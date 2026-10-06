@@ -49,6 +49,8 @@ import { StormView } from './ui/storm-view.js';
 import { Kev } from './game/kevcoin.js';
 import { KevView, fmtKev } from './ui/kevcoin-view.js';
 import { IceCream } from './game/ice-cream.js';
+import { Stars } from './game/horoscope.js';
+import { StarsView } from './ui/stars-view.js';
 
 const RED = 'var(--red)', GOLD = 'var(--gold)', GREEN = 'var(--green)', PURPLE = 'var(--purple)';
 export function renderAll(keepModal) {
@@ -178,7 +180,7 @@ bus.on('tick', () => {
   if (Tabs.showing('stats') && S.run.time % 5 === 0 && !StatsView.busy()) StatsView.render();
   if (S.run.time % 20 === 0 && UI.modalClosed()) Quips.maybe(.18);
   if (S.run.time === S.spinAt + SPIN_EVERY) { UI.toast('Free spin ready!'); Sound.select(2); }
-  Kev.second();
+  Kev.second(); Stars.second();
 });
 
 /* ---------- around the house: the noises, and what they turn into ---------- */
@@ -220,6 +222,11 @@ bus.on('power', ({ on: isOn, why }) => {
   setTimeout(() => Chat.say(why === 'topup' ? 'power_topup' : 'power_back', {}, .8), 700);
 });
 bus.on('addon:fired', ({ id }) => { if (id === 'dark') Chat.say('power_win', {}, .5); });
+/* ---------- Nan's stars ---------- */
+bus.on('stars:ask', () => { if (pref('quips')) StarsView.ask(); });
+bus.on('stars', h => { StarsView.read(h); if (Math.random() < .5) setTimeout(() => Chat.say('stars_re', {}, 1), 2400); });
+bus.on('addon:fired', ({ id }) => { if (id === 'stars') Chat.say('stars_hit', {}, .7); });
+
 /* ---------- the ice cream van ---------- */
 bus.on('icecream', ({ sugar }) => {
   RunPanel.render(); Rank.award(3);
