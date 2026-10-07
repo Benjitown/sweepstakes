@@ -79,6 +79,8 @@ Each version is also a save in the built-in version control. Run `python tools/v
   three ×8. Walk off half-way and you're still paid for your splats. New achievement: Rat Catcher. There's a
   tombola too: tickets ending in 0 or 5 win a prize off the table (bubble bath, travel sweets, a jigsaw with two
   pieces missing... or the star prize, a hamper). It's for the church roof, so it pays back about two thirds.
+- **Carol singers** at Christmas, with a tin for the lifeboats: a quid in it and they sing one more for luck (+1
+  shield); or turn the lights off and hide behind the sofa.
 - **Penny for the Guy.** In Bonfire week, half the knocks at the door are two kids with a Guy in a wheelbarrow. Give
   them a quid (what a bag of sweets costs at Halloween) and they hand you a lit sparkler: your next board's golden.
   No change, and they let a banger off on the step: there goes your streak.

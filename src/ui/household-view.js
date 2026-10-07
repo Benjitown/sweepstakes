@@ -126,12 +126,17 @@ export const HouseholdView = {
       ms = 15000; onTimeout = () => Seasons.trick();
       buttons = [[`Give them sweets (${fmt(Seasons.sweets())})`, 'gold', () => { if (!Seasons.treat()) { UI.toast('You haven’t even got enough for sweets.'); Seasons.trick(); } }], ['Pretend you’re out', 'ghost', () => Seasons.trick()]];
     }
+    // Christmas: carol singers with a tin for the lifeboats
+    if (o.fx === 'carol') {
+      ms = 15000; onTimeout = () => Seasons.carol(false);
+      buttons = [[`Put a quid in the tin (${fmt(Seasons.sweets())})`, 'gold', () => { if (!Seasons.carol(true)) { UI.toast('You haven’t got a quid. You sing along instead.'); Seasons.carol(false); } }], ['Hide behind the sofa', 'ghost', () => Seasons.carol(false)]];
+    }
     // Bonfire Night: a penny (well, a quid) for the Guy, or a banger on the step
     if (o.fx === 'guy') {
       ms = 15000; onTimeout = () => Seasons.guy(false);
       buttons = [[`Give them a quid (${fmt(Seasons.sweets())})`, 'gold', () => { if (!Seasons.guy(true)) { UI.toast('You haven’t got a quid to your name.'); Seasons.guy(false); } }], ['No change, sorry', 'ghost', () => Seasons.guy(false)]];
     }
-    const el = this.show({ icon: o.icon, mood: o.mood, title: o.title, text, coins: o.fx === 'raffle' || o.fx === 'trick' || o.fx === 'guy' ? 0 : coins, buttons, ms, onTimeout });
+    const el = this.show({ icon: o.icon, mood: o.mood, title: o.title, text, coins: o.fx === 'raffle' || o.fx === 'trick' || o.fx === 'guy' || o.fx === 'carol' ? 0 : coins, buttons, ms, onTimeout });
     if (coins) Game.setCoins(S.coins, coins > 0, coins > 0 ? { from: el.querySelector('.hic'), amount: coins } : null);
   },
 

@@ -154,6 +154,8 @@ export const LINES = {
   special_happy:   [['tash', 'happy hour! half your stake back if it goes bang'], ['nan', 'Happy hour! Have a lovely time, love x'], ['priya', 'safety net. go wild']],
   special_open:    [['dave', 'doors are open. RUN'], ['nan', 'You can go home now if you like, love. Or stay a bit, I don’t mind x'], ['tash', 'free at last. cash out or push your luck?']],
   special_happy_back: [['priya', 'ouch. at least it was happy hour'], ['nan', 'Never mind, love. Half back’s better than none x'], ['dave', 'landlord’s a saint']],
+  carol_thanks: [['nan', 'Oh, I do love a carol. Merry Christmas, love x'], ['dave', 'did they do the descant'], ['tash', 'festive. disgusting. love it']],
+  carol_no:     [['priya', 'hiding from carol singers. iconic'], ['kev', 'I do that every year'], ['nan', 'Next time pop the kettle on for them, love. It’s cold out x']],
   guy_thanks: [['dave', 'penny for the guy. haven’t heard that in years'], ['nan', 'That was kind of you, love. Wrap up warm if you go to the bonfire x'], ['tash', 'their guy had a better outfit than kev']],
   guy_bang:   [['kev', 'did you just scream'], ['priya', 'we all heard that'], ['nan', 'Oh, those bangers make me jump too, love. Put the kettle on x']],
   conker_won:  [['priya', 'that conker was faulty. I want a rematch'], ['dave', 'you beat the vinegar. respect'], ['nan', 'Well done, love! I was ever so good at conkers when I was little x']],

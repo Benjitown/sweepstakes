@@ -242,6 +242,8 @@ object Rules {
         "special_happy" to listOf("tash" to "happy hour! half your stake back if it goes bang", "nan" to "Happy hour! Have a lovely time, love x", "priya" to "safety net. go wild"),
         "special_open" to listOf("dave" to "doors are open. RUN", "nan" to "You can go home now if you like, love. Or stay a bit, I don’t mind x", "tash" to "free at last. cash out or push your luck?"),
         "special_happy_back" to listOf("priya" to "ouch. at least it was happy hour", "nan" to "Never mind, love. Half back’s better than none x", "dave" to "landlord’s a saint"),
+        "carol_thanks" to listOf("nan" to "Oh, I do love a carol. Merry Christmas, love x", "dave" to "did they do the descant", "tash" to "festive. disgusting. love it"),
+        "carol_no" to listOf("priya" to "hiding from carol singers. iconic", "kev" to "I do that every year", "nan" to "Next time pop the kettle on for them, love. It’s cold out x"),
         "guy_thanks" to listOf("dave" to "penny for the guy. haven’t heard that in years", "nan" to "That was kind of you, love. Wrap up warm if you go to the bonfire x", "tash" to "their guy had a better outfit than kev"),
         "guy_bang" to listOf("kev" to "did you just scream", "priya" to "we all heard that", "nan" to "Oh, those bangers make me jump too, love. Put the kettle on x"),
         "conker_won" to listOf("priya" to "that conker was faulty. I want a rematch", "dave" to "you beat the vinegar. respect", "nan" to "Well done, love! I was ever so good at conkers when I was little x"),

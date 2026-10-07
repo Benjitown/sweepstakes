@@ -217,6 +217,14 @@ async def run(browser, url, shots):
     second = await pg.evaluate("(() => { __sw.HouseholdView.clear(); return __sw.Household.answerDoor().o.title; })()")
     ok(first == 'A card from Nan' and got > 0 and 'All my love, Nan x' in card and second != 'A card from Nan', f'a card from Nan with {got:,} in it (just the one a day)')
     await pg.screenshot(path=str(shots / 'xmas.png'))
+    # carol singers: a quid in the tin for a shield
+    await pg.evaluate("(() => { __sw.HouseholdView.clear(); __sw.S.life.xmasCard = new Date().toDateString(); __sw.Seasons.rng = () => 0; __sw.Household.answerDoor(); __sw.Seasons.rng = Math.random; })()"); await pg.wait_for_timeout(300)
+    card = await text(pg, '.happening'); quid = await pg.evaluate('__sw.Seasons.sweets()')
+    ok('Carol singers' in card and f'Put a quid in the tin ({quid:,})' in card, f'Christmas at the door: carol singers ({card[:50]}…)')
+    sh, c0 = await pg.evaluate('__sw.S.inv.shield'), await pg.evaluate('__sw.S.coins')
+    await pg.click('.happening [data-h="0"]'); await pg.wait_for_timeout(400)
+    ok(await pg.evaluate('__sw.S.inv.shield') == sh + 1 and await pg.evaluate('__sw.S.coins') == c0 - quid and 'Merry Christmas!' in await text(pg, '.happening'),
+       'a quid in the tin: they sing one more for luck, +1 shield')
     # and out of season again
     await pg.evaluate("(() => { __sw.HouseholdView.clear(); __sw.Seasons.force = 'none'; __sw.SeasonView.apply(); })()"); await pg.wait_for_timeout(200)
     ok(await pg.evaluate("!document.body.dataset.season && !document.querySelector('#seasonDeco') && !document.querySelector('#snow')"), 'out of season: the room’s back to normal')

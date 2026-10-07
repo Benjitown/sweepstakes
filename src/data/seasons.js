@@ -14,4 +14,5 @@ export const TRICK = {
   EGGS_MS: 40000,  // say no and the eggs stay on the window this long
 };
 export const GUY = { CHANCE: .5 };  // Bonfire Night: of answering the door, kids with a Guy (a quid costs what a bag of sweets does)
-export const XMAS = { CARD: .5 };  // Nan's Christmas card through the door: this share of your top table's max stake
+export const XMAS = { CARD: .5 };
+export const CAROL = { CHANCE: .4 };  // Christmas: of answering the door (once Nan's card's come), carol singers (a quid costs what a bag of sweets does)  // Nan's Christmas card through the door: this share of your top table's max stake
