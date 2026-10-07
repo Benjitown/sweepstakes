@@ -79,6 +79,8 @@ async def run(browser, url, shots):
     ok(got >= 1 and await pg.evaluate("document.querySelectorAll('#stats .ach').length") == total, f'Stats shows all {total} badges, {got} earned')
     await pg.click('#stats .ach.got'); await pg.wait_for_timeout(100)
     ok('Pocket Money' in await pg.text_content('#achCap') or got > 1, 'tapping a badge explains it')
+    await pg.click('[data-tab="shop"]'); await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
+    ok('Pocket Money' in await pg.text_content('#achCap') or got > 1, 'and it still does after the tab redraws')
     ok(await pg.evaluate("!!document.querySelector('#tg-vibe')") and ('v' + await pg.evaluate('__sw.VERSION')) in await pg.text_content('#stats .ver'), 'Stats has the vibration switch and the version line')
 
     # --- coin graph
