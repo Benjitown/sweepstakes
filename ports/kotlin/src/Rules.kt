@@ -237,6 +237,7 @@ object Rules {
         "special_clock" to listOf("dave" to "FORTY SECONDS. GO", "tash" to "clock’s ticking. no pressure", "nan" to "Don’t rush on my account, love. Well, a bit x"),
         "special_beat" to listOf("priya" to "beat the clock. show-off", "nan" to "In the nick of time! Well done, love x", "dave" to "with seconds to spare. cinema"),
         "special_late" to listOf("dave" to "buzzer. too slow", "kev" to "time waits for no man. or Kev", "nan" to "Never mind, love. You still got something x"),
+        "ghost" to listOf("dave" to "I am NOT scared. (I am)", "priya" to "a helpful ghost. rarest of all ghosts", "kev" to "is it a KEVCOIN ghost. asking for me", "tash" to "it pointed at a mine and LEFT. iconic"),
         "juke_lounge" to listOf("priya" to "very James Bond. are you wearing a bow tie", "dave" to "lift music. I love it", "nan" to "Ooh very posh. Shall I put my pearls on x", "kev" to "this is what they play when you’re on hold to the bank"),
         "juke_pub" to listOf("dave" to "THIS IS MY SONG", "tash" to "Dave has already taken his shirt off", "nan" to "I know all the words to this one, love x", "priya" to "someone get Dave off the table"),
         "juke_chip" to listOf("kev" to "that’s my track. half a KEVCOIN to download it", "tash" to "what is this noise", "nan" to "Very jolly! Like the arcade on the pier x", "dave" to "this is giving me a headache and a high score"),

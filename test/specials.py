@@ -80,6 +80,19 @@ async def run(browser, url, shots):
     st = await pg.evaluate("(() => { const b = __sw.slots[2]; return b ? { special: b.special, m: b.m, tag: (b.el.querySelector('.spectag') || {}).textContent || '' } : null; })()")
     ok(st and st['special'] == 'trouble' and st['m'] == d['m'] and st['tag'] == 'Double Trouble', f'a special survives a reload ({st})')
 
+    # --- Halloween's friendly ghost: dig it up and it points out a mine
+    await pg.evaluate("(() => { __sw.Game.slots.forEach(b => { if (b) { b.over = true; __sw.Game.endBoard(b); } }); __sw.Seasons.force = 'halloween'; window.__srng = __sw.Seasons.rng; __sw.Seasons.rng = () => 0; })()")
+    await pg.wait_for_timeout(200)
+    await pg.evaluate(f"{DEAL}(0, '')")
+    st = await pg.evaluate("""(() => { const b = __sw.slots[0], g = b.ghost; if (g < 0) return { g };
+      let flags0 = 0; for (let i = 0; i < b.n; i++) flags0 += b.flag[i];
+      const n0 = __sw.S.life.ghosts || 0; __sw.invoke(new __sw.DigCommand(b, g));
+      let flags = 0, right = true; for (let i = 0; i < b.n; i++) if (b.flag[i]) { flags++; if (!b.mine[i]) right = false; }
+      return { g, flags0, flags, right, n: (__sw.S.life.ghosts || 0) - n0, gone: b.ghost }; })()""")
+    await pg.evaluate("(() => { __sw.Seasons.force = 'none'; __sw.Seasons.rng = window.__srng; })()")
+    ok(st['g'] >= 0 and st['flags'] == st['flags0'] + 1 and st['right'] and st['n'] == 1 and st['gone'] == -1,
+       f'Halloween: a friendly ghost under a tile; dig it up and it flags a mine for you ({st})')
+
     # --- the phone
     pctx, pp, perrs = await open_page(browser, url, width=360, height=780, mobile=True, wait=1200)
     await pp.evaluate(SETUP)
