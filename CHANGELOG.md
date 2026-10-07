@@ -63,8 +63,8 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **The Daily Sweep,** the local paper, written from your run. Every twenty minutes of play it comes through the
   letterbox (a chip in the header says so): the run's biggest moment on the front page (a jackpot gem, Dave beaten at
   darts, a rug pull, a giant marrow at the village show), two more stories down the side, the weather, KEVCOIN's
-  price, Nan's stars and the small ads. At the bottom, Spot the Mine: a little board where exactly one covered tile
-  has to be a mine. Tap the right one for a prize. Go bust and the bust screen's "Read all about it" opens a special
+  price, Nan's stars and the small ads. At the bottom, Spot the Mine: a little board where one or two of the covered
+  tiles have to be mines. Tap one of those for a prize. Go bust and the bust screen's "Read all about it" opens a special
   edition.
 - **The Sweepstake,** the paper's lottery. Buy Lucky Dip lines, or pick your own five (from 30, up to five lines a draw) in
   The Daily Sweep, and the next paper prints the draw and pays out: three numbers ×12, four ×200, all five ×10,000
@@ -93,9 +93,9 @@ Each version is also a save in the built-in version control. Run `python tools/v
   bass), Last Orders (a knees-up on the pub's old upright), Insert Coin (Kev's eight-bit tune) and Nan's Wireless (a
   gentle waltz on a music box), plus shuffle. Each season adds one: The Haunted Arcade in October (spooky organ
   and a theremin), Penny for the Guy on Bonfire Night (a jig) and Tinsel on the Telly at Christmas (sleigh bells and a
-  celesta). It sits quietly under the game, with a Music slider in the jukebox and in
-  Stats. It stops while you're muted, outside or in another tab, and when the power goes the record winds down. Switch
-  it off in the jukebox or in Stats. Everyone in the group chat has an opinion about your record.
+  celesta). It sits quietly under the game, with a Music slider in the jukebox and in Stats. It stops while you're
+  muted, outside or in another tab, and when the power goes the record winds down. Switch it off in the jukebox or in
+  Stats. Everyone in the group chat has an opinion about your record.
 - **Board styles,** in Stats: Card table felt, Neon, Nan's knitting (purple wool, cable stitch) and Gold leaf, for
   the tiles on every board (and Double or Nothing's). Each is bought once with coins and kept for good: going bust
   doesn't take it back, and swapping between the ones you own is free. New achievement: Interior Design.
