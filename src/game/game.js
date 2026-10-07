@@ -22,6 +22,7 @@ import { Seasons } from './seasons.js';
 import { PUMPKIN } from '../data/seasons.js';
 import { SPECIAL_BY } from '../data/specials.js';
 import { Specials } from './specials.js';
+import { Hall } from './hall.js';
 import { UI } from '../ui/ui.js';
 
 /* =====================================================================================
@@ -262,9 +263,9 @@ export const Game = {
   },
 
   /* busting */
-  lastRun: null, lastTin: 0,
+  lastRun: null, lastTin: 0, lastPlace: 0, // lastPlace: where the run that just ended landed in your best five (0 if it didn't)
   bust(reason, deferModal) {
-    this.lastRun = { ...S.run, reason };
+    this.lastRun = { ...S.run, reason }; this.lastPlace = Hall.record(S.run, reason);
     S.life.busts++; S.life.time += S.run.time;
     this.slots.fill(null);
     setState(freshRun(S.life, { muted: S.muted, crt: pref('crt'), quips: pref('quips'), odd: pref('odd'), vibe: pref('vibe'), rude: pref('rude'), quiz: pref('quiz'), nanvoice: pref('nanvoice'), dares: pref('dares'), seasons: pref('seasons'), vol: S.vol, noiseVol: S.noiseVol, music: pref('music'), musicVol: S.musicVol, track: S.track }));
