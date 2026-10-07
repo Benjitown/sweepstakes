@@ -81,8 +81,9 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **More callers:** a parcel for next door (they bring round shortbread), a man selling double glazing, the milkman
   (gold tops: your next board's golden), the window cleaner, an automated voice about your accident, your mum, and
   the doctor's surgery ringing back.
-- **The Daily Sweep covers the new bits:** a Lock-in sat out, Happy Hour softening a bang, beating the clock and
-  Sunday dinner at Nan's all make the paper.
+- **The Daily Sweep covers the new bits:** a Lock-in sat out, Happy Hour softening a bang, beating the clock, Sunday
+  dinner at Nan's, three splats out of three, beating Priya at conkers, a quid for the Guy and the tombola's hamper
+  all make the paper.
 - **Sunday dinner at Nan's.** On a Sunday, a little way into playing, Nan asks you round for your dinner (once a
   day). Go round for a roast with all the trimmings and pudding after, and you're full of it: your next five winning
   cash-outs get +15% on the profit. Can't make it? She keeps a plate warm for you anyway (two cash-outs' worth).
@@ -98,7 +99,11 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **A friendly ghost** at Halloween: one board in five hides one under a safe tile. Dig it up and it rises out of
   the board, says boo, and points out a mine (flagged for you).
 - **A run card.** Stats has a Run card button: a picture of your run (peak coins, how long you lasted, boards, your
-  biggest win, rank and achievements) in the game's own colours, to download or copy into a chat.
+  biggest win, rank and achievements) in the game's own colours, to download or copy into a chat. It says if it's
+  your best run yet.
+- **Fixed:** the Stats badge you tapped kept losing its caption when the tab redrew (every five seconds), and with
+  every chip showing at once the phone header lost Nan's roast off the bottom (those chips are an icon and a count
+  on a phone now). Stats' house rules cover everything new.
 - **The landlord's specials.** About one dealt board in twelve (never a golden one, never the Daily) comes with a
   twist chalked on it, for that board only: **Double Trouble** (half as many mines again, but risky digs pay double
   and the limit's doubled), **Gem Rush** (two extra gems) or **Against the Clock** (forty seconds from your first dig:
