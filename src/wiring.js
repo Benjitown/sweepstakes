@@ -474,6 +474,9 @@ bus.on('tick', () => Game.slots.forEach(b => { // Against the Clock: the countdo
   const l = Specials.left(b); if (l === 0) Game.cashOut(b, 'clock'); else if (l !== null) BoardsView.hud(b);
 }));
 bus.on('board:cashout', ({ b, why, profit }) => { if (b.special === 'clock' && b.human) setTimeout(() => Chat.say(why === 'clock' ? 'special_late' : profit > 0 ? 'special_beat' : '_', {}, .7), 800); });
+bus.on('special:locked', ({ b }) => { Sound.tick(); UI.toast(`The doors are locked on ${b.t.name}. Dig ${Specials.toGo(b)} more and the landlord will let you out.`); });
+bus.on('special:open', ({ b }) => { Sound.select(1); UI.toast(`The doors are open on ${b.t.name}. Cash out whenever you like: the profit’s doubled.`); setTimeout(() => Chat.say('special_open', {}, .6), 700); });
+bus.on('board:boom', ({ b, back }) => { if (!back) return; UI.toast(`Happy Hour: the landlord’s given you ${fmt(back)} back on ${b.t.name}.`); setTimeout(() => Chat.say('special_happy_back', {}, .7), 1500); });
 
 /* ---------- the jukebox (the Halloween record's only on it in October) ---------- */
 bus.on('request:due', () => { // someone asks for a record (only while the jukebox is playing)

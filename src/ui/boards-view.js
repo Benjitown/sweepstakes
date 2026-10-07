@@ -115,8 +115,10 @@ export const BoardsView = {
     if (ck) { const l = Specials.left(b), s = Math.ceil(l ?? SPECIAL_BY.clock.secs); ck.textContent = `${s}s`; ck.classList.toggle('hurry', l !== null && l <= 10 && !b.over); }
     b.el.querySelector('.gemct').classList.toggle('all', b.started && b.gemsFound >= b.gemsTotal && b.gemsTotal > 0);
     const cash = b.el.querySelector('.cash');
-    cash.disabled = !b.started || b.over;
-    cash.querySelector('span').textContent = b.result || (b.started ? `Cash out ${fmt(b.pot())}` : 'Dig a tile to start');
+    const shut = Specials.locked(b) && b.started;
+    cash.disabled = !b.started || b.over || shut; cash.classList.toggle('shut', shut);
+    const icon = shut ? '#i-door' : '#i-chicken', use = cash.querySelector('use'); if (use.getAttribute('href') !== icon) use.setAttribute('href', icon);
+    cash.querySelector('span').textContent = b.result || (!b.started ? 'Dig a tile to start' : shut ? `Locked in: ${Specials.toGo(b)} more to dig` : `Cash out ${fmt(b.pot())}`);
     b.el.querySelector('.bot-on').hidden = !(has('flagBot') && b.started && !b.over);
   },
   tools(b) {

@@ -11,7 +11,7 @@ export class Board {
       mine: new Uint8Array(n), open: new Uint8Array(n), flag: new Uint8Array(n), num: new Int8Array(n), gem: new Float64Array(n),
       started: false, revealed: 0, base: 0, safe: n - mines, over: false, result: '', mode: 'dig',
       probed: new Set(), defused: new Set(), G: 1, J: 1, golden: false, guesses: 0, combo: 0, gemsTotal: table.gems, gemsFound: 0,
-      human: false, fp: 0, t0: 0, fuseUsed: false, ded: null, dedB: null, rng: Math.random, pumpkin: -1, pumpkinAt: -1, special: '' });
+      human: false, fp: 0, t0: 0, fuseUsed: false, ded: null, dedB: null, rng: Math.random, pumpkin: -1, pumpkinAt: -1, special: '', doors: false });
   }
   calcNums() { for (let i = 0; i < this.n; i++) { let c = 0; for (const j of this.nb[i]) c += this.mine[j]; this.num[i] = c; } }
   placeMines(first) {
@@ -48,7 +48,7 @@ export class Board {
     const gems = []; for (let i = 0; i < this.n; i++) if (this.gem[i]) gems.push([i, this.gem[i]]);
     return { slot: this.slot, tid: this.t.id, stake: this.stake, m: this.m, lim: this.lim, started: this.started, revealed: this.revealed, base: this.base,
       G: this.G, J: this.J, golden: this.golden, guesses: this.guesses, combo: this.combo, gems, gemsTotal: this.gemsTotal, gemsFound: this.gemsFound, human: this.human,
-      fp: this.fp, fuseUsed: this.fuseUsed, probed: [...this.probed], defused: [...this.defused], pumpkin: this.pumpkin, pumpkinAt: this.pumpkinAt, special: this.special, t0: this.t0,
+      fp: this.fp, fuseUsed: this.fuseUsed, probed: [...this.probed], defused: [...this.defused], pumpkin: this.pumpkin, pumpkinAt: this.pumpkinAt, special: this.special, doors: this.doors, t0: this.t0,
       mine: this.mine.join(''), open: this.open.join(''), flag: this.flag.join('') };
   }
   static fromMemento(o) {
@@ -57,7 +57,7 @@ export class Board {
     const fill = (arr, s) => { for (let i = 0; i < arr.length; i++) arr[i] = s.charCodeAt(i) === 49 ? 1 : 0; };
     fill(b.mine, o.mine); fill(b.open, o.open); fill(b.flag, o.flag);
     Object.assign(b, { started: o.started, revealed: o.revealed, base: o.base, G: o.G || 1, J: o.J || 1, golden: !!o.golden, guesses: o.guesses || 0, combo: o.combo || 0,
-      gemsTotal: o.gemsTotal ?? t.gems, gemsFound: o.gemsFound || 0, human: !!o.human, fp: o.fp || 0, fuseUsed: !!o.fuseUsed, pumpkin: o.pumpkin ?? -1, pumpkinAt: o.pumpkinAt ?? -1, special: o.special || '', t0: o.t0 || 0 });
+      gemsTotal: o.gemsTotal ?? t.gems, gemsFound: o.gemsFound || 0, human: !!o.human, fp: o.fp || 0, fuseUsed: !!o.fuseUsed, pumpkin: o.pumpkin ?? -1, pumpkinAt: o.pumpkinAt ?? -1, special: o.special || '', doors: !!o.doors, t0: o.t0 || 0 });
     (o.gems || []).forEach(([i, x]) => { b.gem[i] = x; });
     (o.probed || []).forEach(i => b.probed.add(i)); (o.defused || []).forEach(i => b.defused.add(i));
     b.calcNums();

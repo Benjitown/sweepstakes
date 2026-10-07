@@ -58,6 +58,9 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **Biscuit, next door's dog.** If you hear barking, he trots in along the bottom of the screen and waits ("Woof?").
   Give him a biscuit (3% of the top table's max stake) and he sniffs out a mine on your board and sits on it: flagged,
   glowing orange for a moment. Ignore him and he wanders off. New achievement: Good Boy.
+- **Two more landlord's specials.** **The Lock-in**: the doors are locked till half the board's dug, so there's no
+  cashing out before then (and the Banker can't get in), but stay for it and the profit's doubled. **Happy Hour**: if
+  the board goes bang, the landlord gives you half your stake back. New achievement: Stay for One More.
 - **A run card.** Stats has a Run card button: a picture of your run (peak coins, how long you lasted, boards, your
   biggest win, rank and achievements) in the game's own colours, to download or copy into a chat.
 - **The landlord's specials.** About one dealt board in twelve (never a golden one, never the Daily) comes with a

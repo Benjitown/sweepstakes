@@ -148,6 +148,10 @@ export const LINES = {
   special_rush:    [['priya', 'gem rush! dig dig dig'], ['nan', 'Ooh, sparkly! Good luck, love x'], ['tash', 'two extra gems. go on then']],
   special_clock:   [['dave', 'FORTY SECONDS. GO'], ['tash', 'clock’s ticking. no pressure'], ['nan', 'Don’t rush on my account, love. Well, a bit x']],
   special_beat:    [['priya', 'beat the clock. show-off'], ['nan', 'In the nick of time! Well done, love x'], ['dave', 'with seconds to spare. cinema']],
+  special_lockin:  [['dave', 'LOCK-IN. nobody leaves'], ['nan', 'Ooh, a lock-in! I’ll put the kettle on, love x'], ['kev', 'trapped in a pub. living the dream']],
+  special_happy:   [['tash', 'happy hour! half your stake back if it goes bang'], ['nan', 'Happy hour! Have a lovely time, love x'], ['priya', 'safety net. go wild']],
+  special_open:    [['dave', 'doors are open. RUN'], ['nan', 'You can go home now if you like, love. Or stay a bit, I don’t mind x'], ['tash', 'free at last. cash out or push your luck?']],
+  special_happy_back: [['priya', 'ouch. at least it was happy hour'], ['nan', 'Never mind, love. Half back’s better than none x'], ['dave', 'landlord’s a saint']],
   special_late:    [['dave', 'buzzer. too slow'], ['kev', 'time waits for no man. or Kev'], ['nan', 'Never mind, love. You still got something x']],
   // the jukebox: everyone has an opinion about your record
   juke_lounge:   [['priya', 'very James Bond. are you wearing a bow tie'], ['dave', 'lift music. I love it'], ['nan', 'Ooh very posh. Shall I put my pearls on x'],

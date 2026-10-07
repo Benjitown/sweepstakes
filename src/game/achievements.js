@@ -62,6 +62,7 @@ export const Achievements = {
     bus.on('paper:answer', ({ right }) => { if (right) u('puzzle'); });
     bus.on('karaoke:done', ({ x }) => { if (x >= 3) u('ovation'); });
     bus.on('board:cashout', ({ b, why, profit }) => { if (b.special === 'clock' && why !== 'clock' && profit > 0 && b.human) u('nick'); });
+    bus.on('board:cashout', ({ b, why, profit }) => { if (b.special === 'lockin' && why === 'manual' && profit > 0 && b.human) u('lockin'); });
     bus.on('lotto:drawn', ({ lines }) => { if (lines.some(l => l.hits >= 3)) u('lotto3'); });
     bus.on('music', ({ id, on }) => { if (!on || !id) return; const r = S.life.records = S.life.records || {}; r[id] = 1; if (TRACKS.filter(t => !t.season).every(t => r[t.id])) u('records'); });
     bus.on('upgrade:bought', ({ u: up }) => {
