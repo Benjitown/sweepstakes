@@ -130,6 +130,9 @@ export const LINES = {
     ['priya', 'they’re putting your photo up in the village hall'], ['kev', 'I’ll give you 3 KEVCOIN for it. final offer']],
   plot_slugs:    [['nan', 'Never mind, love. The slugs have to eat too. Plant some more x'], ['dave', 'slugs. the silent enemy'], ['tash', 'nature is healing. and eating your veg'],
     ['kev', 'try a beer trap. I tried one. I drank the beer']],
+  plot_greenhouse: [['nan', 'A greenhouse! You can grow tomatoes now, love x'], ['dave', 'a GREENHOUSE. on the allotment. next to mine. fine']],
+  plot_traps:    [['kev', 'my beer traps. you’re welcome. I drank half of it'], ['nan', 'Poor slugs. Still, they’ll have a nice time x']],
+  plot_beds:     [['dave', 'expanding. I respect it'], ['nan', 'All that digging! Don’t do your back in, love x']],
   plot_rain:     [['nan', 'Lovely drop of rain for the garden x'], ['priya', 'free watering for the allotment at least'], ['dave', 'good for the marrows, this']],
   // the Sweepstake (the paper's lottery)
   lotto_win:     [['nan', 'You’ve won on the Sweepstake! Treat yourself, love x'], ['dave', 'the Sweepstake is rigged. congratulations'],

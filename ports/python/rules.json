@@ -1968,6 +1968,36 @@
     "try a beer trap. I tried one. I drank the beer"
    ]
   ],
+  "plot_greenhouse": [
+   [
+    "nan",
+    "A greenhouse! You can grow tomatoes now, love x"
+   ],
+   [
+    "dave",
+    "a GREENHOUSE. on the allotment. next to mine. fine"
+   ]
+  ],
+  "plot_traps": [
+   [
+    "kev",
+    "my beer traps. you’re welcome. I drank half of it"
+   ],
+   [
+    "nan",
+    "Poor slugs. Still, they’ll have a nice time x"
+   ]
+  ],
+  "plot_beds": [
+   [
+    "dave",
+    "expanding. I respect it"
+   ],
+   [
+    "nan",
+    "All that digging! Don’t do your back in, love x"
+   ]
+  ],
   "plot_rain": [
    [
     "nan",

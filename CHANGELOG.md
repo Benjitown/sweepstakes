@@ -84,7 +84,8 @@ Each version is also a save in the built-in version control. Run `python tools/v
   seeds cost (a packet's price follows your top table's max stake), and the slower the crop, the better it pays by
   the minute. Slugs might get a crop that's still growing, a thunderstorm waters the lot (two minutes closer), one
   in twelve comes up a whopper (double, and a rosette at the village show), and in October pumpkins fetch 30% more.
-  Big Dave has the next plot, and has opinions about marrows.
+  Big Dave has the next plot, and has opinions about marrows. The shed has three buys for the run's plot: a
+  greenhouse (20% quicker), Kev's beer traps (three quarters fewer crops lost to slugs) and two more beds.
 - **Karaoke at the Red Lion,** from the jukebox. Sing Last Orders: the notes of the tune slide along a lane
   towards the mic (high notes higher), and you press Sing, or Space, as each one gets there. The record plays under
   you with the tune as a guide, counted in with four clicks, and the jukebox waits until you're done. Your fee goes
