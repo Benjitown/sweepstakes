@@ -3,6 +3,7 @@ import { fmt } from '../core/util.js';
 import { S, hasA } from '../core/state.js';
 import { PowerCut } from '../game/power-cut.js';
 import { IceCream } from '../game/ice-cream.js';
+import { SPECIAL_BY } from '../data/specials.js';
 
 /* =====================================================================================
    Decorator · https://refactoring.guru/design-patterns/decorator
@@ -54,6 +55,14 @@ class SugarPayout extends PayoutDecorator {
 class BankerPayout extends PayoutDecorator {
   pay(b, why) { const r = super.pay(b, why); if (why === 'banker' && b.premium > 0) { r.amount += b.premium; r.extras.push(['banker', `The Banker +${fmt(b.premium)}`]); } return r; }
 }
+// Against the Clock (a landlord's special): cash out before the time's up and the profit gets +50%
+class ClockPayout extends PayoutDecorator {
+  pay(b, why) {
+    const r = super.pay(b, why), profit = r.amount - b.stake;
+    if (b.special === 'clock' && why !== 'clock' && profit > 0) { const e = Math.floor(profit * SPECIAL_BY.clock.bonus); r.amount += e; r.extras.push(['clock', `Beat the clock +${fmt(e)}`]); }
+    return r;
+  }
+}
 export const HOUSE_EDGE = .25;
 const PAYOUT_DECORATORS = [['egg', NestEggPayout], ['flagfan', FlagFanaticPayout], ['compound', CompoundPayout], ['dinner', ChickenDinnerPayout]];
 export const buildPayout = () => {
@@ -61,5 +70,6 @@ export const buildPayout = () => {
   if (S.life.casinos) p = new HouseEdgePayout(p);
   if (S.sugar > 0) p = new SugarPayout(p);
   p = new BankerPayout(p);
+  p = new ClockPayout(p);
   return PowerCut.on ? new DarkPayout(p) : p;
 };

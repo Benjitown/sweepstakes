@@ -58,6 +58,11 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **Biscuit, next door's dog.** If you hear barking, he trots in along the bottom of the screen and waits ("Woof?").
   Give him a biscuit (3% of the top table's max stake) and he sniffs out a mine on your board and sits on it: flagged,
   glowing orange for a moment. Ignore him and he wanders off. New achievement: Good Boy.
+- **The landlord's specials.** About one dealt board in twelve (never a golden one, never the Daily) comes with a
+  twist chalked on it, for that board only: **Double Trouble** (half as many mines again, but risky digs pay double
+  and the limit's doubled), **Gem Rush** (two extra gems) or **Against the Clock** (forty seconds from your first dig:
+  cash out in time for +50% on the profit, or it cashes out for you without the bonus). The group chat has views.
+  New achievement: In the Nick of Time.
 - **More to talk about:** eight new group chat conversations (Dave's 4kg marrow, Kev's royalties, Nan's Wireless is her
   song) and nine more quiz questions.
 - **The Daily Sweep,** the local paper, written from your run. Every twenty minutes of play it comes through the

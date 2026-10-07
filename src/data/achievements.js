@@ -87,6 +87,7 @@ export const ACHIEVEMENTS = [
   { id: 'puzzle',   tier: 1, icon: 'paper',     name: 'Read All About It',   desc: 'Spot the mine in The Daily Sweep’s puzzle.' },
   { id: 'records',  tier: 1, icon: 'juke',      name: 'Name That Tune',      desc: 'Put every record on the jukebox.' },
   { id: 'ovation',  tier: 2, icon: 'juke',      name: 'Standing Ovation',    desc: 'Hit 95% of the notes at karaoke.' },
+  { id: 'nick',     tier: 1, icon: 'stopwatch', name: 'In the Nick of Time', desc: 'Beat the clock on an Against the Clock board.' },
   { id: 'lotto3',   tier: 1, icon: 'ticket',    name: 'Lucky Numbers',       desc: 'Match three numbers or more on the Sweepstake.' },
 ];
 export const ACH_BY = Object.fromEntries(ACHIEVEMENTS.map(a => [a.id, a]));
