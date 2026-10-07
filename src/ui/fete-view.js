@@ -65,12 +65,12 @@ export const FeteView = {
     this.phase = 'wait'; this.say(rnd(FETE_SAYS.pull)); Sound.tick();
     $('#splatRat').className = 'rat';
     this.t = setTimeout(() => this.drop(), Fete.drop());
-    this.render();
+    this.render(); $('#splatHit').focus({ preventScroll: true }); // (so Space or Enter splats it)
   },
   // it's out!
   drop() {
     if (!this.live() || this.phase !== 'wait') return;
-    this.phase = 'out'; $('#splatRat').classList.add('out'); Sound.pop();
+    this.phase = 'out'; $('#splatRat').classList.add('out'); Sound.pop(); this.say('NOW!');
     this.t = setTimeout(() => { if (this.phase === 'out') this.done('missed'); }, FETE.WINDOW);
   },
   whack() {
@@ -84,7 +84,7 @@ export const FeteView = {
     this.say(rnd(FETE_SAYS[how]));
     const r = Fete.go(how);
     if (r && r.done) { this.say(`${rnd(FETE_SAYS[how])} ${FETE_RESULT[Math.min(r.hits, FETE_RESULT.length - 1)]}${r.pay ? ` +${fmt(r.pay)}` : ''}`); Game.setCoins(S.coins, r.pay > 0); }
-    this.render();
+    this.render(); const go = $('#splatGo'); if (go && !go.disabled) go.focus({ preventScroll: true });
   },
   // walking off pays for your splats so far
   leave() {

@@ -29,7 +29,7 @@ async def run(browser, url, shots):
     st = await pg.evaluate(ST)
     ok(st['coins'] == c0 - fee and st['splat'] == {'fee': fee, 'goes': 3, 'hits': 0} and 'Go 1 of 3' in st['goes'], f'three goes for {fee:,}, and the cord’s pulled')
     await pg.wait_for_timeout(450)
-    ok(await pg.evaluate("document.getElementById('splatRat').classList.contains('out')"), 'the rat shoots out of the bottom of the pipe')
+    ok(await pg.evaluate("document.getElementById('splatRat').classList.contains('out') && document.getElementById('splatMsg').textContent === 'NOW!'"), 'the rat shoots out of the bottom of the pipe: NOW!')
     await pg.screenshot(path=str(shots / 'fete_rat.png'))
     await pg.click('#splatHit'); await pg.wait_for_timeout(150)
     st = await pg.evaluate(ST)
@@ -52,6 +52,14 @@ async def run(browser, url, shots):
     ok(st['splat'] is None and st['coins'] == c1 + 7 * fee + bonus and 'All three' in st['msg'] and await pg.evaluate("__sw.Achievements.has('rat')"),
        f'all three: eight times the fee (+{8 * fee:,}), and Rat Catcher unlocks (+{bonus:,})')
     ok(await pg.evaluate("(__sw.S.run.news || []).some(n => n.k === 'splat3')"), 'and it makes the paper')
+
+    # --- the keyboard: Enter pulls the cord, and Space splats it
+    await pg.evaluate("__sw.FETE.WINDOW = 5000")
+    await pg.focus('#splatGo'); await pg.keyboard.press('Enter'); await pg.wait_for_timeout(450)
+    ok(await pg.evaluate("document.activeElement && document.activeElement.id === 'splatHit'"), 'pulling the cord puts you on the Splat! button')
+    await pg.keyboard.press('Space'); await pg.wait_for_timeout(150)
+    ok(await pg.evaluate("__sw.S.splat && __sw.S.splat.hits === 1"), 'and Space splats it')
+    await pg.evaluate("(() => { __sw.Fete.settle(); __sw.FeteView.render(); })()")
 
     # --- walking off half-way still pays for your splats
     c2 = await pg.evaluate('__sw.S.coins')
