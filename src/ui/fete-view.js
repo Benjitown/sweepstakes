@@ -28,8 +28,8 @@ const RAT_ART = `<svg class="ratart" viewBox="0 0 90 44" aria-hidden="true">
 
 export const FeteView = {
   t: 0, phase: 'idle', // idle, wait (up the pipe), out (splat it!)
-  // it's on: a card at the bottom of the screen
   cake: false, // been to see Nan at the cake stall at this fete?
+  // it's on: a card at the bottom of the screen
   invite() {
     this.cake = false;
     HouseholdView.show({ icon: 'bell', mood: 'good', title: 'The church fete', ms: 15000,
