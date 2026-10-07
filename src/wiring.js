@@ -463,7 +463,7 @@ Music.available = () => TRACKS.filter(t => !t.season || Seasons.is(t.season));
 bus.on('bust', () => Music.scratch()); // the needle comes off the record
 bus.on('board:boom', ({ b, src }) => { if (src !== 'bot' && b.stake >= Math.max(500, S.coins * .25)) Music.scratch(); });
 bus.on('music', ({ first }) => {
-  JukeboxView.now();
+  JukeboxView.now(); JukeboxView.ticker();
   if (first && !S.life.juke) { S.life.juke = 1; SaveGame.save(); UI.toast('The jukebox is on. Change the record with the jukebox button (or J), or switch it off in there.'); }
 });
 

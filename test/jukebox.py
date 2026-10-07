@@ -46,6 +46,8 @@ async def run(browser, url, shots):
     ok(st['on'] and st['id'] == 'chip' and st['track'] == 'chip' and st['notes'] > 20, f'B1 goes on: Insert Coin plays ({st["notes"]} notes queued)')
     ok('Now playing: Insert Coin by 8-Bit Kev' in st['now'] and st['pressed'] == 'chip', f'now playing: “{st["now"].strip()}”')
     ok(0 < st['ahead'] <= 2.5, f'the music stays a little ahead of the audio clock ({st["ahead"]:.2f}s)')
+    np = await pg.evaluate("(() => { const e = document.getElementById('nowPlaying'); return e.hidden ? '' : e.textContent; })()")
+    ok(np == 'Insert Coin', f'the group chat’s header says what’s on (“{np}”)')
     toasts = await pg.evaluate("[...document.querySelectorAll('.toast')].map(t => t.textContent).join(' | ')")
     ok('The jukebox is on' in toasts and await pg.evaluate('__sw.S.life.juke === 1'), 'the first time it plays, a toast says where the jukebox is')
     await pg.screenshot(path=str(shots / 'jukebox.png'))
