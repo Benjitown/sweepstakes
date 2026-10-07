@@ -19,6 +19,9 @@ What's in each version: [CHANGELOG.md](CHANGELOG.md).
   - `python ports/python/sweepstakes.py`
 
   See [ports/README.md](ports/README.md).
+- **Trying a bit out:** add `?season=halloween` (or `bonfire`, `xmas`, `none`) to the address for that season;
+  `?try=sunday`, `?try=fete` or `?try=conkers` brings Sunday dinner, the church fete or conkers on in a few seconds;
+  `?try=lockin` (or `happy`, `orders`, `trouble`, `rush`, `clock`) chalks that special on every board you deal.
 
 ## Build
 
