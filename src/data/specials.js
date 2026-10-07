@@ -1,6 +1,6 @@
 // The landlord's specials: now and then a dealt board comes with a twist chalked on it, for that board only (never a
 // golden board, and never the Daily). The numbers for each are here; src/game/specials.js picks them.
-export const SPECIAL = { CHANCE: 1 / 12 };
+export const SPECIAL = { CHANCE: 1 / 12, FRIDAY: 2 };  // (on a Friday, by your clock, he chalks twice as many)
 export const SPECIALS = [
   { id: 'trouble', name: 'Double Trouble', w: 1, mines: 1.5, risky: 2,
     blurb: 'Half as many mines again, but risky digs pay double and the limit’s doubled.' },

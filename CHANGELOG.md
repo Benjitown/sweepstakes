@@ -99,6 +99,7 @@ Each version is also a save in the built-in version control. Run `python tools/v
   the board goes bang, the landlord gives you half your stake back. **Last Orders**: ten digs and that's your lot (it
   cashes out after the tenth, and the chalk counts them down), but whenever it cashes out it's +50% on the profit.
   New achievements: Stay for One More, and Landlord's Favourite (cash out ahead under every one of his specials).
+  On a Friday (by your clock) he chalks twice as many, and the group chat knows it.
 - **Your best runs.** Stats keeps your top five runs by peak coins, for good: how long each lasted, how many boards,
   how it ended and when. A run in progress that would make the list says so, and the bust screen says where a run
   landed. New achievement: Personal Best.
