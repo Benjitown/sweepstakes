@@ -72,7 +72,9 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **The church fete: Splat the Rat.** Every so often the fete's on (Nan's on the cake stall). Three goes for 3% of
   your top table's max stake: pull the cord, and when the rat shoots out of the bottom of the drainpipe, splat it.
   Too early and it's still up the pipe; too slow and it's gone. One splat gets your money back, two pays ×3, all
-  three ×8. Walk off half-way and you're still paid for your splats. New achievement: Rat Catcher.
+  three ×8. Walk off half-way and you're still paid for your splats. New achievement: Rat Catcher. There's a
+  tombola too: tickets ending in 0 or 5 win a prize off the table (bubble bath, travel sweets, a jigsaw with two
+  pieces missing... or the star prize, a hamper). It's for the church roof, so it pays back about two thirds.
 - **Penny for the Guy.** In Bonfire week, half the knocks at the door are two kids with a Guy in a wheelbarrow. Give
   them a quid (what a bag of sweets costs at Halloween) and they hand you a lit sparkler: your next board's golden.
   No change, and they let a banger off on the step: there goes your streak.

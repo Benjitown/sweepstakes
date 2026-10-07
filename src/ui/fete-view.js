@@ -3,8 +3,8 @@
 import { $, fmt, rnd } from '../core/util.js';
 import { S } from '../core/state.js';
 import { FETE } from '../data/fete.js';
-import { FETE_SAYS, FETE_RESULT } from '../content/fete.js';
-import { Fete } from '../game/fete.js';
+import { FETE_SAYS, FETE_RESULT, TOMBOLA_PRIZES } from '../content/fete.js';
+import { Fete, Tombola } from '../game/fete.js';
 import { Game } from '../game/game.js';
 import { Sound } from '../audio/sound.js';
 import { UI } from './ui.js';
@@ -30,7 +30,7 @@ export const FeteView = {
   invite() {
     HouseholdView.show({ icon: 'bell', mood: 'good', title: 'The church fete', ms: 15000,
       text: `Bunting up, Nan on the cake stall, and Splat the Rat by the tombola. Three goes for ${fmt(Fete.fee())}.`,
-      buttons: [['Have a go', 'gold', () => this.open()], ['Not today', 'ghost']] });
+      buttons: [['Splat the Rat', 'gold', () => this.open()], ['Tombola', 'blue', () => this.tombola()], ['Not today', 'ghost']] });
   },
   open() {
     clearTimeout(this.t); this.phase = 'idle';
@@ -86,6 +86,26 @@ export const FeteView = {
     if (r && r.done) { this.say(`${rnd(FETE_SAYS[how])} ${FETE_RESULT[Math.min(r.hits, FETE_RESULT.length - 1)]}${r.pay ? ` +${fmt(r.pay)}` : ''}`); Game.setCoins(S.coins, r.pay > 0); }
     this.render(); const go = $('#splatGo'); if (go && !go.disabled) go.focus({ preventScroll: true });
   },
+  // the tombola: a ticket out of the drum
+  tombola() {
+    UI.modal(`<div class="fete tombola"><h3>The tombola</h3>
+      <p class="hint">Every ticket ending in 0 or 5 wins a prize off the table. It’s all for the church roof.</p>
+      <div class="drum" id="tomDrum" aria-hidden="true"><i></i><i></i><i></i></div>
+      <p class="ticket num" id="tomTicket">?</p>
+      <p class="splatmsg" id="tomMsg" aria-live="polite">Pick a ticket, any ticket.</p>
+      <div class="row"><button class="btn gold big" type="button" id="tomBuy">A ticket (${fmt(Tombola.price())})</button><button class="btn ghost" type="button" data-a="close">Leave</button></div></div>`,
+      { close: () => UI.closeModal() });
+    $('#tomBuy').onclick = () => this.draw();
+  },
+  draw() {
+    const r = Tombola.buy(); if (!r) return this.sayT('You can’t afford a ticket. The vicar looks disappointed.');
+    Game.setCoins(S.coins, r.pay > 0);
+    const t = $('#tomTicket'); if (t) { t.textContent = String(r.n).padStart(3, '0'); t.classList.remove('win', 'pop'); void t.offsetWidth; t.classList.add('pop'); t.classList.toggle('win', !!r.prize); }
+    const d = $('#tomDrum'); if (d) { d.classList.remove('spin'); void d.offsetWidth; d.classList.add('spin'); }
+    this.sayT(r.prize ? `Ends in ${r.n % 10}! ${TOMBOLA_PRIZES[r.prize]} Worth ${fmt(r.pay)}.` : `Ends in ${r.n % 10}. Not a winner.`);
+    if (r.prize) Sound.coin(); else Sound.unflag();
+  },
+  sayT(t) { const el = $('#tomMsg'); if (el) el.textContent = t; },
   // walking off pays for your splats so far
   leave() {
     clearTimeout(this.t); this.phase = 'idle';

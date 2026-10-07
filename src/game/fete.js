@@ -3,7 +3,7 @@
 // splat it as it shoots out of the bottom. Your goes live in S.splat, so leaving half-way still pays for your splats.
 import { bus } from '../core/bus.js';
 import { S, SaveGame, baseCap } from '../core/state.js';
-import { FETE } from '../data/fete.js';
+import { FETE, TOMBOLA } from '../data/fete.js';
 
 export const Fete = {
   timer: 0, rng: Math.random,
@@ -39,5 +39,22 @@ export const Fete = {
     const L = S.life.fete = S.life.fete || { goes: 0, best: 0 }; L.goes++; L.best = Math.max(L.best, st.hits);
     SaveGame.saveNow(); bus.emit('fete:done', { hits: st.hits, pay, fee: st.fee });
     return { hits: st.hits, pay, fee: st.fee, done: true };
+  },
+};
+
+// The tombola (the numbers are in src/data/fete.js): a ticket out of the drum; ending in 0 or 5, it wins a prize
+export const Tombola = {
+  rng: Math.random,
+  price: () => Math.max(2, Math.ceil(baseCap() * TOMBOLA.TICKET)),
+  buy() {
+    const price = this.price(); if (S.coins < price) return null;
+    const n = 1 + Math.floor(this.rng() * TOMBOLA.TICKETS), win = n % 5 === 0;
+    let prize = null;
+    if (win) { let x = this.rng() * TOMBOLA.PRIZES.reduce((t, p) => t + p.w, 0); prize = TOMBOLA.PRIZES.find(p => (x -= p.w) <= 0) || TOMBOLA.PRIZES[0]; }
+    const pay = prize ? price * prize.x : 0;
+    S.coins += pay - price;
+    const L = S.life.tombola = S.life.tombola || { tickets: 0, prizes: 0 }; L.tickets++; if (prize) L.prizes++;
+    SaveGame.saveNow(); bus.emit('tombola', { n, prize: prize && prize.id, pay, price });
+    return { n, prize: prize && prize.id, pay, price };
   },
 };
