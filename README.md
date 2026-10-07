@@ -63,7 +63,8 @@ src/
                     dares from the group chat, the seasons (Easter, Halloween, Bonfire Night, Christmas), the claw machine, the car
                     boot sale, darts with Big Dave, quiz night, board styles, the allotment, The Daily Sweep (the paper)
                     and its Sweepstake (a lottery), karaoke at the Red Lion, the landlord's specials, Sunday dinner
-                    at Nan's, the church fete (Splat the Rat), conkers with Priya
+                    at Nan's, the church fete (Splat the Rat and the tombola), conkers with Priya, record requests,
+                    your best runs
   ui/               one file per view: panels, boards, shop, modals, tutorial, daily, keys, coin graph, household, ducks...
 assets/             fonts (+ OFL licence) and the favicon
 tools/              build.py, serve.py, vc.py (version control), export_rules.mjs, sim/ (economy, Fruity and KEVCOIN simulators)
