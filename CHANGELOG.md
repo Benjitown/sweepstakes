@@ -103,7 +103,8 @@ Each version is also a save in the built-in version control. Run `python tools/v
   your best run yet.
 - **Fixed:** the Stats badge you tapped kept losing its caption when the tab redrew (every five seconds), and with
   every chip showing at once the phone header lost Nan's roast off the bottom (those chips are an icon and a count
-  on a phone now). Stats' house rules cover everything new.
+  on a phone now). Stats' house rules cover everything new, and tapping the landlord's chalk on a board says what
+  the special does (there's no hovering on a phone).
 - **The landlord's specials.** About one dealt board in twelve (never a golden one, never the Daily) comes with a
   twist chalked on it, for that board only: **Double Trouble** (half as many mines again, but risky digs pay double
   and the limit's doubled), **Gem Rush** (two extra gems) or **Against the Clock** (forty seconds from your first dig:
