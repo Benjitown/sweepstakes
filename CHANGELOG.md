@@ -58,6 +58,9 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **Biscuit, next door's dog.** If you hear barking, he trots in along the bottom of the screen and waits ("Woof?").
   Give him a biscuit (3% of the top table's max stake) and he sniffs out a mine on your board and sits on it: flagged,
   glowing orange for a moment. Ignore him and he wanders off. New achievement: Good Boy.
+- **More callers:** a parcel for next door (they bring round shortbread), a man selling double glazing, the milkman
+  (gold tops: your next board's golden), the window cleaner, an automated voice about your accident, your mum, and
+  the doctor's surgery ringing back.
 - **The Daily Sweep covers the new bits:** a Lock-in sat out, Happy Hour softening a bang, beating the clock and
   Sunday dinner at Nan's all make the paper.
 - **Sunday dinner at Nan's.** On a Sunday, a little way into playing, Nan asks you round for your dinner (once a
