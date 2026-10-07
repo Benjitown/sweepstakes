@@ -59,6 +59,9 @@ export const SMALL_ADS = [
   'FOUND: one seagull. Not ours. Please collect.', 'FOR HIRE: Biscuit (dog). Finds mines. Paid in biscuits.',
   'PIANO LESSONS on the Red Lion’s old upright. Slightly out of tune, as is the teacher.', 'CAR BOOT: Sunday, end of the road. Haggling encouraged, mostly.',
   'FOR SALE: claw machine prize (crown). Slippery.', 'QUIZ NIGHT: Thursdays. Priya hosts. No phones. She will check.',
+  'CHURCH FETE: Saturday. Cake stall, tombola, Splat the Rat. The rat is a sock.', 'WANTED: vinegar, lots, no questions asked. (P.)',
+  'LOST: one conker, a sixer, last seen in bits. Sentimental value. (P.)', 'FOR SALE: double glazing. Also, apparently, your windows are fine.',
+  'LATE-NIGHT KEBABS: open till 4. Ask for the Kev Special. Don’t ask what’s in it.', 'THANK YOU to whoever took in our parcel. Shortbread on its way. (No. 12)',
 ];
 export const PAPER_WEATHER = {
   storm: 'Thunderstorms, clearing later. Chance of a rainbow: about even.', halloween: 'Foggy evenings, with trick or treaters.',
