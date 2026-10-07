@@ -88,6 +88,15 @@ async def run(browser, url, shots):
     await pg.evaluate("(() => { __sw.Seasons.force = 'none'; __sw.Music.play('lounge'); __sw.JukeboxView.open(); })()"); await pg.wait_for_timeout(300)
     ok(await pg.evaluate("!document.querySelector('#modalBox .jrec[data-rec=\"haunted\"]') && !document.querySelector('#modalBox .jrec[data-rec=\"xmas\"]') && __sw.Music.pick() === 'lounge'"), 'out of season, they’re gone')
 
+    # --- a request in the group chat: put it on, get a tip
+    await pg.evaluate("__sw.UI.closeModal()")
+    c0 = await pg.evaluate('__sw.S.coins')
+    o = await pg.evaluate("(() => { const o = __sw.Requests.make(); __sw.JukeboxView.request(o); return o; })()")
+    await pg.evaluate("[...document.querySelectorAll('#chat .juke-request')].pop().querySelector('[data-a=\"on\"]').click()"); await pg.wait_for_timeout(600)
+    st = await pg.evaluate(STATE)
+    ok(o and o['id'] != 'shuffle' and st['id'] == o['id'] and await pg.evaluate('__sw.S.coins') == c0 + o['tip'], f'a request in the group chat: {o["who"]} asks for {o["id"]}, it goes on, and a tip of {o["tip"]}')
+    await pg.evaluate("__sw.JukeboxView.open()"); await pg.wait_for_timeout(200)
+
     # --- switching it off and on
     await pg.click('#jukeOff'); await pg.wait_for_timeout(300)
     st = await pg.evaluate(STATE)

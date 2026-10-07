@@ -1,9 +1,12 @@
 // The jukebox (the button by the mute button, or J): put a record on, shuffle them, turn it down or switch it off.
 // src/audio/music.js plays them; the notes are in src/data/jukebox.js and the records' names in src/content/jukebox.js.
-import { $, $$, esc, fmt } from '../core/util.js';
+import { $, $$, esc, fmt, rnd } from '../core/util.js';
 import { S, SaveGame, pref } from '../core/state.js';
-import { MUSIC, TRACKS } from '../data/jukebox.js';
-import { RECORDS, SHUFFLE } from '../content/jukebox.js';
+import { TRACKS } from '../data/jukebox.js';
+import { RECORDS, SHUFFLE, REQUEST_LINES } from '../content/jukebox.js';
+import { MUSIC, REQUESTS } from '../data/jukebox.js';
+import { FRIENDS } from '../content/chat-lines.js';
+import { Game } from '../game/game.js';
 import { Sound } from '../audio/sound.js';
 import { Music } from '../audio/music.js';
 import { AudioEngine } from '../audio/engine.js';
@@ -43,8 +46,8 @@ export const JukeboxView = {
   },
   live() { return !!$('#jukeNow', UI.el.box); },
   // put a record on (and someone in the chat has an opinion about it)
-  choose(id) {
-    const changed = id !== S.track || !pref('music');
+  choose(id, quiet = false) {
+    const changed = !quiet && (id !== S.track || !pref('music'));
     S.music = true; Music.play(id); SaveGame.saveNow(); Sound.select(1); this.now();
     if (changed && RECORDS[id]) setTimeout(() => Chat.say('juke_' + id, {}, .8), 900);
   },
@@ -59,6 +62,25 @@ export const JukeboxView = {
     el.hidden = !r;
     if (r) { el.innerHTML = `<svg aria-hidden="true"><use href="#i-juke"/></svg><span>${esc(r.name)}</span>`; el.title = `Now playing: ${r.name} by ${r.by}. Tap for the jukebox.`; el.setAttribute('aria-label', el.title); }
   },
+  // a request in the group chat: put the record on and they tip you
+  request(o) {
+    const f = FRIENDS[o.who], r = RECORDS[o.id], chat = $('#chat'); if (!f || !r || !chat) return;
+    chat.insertAdjacentHTML('beforeend', `<div class="msg invite juke-request">${Chat.avatar(f)}<div class="bubble" style="--fc:${f.col}"><b>${esc(f.name)}</b>
+      <span>${esc(rnd(REQUEST_LINES[o.who]).replace('{name}', r.name))}</span>
+      <div class="qopts"><button type="button" class="qopt" data-a="on"><svg class="ic" aria-hidden="true"><use href="#i-juke"/></svg> Put it on</button><button type="button" class="qopt" data-a="no">Not now</button></div>
+      <small class="qprize">${esc(f.name.split(' ')[0])} will tip you ${fmt(o.tip)}</small></div></div>`);
+    while (chat.children.length > 40) chat.firstChild.remove();
+    chat.scrollTop = chat.scrollHeight; Sound.msg();
+    const el = chat.lastElementChild, settle = how => { clearTimeout(this.expire); $$('.qopt', el).forEach(b => { b.disabled = true; if (b.dataset.a === how) b.classList.add('right'); }); };
+    $('[data-a="on"]', el).onclick = () => {
+      settle('on'); this.choose(o.id, true); Game.setCoins(S.coins + o.tip, true);
+      UI.toast(`${f.name} tipped you ${fmt(o.tip)} for putting ${r.name} on.`);
+      setTimeout(() => Chat.post(o.who, o.who === 'nan' ? 'Thank you, love. That’s made my day x' : rnd(['legend', 'TUNE', 'you’re a good egg. drinks on me'])), 700);
+    };
+    $('[data-a="no"]', el).onclick = () => { settle('no'); setTimeout(() => Chat.post(o.who, o.who === 'nan' ? 'Maybe later, love x' : rnd(['fine. I’ll hum it', 'your loss. it’s a banger'])), 600); };
+    clearTimeout(this.expire); this.expire = setTimeout(() => settle(''), REQUESTS.ANSWER * 1000);
+  },
+  expire: 0,
   // what's on, or why nothing is
   now() {
     if (!this.live()) return;
