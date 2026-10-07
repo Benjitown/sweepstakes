@@ -58,7 +58,8 @@ src/
                     the Fruity (fruit machine), the pub quiz, going outside, KEVCOIN, Nan's stars, Nan's biscuit tin,
                     dares from the group chat, the seasons (Halloween, Bonfire Night, Christmas), the claw machine, the car
                     boot sale, darts with Big Dave, quiz night, board styles, the allotment, The Daily Sweep (the paper)
-                    and its Sweepstake (a lottery), karaoke at the Red Lion
+                    and its Sweepstake (a lottery), karaoke at the Red Lion, the landlord's specials, Sunday dinner
+                    at Nan's
   ui/               one file per view: panels, boards, shop, modals, tutorial, daily, keys, coin graph, household, ducks...
 assets/             fonts (+ OFL licence) and the favicon
 tools/              build.py, serve.py, vc.py (version control), export_rules.mjs, sim/ (economy, Fruity and KEVCOIN simulators)
@@ -98,8 +99,9 @@ The suites run against both the ES-module source and the built file:
   relaunch, and a seeded check that holding it loses money), the ice cream van (a cone, the sugar rush) and Nan's
   stars (the daily reading, the lucky number), the Banker (deal, no deal, beating his offer) and Biscuit the dog
 - **nan:** Nan is always kind (every line of hers signs off with a kiss, she's never in the rude chat, she never swears
-  and nobody has a go at her) and her biscuit tin (filling it, the cap, handing it over when you go bust, keeping it
-  when you start a fresh run yourself)
+  and nobody has a go at her), her biscuit tin (filling it, the cap, handing it over when you go bust, keeping it
+  when you start a fresh run yourself) and Sunday dinner at hers (only on a Sunday and once a day, going round, the
+  roast on a winning cash-out, the plate she keeps warm, Stats)
 - **antics:** dares from the group chat (the offer, You're on, Nah, no answer, the clock in the header and when it
   stops, doing it in time, running out of time, each dare's rule, the switch) and the seasons (the calendar, Halloween's
   pumpkins, bats and trick or treaters, Bonfire Night's fireworks, Christmas snow and Nan's card), the claw machine
@@ -113,6 +115,9 @@ The suites run against both the ES-module source and the built file:
 - **paper:** The Daily Sweep: the newsroom noting the run's big moments, the paper arriving, the front page (the
   biggest story leads), Spot the Mine (one or two certain mines; right pays once), the Sweepstake (Lucky Dip lines,
   the draw, the payouts, about half back), a quiet run, the bust screen's special edition, Stats and the phone
+- **specials:** the landlord's specials: how often (about 1 in 12, never golden), Double Trouble's mines, limit and
+  risky digs, Gem Rush's gems, Against the Clock's countdown, bonus and cash-out, the Lock-in's locked doors and
+  doubled profit (and no Banker), Happy Hour's half stake back, surviving a reload, and the phone
 - **karaoke:** the notes timed to the record (swing and all), the scoring (great, good, missed, bum notes), a standing
   ovation and what it pays, the machine's rest, being booed off, singing with the sound muted, and the phone
 - **jukebox:** the records (every note a real note that fits its bar), putting one on, every record playing, shuffle,

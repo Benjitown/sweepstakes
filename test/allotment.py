@@ -93,6 +93,22 @@ async def run(browser, url, shots):
     ok(r['pay'] == round(paid * 3.4 * 1.05 * 1.3), f'October pumpkins fetch 30% more ({r["pay"]} for {paid} of seeds)')
     await pg.evaluate("(() => { __sw.Seasons.force = 'none'; __sw.Allotment.rng = Math.random; })()")
 
+    # --- the shed: a greenhouse, beer traps, two more beds
+    await pg.evaluate("(() => { __sw.S.coins = 500000; __sw.S.plot = []; __sw.renderAll(); __sw.AllotmentView.render(); })()")
+    costs = await pg.evaluate("Object.fromEntries(['greenhouse', 'traps', 'beds'].map(k => [k, __sw.Allotment.shedCost(k)]))")
+    c5 = await pg.evaluate('__sw.S.coins')
+    for k in ('greenhouse', 'traps', 'beds'):
+        await pg.click(f'#plot [data-shed="{k}"]'); await pg.wait_for_timeout(150)
+    st = await pg.evaluate("({ coins: __sw.S.coins, beds: document.querySelectorAll('#plot .bed').length, done: document.querySelectorAll('#plot .shedx.own').length, size: __sw.Allotment.size() })")
+    ok(st['coins'] == c5 - sum(costs.values()) and st['beds'] == 6 and st['size'] == 6 and st['done'] == 3, f'the shed: all three bought for {sum(costs.values())}, and there are six beds now')
+    await pg.evaluate("__sw.Allotment.plant('radish', 0)")
+    ok(await pg.evaluate("__sw.Allotment.left(0)") in (96, 95), 'under glass, radishes take 96 seconds instead of 120')
+    await pg.evaluate("(() => { __sw.Allotment.rng = () => .005; __sw.Allotment.slugs(); __sw.Allotment.rng = Math.random; })()")
+    ok(await pg.evaluate("!!__sw.S.plot[0]"), 'with beer traps down, a slug roll that would have got it doesn’t')
+    await pg.evaluate("(() => { for (let k = 1; k < 6; k++) __sw.Allotment.plant('radish', k); })()")
+    await pg.evaluate("document.querySelector('#plot .seed[data-seed=\"carrot\"]').click()"); await pg.wait_for_timeout(150)
+    ok('All six beds are planted' in await pg.evaluate(TOASTS), 'all six beds full: the packets say so')
+
     # --- the 4 key, Stats, a fresh run
     await pg.click('[data-tab="shop"]'); await pg.wait_for_timeout(100)
     await pg.keyboard.press('4'); await pg.wait_for_timeout(200)
@@ -101,7 +117,7 @@ async def run(browser, url, shots):
     txt = await pg.evaluate("document.getElementById('stats').textContent")
     ok('The allotment3 picked' in txt and 'rosette' in txt, 'Stats: what you’ve picked, and your rosette')
     await pg.evaluate("(() => { __sw.Allotment.plant('radish', 0); __sw.Game.resetRun(); })()"); await pg.wait_for_timeout(200)
-    ok(await pg.evaluate("__sw.S.plot.every(b => !b) && __sw.S.life.plot.picked === 3"), 'a fresh run: empty beds, but your all-time numbers stay')
+    ok(await pg.evaluate("__sw.S.plot.every(b => !b) && __sw.S.life.plot.picked === 3 && __sw.Allotment.size() === 4"), 'a fresh run: four empty beds and an empty shed, but your all-time numbers stay')
 
     # --- the phone: the beds and packets fit
     pctx, pp, perrs = await open_page(browser, url, width=360, height=780, mobile=True, wait=1200)

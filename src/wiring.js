@@ -68,6 +68,11 @@ import { SeasonView } from './ui/season-view.js';
 import { PUMPKIN } from './data/seasons.js';
 import { TREAT_CARD, EGGED_CARD } from './content/seasons.js';
 import { Music } from './audio/music.js';
+import { SPECIAL_BY } from './data/specials.js';
+import { Specials } from './game/specials.js';
+import { Requests } from './game/requests.js';
+import { Sunday } from './game/sunday.js';
+import { SundayView } from './ui/sunday-view.js';
 import { TRACKS } from './data/jukebox.js';
 import { JukeboxView } from './ui/jukebox-view.js';
 import { Karaoke } from './game/karaoke.js';
@@ -273,7 +278,7 @@ bus.on('icecream', ({ sugar }) => {
   UI.toast(`A cone with sprinkles. Sugar rush: +${Math.round(IceCream.RUSH * 100)}% on your next winning cash-out${sugar > 1 ? ` (and the one after${sugar > 2 ? 's' : ''})` : ''}.`);
   setTimeout(() => Chat.say('icecream_bought', {}, .8), 900);
 });
-bus.on('addon:fired', ({ id }) => { if (id === 'sugar') RunPanel.render(); });
+bus.on('addon:fired', ({ id }) => { if (id === 'sugar' || id === 'roast') RunPanel.render(); });
 
 /* ---------- KEVCOIN: Kev's coin, in the chat ---------- */
 bus.on('kev:launch', () => { KevView.ticker(); Chat.say('kev_launch', {}, 1); setTimeout(() => Chat.say('kev_launch_re', {}, 1), 2600); });
@@ -362,6 +367,11 @@ bus.on('pumpkin', ({ b, i }) => {
   BoardsView.cell(b, i); BoardsView.float(b, i, `PUMPKIN ×${PUMPKIN.X}`, 'var(--orange)', true); BoardsView.hud(b);
   Sound.gem('ruby'); Haptics.buzz([15, 25, 15]); Chat.say('pumpkin', {}, .6);
 });
+bus.on('ghost', ({ b, i, mine }) => {
+  SeasonView.ghost(b, i); BoardsView.float(b, i, mine >= 0 ? 'BOO! It points at a mine' : 'BOO!', 'var(--purple)', true); Sound.ghost();
+  if (mine >= 0) BoardsView.cell(b, mine); Haptics.buzz([20, 40, 20]); News.note('ghost');
+  setTimeout(() => Chat.say('ghost', {}, .7), 900);
+});
 bus.on('treat', () => {
   HouseholdView.show({ ...TREAT_CARD, buttons: [['Aww', 'green']] }); RunPanel.render(); Sound.buy();
   setTimeout(() => Chat.say('treat', {}, .9), 900);
@@ -404,6 +414,7 @@ bus.on('plot:picked', r => {
 bus.on('plot:slugs', ({ id }) => { UI.toast(`Slugs got your ${VEG[id].veg}.`); AllotmentView.render(); setTimeout(() => Chat.say('plot_slugs', {}, 1), 900); });
 bus.on('plot:rain', () => { AllotmentView.render(); UI.toast('The rain’s watered your allotment: everything’s two minutes closer.'); setTimeout(() => Chat.say('plot_rain', {}, .5), 2400); });
 bus.on('storm', e => { if (!e.on) setTimeout(() => Allotment.rain(), 1200); });
+bus.on('plot:shed', ({ id }) => { Sound.buy(); AllotmentView.render(); UI.toast({ greenhouse: 'A greenhouse: everything grows 20% quicker.', traps: 'Beer traps down. The slugs have other plans now.', beds: 'Brambles cleared: two more beds.' }[id]); setTimeout(() => Chat.say('plot_' + id, {}, .8), 900); });
 bus.on('reset', () => { AllotmentView.chip(); if (AllotmentView.showing()) AllotmentView.render(); });
 
 /* ---------- The Daily Sweep: the newsroom notes the run's big moments; the paper comes every twenty minutes ---------- */
@@ -458,7 +469,27 @@ bus.on('karaoke:done', r => {
   if (r.x >= 3) News.note('karaoke_ovation', { score: Math.round(r.score * 100) }); else if (!r.x) News.note('karaoke_booed', { score: Math.round(r.score * 100) });
 });
 
+/* ---------- the landlord's specials: a twist chalked on a board now and then ---------- */
+bus.on('board:dealt', ({ b, quiet }) => {
+  if (!b.special) return;
+  const sp = SPECIAL_BY[b.special];
+  if (!quiet) UI.toast(`The landlord’s special on ${b.t.name}: ${sp.name}. ${sp.blurb}`);
+  setTimeout(() => Chat.say('special_' + b.special, {}, .5), 900);
+});
+bus.on('tick', () => Game.slots.forEach(b => { // Against the Clock: the countdown, and the cash-out when it's up
+  if (!b || b.over || b.special !== 'clock') return;
+  const l = Specials.left(b); if (l === 0) Game.cashOut(b, 'clock'); else if (l !== null) BoardsView.hud(b);
+}));
+bus.on('board:cashout', ({ b, why, profit }) => { if (b.special === 'clock' && b.human) setTimeout(() => Chat.say(why === 'clock' ? 'special_late' : profit > 0 ? 'special_beat' : '_', {}, .7), 800); });
+bus.on('special:locked', ({ b }) => { Sound.tick(); UI.toast(`The doors are locked on ${b.t.name}. Dig ${Specials.toGo(b)} more and the landlord will let you out.`); });
+bus.on('special:open', ({ b }) => { Sound.select(1); UI.toast(`The doors are open on ${b.t.name}. Cash out whenever you like: the profit’s doubled.`); setTimeout(() => Chat.say('special_open', {}, .6), 700); });
+bus.on('board:boom', ({ b, back }) => { if (!back) return; UI.toast(`Happy Hour: the landlord’s given you ${fmt(back)} back on ${b.t.name}.`); setTimeout(() => Chat.say('special_happy_back', {}, .7), 1500); });
+
 /* ---------- the jukebox (the Halloween record's only on it in October) ---------- */
+bus.on('request:due', () => { // someone asks for a record (only while the jukebox is playing)
+  if (!pref('music') || !Music.timer || document.hidden || !UI.modalClosed() || Coach.active || Outside.on) return;
+  const o = Requests.make(); if (o) JukeboxView.request(o);
+});
 Music.available = () => TRACKS.filter(t => !t.season || Seasons.is(t.season));
 bus.on('bust', () => Music.scratch()); // the needle comes off the record
 bus.on('board:boom', ({ b, src }) => { if (src !== 'bot' && b.stake >= Math.max(500, S.coins * .25)) Music.scratch(); });
@@ -551,3 +582,11 @@ bus.on('daily:done', ({ b, why, i, result, top }) => {
   TablesView.render();
   setTimeout(() => { if (!UI.modalClosed() && b.el && b.el.isConnected) DailyView.results(); }, 1700);
 });
+
+/* ---------- Sunday dinner at Nan's (once on a Sunday) ---------- */
+bus.on('sunday:due', () => {
+  if (!Sunday.today() || Sunday.asked()) return;
+  if (document.hidden || !UI.modalClosed() || Coach.active || Outside.on) return Sunday.later(); // she'll ask in a minute
+  Sunday.ask(); SundayView.invite();
+});
+bus.on('sunday', ({ went }) => { RunPanel.render(); if (went) setTimeout(() => Chat.say('sunday_went', {}, .8), 2600); });

@@ -3,12 +3,16 @@
 import { nice } from '../core/util.js';
 import { bus } from '../core/bus.js';
 import { S, SaveGame, baseCap } from '../core/state.js';
-import { PLOT, CROP_BY } from '../data/allotment.js';
+import { PLOT, CROP_BY, SHED_BY } from '../data/allotment.js';
 import { Game } from './game.js';
 import { Seasons } from './seasons.js';
 
 const plotLife = () => (S.life.plot = S.life.plot || { picked: 0, rosettes: 0, best: 0, bestId: '', slugs: 0, earned: 0 });
-const plotBeds = () => { if (!Array.isArray(S.plot)) S.plot = []; while (S.plot.length < PLOT.BEDS) S.plot.push(null); return S.plot; };
+const shed = id => !!(S.plotUp && S.plotUp[id]);
+const plotSize = () => PLOT.BEDS + (shed('beds') ? SHED_BY.beds.beds : 0);
+const plotBeds = () => { if (!Array.isArray(S.plot)) S.plot = []; while (S.plot.length < plotSize()) S.plot.push(null); return S.plot; };
+// seconds of play a crop needs (a greenhouse brings everything on)
+const needOf = c => c.mins * 60 * (shed('greenhouse') ? SHED_BY.greenhouse.faster : 1);
 
 export const Allotment = {
   rng: Math.random,
@@ -16,8 +20,18 @@ export const Allotment = {
   // a packet of seeds
   cost: id => nice(Math.max(5, baseCap() * CROP_BY[id].share)),
   // seconds of play until bed k is ripe (0 = ripe; null = nothing in it), and how far along it is (0 to 1)
-  left(k) { const b = plotBeds()[k]; return b ? Math.max(0, Math.ceil(CROP_BY[b.c].mins * 60 - (S.run.time - b.at) - (b.rain || 0))) : null; },
-  grown(k) { const b = plotBeds()[k]; return b ? 1 - this.left(k) / (CROP_BY[b.c].mins * 60) : 0; },
+  left(k) { const b = plotBeds()[k]; return b ? Math.max(0, Math.ceil(needOf(CROP_BY[b.c]) - (S.run.time - b.at) - (b.rain || 0))) : null; },
+  grown(k) { const b = plotBeds()[k]; return b ? 1 - this.left(k) / needOf(CROP_BY[b.c]) : 0; },
+  size: plotSize,
+  has: shed,
+  // the shed: a one-off buy for this run's allotment
+  shedCost: id => nice(Math.max(20, baseCap() * SHED_BY[id].share)),
+  buy(id) {
+    const x = SHED_BY[id], cost = x && this.shedCost(id);
+    if (!x || shed(id) || S.coins < cost) return false;
+    Game.setCoins(S.coins - cost); S.plotUp = { ...(S.plotUp || {}), [id]: true }; plotBeds();
+    SaveGame.saveNow(); bus.emit('plot:shed', { id, cost }); return true;
+  },
   ripe(k) { return this.left(k) === 0; },
   anyRipe() { return plotBeds().some((b, k) => b && this.ripe(k)); },
   free: () => plotBeds().indexOf(null),
@@ -50,7 +64,7 @@ export const Allotment = {
   },
   slugs() {
     plotBeds().forEach((b, k) => {
-      if (!b || this.ripe(k) || this.rng() >= PLOT.SLUGS) return;
+      if (!b || this.ripe(k) || this.rng() >= PLOT.SLUGS * (shed('traps') ? SHED_BY.traps.slugs : 1)) return;
       plotBeds()[k] = null; plotLife().slugs++; SaveGame.save(); bus.emit('plot:slugs', { k, id: b.c });
     });
   },

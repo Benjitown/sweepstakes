@@ -1,6 +1,8 @@
 // The jukebox's tracks, written out note by note (src/audio/music.js plays them; their names are in src/content/jukebox.js).
 // Each track loops a few bars. Per bar: the chords (one, or two that split the bar), the bass (spread evenly over
 // the bar, _ is a rest), and the tune as [step, note, steps long]. A step is a beat / sub; swing pushes the off-beats late.
+// requests: now and then someone in the group chat asks for a record, and tips you if you put it on
+export const REQUESTS = { EVERY: [360, 720], ANSWER: 45, TIP: .02 };
 export const MUSIC = {
   LEVEL: .5,          // the music under everything else, at 100% on its slider
   VOL: .6,            // where the Music slider starts

@@ -62,6 +62,7 @@ export const RunPanel = {
     chip('#ascBadge', asc() > 0, `Ascension ${ROMAN[asc()]}`, ROMAN[asc()] || '');
     chip('#goldChip', S.goldNext > 0, `${S.goldNext} golden next`, `${S.goldNext}`);
     chip('#sugarChip', S.sugar > 0, `Sugar rush${S.sugar > 1 ? ' ×' + S.sugar : ''} · +25%`, '+25%');
+    chip('#roastChip', S.roast > 0, `Nan’s roast${S.roast > 1 ? ' ×' + S.roast : ''} · +15%`, '+15%');
     const busy = Game.slots.some(Boolean), don = $('#btnDon');
     don.disabled = busy || S.coins < 20;
     don.title = busy ? 'Finish or cash out your boards first' : S.coins < 20 ? 'Need at least 20 coins' : 'Stake everything you have';

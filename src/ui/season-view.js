@@ -44,6 +44,15 @@ export const SeasonView = {
   },
   bats() { if (!Seasons.is('halloween')) return; if (!document.hidden) this.bat(); this.batT = setTimeout(() => this.bats(), 30000 + Math.random() * 50000); },
   // fireworks: bursts in the sky, and the whizz and bang
+  // Halloween's friendly ghost rises out of the tile it was under and drifts off
+  ghost(b, i) {
+    const wrap = b.el && b.el.querySelector('.gridwrap'), c = b.cells && b.cells[i]; if (!wrap || !c || reduced) return;
+    const w = wrap.getBoundingClientRect(), r = c.getBoundingClientRect(), g = document.createElement('i');
+    g.className = 'ghostfx'; g.setAttribute('aria-hidden', 'true');
+    g.style.left = (r.left - w.left + r.width / 2) + 'px'; g.style.top = (r.top - w.top + r.height / 2) + 'px';
+    g.innerHTML = '<svg viewBox="0 0 40 46"><path d="M4 22 Q4 3 20 3 Q36 3 36 22 V43 L30 38 L25 43 L20 38 L15 43 L10 38 L4 43 Z" fill="#f4f1fb" stroke="#141b1d" stroke-width="2.5" stroke-linejoin="round"/><ellipse cx="14" cy="19" rx="3" ry="4" fill="#141b1d"/><ellipse cx="26" cy="19" rx="3" ry="4" fill="#141b1d"/><ellipse cx="20" cy="29" rx="3.5" ry="4.5" fill="#141b1d"/></svg>';
+    wrap.appendChild(g); setTimeout(() => g.remove(), 1900);
+  },
   fireworks(n = 3) { FX.fireworks(n); WeirdNoises.play('firework'); },
   distant() { if (!Seasons.is('bonfire')) return; if (!document.hidden) { FX.fireworks(1); WeirdNoises.play('firework'); } this.fwT = setTimeout(() => this.distant(), 45000 + Math.random() * 60000); },
   // the trick: three eggs on the window, for a while

@@ -2,7 +2,7 @@
 // itself), the seed packets, and Pick when something's ripe. A chip in the header says when there's veg ready.
 import { $, $$, fmt, esc, clock } from '../core/util.js';
 import { S } from '../core/state.js';
-import { PLOT, CROPS } from '../data/allotment.js';
+import { CROPS, SHED } from '../data/allotment.js';
 import { VEG } from '../content/allotment.js';
 import { Allotment } from '../game/allotment.js';
 import { UI } from './ui.js';
@@ -31,21 +31,29 @@ export const AllotmentView = {
   sig: '',
   showing: () => { const el = $('#plot'); return !!el && !el.hidden; },
   // what the tab's drawn from: a bed changing stage, or a packet becoming affordable, means a redraw
-  signature: () => Allotment.beds().map((b, k) => b ? b.c + plotStage(k) : '-').join() + CROPS.map(c => +(S.coins >= Allotment.cost(c.id))).join(''),
+  signature: () => Allotment.beds().map((b, k) => b ? b.c + plotStage(k) : '-').join() + CROPS.map(c => +(S.coins >= Allotment.cost(c.id))).join('')
+    + SHED.map(x => `${+Allotment.has(x.id)}${+(S.coins >= Allotment.shedCost(x.id))}`).join(''),
   render() {
     const el = $('#plot'); if (!el) return;
     this.sig = this.signature();
     const beds = Allotment.beds(), used = beds.filter(Boolean).length, L = S.life.plot;
-    el.innerHTML = `<h2>The allotment <small>${used} of ${PLOT.BEDS} beds planted</small></h2>
+    el.innerHTML = `<h2>The allotment <small>${used} of ${beds.length} beds planted</small></h2>
       <p class="hint">Seeds grow while you play. Pick them when they’re ripe and the farm shop buys them, usually for a lot more than the seeds.</p>
       <div class="beds">${beds.map((b, k) => this.bed(b, k)).join('')}</div>
       <h3 class="seedh">Seeds <small>tap a packet to plant it</small></h3>
       <div class="seeds">${CROPS.map(c => { const cost = Allotment.cost(c.id), v = VEG[c.id];
-        return `<button type="button" class="seed" data-seed="${c.id}" ${S.coins < cost || used >= PLOT.BEDS ? 'aria-disabled="true"' : ''} title="${esc(v.blurb)}">${vegArt(c.id, 3)}
+        return `<button type="button" class="seed" data-seed="${c.id}" ${S.coins < cost || used >= beds.length ? 'aria-disabled="true"' : ''} title="${esc(v.blurb)}">${vegArt(c.id, 3)}
           <b>${esc(v.name)}</b><small>${c.mins} min → about ${fmt(Math.round(cost * c.x))}</small><span class="num">${fmt(cost)}</span></button>`; }).join('')}</div>
+      <h3 class="seedh">The shed <small>for this run’s plot</small></h3>
+      <div class="shed">${SHED.map(x => { const own = Allotment.has(x.id), cost = Allotment.shedCost(x.id);
+        return `<button type="button" class="shedx${own ? ' own' : ''}" data-shed="${x.id}" ${own || S.coins < cost ? 'aria-disabled="true"' : ''}><b>${esc(x.name)}</b><small>${esc(x.blurb)}</small><span class="num">${own ? 'Done' : fmt(cost)}</span></button>`; }).join('')}</div>
       <p class="plotlog">${L && L.picked ? `Picked ${L.picked} so far, for ${fmt(L.earned)} all told${L.rosettes ? `. ${L.rosettes} rosette${L.rosettes > 1 ? 's' : ''} from the village show` : ''}${L.slugs ? `. The slugs have had ${L.slugs}` : ''}.` : 'Nothing picked yet. Radishes are quick.'}</p>`;
     $$('#plot [data-pick]').forEach(b => b.onclick = () => Allotment.pick(+b.dataset.pick));
     $$('#plot [data-seed]').forEach(b => b.onclick = () => this.plant(b.dataset.seed));
+    $$('#plot [data-shed]').forEach(b => b.onclick = () => {
+      const id = b.dataset.shed; if (Allotment.has(id)) return;
+      if (!Allotment.buy(id)) UI.toast(`That’s ${fmt(Allotment.shedCost(id))}.`);
+    });
   },
   bed(b, k) {
     if (!b) return `<div class="bed empty" data-k="${k}"><svg class="vegart" viewBox="0 0 64 48" aria-hidden="true">${SOIL}</svg><b>Empty</b><small>Plant something below</small></div>`;
@@ -54,7 +62,7 @@ export const AllotmentView = {
     return `<div class="bed" data-k="${k}">${vegArt(b.c, plotStage(k))}<b>${esc(v.name)}</b><i class="grow"><b style="width:${(Allotment.grown(k) * 100).toFixed(1)}%"></b></i><small class="num">${clock(left)} to go</small></div>`;
   },
   plant(id) {
-    if (Allotment.free() < 0) return UI.toast('All four beds are planted. Pick something first.');
+    if (Allotment.free() < 0) return UI.toast(`All ${{ 4: 'four', 6: 'six' }[Allotment.size()] || Allotment.size()} beds are planted. Pick something first.`);
     const cost = Allotment.cost(id);
     if (S.coins < cost) return UI.toast(`A packet of ${VEG[id].veg} seeds costs ${fmt(cost)}.`);
     Allotment.plant(id);

@@ -3,6 +3,8 @@ import { fmt } from '../core/util.js';
 import { S, hasA } from '../core/state.js';
 import { PowerCut } from '../game/power-cut.js';
 import { IceCream } from '../game/ice-cream.js';
+import { SPECIAL_BY } from '../data/specials.js';
+import { SUNDAY } from '../data/sunday.js';
 
 /* =====================================================================================
    Decorator · https://refactoring.guru/design-patterns/decorator
@@ -51,8 +53,32 @@ class SugarPayout extends PayoutDecorator {
   }
 }
 // A board sold to the Banker (game/banker.js): its pot plus the premium he offered.
+// Sunday dinner at Nan's (game/sunday.js): full of roast, your next few winning cash-outs get +15% on the profit
+class RoastPayout extends PayoutDecorator {
+  pay(b, why) {
+    const r = super.pay(b, why), profit = r.amount - b.stake;
+    if (profit > 0 && S.roast > 0) { const e = Math.floor(profit * SUNDAY.BOOST); S.roast--; r.amount += e; r.extras.push(['roast', `Nan’s roast +${fmt(e)}`]); }
+    return r;
+  }
+}
 class BankerPayout extends PayoutDecorator {
   pay(b, why) { const r = super.pay(b, why); if (why === 'banker' && b.premium > 0) { r.amount += b.premium; r.extras.push(['banker', `The Banker +${fmt(b.premium)}`]); } return r; }
+}
+// Against the Clock (a landlord's special): cash out before the time's up and the profit gets +50%
+class ClockPayout extends PayoutDecorator {
+  pay(b, why) {
+    const r = super.pay(b, why), profit = r.amount - b.stake;
+    if (b.special === 'clock' && why !== 'clock' && profit > 0) { const e = Math.floor(profit * SPECIAL_BY.clock.bonus); r.amount += e; r.extras.push(['clock', `Beat the clock +${fmt(e)}`]); }
+    return r;
+  }
+}
+// The Lock-in (a landlord's special): stay till the doors open and the profit's doubled
+class LockinPayout extends PayoutDecorator {
+  pay(b, why) {
+    const r = super.pay(b, why), profit = r.amount - b.stake;
+    if (b.special === 'lockin' && profit > 0) { const e = Math.floor(profit * SPECIAL_BY.lockin.bonus); r.amount += e; r.extras.push(['lockin', `Lock-in +${fmt(e)}`]); }
+    return r;
+  }
 }
 export const HOUSE_EDGE = .25;
 const PAYOUT_DECORATORS = [['egg', NestEggPayout], ['flagfan', FlagFanaticPayout], ['compound', CompoundPayout], ['dinner', ChickenDinnerPayout]];
@@ -60,6 +86,9 @@ export const buildPayout = () => {
   let p = PAYOUT_DECORATORS.reduce((acc, [id, D]) => hasA(id) ? new D(acc) : acc, new Payout());
   if (S.life.casinos) p = new HouseEdgePayout(p);
   if (S.sugar > 0) p = new SugarPayout(p);
+  if (S.roast > 0) p = new RoastPayout(p);
   p = new BankerPayout(p);
+  p = new ClockPayout(p);
+  p = new LockinPayout(p);
   return PowerCut.on ? new DarkPayout(p) : p;
 };

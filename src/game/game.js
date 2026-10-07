@@ -20,6 +20,9 @@ import { Stars } from './horoscope.js';
 import { Tin } from './biscuit-tin.js';
 import { Seasons } from './seasons.js';
 import { PUMPKIN } from '../data/seasons.js';
+import { SPECIAL_BY } from '../data/specials.js';
+import { Specials } from './specials.js';
+import { Hall } from './hall.js';
 import { UI } from '../ui/ui.js';
 
 /* =====================================================================================
@@ -54,7 +57,7 @@ export const Game = {
     let golden = Math.random() < GOLDEN * (hasA('midas') ? 3 : 1);
     if (S.goldNext > 0) { S.goldNext--; golden = true; }
     S.run.boards++; S.life.boards++;
-    const b = boardFactory().create(slot, t, stake, golden);
+    const b = boardFactory().create(slot, t, stake, golden, Specials.roll(golden));
     this.slots[slot] = b;
     this.setCoins(S.coins - stake);
     bus.emit('board:dealt', { b, quiet, big: !quiet && stake >= Math.max(500, (S.coins + stake) * .4) });
@@ -71,7 +74,7 @@ export const Game = {
     if (src === 'you' || src === 'probe') b.human = true;
     if (!b.started) {
       b.placeMines(i); b.started = true; const opened = b.flood(i); b.base = b.revealed; b.t0 = Date.now();
-      b.placeGems(b.gemsTotal); b.pumpkin = Seasons.pumpkinFor(b);
+      b.placeGems(b.gemsTotal); b.pumpkin = Seasons.pumpkinFor(b); b.ghost = Seasons.ghostFor(b);
       bus.emit('board:cells', { b, cells: opened });
       this.tileAddons(b, i, opened, 0);
       bus.emit('dig', { b, i, src, risk: 0 });
@@ -87,6 +90,7 @@ export const Game = {
       let bonus = BOOST * (1 + .25 * asc()) * p / (1 - p);
       if (hasA('daredevil')) { bonus *= 1.3; bus.emit('addon:fired', { id: 'daredevil' }); }
       if (hasA('glass')) { bonus *= 2; bus.emit('addon:fired', { id: 'glass' }); }
+      if (b.special === 'trouble') bonus *= SPECIAL_BY.trouble.risky; // the landlord's special: risky digs pay double
       const k = 1 + bonus; b.G *= k; b.guesses++; b.combo++;
       bus.emit('board:risky', { b, i, k, p, src, combo: b.combo });
     }
@@ -114,6 +118,14 @@ export const Game = {
     if (hit !== undefined) { b.starred = true; fire('stars', hit, Stars.BONUS, `Written in the stars ×${Stars.BONUS}`); }
     // Halloween: this board's pumpkin, dug up (game/seasons.js)
     if (b.pumpkin >= 0 && opened.includes(b.pumpkin)) { const j = b.pumpkin; b.pumpkin = -1; b.pumpkinAt = j; b.G *= PUMPKIN.X; Seasons.found(b, j); }
+    // Halloween: the friendly ghost, dug up, points out a mine and it's flagged for you
+    if (b.ghost >= 0 && opened.includes(b.ghost)) {
+      const j = b.ghost, hid = []; b.ghost = -1;
+      for (let k = 0; k < b.n; k++) if (b.mine[k] && !b.flag[k] && !b.open[k]) hid.push(k);
+      const m = hid.length ? hid[Math.floor(Seasons.rng() * hid.length)] : -1;
+      if (m >= 0) this.toggleFlag(b, m, 'ghost');
+      Seasons.boo(b, j, m);
+    }
   },
   defuse(b, i, by) {
     b.flag[i] = 1; b.defused.add(i);
@@ -149,16 +161,23 @@ export const Game = {
       return this.cashOut(b, 'clear');
     }
     if (b.rawMult() >= b.lim) return this.cashOut(b, 'limit');
+    // The Lock-in (a landlord's special): half the board's dug, so the landlord unlocks the doors
+    if (b.special === 'lockin' && !b.doors && !Specials.locked(b)) { b.doors = true; bus.emit('special:open', { b }); }
     bus.emit('board:hud', { b }); SaveGame.save();
   },
   explode(b, i, src) {
     b.over = true; b.result = `Lost ${fmt(b.stake)}`; S.streak = 0; S.run.losses++;
-    bus.emit('board:boom', { b, i, src, left: b.safe - b.revealed, missed: b.hiddenGems() }); bus.emit('board:hud', { b }); bus.emit('coins', {});
+    // Happy Hour (a landlord's special): the landlord gives you half your stake back
+    const back = b.special === 'happy' ? Math.floor(b.stake * SPECIAL_BY.happy.back) : 0;
+    if (back) { b.result = `Lost ${fmt(b.stake - back)}`; this.setCoins(S.coins + back); }
+    bus.emit('board:boom', { b, i, src, left: b.safe - b.revealed, missed: b.hiddenGems(), back }); bus.emit('board:hud', { b }); bus.emit('coins', {});
     SaveGame.saveNow();
     setTimeout(() => this.endBoard(b), 1700);
   },
   cashOut(b, why = 'manual') {
     if (b.over || !b.started) return;
+    // The Lock-in: nobody leaves till half the board's dug (the board finishing, or hitting its limit, still pays)
+    if (Specials.locked(b) && (why === 'manual' || why === 'coward')) { if (why === 'manual') bus.emit('special:locked', { b }); return; }
     const { amount, extras } = buildPayout().pay(b, why);
     extras.forEach(([id, text]) => bus.emit('addon:fired', { id, b, i: null, text }));
     const profit = amount - b.stake, mult = b.mult();
@@ -259,9 +278,9 @@ export const Game = {
   },
 
   /* busting */
-  lastRun: null, lastTin: 0,
+  lastRun: null, lastTin: 0, lastPlace: 0, // lastPlace: where the run that just ended landed in your best five (0 if it didn't)
   bust(reason, deferModal) {
-    this.lastRun = { ...S.run, reason };
+    this.lastRun = { ...S.run, reason }; this.lastPlace = Hall.record(S.run, reason);
     S.life.busts++; S.life.time += S.run.time;
     this.slots.fill(null);
     setState(freshRun(S.life, { muted: S.muted, crt: pref('crt'), quips: pref('quips'), odd: pref('odd'), vibe: pref('vibe'), rude: pref('rude'), quiz: pref('quiz'), nanvoice: pref('nanvoice'), dares: pref('dares'), seasons: pref('seasons'), vol: S.vol, noiseVol: S.noiseVol, music: pref('music'), musicVol: S.musicVol, track: S.track }));

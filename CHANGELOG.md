@@ -58,6 +58,25 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **Biscuit, next door's dog.** If you hear barking, he trots in along the bottom of the screen and waits ("Woof?").
   Give him a biscuit (3% of the top table's max stake) and he sniffs out a mine on your board and sits on it: flagged,
   glowing orange for a moment. Ignore him and he wanders off. New achievement: Good Boy.
+- **Sunday dinner at Nan's.** On a Sunday, a little way into playing, Nan asks you round for your dinner (once a
+  day). Go round for a roast with all the trimmings and pudding after, and you're full of it: your next five winning
+  cash-outs get +15% on the profit. Can't make it? She keeps a plate warm for you anyway (two cash-outs' worth).
+  New achievement: Clean Plate.
+- **Two more landlord's specials.** **The Lock-in**: the doors are locked till half the board's dug, so there's no
+  cashing out before then (and the Banker can't get in), but stay for it and the profit's doubled. **Happy Hour**: if
+  the board goes bang, the landlord gives you half your stake back. New achievement: Stay for One More.
+- **Your best runs.** Stats keeps your top five runs by peak coins, for good: how long each lasted, how many boards,
+  how it ended and when. A run in progress that would make the list says so, and the bust screen says where a run
+  landed.
+- **A friendly ghost** at Halloween: one board in five hides one under a safe tile. Dig it up and it rises out of
+  the board, says boo, and points out a mine (flagged for you).
+- **A run card.** Stats has a Run card button: a picture of your run (peak coins, how long you lasted, boards, your
+  biggest win, rank and achievements) in the game's own colours, to download or copy into a chat.
+- **The landlord's specials.** About one dealt board in twelve (never a golden one, never the Daily) comes with a
+  twist chalked on it, for that board only: **Double Trouble** (half as many mines again, but risky digs pay double
+  and the limit's doubled), **Gem Rush** (two extra gems) or **Against the Clock** (forty seconds from your first dig:
+  cash out in time for +50% on the profit, or it cashes out for you without the bonus). The group chat has views.
+  New achievement: In the Nick of Time.
 - **More to talk about:** eight new group chat conversations (Dave's 4kg marrow, Kev's royalties, Nan's Wireless is her
   song) and nine more quiz questions.
 - **The Daily Sweep,** the local paper, written from your run. Every twenty minutes of play it comes through the
@@ -79,7 +98,8 @@ Each version is also a save in the built-in version control. Run `python tools/v
   seeds cost (a packet's price follows your top table's max stake), and the slower the crop, the better it pays by
   the minute. Slugs might get a crop that's still growing, a thunderstorm waters the lot (two minutes closer), one
   in twelve comes up a whopper (double, and a rosette at the village show), and in October pumpkins fetch 30% more.
-  Big Dave has the next plot, and has opinions about marrows.
+  Big Dave has the next plot, and has opinions about marrows. The shed has three buys for the run's plot: a
+  greenhouse (20% quicker), Kev's beer traps (three quarters fewer crops lost to slugs) and two more beds.
 - **Karaoke at the Red Lion,** from the jukebox. Sing Last Orders: the notes of the tune slide along a lane
   towards the mic (high notes higher), and you press Sing, or Space, as each one gets there. The record plays under
   you with the tune as a guide, counted in with four clicks, and the jukebox waits until you're done. Your fee goes
@@ -96,7 +116,7 @@ Each version is also a save in the built-in version control. Run `python tools/v
   celesta). It sits quietly under the game, with a Music slider in the jukebox and in Stats. It stops while you're
   muted, outside or in another tab, and when the power goes the record winds down. Switch it off in the jukebox or in
   Stats. The group chat's header shows what's playing (tap it for the jukebox), and everyone in the chat has an
-  opinion about your record.
+  opinion about your record. Now and then one of them asks for a record, and tips you if you put it on.
 - **Board styles,** in Stats: Card table felt, Neon, Nan's knitting (purple wool, cable stitch) and Gold leaf, for
   the tiles on every board (and Double or Nothing's). Each is bought once with coins and kept for good: going bust
   doesn't take it back, and swapping between the ones you own is free. New achievement: Interior Design.

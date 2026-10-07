@@ -8,4 +8,13 @@ export const RECORDS = {
   xmas:    { code: 'X1', name: 'Tinsel on the Telly', by: 'The Carol Singers', blurb: 'Only on the jukebox at Christmas. Sleigh bells, a celesta and a bit too much tinsel.' },
   haunted: { code: 'H1', name: 'The Haunted Arcade', by: 'The Night Shift', blurb: 'Only on the jukebox in October. Spooky organ, a theremin, and something in the cellar.' },
 };
+// who asks for which record, and how
+export const REQUEST_BY = { lounge: 'priya', pub: 'dave', chip: 'kev', waltz: 'nan', haunted: 'tash', bonfire: 'dave', xmas: 'tash' };
+export const REQUEST_LINES = {
+  priya: ['can someone put the posh one on. High Roller Lounge. I’m feeling fancy', 'High Roller Lounge please. I want to feel like I own a yacht'],
+  dave: ['someone put {name} on. I NEED it', 'put {name} on and I’ll get the next round in'],
+  kev: ['put Insert Coin on. for me. for the culture', 'Insert Coin please. it’s my track. streams matter'],
+  nan: ['Could someone put my song on, love? Nan’s Wireless. I’ll have a little dance x'],
+  tash: ['put {name} on. it’s the season. don’t argue', '{name}. now. please. thank you'],
+};
 export const SHUFFLE = { code: 'C1', name: 'Shuffle', by: 'whatever the jukebox fancies', blurb: 'A different record every few minutes.' };

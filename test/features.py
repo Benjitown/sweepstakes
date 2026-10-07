@@ -135,6 +135,28 @@ async def run(browser, url, shots):
        f'volume sliders: master gain {g[2]:.3f} (.22 at 40%), a duck plays at {g[3]:.3f} (25% of {g[4]})')
     ok(await pg.evaluate("(() => { __sw.Game.bust('manual', true); return [__sw.S.vol, __sw.S.noiseVol]; })()") == [.4, .25], '…and they survive going bust')
 
+    # --- your best runs: the top five by peak, kept for good
+    hall = await pg.evaluate("""(() => { __sw.UI.closeModal(); __sw.S.life.hall = []; const peaks = [5e4, 2e6, 8e3, 9e5, 3e7, 1.2e5, 7e5];
+      for (const p of peaks) { __sw.S.run.peak = p; __sw.S.run.boards = 3; __sw.S.coins = 0; __sw.Game.slots.fill(null); __sw.Game.bust('broke', true); }
+      return __sw.Hall.runs().map(h => h.peak); })()""")
+    ok(hall == [3e7, 2e6, 9e5, 7e5, 1.2e5], f'your best runs: the top five by peak, best first {hall}')
+    await pg.click('[data-tab="shop"]'); await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
+    rows = await pg.evaluate("[...document.querySelectorAll('#stats .hall li')].map(li => li.textContent)")
+    ok(len(rows) == 5 and rows[0].startswith('30M') and 'Ran out of coins' in rows[0], f'Stats lists them ({rows[0][:50]}…)')
+    note = await pg.evaluate("(() => { __sw.S.run.peak = 1e6; __sw.S.run.boards = 2; __sw.S.coins = 0; __sw.Game.slots.fill(null); __sw.Game.bust('broke'); const n = document.querySelector('#modalBox .hallnote'); return [__sw.Game.lastPlace, n && n.textContent]; })()")
+    ok(note[0] == 3 and 'Number 3 of your best five' in (note[1] or ''), f'and the bust screen says where a run landed: {note}')
+
+    # --- the run card: a picture of your run to share
+    await pg.evaluate("__sw.UI.closeModal()")
+    await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
+    await pg.click('#btnCard'); await pg.wait_for_timeout(1200)
+    st = await pg.evaluate("""(() => { const i = document.getElementById('runCard'), a = document.getElementById('runCardSave');
+      return i ? { w: i.naturalWidth, h: i.naturalHeight, png: i.src.startsWith('data:image/png') && i.src.length > 20000, dl: a.getAttribute('download'), alt: i.alt } : null; })()""")
+    ok(st and st['w'] == 1200 and st['h'] == 630 and st['png'] and st['dl'] == 'sweepstakes-run.png' and 'Peak coins' in st['alt'] and 'Achievements' in st['alt'],
+       f'Stats: Run card draws a 1200×630 picture of your run, ready to download ({st and st["alt"][:70]}…)')
+    await pg.screenshot(path=str(shots / 'run_card.png'))
+    await pg.evaluate("__sw.UI.closeModal()")
+
     ok(not errs, 'no console errors' + (': ' + '; '.join(errs[:3]) if errs else ''))
     await ctx.close()
     return R

@@ -22,3 +22,7 @@ body[data-season="xmas"] #bg{filter:saturate(.75) brightness(.95)}
 /* snow past the window */
 .snow{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .snow i{position:absolute;top:-12px;width:var(--s);height:var(--s);background:#fff;border-radius:1px;opacity:.75;animation:snowfall linear infinite}
+/* Halloween's friendly ghost, rising out of its tile */
+.ghostfx{position:absolute;width:44px;height:50px;margin:-25px 0 0 -22px;pointer-events:none;z-index:6;animation:ghostup 1.8s ease-out forwards}
+.ghostfx svg{width:100%;height:100%;filter:drop-shadow(0 0 8px rgba(162,117,240,.8))}
+@keyframes ghostup{0%{transform:translateY(10px) scale(.4);opacity:0}20%{transform:translateY(-10px) scale(1);opacity:1}100%{transform:translate(18px,-90px) scale(1.05) rotate(8deg);opacity:0}}
