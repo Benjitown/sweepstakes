@@ -64,7 +64,7 @@ Each version is also a save in the built-in version control. Run `python tools/v
   an extra ×1.3) and Bank Holiday (rare: every tenth board you deal is golden).
 - **Six more group chat conversations,** about the new bits: Priya's pickled conker, Dave's Splat the Rat title
   (there isn't one), a Sunday roast with room for one more, Kev's lock-in, Kev's 3am kebab and a milkman nobody's seen
-  since 1994.
+  since 1994. And six more small ads in the Daily Sweep.
 - **Conkers with Priya.** In conker season (September to November) she challenges you in the group chat, with some
   coins on it. Her conker's been soaked in vinegar and baked ("preparation"). Take turns to strike: stop the swing
   meter in the gold for a smash, the green for a hit; a miss might tangle the strings, and whoever shouts "Strings!"
