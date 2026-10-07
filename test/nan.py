@@ -138,8 +138,9 @@ async def run(browser, url, shots):
     again = await pg.evaluate("(() => { const n0 = document.querySelectorAll('#chat .sunday-invite').length; __sw.bus.emit('sunday:due'); return document.querySelectorAll('#chat .sunday-invite').length - n0; })()")
     ok(again == 0, 'she only asks once a day')
     r = await pg.evaluate("""(() => { const old = __sw.slots[0]; if (old) { old.over = true; __sw.Game.endBoard(old); }
-      __sw.Game.deal(0); const b = __sw.slots[0]; __sw.invoke(new __sw.DigCommand(b, Math.floor(b.t.h / 2) * b.t.w + Math.floor(b.t.w / 2)));
-      for (let i = 0, n = 0; i < b.n && n < 6 && !b.over; i++) if (!b.mine[i] && !b.open[i]) { __sw.invoke(new __sw.DigCommand(b, i)); n++; }
+      __sw.Game.deal(0); const b = __sw.slots[0]; b.lim = 1e9; // (no cashing out at the limit half-way through)
+      __sw.invoke(new __sw.DigCommand(b, Math.floor(b.t.h / 2) * b.t.w + Math.floor(b.t.w / 2)));
+      for (let i = 0, n = 0; i < b.n && n < 3 && !b.over; i++) if (!b.mine[i] && !b.open[i]) { __sw.invoke(new __sw.DigCommand(b, i)); n++; }
       if (b.over) return null; const pot = b.pot(), r0 = __sw.S.roast; let got = null; __sw.bus.on('board:cashout', e => { if (e.b === b && !got) got = e; });
       __sw.Game.cashOut(b); return { pot, stake: b.stake, amount: got.amount, r0, r1: __sw.S.roast }; })()""")
     if r and r['pot'] > r['stake']:
