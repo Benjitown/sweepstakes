@@ -10,7 +10,8 @@ import { UI } from './ui.js';
 import { DailyView } from './daily-view.js';
 
 const CAPTION = { bust: 'The scene this morning.', bust_don: 'The coin, pictured yesterday.', quiet: 'Library picture.', storm: 'Our photographer, bravely.',
-  gull: 'The suspect.', slugs: 'A slug (not the one).', rug: 'KEVCOIN, artist’s impression.', kev_launch: 'KEVCOIN, artist’s impression.' };
+  gull: 'The suspect.', slugs: 'A slug (not the one).', rug: 'KEVCOIN, artist’s impression.', kev_launch: 'KEVCOIN, artist’s impression.',
+  lockin: 'The door in question.', sunday: 'The roast, moments before it vanished.', clock: 'The clock, beaten.' };
 
 export const PaperView = {
   // after: a button that replaces "Fold it up" (the bust edition's "Start again"), and the paper stays put until you press it
