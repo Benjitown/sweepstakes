@@ -46,7 +46,7 @@
     grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"logo chips bank" "act act act";align-items:center;gap:8px;padding:8px 14px 10px}
   .logo{grid-area:logo;font-size:1.45rem;transform:none;justify-content:flex-start;padding:0}
   .logo svg{width:24px;height:24px}
-  .chips{grid-area:chips;flex-wrap:wrap;gap:4px 5px;align-content:center;max-height:48px;overflow:hidden}
+  .chips{grid-area:chips;flex-wrap:wrap;gap:4px 5px;align-content:center;max-height:76px;overflow:hidden} /* (up to three rows, when everything’s on at once) */
   .chips .ascbadge,.chips .streak{font-size:.75rem;padding:2px 6px;white-space:nowrap;gap:3px}
   .chips .goldchip,.chips .sugarchip,.chips .darechip{gap:3px}
   .chips svg{width:16px;height:16px}
