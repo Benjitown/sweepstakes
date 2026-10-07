@@ -43,3 +43,10 @@
 .achcap{min-height:2.5em;margin:0 0 12px}
 .ver{font-size:.75rem;color:var(--ink-dim);text-shadow:none;margin:14px 0 0;text-align:center}
 .ver .clink{font-size:.75rem;padding:0}
+/* your best runs, in Stats */
+.hall{margin:0 0 12px;padding:0 0 0 1.6em;display:grid;gap:6px}
+.hall li{background:var(--panel-in);border-radius:9px;padding:6px 10px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:0 10px;align-items:baseline}
+.hall li::marker{color:var(--gold);font-family:var(--big)}
+.hall b{font-family:var(--big);font-weight:400;font-size:1.4rem;color:var(--gold);line-height:1}
+.hall span{font-size:.8rem}
+.hall small{grid-column:1 / -1;font-size:.7rem;color:var(--ink-dim)}

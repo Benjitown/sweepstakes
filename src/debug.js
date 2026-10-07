@@ -103,6 +103,7 @@ import { KARAOKE } from './data/karaoke.js';
 import { Specials } from './game/specials.js';
 import { RunCard } from './ui/run-card.js';
 import { Requests } from './game/requests.js';
+import { Hall } from './game/hall.js';
 import { SPECIAL, SPECIALS, SPECIAL_BY } from './data/specials.js';
 
 export function exposeForTests() {
@@ -130,7 +131,7 @@ export function exposeForTests() {
     Scratchcards, ScratchView, SCRATCH_CARDS, SCRATCH_PRIZES, Quiz, QUIZ, PowerCut, PowerView, Storm, StormView, Kev, KevView, KEV, IceCream, VanView, Stars, StarsView, Banker, Dog, DogView, Bingo, BingoView, makeTicket, Outside, OutsideView, BINGO_TICKETS, BINGO_PAYS, BINGO_CALLS,
     Fruity, FruityRules, FruityView, FRUITY_REELS, FRUITY_PAYS, FRUITY_STAKES, FRUITY_FEATURES,
     Tin, TIN, Dares, DareView, DARES, DARE, Seasons, SeasonView, SEASONS, PUMPKIN, TRICK, XMAS, Claw, ClawView, CLAW, CLAW_PRIZES, CLAW_BY, CarBoot, CarBootView, BOOT, Darts, DartsView, DARTS, DARTBOARD, QuizNight, QuizNightView, NIGHT, Skins, SKINS, THREADS, RUDE_THREADS, QUIPS, RUDE_QUIPS, SURE, BINGO_END,
-    Music, musicMidi, JukeboxView, MUSIC, TRACKS, TRACK_BY, RECORDS, Allotment, AllotmentView, PLOT, CROPS, CROP_BY, VEG, News, Paper, PaperView, PAPER, STORY_WEIGHT, STORIES, Sweepstake, DRAW, Karaoke, KaraokeView, KARAOKE, Specials, SPECIAL, SPECIALS, SPECIAL_BY, BOOST, RunCard, Requests,
+    Music, musicMidi, JukeboxView, MUSIC, TRACKS, TRACK_BY, RECORDS, Allotment, AllotmentView, PLOT, CROPS, CROP_BY, VEG, News, Paper, PaperView, PAPER, STORY_WEIGHT, STORIES, Sweepstake, DRAW, Karaoke, KaraokeView, KARAOKE, Specials, SPECIAL, SPECIALS, SPECIAL_BY, BOOST, RunCard, Requests, Hall,
     get slots() { return Game.slots; },
   };
 }

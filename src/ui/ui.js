@@ -70,6 +70,7 @@ export const UI = {
     const tin = reason === 'manual' ? 0 : Game.lastTin || 0;
     this.modal(`${ico('skull', 'bigicon')}<h3 class="red">Stuffed.</h3><p>${why} Your rank survives. ${tin ? 'And Nan’s been round.' : 'Everything else is gone.'}</p>
       <div class="odds"><div><small>Lasted</small><b class="num">${dur(r.time)}</b></div><div><small>Peak</small><b class="num">${fmt(r.peak)}</b></div><div><small>Boards</small><b class="num">${r.boards}</b></div></div>
+      ${Game.lastPlace ? `<p class="hallnote">${Game.lastPlace === 1 ? 'Your best run yet.' : `Number ${Game.lastPlace} of your best five.`} It’s in Stats.</p>` : ''}
       ${tin ? `<div class="tincard">${ico('tin')}<p><b>Nan’s biscuit tin.</b> It isn’t biscuits. It’s <b class="num">${fmt(tin)}</b> she’s been putting by for you, a little every time you won.
         <q>For a rainy day, love. I’m always here x</q></p></div>` : ''}
       <div class="roast">${roast.map(([w, t]) => Chat.bubble(w, t)).join('')}</div>
