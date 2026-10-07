@@ -87,6 +87,7 @@ export const ConkersView = {
     this.say(rnd(CONKER_SAYS['her' + r.knocks]) + (r.done ? '' : ' Your go.'));
     if (r.done) return this.done(r, { mine: 0, hers: before.hers });
     this.render(); if (r.knocks) this.shake('cMineS');
+    const sw = $('#cSwing'); if (sw && !sw.disabled) sw.focus({ preventScroll: true }); // (so Space swings again)
   },
   done(r, last) {
     this.stop(); this.render(null, last); this.shake(r.result === 'won' ? 'cHersS' : 'cMineS');
