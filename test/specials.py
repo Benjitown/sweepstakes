@@ -93,6 +93,7 @@ async def run(browser, url, shots):
           const pot = b.pot(); __sw.Game.cashOut(b, 'manual'); return { pot, stake: b.stake, amount: got && got.amount, banker }; })()""")
         ok(r['amount'] == r['pot'] + max(0, r['pot'] - r['stake']), f'cash out after: the pot ({r["pot"]}) plus its profit again ({r["amount"]})')
         ok(not r['banker'], 'the Banker can’t get into a Lock-in')
+        ok(await pg.evaluate("(__sw.S.run.news || []).some(n => n.k === 'lockin' && n.vars.profit)"), 'and it makes the paper')
         ok(await pg.evaluate("__sw.Achievements.has('lockin')"), 'achievement: Stay for One More')
     else:
         for _ in range(5): ok(True, 'the board finished before the doors opened (nothing to check)')
@@ -104,6 +105,7 @@ async def run(browser, url, shots):
       __sw.invoke(new __sw.DigCommand(b, i)); return { back: __sw.S.coins - c0, half: Math.floor(b.stake / 2), stake: b.stake, result: b.result, over: b.over }; })()""")
     await pg.wait_for_timeout(300)
     t = await pg.evaluate("[...document.querySelectorAll('.toast')].map(t => t.textContent).join(' | ')")
+    ok(await pg.evaluate("(__sw.S.run.news || []).some(n => n.k === 'happy' && n.vars.back)"), 'Happy Hour makes the paper too')
     ok(d['tag'] == 'Happy Hour' and r['over'] and r['back'] == r['half'] > 0 and 'Happy Hour: the landlord’s given you' in t,
        f'Happy Hour: a bang gives you half the stake back ({r["back"]} of {r["stake"]}, “{r["result"]}”)')
     await pg.wait_for_timeout(1800)

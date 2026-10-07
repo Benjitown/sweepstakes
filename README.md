@@ -113,8 +113,9 @@ The suites run against both the ES-module source and the built file:
 - **allotment:** the tab, the seed packets' prices, planting, growing by the minute, ripe (and the chip), picking,
   a whopper, slugs, a thunderstorm watering the lot, full beds, October pumpkins, the 4 key, Stats, a fresh run and the phone
 - **paper:** The Daily Sweep: the newsroom noting the run's big moments, the paper arriving, the front page (the
-  biggest story leads), Spot the Mine (one or two certain mines; right pays once), the Sweepstake (Lucky Dip lines,
-  the draw, the payouts, about half back), a quiet run, the bust screen's special edition, Stats and the phone
+  biggest story leads, and every kind of story has headlines, a weight and a picture), Spot the Mine (one or two
+  certain mines; right pays once), the Sweepstake (Lucky Dip lines, the draw, the payouts, about half back), a quiet
+  run, the bust screen's special edition, Stats and the phone
 - **specials:** the landlord's specials: how often (about 1 in 12, never golden), Double Trouble's mines, limit and
   risky digs, Gem Rush's gems, Against the Clock's countdown, bonus and cash-out, the Lock-in's locked doors and
   doubled profit (and no Banker), Happy Hour's half stake back, surviving a reload, and the phone

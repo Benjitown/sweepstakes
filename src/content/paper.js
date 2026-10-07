@@ -35,6 +35,10 @@ export const STORIES = {
   levelup: [['PROMOTED: NOW A {rank}'], ['Colleagues describe the new title as “a bit much”.']],
   gull: [['SEAGULL MUGGING IN BROAD DAYLIGHT'], ['The suspect was last seen heading for the seafront.']],
   ghost: [['FRIENDLY GHOST SPOTTED ON THE BOARDS'], ['Witnesses say it pointed at a mine, then left. Experts are baffled.']],
+  lockin: [['LOCK-IN LEGEND', 'NOBODY LEAVES THE RED LION'], ['The doors stayed locked till half the board was dug. The regular who sat it out walked off {profit} up.']],
+  happy: [['HAPPY HOUR SOFTENS THE BLOW'], ['A board went bang, but the landlord handed {back} back. “It’s happy hour,” he said, “I’m not a monster.”']],
+  clock: [['IN THE NICK OF TIME', 'BEATS THE CLOCK AT {table}'], ['Forty seconds on the clock, and cashed out with time to spare. The group chat wants a rematch.']],
+  sunday: [['SUNDAY DINNER AT NAN’S', 'NAN’S ROAST “BEST IN THE COUNTY”'], ['Seconds were had. Then thirds. Crumble and custard to follow.', 'Our reporter couldn’t get a seat at the table, but the gravy was described as “perfect”.']],
   slugs: [['SLUGS STRIKE ON ALLOTMENTS'], ['A crop of {veg} lost overnight. Police have no leads.']],
   quiet: [['NOTHING HAPPENS IN SWEEPTOWN', 'SLOW NEWS DAY'], ['A board was dealt. Then another one. Our reporter fell asleep.']],
 };
@@ -43,7 +47,8 @@ export const STORY_ART = {
   casino: 'casino', bust: 'skull', bust_don: 'dice', lotto_jackpot: 'ticket', lotto_four: 'ticket', jackpot: 'gem', bingo_house: 'bingo', fruity_jackpot: 'lucky7', ascend: 'asc', don_win: 'dice',
   cashout_big: 'coin', rug: 'kevcoin', whopper: 'veg', night_full: 'brain', karaoke_ovation: 'juke', karaoke_booed: 'juke', scratch_big: 'ticket', duck_long: 'duck', boom_big: 'bomb', darts_won: 'dart',
   banker_beat: 'phone', unlock: 'crown', clear: 'flag', rainbow: 'clover', claw_win: 'claw', banker_deal: 'phone', dare_won: 'dare', storm: 'bolt',
-  power: 'bulb', kev_launch: 'kevcoin', darts_lost: 'dart', levelup: 'trophy', gull: 'gull', slugs: 'veg', ghost: 'bat', quiet: 'coin',
+  power: 'bulb', kev_launch: 'kevcoin', darts_lost: 'dart', levelup: 'trophy', gull: 'gull', slugs: 'veg', ghost: 'bat',
+  lockin: 'door', happy: 'bell', clock: 'stopwatch', sunday: 'drumstick', quiet: 'coin',
 };
 export const SMALL_ADS = [
   'FOR SALE: rubber duck. One careful owner. Won’t stop winning.', 'LOST: smoke detector battery. Answers to “beep”.',
