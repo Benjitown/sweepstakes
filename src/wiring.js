@@ -416,6 +416,7 @@ bus.on('modal:closed', () => { if (Conkers.match) { ConkersView.stop(); Conkers.
 
 /* ---------- the church fete: Splat the Rat ---------- */
 bus.on('fete:due', () => { if (pref('odd') && !document.hidden && HouseholdView.free() && UI.modalClosed() && !Coach.active && !Outside.on && S.coins >= Fete.fee() * 2) { FeteView.invite(); setTimeout(() => Chat.say('fete_open', {}, .8), 1200); } });
+bus.on('tombola', ({ prize }) => { RunPanel.render(); if (prize === 'hamper' || prize === 'envelope') setTimeout(() => Chat.say(prize === 'hamper' ? 'tombola_hamper' : 'tombola_win', {}, .8), 900); else if (prize === 'sherry') setTimeout(() => Chat.say('tombola_sherry', {}, .8), 900); });
 bus.on('fete:done', ({ hits }) => { RunPanel.render(); if (hits >= 3) News.note('splat3'); setTimeout(() => Chat.say(hits >= 3 ? 'fete_three' : hits ? 'fete_some' : 'fete_none', {}, .7), 900); });
 bus.on('modal:closed', () => { if (Fete.st()) { clearTimeout(FeteView.t); FeteView.phase = 'idle'; Fete.settle(); Game.setCoins(S.coins); } }); // (closed some other way: still paid)
 

@@ -104,12 +104,12 @@ import { KARAOKE } from './data/karaoke.js';
 import { Specials } from './game/specials.js';
 import { RunCard } from './ui/run-card.js';
 import { Requests } from './game/requests.js';
-import { Fete } from './game/fete.js';
+import { Fete, Tombola } from './game/fete.js';
 import { Conkers } from './game/conkers.js';
 import { ConkersView } from './ui/conkers-view.js';
 import { CONKERS } from './data/conkers.js';
 import { FeteView } from './ui/fete-view.js';
-import { FETE } from './data/fete.js';
+import { FETE, TOMBOLA } from './data/fete.js';
 import { Hall } from './game/hall.js';
 import { Sunday } from './game/sunday.js';
 import { SundayView } from './ui/sunday-view.js';
@@ -145,7 +145,7 @@ export function exposeForTests() {
     Scratchcards, ScratchView, SCRATCH_CARDS, SCRATCH_PRIZES, Quiz, QUIZ, PowerCut, PowerView, Storm, StormView, Kev, KevView, KEV, IceCream, VanView, Stars, StarsView, Banker, Dog, DogView, Bingo, BingoView, makeTicket, Outside, OutsideView, BINGO_TICKETS, BINGO_PAYS, BINGO_CALLS,
     Fruity, FruityRules, FruityView, FRUITY_REELS, FRUITY_PAYS, FRUITY_STAKES, FRUITY_FEATURES,
     Tin, TIN, Dares, DareView, DARES, DARE, Seasons, SeasonView, SEASONS, PUMPKIN, TRICK, XMAS, Claw, ClawView, CLAW, CLAW_PRIZES, CLAW_BY, CarBoot, CarBootView, BOOT, Darts, DartsView, DARTS, DARTBOARD, QuizNight, QuizNightView, NIGHT, Skins, SKINS, THREADS, RUDE_THREADS, QUIPS, RUDE_QUIPS, SURE, BINGO_END,
-    Music, musicMidi, JukeboxView, MUSIC, TRACKS, TRACK_BY, RECORDS, Allotment, AllotmentView, PLOT, CROPS, CROP_BY, VEG, News, Paper, PaperView, PAPER, STORY_WEIGHT, STORIES, STORY_ART, Sweepstake, DRAW, Karaoke, KaraokeView, KARAOKE, Specials, SPECIAL, SPECIALS, SPECIAL_BY, BOOST, RunCard, Requests, Fete, FeteView, FETE, Conkers, ConkersView, CONKERS, Hall, Sunday, SundayView, SUNDAY, ROAST_MENU, NightOwl,
+    Music, musicMidi, JukeboxView, MUSIC, TRACKS, TRACK_BY, RECORDS, Allotment, AllotmentView, PLOT, CROPS, CROP_BY, VEG, News, Paper, PaperView, PAPER, STORY_WEIGHT, STORIES, STORY_ART, Sweepstake, DRAW, Karaoke, KaraokeView, KARAOKE, Specials, SPECIAL, SPECIALS, SPECIAL_BY, BOOST, RunCard, Requests, Fete, FeteView, FETE, Tombola, TOMBOLA, Conkers, ConkersView, CONKERS, Hall, Sunday, SundayView, SUNDAY, ROAST_MENU, NightOwl,
     get slots() { return Game.slots; },
   };
 }

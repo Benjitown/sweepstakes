@@ -108,3 +108,12 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center;justify-conten
 .cmeter .sweet{position:absolute;top:0;bottom:0;left:calc(50% - var(--smash));width:calc(var(--smash) * 2);background:#ffd23f}
 .cmeter b{position:absolute;top:0;bottom:0;width:5px;margin-left:-2.5px;background:#fff;box-shadow:0 0 0 2px #141b1d}
 .cmsg{min-height:2.6em;font-weight:700;max-width:30em}
+/* the tombola */
+.tombola .drum{position:relative;width:120px;height:84px;border-radius:50%/40%;background:#c8732e;box-shadow:inset 0 0 0 4px #141b1d,inset 0 -10px 0 rgba(0,0,0,.25)}
+.tombola .drum i{position:absolute;width:22px;height:12px;border-radius:3px;background:#ffd23f;box-shadow:0 0 0 2px #141b1d;left:30px;top:30px}
+.tombola .drum i:nth-child(2){left:60px;top:22px;background:#fe5f55;transform:rotate(25deg)}
+.tombola .drum i:nth-child(3){left:48px;top:46px;background:#3fc18a;transform:rotate(-20deg)}
+.tombola .drum.spin{animation:drumspin .5s ease-out}
+.tombola .ticket{font-family:var(--big);font-size:2.6rem;line-height:1;margin:0;padding:6px 18px;border-radius:8px;background:#f4ead5;color:#141b1d;box-shadow:0 0 0 3px #141b1d}
+.tombola .ticket.win{background:#ffd23f}
+.tombola .ticket.pop{animation:ticketpop .35s ease-out}

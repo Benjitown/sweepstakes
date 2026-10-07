@@ -1,6 +1,7 @@
 """Fete suite: the church fete's Splat the Rat. The card that says it's on, three goes for the fee, splatting the rat,
 pulling too early, being too slow, what it pays (your money back, ×3, ×8), Rat Catcher, walking off half-way (still
-paid for your splats), Stats, the paper, and the phone."""
+paid for your splats), Stats, the paper, and the phone. And the tombola: tickets ending in 0 or 5 win, the star
+prize, a loser, and what it pays back."""
 from common import Results, open_page
 
 SETUP = """(() => { __sw.Coach.finish(); const S = __sw.S; S.coins = 50000; S.unlocked = ['penny', 'den']; S.sel = 'den'; S.life.lvl = 5; S.life.xp = 0;
@@ -70,6 +71,29 @@ async def run(browser, url, shots):
     await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
     ok('4 times, best 3 out of 3' in await pg.evaluate("document.getElementById('stats').textContent"), 'Stats: Splat the Rat, 4 times, best 3 out of 3')
     await pg.click('[data-tab="shop"]')
+
+    # --- the tombola: tickets ending in 0 or 5 win a prize off the table
+    await pg.evaluate("(() => { __sw.UI.closeModal(); __sw.HouseholdView.clear(); __sw.bus.emit('fete:due'); })()"); await pg.wait_for_timeout(300)
+    await pg.click('.happening [data-h="1"]'); await pg.wait_for_timeout(300)
+    price = await pg.evaluate('__sw.Tombola.price()')
+    ok('The tombola' in await pg.text_content('#modalBox h3') and f'A ticket ({price:,})' in await pg.text_content('#tomBuy'), f'the tombola: {price:,} a ticket')
+    TOM = "(() => ({ coins: __sw.S.coins, ticket: document.getElementById('tomTicket').textContent, msg: document.getElementById('tomMsg').textContent }))()"
+    c0 = await pg.evaluate('__sw.S.coins')
+    await pg.evaluate("__sw.Tombola.rng = () => .02"); await pg.click('#tomBuy'); await pg.wait_for_timeout(150)
+    t = await pg.evaluate(TOM)
+    ok(t['ticket'] == '005' and t['coins'] == c0 and 'bubble bath' in t['msg'], f'ticket 005 ends in 5: a prize ({t["msg"]})')
+    await pg.screenshot(path=str(shots / 'tombola.png'))
+    c1 = t['coins']
+    await pg.evaluate("(() => { let k = 0; __sw.Tombola.rng = () => [.045, .995][k++ % 2]; })()"); await pg.click('#tomBuy'); await pg.wait_for_timeout(150)
+    t = await pg.evaluate(TOM)
+    ok(t['ticket'] == '010' and t['coins'] == c1 + 39 * price and 'STAR PRIZE' in t['msg'], f'ticket 010: the star prize, a hamper, forty times the ticket')
+    c2 = t['coins']
+    await pg.evaluate("__sw.Tombola.rng = () => .03"); await pg.click('#tomBuy'); await pg.wait_for_timeout(150)
+    t = await pg.evaluate(TOM)
+    ok(t['ticket'] == '007' and t['coins'] == c2 - price and 'Not a winner' in t['msg'], 'ticket 007: not a winner, and the ticket’s gone')
+    pb = await pg.evaluate("(() => { const P = __sw.TOMBOLA.PRIZES, W = P.reduce((t, p) => t + p.w, 0); return .2 * P.reduce((t, p) => t + p.w * p.x, 0) / W; })()")
+    ok(.55 < pb < .75, f'a ticket brings back about two thirds of its price on average ({pb:.0%}): it’s for the church roof')
+    await pg.evaluate("(() => { __sw.Tombola.rng = Math.random; __sw.UI.closeModal(); })()")
 
     # --- the phone
     pctx, pp, perrs = await open_page(browser, url, width=360, height=780, mobile=True, wait=1200)
