@@ -30,6 +30,10 @@ export const DOOR = [
   { w: 1, mood: 'weird', icon: 'door', title: 'You, from the future', text: 'Slowly shaking your head. You ask how it ends. They say “cash out at ×3” and fade away.' },
   { w: 1, mood: 'weird', icon: 'door', title: 'Two police officers', text: 'Someone reported “a lot of explosions”. You explain it’s minesweeper. They stay for one board and leave worse off.' },
   { w: 1, mood: 'weird', icon: 'door', title: 'The council', text: 'They’ve approved a mine under your patio. There was a consultation. It was in a locked filing cabinet in a disused toilet.' },
+  { w: 1.5, mood: 'good', icon: 'door', title: 'A parcel for next door', text: 'You take it in like a good neighbour. An hour later they bring round a tin of shortbread and {coins} “for your trouble”.', coins: .15 },
+  { w: 1, mood: 'weird', icon: 'door', title: 'A man selling double glazing', text: 'Your windows are fine. He disagrees, at length, with a laminated brochure. You say you’ll think about it, which is British for no.' },
+  { w: 1, mood: 'good', icon: 'door', title: 'The milkman', text: 'There hasn’t been a milkman round here since 1994. He leaves two pints with gold tops and winks. Your next board is golden.', fx: 'golden' },
+  { w: 1, mood: 'bad', icon: 'door', title: 'The window cleaner', text: 'He did the windows while you were busy. You didn’t ask him to. He wants {coins}, and he’s already done the conservatory.', coins: -.02 },
 ];
 export const PHONE = [
   { w: 2, mood: 'weird', icon: 'phone', title: 'Your bank', text: 'Unusual activity on your account. It’s you. It’s always been you.' },
@@ -42,6 +46,9 @@ export const PHONE = [
   { w: 1, mood: 'weird', icon: 'phone', title: 'Tech support', text: 'Your computer has a virus, and only gift cards can fix it. You tell him your computer is a minesweeper board. He asks what the odds are.' },
   { w: 1, mood: 'weird', icon: 'phone', title: 'The council', text: 'About the pothole you reported in 2021. They’ve put a cone in it.' },
   { w: 1, mood: 'good', icon: 'phone', title: 'A wrong number', text: 'They’re after “Gaz”. You become Gaz for the afternoon. Gaz had {coins} in his coat.', coins: .2 },
+  { w: 1, mood: 'weird', icon: 'phone', title: 'An automated voice', text: 'You’ve been in an accident that wasn’t your fault. You’ve been sat here all day. It was definitely your fault.' },
+  { w: 1, mood: 'good', icon: 'phone', title: 'Your mum', text: 'Asking how to send a photo. Twenty minutes later she’s sent you {coins} by mistake, and says to keep it.', coins: .2 },
+  { w: 1, mood: 'weird', icon: 'phone', title: 'The doctor’s surgery', text: 'Ringing back about the appointment you asked for in March. They can fit you in next March.' },
 ];
 export const KITTEN = [
   { w: 3, mood: 'good', icon: 'kitten', title: 'It purrs', text: 'You feel protected. +1 shield.', fx: 'shield' },

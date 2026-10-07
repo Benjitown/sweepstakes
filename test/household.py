@@ -42,6 +42,10 @@ async def run(browser, url, shots):
        f"the parcel brings an add-on card: “{(await text(pg, '.happening p'))[:60]}…”")
     sh = await pg.evaluate(f"(() => {{ {CLEAR}; const s = __sw.S.inv.shield; __sw.Household.answerDoor({idx('A vicar')}); return __sw.S.inv.shield - s; }})()")
     ok(sh == 1, 'the vicar, the rabbi and the imam bless you with a shield')
+    nd = await pg.evaluate(f"(() => {{ {CLEAR}; const c = __sw.S.coins; __sw.Household.answerDoor({idx('A parcel for next door')}); return __sw.S.coins - c; }})()")
+    ok(nd > 0 and 'shortbread' in await text(pg, '.happening p'), f'taking in a parcel for next door: shortbread and {nd:,}')
+    milk = await pg.evaluate(f"(() => {{ {CLEAR}; const g = __sw.S.goldNext; __sw.Household.answerDoor({idx('The milkman')}); return __sw.S.goldNext - g; }})()")
+    ok(milk == 1, 'the milkman leaves gold tops: your next board is golden')
 
     # --- the raffle kid: a ticket costs 10% of your top table's max stake, and one in eight wins ten times that
     await pg.evaluate(f"(() => {{ {CLEAR}; __sw.Household.answerDoor({idx('A kid selling')}); }})()"); await pg.wait_for_timeout(100)
