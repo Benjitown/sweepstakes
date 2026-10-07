@@ -112,12 +112,14 @@ Requests.schedule();
 Fete.schedule();
 Conkers.schedule();
 Sunday.schedule();
-// ?try=sunday, fete or conkers brings that on in a few seconds; ?try=lockin (or happy, orders, trouble, rush, clock)
-// chalks that special on every board you deal. For trying the new bits out without waiting for them.
+// ?try=sunday, fete, conkers or door brings that on in a few seconds (door with ?season=bonfire or xmas: the Guy or
+// the carol singers, often); ?try=lockin (or happy, orders, trouble, rush, clock) chalks that special on every board you
+// deal. For trying the new bits out without waiting for them.
 const tryIt = new URLSearchParams(location.search).get('try');
 if (tryIt === 'sunday') { Sunday.force = true; Sunday.life().last = ''; Sunday.later(12); }
 else if (tryIt === 'fete') Fete.schedule(12);
 else if (tryIt === 'conkers') { Conkers.force = true; Conkers.schedule(12); }
+else if (tryIt === 'door') setTimeout(() => WeirdNoises.surprise('knock'), 8000);
 else if (tryIt && SPECIAL_BY[tryIt]) Specials.force = tryIt;
 Chat.ambient();
 const hi = LINES.hello.slice().sort(() => Math.random() - .5);

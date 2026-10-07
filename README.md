@@ -20,7 +20,8 @@ What's in each version: [CHANGELOG.md](CHANGELOG.md).
 
   See [ports/README.md](ports/README.md).
 - **Trying a bit out:** add `?season=halloween` (or `bonfire`, `xmas`, `none`) to the address for that season;
-  `?try=sunday`, `?try=fete` or `?try=conkers` brings Sunday dinner, the church fete or conkers on in a few seconds;
+  `?try=sunday`, `?try=fete` or `?try=conkers` brings Sunday dinner, the church fete or conkers on in a few seconds
+  (`?try=door` knocks at the door: with `?season=bonfire` or `xmas` it's often the Guy or the carol singers);
   `?try=lockin` (or `happy`, `orders`, `trouble`, `rush`, `clock`) chalks that special on every board you deal.
 
 ## Build
