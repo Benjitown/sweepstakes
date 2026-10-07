@@ -3,7 +3,7 @@
 +50% for beating it, the cash-out when it's up, with no bonus then), the Lock-in (no cashing out till half the board's
 dug, then double the profit, and the Banker can't get in), Happy Hour (half the stake back on a bang), the chalk on
 the board, the achievements, a special surviving a reload, and the phone. Also three add-on cards that came with
-them: Doggy Bag, Tea and Toast and Hat Trick."""
+them: Doggy Bag, Tea and Toast, Hat Trick, Late-Night Kebab and Bank Holiday."""
 from common import Results, open_page
 
 SETUP = """(() => { __sw.Coach.finish(); const S = __sw.S; S.coins = 50000; S.unlocked = ['penny', 'den']; S.sel = 'den'; S.life.lvl = 5; S.life.xp = 0;
@@ -134,6 +134,22 @@ async def run(browser, url, shots):
       for (let k = 0; k < 3 && !b.over; k++) { const d = __sw.Solver.full(b); let j = -1; for (let i = 0; i < b.n; i++) if (!b.open[i] && !b.flag[i] && !b.mine[i] && !d.KS[i] && d.P[i] > 0) { j = i; break; } if (j < 0) break; __sw.invoke(new __sw.DigCommand(b, j)); }
       return { fired, combo: b.combo }; })()""")
     ok(r['fired'] == (1 if r['combo'] >= 3 else 0), f'Hat Trick: the third risky dig gives an extra ×1.3 ({r["combo"]} risky digs, fired {r["fired"]}×)')
+    await pg.evaluate("(() => { __sw.S.addons = []; __sw.Game.slots.forEach(b => { if (b) { b.over = true; __sw.Game.endBoard(b); } }); __sw.renderAll(); })()")
+    await pg.wait_for_timeout(300)
+
+    # --- and two more: Late-Night Kebab (+10% between midnight and 5am) and Bank Holiday (every tenth board golden)
+    await pg.evaluate("(() => { __sw.S.addons = [{ id: 'kebab', paid: 50 }, { id: 'bankhol', paid: 240 }]; __sw.renderAll(); })()")
+    KEBAB = """(h => { __sw.NightOwl.hour = () => h; const old = __sw.slots[0]; if (old) { old.over = true; __sw.Game.endBoard(old); }
+      __sw.Specials.force = ''; __sw.Game.deal(0); const b = __sw.slots[0]; b.lim = 1e9; __sw.invoke(new __sw.DigCommand(b, Math.floor(b.t.h / 2) * b.t.w + Math.floor(b.t.w / 2)));
+      if (b.over) return null; b.G = Math.max(b.G, 2); let got = null; __sw.bus.on('board:cashout', e => { if (e.b === b && !got) got = e; });
+      const pot = b.pot(); __sw.Game.cashOut(b, 'manual'); __sw.NightOwl.hour = () => new Date().getHours(); return { pot, stake: b.stake, amount: got.amount }; })"""
+    late = await pg.evaluate(f"{KEBAB}(3)")
+    day = await pg.evaluate(f"{KEBAB}(14)")
+    ok(late and day and late['amount'] == late['pot'] + int((late['pot'] - late['stake']) * .1) and day['amount'] == day['pot'],
+       f'Late-Night Kebab: +10% on the profit at 3am ({late and late["amount"]:,} for a {late and late["pot"]:,} pot), nothing at 2pm')
+    g = await pg.evaluate("""(() => { const old = __sw.slots[0]; if (old) { old.over = true; __sw.Game.endBoard(old); }
+      __sw.S.run.boards = 9; __sw.S.goldNext = 0; __sw.Game.deal(0); return __sw.slots[0].golden; })()""")
+    ok(g, 'Bank Holiday: the tenth board you deal is golden')
     await pg.evaluate("(() => { __sw.S.addons = []; __sw.Game.slots.forEach(b => { if (b) { b.over = true; __sw.Game.endBoard(b); } }); __sw.renderAll(); })()")
     await pg.wait_for_timeout(300)
 

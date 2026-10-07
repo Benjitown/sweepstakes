@@ -84,8 +84,13 @@ class LockinPayout extends PayoutDecorator {
 class TeaPayout extends PayoutDecorator {
   pay(b, why) { const r = super.pay(b, why), profit = r.amount - b.stake; if (!b.guesses && profit > 0) { const e = Math.floor(profit * .15); if (e > 0) { r.amount += e; r.extras.push(['tea', `Tea and toast +${fmt(e)}`]); } } return r; }
 }
+// Late-Night Kebab (an add-on): cash out between midnight and 5am for +10% on the profit (NightOwl.hour is the clock)
+export const NightOwl = { hour: () => new Date().getHours() };
+class KebabPayout extends PayoutDecorator {
+  pay(b, why) { const r = super.pay(b, why), profit = r.amount - b.stake; if (NightOwl.hour() < 5 && profit > 0) { const e = Math.floor(profit * .1); if (e > 0) { r.amount += e; r.extras.push(['kebab', `Kebab +${fmt(e)}`]); } } return r; }
+}
 export const HOUSE_EDGE = .25;
-const PAYOUT_DECORATORS = [['egg', NestEggPayout], ['flagfan', FlagFanaticPayout], ['compound', CompoundPayout], ['dinner', ChickenDinnerPayout], ['tea', TeaPayout]];
+const PAYOUT_DECORATORS = [['egg', NestEggPayout], ['flagfan', FlagFanaticPayout], ['compound', CompoundPayout], ['dinner', ChickenDinnerPayout], ['tea', TeaPayout], ['kebab', KebabPayout]];
 export const buildPayout = () => {
   let p = PAYOUT_DECORATORS.reduce((acc, [id, D]) => hasA(id) ? new D(acc) : acc, new Payout());
   if (S.life.casinos) p = new HouseEdgePayout(p);
