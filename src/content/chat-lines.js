@@ -152,6 +152,12 @@ export const LINES = {
   special_happy:   [['tash', 'happy hour! half your stake back if it goes bang'], ['nan', 'Happy hour! Have a lovely time, love x'], ['priya', 'safety net. go wild']],
   special_open:    [['dave', 'doors are open. RUN'], ['nan', 'You can go home now if you like, love. Or stay a bit, I don’t mind x'], ['tash', 'free at last. cash out or push your luck?']],
   special_happy_back: [['priya', 'ouch. at least it was happy hour'], ['nan', 'Never mind, love. Half back’s better than none x'], ['dave', 'landlord’s a saint']],
+  sunday_ask:   [['nan', 'Dinner’s at two, love. Roast chicken and all the trimmings. Come round if you can x'], ['nan', 'I’ve done you your own Yorkshire puddings, love. Come round for your Sunday dinner x'],
+    ['nan', 'Sunday dinner’s nearly ready, love. There’s a place set for you if you want it x']],
+  sunday_table: [['nan', 'Eat up, love. There’s plenty more where that came from x'], ['nan', 'Have another potato, love. I did extra just for you x'], ['nan', 'It’s so lovely having you round, love. Same time next week? x']],
+  sunday_bye:   [['nan', 'Take some crumble home with you, love. Mind how you go x'], ['nan', 'Thank you for coming round, love. It’s made my week x'], ['nan', 'Text me when you’re home, love. Love you lots x']],
+  sunday_plate: [['nan', 'That’s alright, love. I’ll plate some up and keep it warm for you x'], ['nan', 'Never mind, love. There’s a plate in the oven with your name on it x']],
+  sunday_went:  [['dave', 'save us a yorkshire'], ['tash', 'nan’s roasties are elite. not up for debate'], ['priya', 'jealous. I’m having a pot noodle'], ['kev', 'is there room for one more. asking for me']],
   special_late:    [['dave', 'buzzer. too slow'], ['kev', 'time waits for no man. or Kev'], ['nan', 'Never mind, love. You still got something x']],
   // Halloween's friendly ghost
   ghost:         [['dave', 'I am NOT scared. (I am)'], ['priya', 'a helpful ghost. rarest of all ghosts'], ['kev', 'is it a KEVCOIN ghost. asking for me'], ['tash', 'it pointed at a mine and LEFT. iconic']],
