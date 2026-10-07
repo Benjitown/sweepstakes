@@ -84,7 +84,7 @@ Each version is also a save in the built-in version control. Run `python tools/v
   No change, and they let a banger off on the step: there goes your streak.
 - **More callers:** a parcel for next door (they bring round shortbread), a man selling double glazing, the milkman
   (gold tops: your next board's golden), the window cleaner, an automated voice about your accident, your mum, and
-  the doctor's surgery ringing back.
+  the doctor's surgery ringing back. And knock-down ginger.
 - **The Daily Sweep covers the new bits:** a Lock-in sat out, Happy Hour softening a bang, beating the clock, Sunday
   dinner at Nan's, three splats out of three, beating Priya at conkers, a quid for the Guy and the tombola's hamper
   all make the paper.
