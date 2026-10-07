@@ -148,6 +148,12 @@ export const LINES = {
   special_rush:    [['priya', 'gem rush! dig dig dig'], ['nan', 'Ooh, sparkly! Good luck, love x'], ['tash', 'two extra gems. go on then']],
   special_clock:   [['dave', 'FORTY SECONDS. GO'], ['tash', 'clock’s ticking. no pressure'], ['nan', 'Don’t rush on my account, love. Well, a bit x']],
   special_beat:    [['priya', 'beat the clock. show-off'], ['nan', 'In the nick of time! Well done, love x'], ['dave', 'with seconds to spare. cinema']],
+  sunday_ask:   [['nan', 'Dinner’s at two, love. Roast chicken and all the trimmings. Come round if you can x'], ['nan', 'I’ve done you your own Yorkshire puddings, love. Come round for your Sunday dinner x'],
+    ['nan', 'Sunday dinner’s nearly ready, love. There’s a place set for you if you want it x']],
+  sunday_table: [['nan', 'Eat up, love. There’s plenty more where that came from x'], ['nan', 'Have another potato, love. I did extra just for you x'], ['nan', 'It’s so lovely having you round, love. Same time next week? x']],
+  sunday_bye:   [['nan', 'Take some crumble home with you, love. Mind how you go x'], ['nan', 'Thank you for coming round, love. It’s made my week x'], ['nan', 'Text me when you’re home, love. Love you lots x']],
+  sunday_plate: [['nan', 'That’s alright, love. I’ll plate some up and keep it warm for you x'], ['nan', 'Never mind, love. There’s a plate in the oven with your name on it x']],
+  sunday_went:  [['dave', 'save us a yorkshire'], ['tash', 'nan’s roasties are elite. not up for debate'], ['priya', 'jealous. I’m having a pot noodle'], ['kev', 'is there room for one more. asking for me']],
   special_late:    [['dave', 'buzzer. too slow'], ['kev', 'time waits for no man. or Kev'], ['nan', 'Never mind, love. You still got something x']],
   // the jukebox: everyone has an opinion about your record
   juke_lounge:   [['priya', 'very James Bond. are you wearing a bow tie'], ['dave', 'lift music. I love it'], ['nan', 'Ooh very posh. Shall I put my pearls on x'],

@@ -58,6 +58,10 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **Biscuit, next door's dog.** If you hear barking, he trots in along the bottom of the screen and waits ("Woof?").
   Give him a biscuit (3% of the top table's max stake) and he sniffs out a mine on your board and sits on it: flagged,
   glowing orange for a moment. Ignore him and he wanders off. New achievement: Good Boy.
+- **Sunday dinner at Nan's.** On a Sunday, a little way into playing, Nan asks you round for your dinner (once a
+  day). Go round for a roast with all the trimmings and pudding after, and you're full of it: your next five winning
+  cash-outs get +15% on the profit. Can't make it? She keeps a plate warm for you anyway (two cash-outs' worth).
+  New achievement: Clean Plate.
 - **A run card.** Stats has a Run card button: a picture of your run (peak coins, how long you lasted, boards, your
   biggest win, rank and achievements) in the game's own colours, to download or copy into a chat.
 - **The landlord's specials.** About one dealt board in twelve (never a golden one, never the Daily) comes with a

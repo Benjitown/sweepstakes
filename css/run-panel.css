@@ -28,6 +28,7 @@
 .goldchip svg{width:20px;height:20px}
 .sugarchip{display:flex;align-items:center;gap:6px;background:#ff8fb0;color:#3b0f1f;text-shadow:none;box-shadow:0 3px 0 #c2507a;border-radius:8px;padding:3px 10px 3px 6px;font-weight:700}
 .sugarchip svg{width:20px;height:20px}
+.roastchip{background:#e7b36a;color:#3a2203;box-shadow:0 3px 0 #a8742c}
 .darechip{display:flex;align-items:center;gap:6px;border:0;font:inherit;cursor:pointer;background:var(--orange);color:#3b2400;text-shadow:none;box-shadow:0 3px 0 var(--orange-lo);border-radius:8px;padding:3px 10px 3px 6px;font-weight:700;font-variant-numeric:tabular-nums}
 .darechip svg{width:20px;height:20px}
 .darechip.hurry{background:var(--red);color:#fff;box-shadow:0 3px 0 var(--red-lo);animation:darehurry 1s ease-in-out infinite}

@@ -71,6 +71,8 @@ import { Music } from './audio/music.js';
 import { SPECIAL_BY } from './data/specials.js';
 import { Specials } from './game/specials.js';
 import { Requests } from './game/requests.js';
+import { Sunday } from './game/sunday.js';
+import { SundayView } from './ui/sunday-view.js';
 import { TRACKS } from './data/jukebox.js';
 import { JukeboxView } from './ui/jukebox-view.js';
 import { Karaoke } from './game/karaoke.js';
@@ -276,7 +278,7 @@ bus.on('icecream', ({ sugar }) => {
   UI.toast(`A cone with sprinkles. Sugar rush: +${Math.round(IceCream.RUSH * 100)}% on your next winning cash-out${sugar > 1 ? ` (and the one after${sugar > 2 ? 's' : ''})` : ''}.`);
   setTimeout(() => Chat.say('icecream_bought', {}, .8), 900);
 });
-bus.on('addon:fired', ({ id }) => { if (id === 'sugar') RunPanel.render(); });
+bus.on('addon:fired', ({ id }) => { if (id === 'sugar' || id === 'roast') RunPanel.render(); });
 
 /* ---------- KEVCOIN: Kev's coin, in the chat ---------- */
 bus.on('kev:launch', () => { KevView.ticker(); Chat.say('kev_launch', {}, 1); setTimeout(() => Chat.say('kev_launch_re', {}, 1), 2600); });
@@ -572,3 +574,11 @@ bus.on('daily:done', ({ b, why, i, result, top }) => {
   TablesView.render();
   setTimeout(() => { if (!UI.modalClosed() && b.el && b.el.isConnected) DailyView.results(); }, 1700);
 });
+
+/* ---------- Sunday dinner at Nan's (once on a Sunday) ---------- */
+bus.on('sunday:due', () => {
+  if (!Sunday.today() || Sunday.asked()) return;
+  if (document.hidden || !UI.modalClosed() || Coach.active || Outside.on) return Sunday.later(); // she'll ask in a minute
+  Sunday.ask(); SundayView.invite();
+});
+bus.on('sunday', ({ went }) => { RunPanel.render(); if (went) setTimeout(() => Chat.say('sunday_went', {}, .8), 2600); });

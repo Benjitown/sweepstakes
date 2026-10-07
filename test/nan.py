@@ -1,6 +1,7 @@
 """Nan suite: Nan is always kind (every line of hers signs off with a kiss, she's never in the rude lists, she never
-swears and nobody has a go at her), and her biscuit tin (a little of her own money put by on every winning cash-out, up
-to its cap, handed over when you go bust and kept when you pull the plug yourself)."""
+swears and nobody has a go at her), her biscuit tin (a little of her own money put by on every winning cash-out, up
+to its cap, handed over when you go bust and kept when you pull the plug yourself), and Sunday dinner at hers (she
+asks you round once on a Sunday; go and you're full of roast, can't and she keeps a plate warm)."""
 from common import Results, open_page
 
 SETUP = """(() => { __sw.Coach.finish(); const S = __sw.S; S.coins = 50000; S.unlocked = ['penny', 'den']; S.sel = 'den'; S.life.lvl = 5; S.life.xp = 0;
@@ -115,6 +116,46 @@ async def run(browser, url, shots):
     ok(not await pg.evaluate("!!document.querySelector('#modalBox .tincard')") and 'Start again with 1,000' in await text(pg, '#modalBox [data-a="again"]'),
        'bust with an empty tin: no card, start again with 1,000')
     await pg.click('#modalBox [data-a="again"]'); await pg.wait_for_timeout(300)
+
+    # --- Sunday dinner at Nan's
+    st = await pg.evaluate("""(() => { __sw.UI.closeModal(); const S = __sw.S; S.coins = 50000; S.unlocked = ['penny', 'den']; S.sel = 'den'; __sw.renderAll();
+      __sw.Sunday.force = false; S.life.sunday = null; S.roast = 0; delete S.life.ach.roast;
+      const n0 = document.querySelectorAll('#chat .sunday-invite').length; __sw.bus.emit('sunday:due');
+      const weekday = document.querySelectorAll('#chat .sunday-invite').length - n0;
+      __sw.Sunday.force = true; __sw.bus.emit('sunday:due'); const inv = [...document.querySelectorAll('#chat .sunday-invite')].pop();
+      return { weekday, asked: __sw.Sunday.asked(), text: inv ? inv.querySelector('span').textContent : '', btns: inv ? [...inv.querySelectorAll('.qopt')].map(b => b.textContent.trim()) : [] }; })()""")
+    ok(st['weekday'] == 0 and st['asked'] and st['text'].endswith(' x') and st['btns'] == ['Go round', 'Not today, Nan'],
+       f'on a Sunday (and only then) Nan asks you round for your dinner: “{st["text"]}”')
+    await pg.click('#chat .sunday-invite [data-a="go"]'); await pg.wait_for_timeout(300)
+    d = await pg.evaluate("""({ title: (document.querySelector('#modalBox .sunday h3') || {}).textContent || '', q: (document.querySelector('#modalBox .sunday q') || {}).textContent || '',
+      roast: __sw.S.roast, dinners: __sw.S.life.sunday.dinners, ach: __sw.Achievements.has('roast'), chip: !document.querySelector('#roastChip').hidden })""")
+    ok(d['title'] == 'Sunday dinner at Nan’s' and d['q'].endswith(' x') and d['roast'] == 5 and d['dinners'] == 1, f'go round: dinner at Nan’s (“{d["q"]}”), and you’re full of roast for {d["roast"]} cash-outs')
+    ok(d['ach'] and d['chip'], 'achievement: Clean Plate, and the roast shows by your coins')
+    await pg.screenshot(path=str(shots / 'nan_sunday.png'))
+    await pg.click('#modalBox [data-a="close"]'); await pg.wait_for_timeout(1200)
+    bye = await pg.evaluate("[...document.querySelectorAll('#chat .msg:not(.invite)')].map(m => m.textContent).filter(t => /^Nan/.test(t)).pop() || ''")
+    ok(bye.rstrip().endswith(' x'), f'and she sees you off: “{bye[3:70]}”')
+    again = await pg.evaluate("(() => { const n0 = document.querySelectorAll('#chat .sunday-invite').length; __sw.bus.emit('sunday:due'); return document.querySelectorAll('#chat .sunday-invite').length - n0; })()")
+    ok(again == 0, 'she only asks once a day')
+    r = await pg.evaluate("""(() => { const old = __sw.slots[0]; if (old) { old.over = true; __sw.Game.endBoard(old); }
+      __sw.Game.deal(0); const b = __sw.slots[0]; __sw.invoke(new __sw.DigCommand(b, Math.floor(b.t.h / 2) * b.t.w + Math.floor(b.t.w / 2)));
+      for (let i = 0, n = 0; i < b.n && n < 6 && !b.over; i++) if (!b.mine[i] && !b.open[i]) { __sw.invoke(new __sw.DigCommand(b, i)); n++; }
+      if (b.over) return null; const pot = b.pot(), r0 = __sw.S.roast; let got = null; __sw.bus.on('board:cashout', e => { if (e.b === b && !got) got = e; });
+      __sw.Game.cashOut(b); return { pot, stake: b.stake, amount: got.amount, r0, r1: __sw.S.roast }; })()""")
+    if r and r['pot'] > r['stake']:
+        ok(r['amount'] == r['pot'] + int((r['pot'] - r['stake']) * .15) and r['r1'] == r['r0'] - 1, f'full of roast: a winning cash-out gets +15% on the profit ({r["pot"]} → {r["amount"]}), {r["r1"]} to go')
+    else:
+        ok(True, 'the board didn’t win (nothing to check)')
+    await pg.wait_for_timeout(1400)
+    p = await pg.evaluate("""(() => { __sw.S.life.sunday.last = ''; const r0 = __sw.S.roast; __sw.bus.emit('sunday:due');
+      const inv = [...document.querySelectorAll('#chat .sunday-invite')].pop(); inv.querySelector('[data-a="no"]').click(); return { r0, r1: __sw.S.roast, plates: __sw.S.life.sunday.plates }; })()""")
+    await pg.wait_for_timeout(1300)
+    said = await pg.evaluate("[...document.querySelectorAll('#chat .msg:not(.invite)')].map(m => m.textContent).filter(t => /^Nan/.test(t) && /plate/.test(t)).pop() || ''")
+    ok(p['r1'] == p['r0'] + 2 and p['plates'] == 1 and said.rstrip().endswith(' x'), f'can’t make it: she keeps a plate warm for you anyway (“{said[3:80]}”)')
+    await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
+    ok('1 at Nan’s, 1 plate kept warm' in await text(pg, '#stats'), 'Stats: Sunday dinners, 1 at Nan’s, 1 plate kept warm')
+    await pg.click('[data-tab="shop"]')
+    await pg.evaluate("__sw.Sunday.force = null")
 
     ok(not errs, f'no console errors {errs[:3]}')
     await ctx.close()
