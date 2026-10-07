@@ -66,7 +66,7 @@ import { DartsView } from './ui/darts-view.js';
 import { CarBootView } from './ui/car-boot-view.js';
 import { SeasonView } from './ui/season-view.js';
 import { PUMPKIN } from './data/seasons.js';
-import { TREAT_CARD, EGGED_CARD } from './content/seasons.js';
+import { TREAT_CARD, EGGED_CARD, GUY_THANKS, GUY_BANG } from './content/seasons.js';
 import { Music } from './audio/music.js';
 import { SPECIAL_BY } from './data/specials.js';
 import { Specials } from './game/specials.js';
@@ -379,6 +379,11 @@ bus.on('treat', () => {
 bus.on('trick', () => {
   SeasonView.eggs(); HouseholdView.show({ ...EGGED_CARD, buttons: [['Charming', 'ghost']] });
   setTimeout(() => Chat.say('egged', {}, .9), 1200);
+});
+bus.on('guy', ({ give }) => {
+  if (give) { HouseholdView.show({ ...GUY_THANKS, buttons: [['Ooh', 'green']] }); RunPanel.render(); Sound.buy(); setTimeout(() => Chat.say('guy_thanks', {}, .9), 900); return; }
+  HouseholdView.show({ ...GUY_BANG, buttons: [['Charming', 'ghost']] }); WeirdNoises.play('firework'); RunPanel.render(); Haptics.buzz([60, 30, 60]);
+  setTimeout(() => Chat.say('guy_bang', {}, .9), 1200);
 });
 bus.on('household', ({ o }) => { if (o.fx === 'xmas') setTimeout(() => Chat.say('xmas_card', {}, .8), 1400); });
 bus.on('board:cashout', ({ mult }) => { if (mult >= 5 && Seasons.is('bonfire')) { SeasonView.fireworks(mult >= 50 ? 5 : mult >= 15 ? 3 : 2); setTimeout(() => Chat.say('fireworks', {}, .5), 1600); } });

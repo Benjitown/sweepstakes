@@ -58,6 +58,9 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **Biscuit, next door's dog.** If you hear barking, he trots in along the bottom of the screen and waits ("Woof?").
   Give him a biscuit (3% of the top table's max stake) and he sniffs out a mine on your board and sits on it: flagged,
   glowing orange for a moment. Ignore him and he wanders off. New achievement: Good Boy.
+- **Penny for the Guy.** In Bonfire week, half the knocks at the door are two kids with a Guy in a wheelbarrow. Give
+  them a quid (what a bag of sweets costs at Halloween) and they hand you a lit sparkler: your next board's golden.
+  No change, and they let a banger off on the step: there goes your streak.
 - **More callers:** a parcel for next door (they bring round shortbread), a man selling double glazing, the milkman
   (gold tops: your next board's golden), the window cleaner, an automated voice about your accident, your mum, and
   the doctor's surgery ringing back.

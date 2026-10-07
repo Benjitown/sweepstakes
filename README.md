@@ -103,13 +103,13 @@ The suites run against both the ES-module source and the built file:
   when you start a fresh run yourself) and Sunday dinner at hers (only on a Sunday and once a day, going round, the
   roast on a winning cash-out, the plate she keeps warm, Stats)
 - **antics:** dares from the group chat (the offer, You're on, Nah, no answer, the clock in the header and when it
-  stops, doing it in time, running out of time, each dare's rule, the switch) and the seasons (the calendar, Halloween's
-  pumpkins, bats and trick or treaters, Bonfire Night's fireworks, Christmas snow and Nan's card), the claw machine
-  (the swing, what it pays back, a win, a drop, a slip, a miss, leaving mid-grab), the car boot sale (his prices,
-  buying, haggling, being sold out from under you, the mystery box, packing up), darts with Big Dave (a real
-  dartboard's scores, a win with 180, a loss, a draw, walking away), quiz night (a perfect round, a mixed one,
-  running out of time, leaving half-way), board styles (buying, wearing, keeping them when you go bust), plus checks
-  that every icon in the sheet has its own id and the pub quiz never repeats itself
+  stops, doing it in time, running out of time, each dare's rule, the switch) and the seasons (the calendar,
+  Halloween's pumpkins, bats and trick or treaters, Bonfire Night's fireworks and the Guy, Christmas snow and Nan's
+  card), the claw machine (the swing, what it pays back, a win, a drop, a slip, a miss, leaving mid-grab), the car
+  boot sale (his prices, buying, haggling, being sold out from under you, the mystery box, packing up), darts with Big
+  Dave (a real dartboard's scores, a win with 180, a loss, a draw, walking away), quiz night (a perfect round, a mixed
+  one, running out of time, leaving half-way), board styles (buying, wearing, keeping them when you go bust), plus
+  checks that every icon in the sheet has its own id and the pub quiz never repeats itself
 - **allotment:** the tab, the seed packets' prices, planting, growing by the minute, ripe (and the chip), picking,
   a whopper, slugs, a thunderstorm watering the lot, full beds, October pumpkins, the 4 key, Stats, a fresh run and the phone
 - **paper:** The Daily Sweep: the newsroom noting the run's big moments, the paper arriving, the front page (the
