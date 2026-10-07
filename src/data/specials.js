@@ -10,5 +10,7 @@ export const SPECIALS = [
   { id: 'lockin', name: 'The Lock-in', w: 1, frac: .5, bonus: 1,
     blurb: 'The landlord’s locked the doors: no cashing out till half the board’s dug. Stay for it and the profit’s doubled.' },
   { id: 'happy', name: 'Happy Hour', w: 1, back: .5, blurb: 'If this board goes bang, the landlord gives you half your stake back.' },
+  { id: 'orders', name: 'Last Orders', w: 1, digs: 10, bonus: .5,
+    blurb: 'Ten digs and that’s your lot: it cashes out after the tenth. Whenever it cashes out, +50% on the profit.' },
 ];
 export const SPECIAL_BY = Object.fromEntries(SPECIALS.map(s => [s.id, s]));

@@ -72,6 +72,14 @@ class ClockPayout extends PayoutDecorator {
     return r;
   }
 }
+// Last Orders (a landlord's special): whenever it cashes out, +50% on the profit
+class OrdersPayout extends PayoutDecorator {
+  pay(b, why) {
+    const r = super.pay(b, why), profit = r.amount - b.stake;
+    if (b.special === 'orders' && profit > 0) { const e = Math.floor(profit * SPECIAL_BY.orders.bonus); r.amount += e; r.extras.push(['orders', `Last orders +${fmt(e)}`]); }
+    return r;
+  }
+}
 // The Lock-in (a landlord's special): stay till the doors open and the profit's doubled
 class LockinPayout extends PayoutDecorator {
   pay(b, why) {
@@ -99,5 +107,6 @@ export const buildPayout = () => {
   p = new BankerPayout(p);
   p = new ClockPayout(p);
   p = new LockinPayout(p);
+  p = new OrdersPayout(p);
   return PowerCut.on ? new DarkPayout(p) : p;
 };

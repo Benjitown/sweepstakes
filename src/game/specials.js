@@ -17,6 +17,8 @@ export const Specials = {
   },
   // Against the Clock: seconds left on board b (null if it isn't one, or the clock hasn't started)
   left(b) { return b.special !== 'clock' || !b.started || !b.t0 ? null : Math.max(0, SPECIAL_BY.clock.secs - (Date.now() - b.t0) / 1000); },
+  // Last Orders: digs left on board b (null if it isn't one)
+  digsLeft(b) { return b.special !== 'orders' ? null : Math.max(0, SPECIAL_BY.orders.digs - (b.digs || 0)); },
   // The Lock-in: are the doors still locked on board b (no cashing out till half of it's dug)?
   locked(b) { return b.special === 'lockin' && !b.over && b.frac() < SPECIAL_BY.lockin.frac; },
   // ...and how many more tiles till they open

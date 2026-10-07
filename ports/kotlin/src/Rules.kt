@@ -236,6 +236,8 @@ object Rules {
         "special_rush" to listOf("priya" to "gem rush! dig dig dig", "nan" to "Ooh, sparkly! Good luck, love x", "tash" to "two extra gems. go on then"),
         "special_clock" to listOf("dave" to "FORTY SECONDS. GO", "tash" to "clock’s ticking. no pressure", "nan" to "Don’t rush on my account, love. Well, a bit x"),
         "special_beat" to listOf("priya" to "beat the clock. show-off", "nan" to "In the nick of time! Well done, love x", "dave" to "with seconds to spare. cinema"),
+        "special_orders" to listOf("dave" to "LAST ORDERS. make them count", "nan" to "Last orders already? Make every one count, love x", "tash" to "ten digs. no pressure"),
+        "special_time" to listOf("dave" to "TIME, GENTLEMEN, PLEASE", "kev" to "towel’s over the pumps", "nan" to "Home time, love. Mind how you go x"),
         "special_lockin" to listOf("dave" to "LOCK-IN. nobody leaves", "nan" to "Ooh, a lock-in! I’ll put the kettle on, love x", "kev" to "trapped in a pub. living the dream"),
         "special_happy" to listOf("tash" to "happy hour! half your stake back if it goes bang", "nan" to "Happy hour! Have a lovely time, love x", "priya" to "safety net. go wild"),
         "special_open" to listOf("dave" to "doors are open. RUN", "nan" to "You can go home now if you like, love. Or stay a bit, I don’t mind x", "tash" to "free at last. cash out or push your luck?"),

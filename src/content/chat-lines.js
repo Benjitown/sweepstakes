@@ -148,6 +148,8 @@ export const LINES = {
   special_rush:    [['priya', 'gem rush! dig dig dig'], ['nan', 'Ooh, sparkly! Good luck, love x'], ['tash', 'two extra gems. go on then']],
   special_clock:   [['dave', 'FORTY SECONDS. GO'], ['tash', 'clock’s ticking. no pressure'], ['nan', 'Don’t rush on my account, love. Well, a bit x']],
   special_beat:    [['priya', 'beat the clock. show-off'], ['nan', 'In the nick of time! Well done, love x'], ['dave', 'with seconds to spare. cinema']],
+  special_orders: [['dave', 'LAST ORDERS. make them count'], ['nan', 'Last orders already? Make every one count, love x'], ['tash', 'ten digs. no pressure']],
+  special_time:   [['dave', 'TIME, GENTLEMEN, PLEASE'], ['kev', 'towel’s over the pumps'], ['nan', 'Home time, love. Mind how you go x']],
   special_lockin:  [['dave', 'LOCK-IN. nobody leaves'], ['nan', 'Ooh, a lock-in! I’ll put the kettle on, love x'], ['kev', 'trapped in a pub. living the dream']],
   special_happy:   [['tash', 'happy hour! half your stake back if it goes bang'], ['nan', 'Happy hour! Have a lovely time, love x'], ['priya', 'safety net. go wild']],
   special_open:    [['dave', 'doors are open. RUN'], ['nan', 'You can go home now if you like, love. Or stay a bit, I don’t mind x'], ['tash', 'free at last. cash out or push your luck?']],

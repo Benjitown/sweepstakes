@@ -118,7 +118,8 @@ The suites run against both the ES-module source and the built file:
   run, the bust screen's special edition, Stats and the phone
 - **specials:** the landlord's specials: how often (about 1 in 12, never golden), Double Trouble's mines, limit and
   risky digs, Gem Rush's gems, Against the Clock's countdown, bonus and cash-out, the Lock-in's locked doors and
-  doubled profit (and no Banker), Happy Hour's half stake back, surviving a reload, and the phone
+  doubled profit (and no Banker), Happy Hour's half stake back, Last Orders' ten digs and bonus, five more add-on
+  cards, surviving a reload, and the phone
 - **fete:** the church fete's Splat the Rat: the card, three goes for the fee, a splat, pulling too early, too slow,
   what it pays (money back, ×3, ×8), Rat Catcher, walking off half-way, Stats, the paper and the phone
 - **conkers:** conkers with Priya: only in conker season, her challenge, Nah, You're on, the swing meter (a smash, a
