@@ -76,8 +76,9 @@ export const ConkersView = {
     if (r.knocks) { Sound.drum(); Haptics.buzz(r.knocks > 1 ? [40, 30, 60] : 30); } else Sound.unflag();
     this.say(rnd(CONKER_SAYS[r.knocks === 2 ? 'smash' : r.knocks ? 'hit' : r.strings ? 'strings' : 'miss']));
     if (r.done) return this.done(r, { mine: before.mine, hers: 0 });
+    if (Conkers.match.turn === 'her') this.busy = true;
     this.render(); if (r.knocks) this.shake('cHersS');
-    if (Conkers.match.turn === 'her') { this.busy = true; this.render(); this.her = setTimeout(() => this.hers(), 1100); }
+    if (this.busy) this.her = setTimeout(() => this.hers(), 1100);
   },
   hers() {
     this.busy = false; const m = Conkers.match; if (!m || !this.live()) return;
