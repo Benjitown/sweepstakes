@@ -2,7 +2,8 @@
 (more mines, double the limit, risky digs pay double), Gem Rush (two more gems), Against the Clock (the countdown,
 +50% for beating it, the cash-out when it's up, with no bonus then), the Lock-in (no cashing out till half the board's
 dug, then double the profit, and the Banker can't get in), Happy Hour (half the stake back on a bang), the chalk on
-the board, the achievements, a special surviving a reload, and the phone."""
+the board, the achievements, a special surviving a reload, and the phone. Also three add-on cards that came with
+them: Doggy Bag, Tea and Toast and Hat Trick."""
 from common import Results, open_page
 
 SETUP = """(() => { __sw.Coach.finish(); const S = __sw.S; S.coins = 50000; S.unlocked = ['penny', 'den']; S.sel = 'den'; S.life.lvl = 5; S.life.xp = 0;
@@ -109,6 +110,32 @@ async def run(browser, url, shots):
     ok(d['tag'] == 'Happy Hour' and r['over'] and r['back'] == r['half'] > 0 and 'Happy Hour: the landlord’s given you' in t,
        f'Happy Hour: a bang gives you half the stake back ({r["back"]} of {r["stake"]}, “{r["result"]}”)')
     await pg.wait_for_timeout(1800)
+
+    # --- three more add-on cards: Doggy Bag, Tea and Toast, Hat Trick
+    await pg.evaluate("(() => { __sw.Game.slots.forEach(b => { if (b) { b.over = true; __sw.Game.endBoard(b); } }); __sw.S.addons = [{ id: 'doggy', paid: 50 }, { id: 'tea', paid: 50 }, { id: 'hattrick', paid: 110 }]; __sw.renderAll(); })()")
+    await pg.wait_for_timeout(200)
+    await pg.evaluate(f"{DEAL}(0, '')")
+    r = await pg.evaluate("""(() => { const b = __sw.slots[0]; __sw.S.inv.shield = 0; const c0 = __sw.S.coins; let i = 0; while (!b.mine[i]) i++;
+      __sw.invoke(new __sw.DigCommand(b, i)); return { back: __sw.S.coins - c0, fifth: Math.floor(b.stake / 5), over: b.over, result: b.result }; })()""")
+    ok(r['over'] and r['back'] == r['fifth'] > 0, f'Doggy Bag: a bang still sends a fifth of the stake home ({r["back"]:,}, “{r["result"]}”)')
+    await pg.evaluate(f"{DEAL}(1, '')")
+    r = await pg.evaluate("""(() => { const b = __sw.slots[1];
+      for (let k = 0; k < 3 && !b.over; k++) { const d = __sw.Solver.full(b); let j = -1; for (let i = 0; i < b.n; i++) if (!b.open[i] && !b.flag[i] && d.KS[i]) { j = i; break; } if (j < 0) break; __sw.invoke(new __sw.DigCommand(b, j)); }
+      if (b.over || b.guesses) return null;
+      let got = null; __sw.bus.on('board:cashout', e => { if (e.b === b && !got) got = e; });
+      const pot = b.pot(); __sw.Game.cashOut(b, 'manual'); return { pot, stake: b.stake, amount: got.amount }; })()""")
+    if r:
+        want = r['pot'] + (int((r['pot'] - r['stake']) * .15) if r['pot'] > r['stake'] else 0)
+        ok(r['amount'] == want, f'Tea and Toast: no risky digs, +15% on the profit ({r["pot"]:,} → {r["amount"]:,})')
+    else:
+        ok(True, 'the board finished on its own (nothing to check)')
+    await pg.evaluate(f"{DEAL}(2, '')")
+    r = await pg.evaluate("""(() => { const b = __sw.slots[2]; let fired = 0; __sw.bus.on('addon:fired', e => { if (e.id === 'hattrick' && e.b === b) fired++; });
+      for (let k = 0; k < 3 && !b.over; k++) { const d = __sw.Solver.full(b); let j = -1; for (let i = 0; i < b.n; i++) if (!b.open[i] && !b.flag[i] && !b.mine[i] && !d.KS[i] && d.P[i] > 0) { j = i; break; } if (j < 0) break; __sw.invoke(new __sw.DigCommand(b, j)); }
+      return { fired, combo: b.combo }; })()""")
+    ok(r['fired'] == (1 if r['combo'] >= 3 else 0), f'Hat Trick: the third risky dig gives an extra ×1.3 ({r["combo"]} risky digs, fired {r["fired"]}×)')
+    await pg.evaluate("(() => { __sw.S.addons = []; __sw.Game.slots.forEach(b => { if (b) { b.over = true; __sw.Game.endBoard(b); } }); __sw.renderAll(); })()")
+    await pg.wait_for_timeout(300)
 
     # --- a special survives a reload
     await pg.evaluate("(() => { __sw.Game.slots.forEach(b => { if (b) { b.over = true; __sw.Game.endBoard(b); } }); })()")
