@@ -73,6 +73,7 @@ $('#btnFlip').onclick = () => FlipView.open();
 $('#btnSpin').onclick = () => { if (Game.spinIn() <= 0) SpinView.open(); };
 $('#btnMute').onclick = () => { S.muted = !S.muted; if (!S.muted) Sound.msg(); Music.sync(); JukeboxView.now(); RunPanel.render(); SaveGame.saveNow(); };
 $('#btnJuke').onclick = () => JukeboxView.open();
+$('#nowPlaying').onclick = () => JukeboxView.open();
 $('#plotChip').onclick = () => { Tabs.show('plot'); $('#plot').scrollIntoView({ behavior: 'smooth', block: 'nearest' }); };
 StakeView.bind(); Tabs.bind(); UiSounds.bind(); Keys.bind(); HouseholdView.bind(); PowerView.bind(); FruityView.bind();
 document.addEventListener('visibilitychange', () => { if (document.hidden) SaveGame.saveNow(); });

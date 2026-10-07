@@ -41,3 +41,9 @@
 @keyframes kbum{50%{box-shadow:inset 0 0 0 3px var(--red),inset 0 0 30px rgba(254,95,85,.5)}}
 .kmsg{margin:0;min-height:1.4em;text-align:center}
 @media (prefers-reduced-motion:reduce){.klane.bum{animation:none}}
+.nowplay{align-self:center;display:inline-flex;align-items:center;gap:5px;border:0;border-radius:8px;padding:3px 8px;cursor:pointer;background:var(--panel-in);
+  box-shadow:0 2px 0 var(--shadow);font-family:var(--pixel);font-size:.72rem;letter-spacing:0;color:var(--ink-dim);text-shadow:none;max-width:12em;min-width:0}
+.nowplay span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nowplay svg{width:16px;height:16px;flex:none}
+.chathead .nowplay{margin-left:auto}
+.chathead .kevtick:not([hidden]) ~ .nowplay{margin-left:0}
