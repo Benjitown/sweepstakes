@@ -52,6 +52,13 @@ export const JukeboxView = {
     S.music = !pref('music'); Music.sync(); SaveGame.saveNow(); Sound.toggle(S.music); this.now();
     if (!S.music) setTimeout(() => Chat.say('juke_off', {}, .5), 700);
   },
+  // the pill in the group chat's header: what's on (tap it for the jukebox)
+  ticker() {
+    const el = $('#nowPlaying'); if (!el) return;
+    const r = Music.timer && RECORDS[Music.id];
+    el.hidden = !r;
+    if (r) { el.innerHTML = `<svg aria-hidden="true"><use href="#i-juke"/></svg><span>${esc(r.name)}</span>`; el.title = `Now playing: ${r.name} by ${r.by}. Tap for the jukebox.`; el.setAttribute('aria-label', el.title); }
+  },
   // what's on, or why nothing is
   now() {
     if (!this.live()) return;

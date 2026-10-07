@@ -95,7 +95,8 @@ Each version is also a save in the built-in version control. Run `python tools/v
   and a theremin), Penny for the Guy on Bonfire Night (a jig) and Tinsel on the Telly at Christmas (sleigh bells and a
   celesta). It sits quietly under the game, with a Music slider in the jukebox and in Stats. It stops while you're
   muted, outside or in another tab, and when the power goes the record winds down. Switch it off in the jukebox or in
-  Stats. Everyone in the group chat has an opinion about your record.
+  Stats. The group chat's header shows what's playing (tap it for the jukebox), and everyone in the chat has an
+  opinion about your record.
 - **Board styles,** in Stats: Card table felt, Neon, Nan's knitting (purple wool, cable stitch) and Gold leaf, for
   the tiles on every board (and Double or Nothing's). Each is bought once with coins and kept for good: going bust
   doesn't take it back, and swapping between the ones you own is free. New achievement: Interior Design.
