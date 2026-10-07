@@ -367,9 +367,9 @@ bus.on('tick', () => { if (S.dare) { Dares.second(); DareView.chip(); } });
 bus.on('reset', () => DareView.chip());
 
 /* ---------- the seasons: pumpkins and trick or treaters at Halloween, fireworks on Bonfire Night, Nan's card at Christmas ---------- */
-bus.on('pumpkin', ({ b, i }) => {
-  BoardsView.cell(b, i); BoardsView.float(b, i, `PUMPKIN ×${PUMPKIN.X}`, 'var(--orange)', true); BoardsView.hud(b);
-  Sound.gem('ruby'); Haptics.buzz([15, 25, 15]); Chat.say('pumpkin', {}, .6);
+bus.on('pumpkin', ({ b, i, egg }) => {
+  BoardsView.cell(b, i); BoardsView.float(b, i, `${egg ? 'EASTER EGG' : 'PUMPKIN'} ×${PUMPKIN.X}`, egg ? 'var(--gold)' : 'var(--orange)', true); BoardsView.hud(b);
+  Sound.gem('ruby'); Haptics.buzz([15, 25, 15]); Chat.say(egg ? 'easter_egg' : 'pumpkin', {}, .6);
 });
 bus.on('ghost', ({ b, i, mine }) => {
   SeasonView.ghost(b, i); BoardsView.float(b, i, mine >= 0 ? 'BOO! It points at a mine' : 'BOO!', 'var(--purple)', true); Sound.ghost();
@@ -514,7 +514,7 @@ bus.on('board:cashout', ({ b, why, profit }) => { // the landlord's specials in 
 });
 bus.on('board:cashout', ({ b, why }) => { if (why === 'orders' && b.human) { UI.toast(`Last orders on ${b.t.name}: that’s your lot, and it’s cashed out.`); setTimeout(() => Chat.say('special_time', {}, .7), 800); } });
 bus.on('special:locked', ({ b }) => { Sound.tick(); UI.toast(`The doors are locked on ${b.t.name}. Dig ${Specials.toGo(b)} more and the landlord will let you out.`); });
-bus.on('special:open', ({ b }) => { Sound.select(1); UI.toast(`The doors are open on ${b.t.name}. Cash out whenever you like: the profit’s doubled.`); setTimeout(() => Chat.say('special_open', {}, .6), 700); });
+bus.on('special:open', ({ b }) => { WeirdNoises.play('creak'); UI.toast(`The doors are open on ${b.t.name}. Cash out whenever you like: the profit’s doubled.`); setTimeout(() => Chat.say('special_open', {}, .6), 700); });
 bus.on('board:boom', ({ b, back }) => { if (!back) return; UI.toast(`Happy Hour: the landlord’s given you ${fmt(back)} back on ${b.t.name}.`); News.note('happy', { back: fmt(back) }); setTimeout(() => Chat.say('special_happy_back', {}, .7), 1500); });
 
 /* ---------- the jukebox (the Halloween record's only on it in October) ---------- */
