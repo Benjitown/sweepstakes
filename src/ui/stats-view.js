@@ -78,7 +78,7 @@ export const StatsView = {
         <li>Now and then Big Dave challenges you to darts: three each, best total wins the pot. Your aim wanders, so time your throws.</li>
         <li>Now and then a car boot sale sets up at the end of the road: add-on cards at boot-sale prices (some bargains, some rip-offs), two goes at haggling each (he might sell it to someone else while you think), and a mystery box.</li>
         <li>The booth’s claw machine: the claw swings along the top and you grab. Dead centre on a prize grips best, the dearer prizes are slippery, and it can still drop it on the way to the chute. Even perfect timing pays back a bit less than it costs.</li>
-        <li>The seasons, by your calendar: all October, half the boards hide a pumpkin under a safe tile (×1.15 when you dig it up), one in five a friendly ghost (dig it up and it points out a mine) and trick or treaters come to the door (give them sweets for a sugar rush, or get egged). The first week of November, big wins get fireworks. At Christmas it snows, and Nan sends a card.</li>
+        <li>The seasons, by your calendar: all October, half the boards hide a pumpkin under a safe tile (×1.15 when you dig it up), one in five a friendly ghost (dig it up and it points out a mine) and trick or treaters come to the door (give them sweets for a sugar rush, or get egged). The first week of November, big wins get fireworks and kids come round with a Guy (a quid gets you a sparkler and a golden board; no change gets you a banger on the step). At Christmas it snows, and Nan sends a card.</li>
         <li>Every time a board cashes out in profit, Nan puts a little of her own money in her biscuit tin for you. Go bust and she brings it round: the fresh run starts with it.</li>
         <li>Nan reads your stars from the paper once a day, with a lucky number: the first time a board uncovers it that day, the pot goes ×1.25.</li>
         <li>Sometimes the Banker rings about your best board: its pot plus a premium, right now. Deal, or play on and try to beat him.</li>
@@ -92,6 +92,10 @@ export const StatsView = {
         <li>The Daily Sweep comes through the letterbox every twenty minutes of play, written from your run: the biggest story on the front. Spot the mine in its puzzle for a prize. When you go bust, there’s a special edition.</li>
         <li>The Sweepstake, in the paper: buy Lucky Dip lines (five numbers from 30) and the next paper prints the draw. Three numbers pay ×12, four ×200, all five ×10,000. It’s a lottery: about half the money comes back.</li>
         <li>Karaoke, from the jukebox: sing Last Orders by pressing Sing (or Space) as each note reaches the mic. Your fee goes in the pot; 60% gets it back, 80% doubles it and 95% trebles it. The machine needs three minutes’ rest between singers, and now and then the group chat calls you up.</li>
+        <li>On a Sunday, Nan asks you round for your dinner. Go, and you’re full of roast: +15% on the profit of your next five winning cash-outs. Can’t make it, and she keeps a plate warm for you anyway.</li>
+        <li>Now and then the church fete’s on, with Splat the Rat: three goes for a fee. Pull the cord, and splat the rat as it shoots out of the drainpipe. One splat gets your money back, two pays ×3, all three ×8.</li>
+        <li>In conker season (September to November), Priya challenges you to conkers. Stop the swing meter in the gold for a smash, the green for a hit; the first conker to crack loses, and a win pays double.</li>
+        <li>Stats keeps your five best runs by their peak, for good.</li>
         <li>The jukebox (next to the mute button, or J) plays music. Pick a record or shuffle them; the Music slider and switch are below.</li>
         <li>Progress saves in this browser. The coins aren’t real money.</li></ol>
       <h2>Board style</h2><div class="skins">${SKINS.map(k => { const own = Skins.owned(k.id), on = Skins.current() === k.id;
