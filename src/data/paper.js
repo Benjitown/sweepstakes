@@ -13,5 +13,5 @@ export const PAPER = {
 export const STORY_WEIGHT = {
   casino: 12, bust: 11, lotto_jackpot: 10, jackpot: 8, lotto_four: 5, bingo_house: 8, fruity_jackpot: 8, ascend: 7, don_win: 7, cashout_big: 6, rug: 6, whopper: 6,
   night_full: 6, karaoke_ovation: 5, karaoke_booed: 3, scratch_big: 6, duck_long: 5, boom_big: 5, darts_won: 5, banker_beat: 5, unlock: 4, clear: 4, rainbow: 4, claw_win: 4,
-  banker_deal: 4, dare_won: 4, storm: 3, power: 3, kev_launch: 3, darts_lost: 3, levelup: 3, gull: 2, slugs: 2, ghost: 2,
+  banker_deal: 4, dare_won: 4, storm: 3, power: 3, kev_launch: 3, darts_lost: 3, levelup: 3, gull: 2, slugs: 2, ghost: 2, splat3: 4,
 };

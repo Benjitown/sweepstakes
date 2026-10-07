@@ -64,6 +64,8 @@ import { Darts } from './game/darts.js';
 import { QuizNightView } from './ui/quiz-night-view.js';
 import { DartsView } from './ui/darts-view.js';
 import { CarBootView } from './ui/car-boot-view.js';
+import { Fete } from './game/fete.js';
+import { FeteView } from './ui/fete-view.js';
 import { SeasonView } from './ui/season-view.js';
 import { PUMPKIN } from './data/seasons.js';
 import { TREAT_CARD, EGGED_CARD } from './content/seasons.js';
@@ -397,6 +399,11 @@ bus.on('darts:done', m => { DartsView.done(m); RunPanel.render(); Rank.award(m.r
 bus.on('boot:due', () => { if (pref('odd') && !document.hidden && HouseholdView.free() && !Outside.on && S.coins >= 50) { CarBootView.invite(); setTimeout(() => Chat.say('boot_open', {}, .8), 1200); } });
 bus.on('boot:bought', () => setTimeout(() => Chat.say('boot_bought', {}, .5), 800));
 bus.on('boot:box', () => setTimeout(() => Chat.say('boot_box', {}, .8), 800));
+
+/* ---------- the church fete: Splat the Rat ---------- */
+bus.on('fete:due', () => { if (pref('odd') && !document.hidden && HouseholdView.free() && UI.modalClosed() && !Coach.active && !Outside.on && S.coins >= Fete.fee() * 2) { FeteView.invite(); setTimeout(() => Chat.say('fete_open', {}, .8), 1200); } });
+bus.on('fete:done', ({ hits }) => { RunPanel.render(); if (hits >= 3) News.note('splat3'); setTimeout(() => Chat.say(hits >= 3 ? 'fete_three' : hits ? 'fete_some' : 'fete_none', {}, .7), 900); });
+bus.on('modal:closed', () => { if (Fete.st()) { clearTimeout(FeteView.t); FeteView.phase = 'idle'; Fete.settle(); Game.setCoins(S.coins); } }); // (closed some other way: still paid)
 
 /* ---------- the allotment: it grows by the minute of play; storms water it ---------- */
 bus.on('tick', () => { Allotment.second(); AllotmentView.tick(); });

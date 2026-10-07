@@ -78,3 +78,15 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center;justify-conten
 .roastplate .steam path{animation:steam 3.2s ease-in-out infinite}
 .roastplate .steam path:nth-child(2){animation-delay:-1.1s}
 .roastplate .steam path:nth-child(3){animation-delay:-2.2s}
+/* the church fete: Splat the Rat */
+.fete{display:grid;justify-items:center;text-align:center;gap:8px}
+.fete h3,.fete p{margin:0}
+.fete .pipe{position:relative;width:170px;height:236px;cursor:pointer;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.fete .pipeart{display:block;width:120px;height:200px;margin:0 auto}
+.fete .rat{position:absolute;left:50%;top:150px;width:90px;margin-left:-45px;opacity:0;transform:translateY(-70px);pointer-events:none}
+.fete .rat svg{display:block;width:90px;height:44px}
+.fete .rat.out{opacity:1;transform:translateY(36px);transition:transform .1s ease-out}
+.fete .rat.gone{opacity:0;transform:translateY(90px);transition:transform .3s ease-in,opacity .3s}
+.fete .rat.splat{opacity:1;transform:translateY(46px) scale(1.35,.45);transition:transform .07s}
+.splatmsg{min-height:1.4em;font-weight:700}
+.splatgoes{min-height:1.2em;color:var(--ink-dim);font-size:.85rem}
