@@ -64,6 +64,7 @@ export const Achievements = {
     bus.on('board:cashout', ({ b, why, profit }) => { if (b.special === 'clock' && why !== 'clock' && profit > 0 && b.human) u('nick'); });
     bus.on('hall', ({ place, runs }) => { if (place === 1 && runs > 1) u('pb'); });
     bus.on('fete:done', ({ hits }) => { if (hits >= 3) u('rat'); });
+    bus.on('conkers:done', ({ result }) => { if (result === 'won') u('conker'); });
     bus.on('board:cashout', ({ b, why, profit }) => { if (b.special === 'lockin' && why === 'manual' && profit > 0 && b.human) u('lockin'); });
     bus.on('sunday', ({ went }) => { if (went) u('roast'); });
     bus.on('lotto:drawn', ({ lines }) => { if (lines.some(l => l.hits >= 3)) u('lotto3'); });

@@ -62,6 +62,10 @@ Each version is also a save in the built-in version control. Run `python tools/v
   (common: cash out without a single risky dig for +15% on the profit), Late-Night Kebab (common: +10% on the profit
   of a cash-out between midnight and 5am, by your clock), Hat Trick (uncommon: every third risky dig on a board gives
   an extra ×1.3) and Bank Holiday (rare: every tenth board you deal is golden).
+- **Conkers with Priya.** In conker season (September to November) she challenges you in the group chat, with some
+  coins on it. Her conker's been soaked in vinegar and baked ("preparation"). Take turns to strike: stop the swing
+  meter in the gold for a smash, the green for a hit; a miss might tangle the strings, and whoever shouts "Strings!"
+  goes again. First conker to crack loses; win and it pays double. New achievement: Oner.
 - **The church fete: Splat the Rat.** Every so often the fete's on (Nan's on the cake stall). Three goes for 3% of
   your top table's max stake: pull the cord, and when the rat shoots out of the bottom of the drainpipe, splat it.
   Too early and it's still up the pipe; too slow and it's gone. One splat gets your money back, two pays ×3, all

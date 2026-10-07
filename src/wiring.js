@@ -65,6 +65,8 @@ import { QuizNightView } from './ui/quiz-night-view.js';
 import { DartsView } from './ui/darts-view.js';
 import { CarBootView } from './ui/car-boot-view.js';
 import { Fete } from './game/fete.js';
+import { Conkers } from './game/conkers.js';
+import { ConkersView } from './ui/conkers-view.js';
 import { FeteView } from './ui/fete-view.js';
 import { SeasonView } from './ui/season-view.js';
 import { PUMPKIN } from './data/seasons.js';
@@ -404,6 +406,13 @@ bus.on('darts:done', m => { DartsView.done(m); RunPanel.render(); Rank.award(m.r
 bus.on('boot:due', () => { if (pref('odd') && !document.hidden && HouseholdView.free() && !Outside.on && S.coins >= 50) { CarBootView.invite(); setTimeout(() => Chat.say('boot_open', {}, .8), 1200); } });
 bus.on('boot:bought', () => setTimeout(() => Chat.say('boot_bought', {}, .5), 800));
 bus.on('boot:box', () => setTimeout(() => Chat.say('boot_box', {}, .8), 800));
+
+/* ---------- conkers with Priya, in conker season (the dares switch covers it) ---------- */
+bus.on('conkers:due', () => { if (pref('dares') && !document.hidden && UI.modalClosed() && !Coach.active && !Outside.on && Conkers.canOffer()) Conkers.make(); });
+bus.on('conkers:offer', o => ConkersView.offer(o));
+bus.on('conkers:declined', ({ why }) => { if (why === 'nah') setTimeout(() => Chat.say('conker_nah', {}, .8), 600); });
+bus.on('conkers:done', m => { RunPanel.render(); if (m.result === 'won') News.note('conker', { pay: fmt(m.pay) }); setTimeout(() => Chat.say(m.result === 'won' ? 'conker_won' : 'conker_lost', {}, .8), 1400); });
+bus.on('modal:closed', () => { if (Conkers.match) { ConkersView.stop(); Conkers.forfeit(); } }); // (closed some other way: she wins)
 
 /* ---------- the church fete: Splat the Rat ---------- */
 bus.on('fete:due', () => { if (pref('odd') && !document.hidden && HouseholdView.free() && UI.modalClosed() && !Coach.active && !Outside.on && S.coins >= Fete.fee() * 2) { FeteView.invite(); setTimeout(() => Chat.say('fete_open', {}, .8), 1200); } });
