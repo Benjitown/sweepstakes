@@ -25,6 +25,8 @@ export const Seasons = {
     return Object.keys(SEASONS).find(k => SEASONS[k].around ? nearEaster(date, SEASONS[k].around) : inSeason(m, d, SEASONS[k].from, SEASONS[k].to)) || null;
   },
   is(k) { return this.now() === k; },
+  // Pancake Day: Shrove Tuesday, 47 days before Easter Sunday (Nan says so in the group chat)
+  pancakeDay(date = new Date()) { const e = easterSunday(date.getFullYear()); return Math.round((new Date(date.getFullYear(), date.getMonth(), date.getDate()) - e) / 864e5) === -47; },
   // Halloween: the safe tile that hides this board's pumpkin (one the opening didn't reach, and not a gem), or -1. At
   // Easter it's a chocolate egg instead.
   egg() { return this.is('easter'); },

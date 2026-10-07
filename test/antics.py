@@ -162,6 +162,8 @@ async def run(browser, url, shots):
     e = await pg.evaluate("""(() => { const X = __sw.Seasons, f = X.force; X.force = null; const at = d => X.now(new Date(d));
       const r = [at('2027-03-25T12:00'), at('2027-03-26T09:00'), at('2027-03-28T12:00'), at('2027-03-29T20:00'), at('2027-03-30T09:00'), at('2026-04-05T12:00')]; X.force = f; return r; })()""")
     ok(e == [None, 'easter', 'easter', 'easter', None, 'easter'], f'Easter: Good Friday to Easter Monday, wherever it lands (in 2027, 26 to 29 March) {e}')
+    pd = await pg.evaluate("[__sw.Seasons.pancakeDay(new Date('2027-02-09T12:00')), __sw.Seasons.pancakeDay(new Date('2026-02-17T08:00')), __sw.Seasons.pancakeDay(new Date('2027-02-10T12:00'))]")
+    ok(pd == [True, True, False], f'Pancake Day: Shrove Tuesday, 47 days before Easter (9 February 2027, 17 February 2026) {pd}')
     await pg.evaluate("(() => { __sw.Seasons.force = 'easter'; __sw.SeasonView.apply(); __sw.S.life.easterEggs = 0; })()")
     r = await pg.evaluate(PUMP); await pg.wait_for_timeout(150)
     floats = await pg.evaluate("[...document.querySelectorAll('.float')].map(e => e.textContent).join(' ')")

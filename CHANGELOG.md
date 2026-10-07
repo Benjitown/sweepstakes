@@ -83,6 +83,7 @@ Each version is also a save in the built-in version control. Run `python tools/v
   and won't take a penny (a sugar rush, once a fete).
 - **Easter,** a fourth season: from Good Friday to Easter Monday (worked out for the year), half the boards hide a
   chocolate egg under a safe tile (×1.15), there's an egg by the logo, and the group chat's on the hot cross buns.
+  On Pancake Day (Shrove Tuesday, worked out the same way) Nan asks if you're a lemon and sugar person.
 - **Carol singers** at Christmas, with a tin for the lifeboats: a quid in it and they sing one more for luck (+1
   shield); or turn the lights off and hide behind the sofa.
 - **Penny for the Guy.** In Bonfire week, half the knocks at the door are two kids with a Guy in a wheelbarrow. Give
