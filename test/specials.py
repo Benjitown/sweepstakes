@@ -11,7 +11,7 @@ SETUP = """(() => { __sw.Coach.finish(); const S = __sw.S; S.coins = 50000; S.un
 DEAL = """((k, sp) => { __sw.Specials.force = sp; __sw.Game.deal(k); __sw.Specials.force = ''; const b = __sw.slots[k];
   __sw.invoke(new __sw.DigCommand(b, Math.floor(b.t.h / 2) * b.t.w + Math.floor(b.t.w / 2)));
   let pool = 0; for (let i = 0; i < b.n; i++) if (!b.open[i] && !b.mine[i]) pool++;
-  return { special: b.special, m: b.m, lim: b.lim, tm: b.t.m, tlim: b.t.lim, n: b.n, gems: b.gemsTotal, tgems: b.t.gems, pool, tag: (b.el.querySelector('.spectag') || {}).textContent || '' }; })"""
+  return { special: b.special, golden: !!b.golden, m: b.m, lim: b.lim, tm: b.t.m, tlim: b.t.lim, n: b.n, gems: b.gemsTotal, tgems: b.t.gems, pool, tag: (b.el.querySelector('.spectag') || {}).textContent || '' }; })"""
 # a safe tile that isn't provably safe (a risky dig), or -1
 RISKY = """(k => { const b = __sw.slots[k], d = __sw.Solver.full(b); for (let i = 0; i < b.n; i++) if (!b.open[i] && !b.flag[i] && !b.mine[i] && !d.KS[i] && d.P[i] > 0) return [i, Math.min(.95, d.P[i])]; return [-1, 0]; })"""
 SAFE = """((k, n) => { const b = __sw.slots[k]; for (let i = 0, c = 0; i < b.n && c < n && !b.over; i++) if (!b.mine[i] && !b.open[i]) { __sw.invoke(new __sw.DigCommand(b, i)); c++; } return b.over; })"""
@@ -31,8 +31,9 @@ async def run(browser, url, shots):
 
     # --- Double Trouble
     d = await pg.evaluate(f"{DEAL}(0, 'trouble')")
-    ok(d['special'] == 'trouble' and d['m'] == min(d['n'] - 9, int(d['tm'] * 1.5 + .5)) and d['lim'] == d['tlim'] * 2 and d['tag'] == 'Double Trouble',
-       f'Double Trouble: {d["m"]} mines instead of {d["tm"]}, limit ×{d["lim"]} instead of ×{d["tlim"]}, chalked on the board')
+    gold = 2 if d['golden'] else 1  # (a forced special can land on a golden board, which doubles the limit again)
+    ok(d['special'] == 'trouble' and d['m'] == min(d['n'] - 9, int(d['tm'] * 1.5 + .5)) and d['lim'] == d['tlim'] * 2 * gold and d['tag'] == 'Double Trouble',
+       f'Double Trouble: {d["m"]} mines instead of {d["tm"]}, limit ×{d["lim"]} instead of ×{d["tlim"]}{" (golden)" if gold > 1 else ""}, chalked on the board')
     i, p = await pg.evaluate(f"{RISKY}(0)")
     if i >= 0:
         k = await pg.evaluate(f"(() => {{ const b = __sw.slots[0], g = b.G; __sw.invoke(new __sw.DigCommand(b, {i})); return b.G / g; }})()")
