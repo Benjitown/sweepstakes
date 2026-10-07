@@ -80,7 +80,7 @@ export const FeteView = {
     this.phase = 'idle';
     const rat = $('#splatRat');
     if (rat) { rat.classList.remove('out'); rat.classList.add(how === 'hit' ? 'splat' : 'gone'); }
-    if (how === 'hit') { Sound.drum(); Haptics.buzz([30, 20, 50]); } else Sound.unflag();
+    if (how === 'hit') { Sound.drum(3); Haptics.buzz([30, 20, 50]); } else Sound.unflag();
     this.say(rnd(FETE_SAYS[how]));
     const r = Fete.go(how);
     if (r && r.done) { this.say(`${rnd(FETE_SAYS[how])} ${FETE_RESULT[Math.min(r.hits, FETE_RESULT.length - 1)]}${r.pay ? ` +${fmt(r.pay)}` : ''}`); Game.setCoins(S.coins, r.pay > 0); }
@@ -103,7 +103,7 @@ export const FeteView = {
     const t = $('#tomTicket'); if (t) { t.textContent = String(r.n).padStart(3, '0'); t.classList.remove('win', 'pop'); void t.offsetWidth; t.classList.add('pop'); t.classList.toggle('win', !!r.prize); }
     const d = $('#tomDrum'); if (d) { d.classList.remove('spin'); void d.offsetWidth; d.classList.add('spin'); }
     this.sayT(r.prize ? `Ends in ${r.n % 10}! ${TOMBOLA_PRIZES[r.prize]} Worth ${fmt(r.pay)}.` : `Ends in ${r.n % 10}. Not a winner.`);
-    if (r.prize) Sound.coin(); else Sound.unflag();
+    if (r.prize) Sound.coin(6); else Sound.unflag();
   },
   sayT(t) { const el = $('#tomMsg'); if (el) el.textContent = t; },
   // walking off pays for your splats so far

@@ -73,7 +73,7 @@ export const ConkersView = {
     const m = Conkers.match; if (!m || m.turn !== 'you' || this.busy || !this.live()) return;
     const before = { mine: m.mine, hers: m.hers }, r = Conkers.strike(this.at());
     if (!r) return;
-    if (r.knocks) { Sound.drum(); Haptics.buzz(r.knocks > 1 ? [40, 30, 60] : 30); } else Sound.unflag();
+    if (r.knocks) { Sound.drum(r.knocks > 1 ? 4 : 2); Haptics.buzz(r.knocks > 1 ? [40, 30, 60] : 30); } else Sound.unflag();
     this.say(rnd(CONKER_SAYS[r.knocks === 2 ? 'smash' : r.knocks ? 'hit' : r.strings ? 'strings' : 'miss']));
     if (r.done) return this.done(r, { mine: before.mine, hers: 0 });
     if (Conkers.match.turn === 'her') this.busy = true;
@@ -83,7 +83,7 @@ export const ConkersView = {
   hers() {
     this.busy = false; const m = Conkers.match; if (!m || !this.live()) return;
     const before = { mine: m.mine, hers: m.hers }, r = Conkers.herStrike(); if (!r) return;
-    if (r.knocks) { Sound.drum(); Haptics.buzz(30); } else Sound.unflag();
+    if (r.knocks) { Sound.drum(r.knocks > 1 ? 4 : 2); Haptics.buzz(30); } else Sound.unflag();
     this.say(rnd(CONKER_SAYS['her' + r.knocks]) + (r.done ? '' : ' Your go.'));
     if (r.done) return this.done(r, { mine: 0, hers: before.hers });
     this.render(); if (r.knocks) this.shake('cMineS');
