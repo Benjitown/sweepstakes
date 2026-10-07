@@ -63,6 +63,14 @@ class ClockPayout extends PayoutDecorator {
     return r;
   }
 }
+// The Lock-in (a landlord's special): stay till the doors open and the profit's doubled
+class LockinPayout extends PayoutDecorator {
+  pay(b, why) {
+    const r = super.pay(b, why), profit = r.amount - b.stake;
+    if (b.special === 'lockin' && profit > 0) { const e = Math.floor(profit * SPECIAL_BY.lockin.bonus); r.amount += e; r.extras.push(['lockin', `Lock-in +${fmt(e)}`]); }
+    return r;
+  }
+}
 export const HOUSE_EDGE = .25;
 const PAYOUT_DECORATORS = [['egg', NestEggPayout], ['flagfan', FlagFanaticPayout], ['compound', CompoundPayout], ['dinner', ChickenDinnerPayout]];
 export const buildPayout = () => {
@@ -71,5 +79,6 @@ export const buildPayout = () => {
   if (S.sugar > 0) p = new SugarPayout(p);
   p = new BankerPayout(p);
   p = new ClockPayout(p);
+  p = new LockinPayout(p);
   return PowerCut.on ? new DarkPayout(p) : p;
 };

@@ -65,6 +65,7 @@
 .tool svg{width:24px;height:24px}
 .tool[aria-pressed="true"]{background:var(--gold);color:#3b2b00;text-shadow:none}
 .bf .cash{margin-left:auto}
+.bf .cash.shut{background:#6b4f3a;color:#f3e3c8;filter:none}  /* the Lock-in: the doors are shut */
 .empty{min-height:210px;place-content:center;justify-items:center;text-align:center;background:rgba(17,24,26,.55);box-shadow:0 0 0 3px rgba(255,255,255,.14)}
 .empty svg.big{width:68px;height:68px;animation:wobble 2.4s ease-in-out infinite}
 .empty p{margin:0;color:var(--ink-dim)}

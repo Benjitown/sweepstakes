@@ -114,7 +114,8 @@ The suites run against both the ES-module source and the built file:
   biggest story leads), Spot the Mine (one or two certain mines; right pays once), the Sweepstake (Lucky Dip lines,
   the draw, the payouts, about half back), a quiet run, the bust screen's special edition, Stats and the phone
 - **specials:** the landlord's specials: how often (about 1 in 12, never golden), Double Trouble's mines, limit and
-  risky digs, Gem Rush's gems, Against the Clock's countdown, bonus and cash-out, surviving a reload, and the phone
+  risky digs, Gem Rush's gems, Against the Clock's countdown, bonus and cash-out, the Lock-in's locked doors and
+  doubled profit (and no Banker), Happy Hour's half stake back, surviving a reload, and the phone
 - **karaoke:** the notes timed to the record (swing and all), the scoring (great, good, missed, bum notes), a standing
   ovation and what it pays, the machine's rest, being booed off, singing with the sound muted, and the phone
 - **jukebox:** the records (every note a real note that fits its bar), putting one on, every record playing, shuffle,

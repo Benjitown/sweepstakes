@@ -9,9 +9,10 @@ export const Banker = {
   PREMIUM: [.15, .6], // his premium: this share of the board's profit at the time of the call
   MIN_X: 1.2,         // he only calls about a board whose pot is at least 1.2× its stake
   rng: Math.random,
-  // the board he'd ring about: the live one with the most profit on it that he hasn't called about yet
+  // the board he'd ring about: the live one with the most profit on it that he hasn't called about yet (he can't
+  // get into a Lock-in)
   target() {
-    return Game.slots.filter(b => b && b.started && !b.over && !b.called && b.pot() >= b.stake * this.MIN_X)
+    return Game.slots.filter(b => b && b.started && !b.over && !b.called && b.special !== 'lockin' && b.pot() >= b.stake * this.MIN_X)
       .sort((x, y) => (y.pot() - y.stake) - (x.pot() - x.stake))[0] || null;
   },
   offer(b = this.target()) {

@@ -7,5 +7,8 @@ export const SPECIALS = [
   { id: 'rush', name: 'Gem Rush', w: 1, gems: 2, blurb: 'Two extra gems hidden on this board.' },
   { id: 'clock', name: 'Against the Clock', w: 1, secs: 40, bonus: .5,
     blurb: 'Forty seconds from your first dig. Cash out in time for +50% on the profit; run out and it cashes out for you, bonus or no bonus.' },
+  { id: 'lockin', name: 'The Lock-in', w: 1, frac: .5, bonus: 1,
+    blurb: 'The landlord’s locked the doors: no cashing out till half the board’s dug. Stay for it and the profit’s doubled.' },
+  { id: 'happy', name: 'Happy Hour', w: 1, back: .5, blurb: 'If this board goes bang, the landlord gives you half your stake back.' },
 ];
 export const SPECIAL_BY = Object.fromEntries(SPECIALS.map(s => [s.id, s]));

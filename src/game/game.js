@@ -161,16 +161,23 @@ export const Game = {
       return this.cashOut(b, 'clear');
     }
     if (b.rawMult() >= b.lim) return this.cashOut(b, 'limit');
+    // The Lock-in (a landlord's special): half the board's dug, so the landlord unlocks the doors
+    if (b.special === 'lockin' && !b.doors && !Specials.locked(b)) { b.doors = true; bus.emit('special:open', { b }); }
     bus.emit('board:hud', { b }); SaveGame.save();
   },
   explode(b, i, src) {
     b.over = true; b.result = `Lost ${fmt(b.stake)}`; S.streak = 0; S.run.losses++;
-    bus.emit('board:boom', { b, i, src, left: b.safe - b.revealed, missed: b.hiddenGems() }); bus.emit('board:hud', { b }); bus.emit('coins', {});
+    // Happy Hour (a landlord's special): the landlord gives you half your stake back
+    const back = b.special === 'happy' ? Math.floor(b.stake * SPECIAL_BY.happy.back) : 0;
+    if (back) { b.result = `Lost ${fmt(b.stake - back)}`; this.setCoins(S.coins + back); }
+    bus.emit('board:boom', { b, i, src, left: b.safe - b.revealed, missed: b.hiddenGems(), back }); bus.emit('board:hud', { b }); bus.emit('coins', {});
     SaveGame.saveNow();
     setTimeout(() => this.endBoard(b), 1700);
   },
   cashOut(b, why = 'manual') {
     if (b.over || !b.started) return;
+    // The Lock-in: nobody leaves till half the board's dug (the board finishing, or hitting its limit, still pays)
+    if (Specials.locked(b) && (why === 'manual' || why === 'coward')) { if (why === 'manual') bus.emit('special:locked', { b }); return; }
     const { amount, extras } = buildPayout().pay(b, why);
     extras.forEach(([id, text]) => bus.emit('addon:fired', { id, b, i: null, text }));
     const profit = amount - b.stake, mult = b.mult();

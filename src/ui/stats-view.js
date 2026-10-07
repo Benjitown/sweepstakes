@@ -63,7 +63,7 @@ export const StatsView = {
         <li>Cash out whenever you like. Hit a mine and the stake is gone.</li>
         <li>Cash out big to build a streak: +10% profit per win, up to +100%.</li>
         <li>Free spin every 3 minutes of play. Your rank levels up as you play, pays out coins, and survives busting.</li>
-        <li>Now and then a board comes with the landlord’s special chalked on it: Double Trouble (half as many mines again, but risky digs pay double and the limit doubles), Gem Rush (two extra gems) or Against the Clock (forty seconds from your first dig: cash out in time for +50% on the profit, or it cashes out for you).</li>
+        <li>Now and then a board comes with the landlord’s special chalked on it: Double Trouble (half as many mines again, but risky digs pay double and the limit doubles), Gem Rush (two extra gems), Against the Clock (forty seconds from your first dig: cash out in time for +50% on the profit, or it cashes out for you), the Lock-in (no cashing out till half the board’s dug, then the profit’s doubled) or Happy Hour (half your stake back if it goes bang).</li>
         <li>Add-on cards bend the rules. You get 3 slots (5 with Bigger Pockets) and they sell back for half.</li>
         <li>Boards 5 to 8 each need an Ascension. Ascending adds mines and worsens your luck, but multiplies max stakes by 2.5.</li>
         <li>Double or nothing stakes everything: ×2, then ×5, ×10, ×25, ×100. Lose and the run is over.</li>
