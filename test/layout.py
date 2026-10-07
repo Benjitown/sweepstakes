@@ -7,7 +7,7 @@ MID_GAME = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.coins = 4.2e8; S
   S.addons = [{ id: 'daredevil', paid: 60 }, { id: 'sevens', paid: 130 }, { id: 'eight', paid: 280 }]; S.sel = 'alley';
   S.life.lvl = 14; S.life.xp = 300; __sw.renderAll(); document.querySelector('#dealAll').click();
   setTimeout(() => { for (const b of __sw.slots) if (b) __sw.invoke(new __sw.DigCommand(b, Math.floor(b.t.h / 2) * b.t.w + Math.floor(b.t.w / 2))); }, 200); })()'''
-ALL_CHIPS = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.asc = 2; S.streak = 7; S.goldNext = 3; S.life.lvl = 23; S.coins = 4.2e12; __sw.renderAll();
+ALL_CHIPS = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.asc = 2; S.streak = 7; S.goldNext = 3; S.sugar = 2; S.roast = 5; S.life.lvl = 23; S.coins = 4.2e12; __sw.renderAll();
   __sw.HouseholdView.chirp(true); S.dare = { id: 'x3', who: 'tash', stake: 100, secs: 180, left: 175, task: 'cash out a board at ×3 or more' }; __sw.DareView.chip(); })()'''
 HOUSE = '''(() => { const S = __sw.S; __sw.Coach.finish(); S.coins = 50000; __sw.renderAll(); __sw.Household.answerDoor(0); __sw.HouseholdView.walkKitten(); __sw.HouseholdView.swoopGull();
   __sw.UI.toast('A toast, to check it clears the card'); })()'''
