@@ -79,7 +79,7 @@ async def run(browser, url, shots):
     await pg.evaluate("(() => { __sw.Game.slots.forEach(b => { if (b) { b.over = true; __sw.Game.endBoard(b); } }); delete __sw.S.life.ach.lockin; })()")
     await pg.wait_for_timeout(200)
     d = await pg.evaluate(f"{DEAL}(0, 'lockin')")
-    lk = await pg.evaluate("""(() => { const b = __sw.slots[0], btn = b.el.querySelector('.cash'), go = __sw.Specials.toGo(b);
+    lk = await pg.evaluate("""(() => { const b = __sw.slots[0], btn = b.el.querySelector('.cash'), go = __sw.Specials.toGo(b); b.lim = 1e9; // (so it can't cash out at its limit on the way)
       __sw.Game.cashOut(b, 'manual');
       return { locked: __sw.Specials.locked(b), go, over: b.over, dis: btn.disabled, txt: btn.textContent.trim(), toasts: [...document.querySelectorAll('.toast')].map(t => t.textContent).join(' | ') }; })()""")
     ok(d['tag'] == 'The Lock-in' and lk['locked'] and not lk['over'] and lk['go'] > 0 and lk['dis'] and lk['txt'] == f'Locked in: {lk["go"]} more to dig',
