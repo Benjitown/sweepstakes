@@ -57,6 +57,7 @@ export const Game = {
     let golden = Math.random() < GOLDEN * (hasA('midas') ? 3 : 1);
     if (S.goldNext > 0) { S.goldNext--; golden = true; }
     S.run.boards++; S.life.boards++;
+    if (hasA('bankhol') && S.run.boards % 10 === 0) { golden = true; bus.emit('addon:fired', { id: 'bankhol' }); } // Bank Holiday: every tenth board
     const b = boardFactory().create(slot, t, stake, golden, Specials.roll(golden));
     this.slots[slot] = b;
     this.setCoins(S.coins - stake);

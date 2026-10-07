@@ -12,6 +12,7 @@ export const ADDONS = [
   { id: 'sniffer',    name: 'Mine Sniffer',      r: 'common',   art: 'nose',      desc: 'Every board starts with a free probe.' },
   { id: 'doggy',      name: 'Doggy Bag',         r: 'common',   art: 'bag',       desc: 'Hit a mine and you still take 20% of the stake home.' },
   { id: 'tea',        name: 'Tea and Toast',     r: 'common',   art: 'toast',     desc: 'Cash out a board without a single risky dig: +15% on the profit.' },
+  { id: 'kebab',      name: 'Late-Night Kebab',  r: 'common',   art: 'kebab',     desc: 'Cash out between midnight and 5am (by your clock) for +10% on the profit.' },
   { id: 'sevens',     name: 'Lucky Sevens',      r: 'uncommon', art: 'seven',     desc: 'Every 7 you uncover multiplies the pot by ×1.77.' },
   { id: 'hot',        name: 'Hot Streak',        r: 'uncommon', art: 'flame',     desc: 'Your streak bonus can climb to +250% instead of +100%.' },
   { id: 'oil',        name: 'Oil Change',        r: 'uncommon', art: 'oil',       desc: 'Bots work 40% faster.' },
@@ -25,5 +26,6 @@ export const ADDONS = [
   { id: 'stacks',     name: 'Fat Stacks',        r: 'rare',     art: 'stack',     desc: 'Every table’s max stake is 50% higher.' },
   { id: 'compound',   name: 'Compound Interest', r: 'rare',     art: 'chart',     desc: 'Cash out after a risky dig and get 1% of your coins too, up to the stake.' },
   { id: 'midas',      name: 'Midas Touch',       r: 'rare',     art: 'crown',     desc: 'Golden boards turn up three times as often.' },
+  { id: 'bankhol',    name: 'Bank Holiday',      r: 'rare',     art: 'calendar',  desc: 'Every tenth board you deal is golden.' },
 ];
 export const ABY = Object.fromEntries(ADDONS.map(a => [a.id, a]));

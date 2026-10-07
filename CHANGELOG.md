@@ -58,9 +58,10 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **Biscuit, next door's dog.** If you hear barking, he trots in along the bottom of the screen and waits ("Woof?").
   Give him a biscuit (3% of the top table's max stake) and he sniffs out a mine on your board and sits on it: flagged,
   glowing orange for a moment. Ignore him and he wanders off. New achievement: Good Boy.
-- **Three new add-on cards:** Doggy Bag (common: hit a mine and you still take 20% of the stake home), Tea and Toast
-  (common: cash out without a single risky dig for +15% on the profit) and Hat Trick (uncommon: every third risky dig
-  on a board gives an extra ×1.3).
+- **Five new add-on cards:** Doggy Bag (common: hit a mine and you still take 20% of the stake home), Tea and Toast
+  (common: cash out without a single risky dig for +15% on the profit), Late-Night Kebab (common: +10% on the profit
+  of a cash-out between midnight and 5am, by your clock), Hat Trick (uncommon: every third risky dig on a board gives
+  an extra ×1.3) and Bank Holiday (rare: every tenth board you deal is golden).
 - **The church fete: Splat the Rat.** Every so often the fete's on (Nan's on the cake stall). Three goes for 3% of
   your top table's max stake: pull the cord, and when the rat shoots out of the bottom of the drainpipe, splat it.
   Too early and it's still up the pipe; too slow and it's gone. One splat gets your money back, two pays ×3, all
