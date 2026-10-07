@@ -111,6 +111,7 @@ export const Game = {
     const fire = (id, cell, k, text) => { b.G *= k; bus.emit('addon:fired', { id, b, i: cell, text }); };
     if (p > 0 && hasA('corner') && b.isCorner(i)) fire('corner', i, 1.25, 'Corner ×1.25');
     if (p > 0 && hasA('nester') && opened.length >= 10) fire('nester', i, 1.3, 'Nester ×1.3');
+    if (p > 0 && hasA('hattrick') && b.combo > 0 && b.combo % 3 === 0) fire('hattrick', i, 1.3, 'Hat trick ×1.3');
     if (hasA('sevens')) { const s = opened.filter(j => b.num[j] === 7); if (s.length) fire('sevens', s[0], 1.77 ** s.length, `Sevens ×${(1.77 ** s.length).toFixed(2)}`); }
     if (hasA('eight')) { const s = opened.filter(j => b.num[j] === 8); if (s.length) fire('eight', s[0], 8 ** s.length, `Eight Ball ×${8 ** s.length}`); }
     // Nan's stars: the first time a board uncovers today's lucky number, ×1.25 (game/horoscope.js)
@@ -169,7 +170,10 @@ export const Game = {
     b.over = true; b.result = `Lost ${fmt(b.stake)}`; S.streak = 0; S.run.losses++;
     // Happy Hour (a landlord's special): the landlord gives you half your stake back
     const back = b.special === 'happy' ? Math.floor(b.stake * SPECIAL_BY.happy.back) : 0;
-    if (back) { b.result = `Lost ${fmt(b.stake - back)}`; this.setCoins(S.coins + back); }
+    // the Doggy Bag card: a fifth of the stake comes home with you
+    const bag = hasA('doggy') ? Math.min(b.stake - back, Math.floor(b.stake * .2)) : 0;
+    if (back || bag) { b.result = `Lost ${fmt(b.stake - back - bag)}`; this.setCoins(S.coins + back + bag); }
+    if (bag) bus.emit('addon:fired', { id: 'doggy', b, i, text: `Doggy bag +${fmt(bag)}` });
     bus.emit('board:boom', { b, i, src, left: b.safe - b.revealed, missed: b.hiddenGems(), back }); bus.emit('board:hud', { b }); bus.emit('coins', {});
     SaveGame.saveNow();
     setTimeout(() => this.endBoard(b), 1700);

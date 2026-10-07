@@ -80,8 +80,12 @@ class LockinPayout extends PayoutDecorator {
     return r;
   }
 }
+// Tea and Toast (an add-on): a board cashed out without a single risky dig gets +15% on the profit
+class TeaPayout extends PayoutDecorator {
+  pay(b, why) { const r = super.pay(b, why), profit = r.amount - b.stake; if (!b.guesses && profit > 0) { const e = Math.floor(profit * .15); if (e > 0) { r.amount += e; r.extras.push(['tea', `Tea and toast +${fmt(e)}`]); } } return r; }
+}
 export const HOUSE_EDGE = .25;
-const PAYOUT_DECORATORS = [['egg', NestEggPayout], ['flagfan', FlagFanaticPayout], ['compound', CompoundPayout], ['dinner', ChickenDinnerPayout]];
+const PAYOUT_DECORATORS = [['egg', NestEggPayout], ['flagfan', FlagFanaticPayout], ['compound', CompoundPayout], ['dinner', ChickenDinnerPayout], ['tea', TeaPayout]];
 export const buildPayout = () => {
   let p = PAYOUT_DECORATORS.reduce((acc, [id, D]) => hasA(id) ? new D(acc) : acc, new Payout());
   if (S.life.casinos) p = new HouseEdgePayout(p);
