@@ -113,7 +113,7 @@ async def run(browser, url, shots):
     await pg.wait_for_timeout(1800)
 
     # --- Last Orders: ten digs and that's your lot, +50% on the profit whenever it cashes out
-    await pg.evaluate("(() => { __sw.Game.slots.forEach(b => { if (b) { b.over = true; __sw.Game.endBoard(b); } }); })()")
+    await pg.evaluate("(() => { __sw.Game.slots.forEach(b => { if (b) { b.over = true; __sw.Game.endBoard(b); } }); __sw.S.stakes.den = 200; })()")  # (small, so the numbers print in full)
     await pg.wait_for_timeout(200)
     d = await pg.evaluate(f"{DEAL}(0, 'orders')")
     lo = await pg.evaluate("(() => { const b = __sw.slots[0]; b.lim = 1e9; return { left: __sw.Specials.digsLeft(b), tag: b.el.querySelector('.spectag').textContent }; })()")
@@ -128,6 +128,7 @@ async def run(browser, url, shots):
         ok(bool(r) and r['why'] == 'clear', f'the board cleared before last orders ({r and r["why"]})')
     ok(bool(r) and r['extra'] > 0 and r['extra'] == (r['amount'] - r['extra'] - r['stake']) // 2, f'+50% on the profit ({r and r["extra"]:,} on top)')
     await pg.wait_for_timeout(1700)
+    await pg.evaluate("delete __sw.S.stakes.den")
 
     # --- three more add-on cards: Doggy Bag, Tea and Toast, Hat Trick
     await pg.evaluate("(() => { __sw.Game.slots.forEach(b => { if (b) { b.over = true; __sw.Game.endBoard(b); } }); __sw.S.addons = [{ id: 'doggy', paid: 50 }, { id: 'tea', paid: 50 }, { id: 'hattrick', paid: 110 }]; __sw.renderAll(); })()")
