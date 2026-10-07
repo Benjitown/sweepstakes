@@ -7,6 +7,7 @@ import { Sweepstake } from '../game/sweepstake.js';
 import { DRAW } from '../data/sweepstake.js';
 import { fmtKev } from './kevcoin-view.js';
 import { UI } from './ui.js';
+import { DailyView } from './daily-view.js';
 
 const CAPTION = { bust: 'The scene this morning.', bust_don: 'The coin, pictured yesterday.', quiet: 'Library picture.', storm: 'Our photographer, bravely.',
   gull: 'The suspect.', slugs: 'A slug (not the one).', rug: 'KEVCOIN, artist’s impression.', kev_launch: 'KEVCOIN, artist’s impression.' };
@@ -29,10 +30,14 @@ export const PaperView = {
       <section class="ads"><h5>Small ads</h5>${p.ads.map(a => `<p>${esc(a)}</p>`).join('')}</section>
       ${p.mode === 'daily' ? this.lotto(p) : ''}
       ${p.puzzle ? this.puzzle(p) : ''}
-      <div class="row">${after ? `<button class="btn green big" type="button" data-a="after">${esc(after.label)}</button>` : '<button class="btn green" type="button" data-a="close">Fold it up</button>'}</div></div>`,
+      <div class="row">${after ? `<button class="btn green big" type="button" data-a="after">${esc(after.label)}</button>` : '<button class="btn green" type="button" data-a="close">Fold it up</button>'}</div>
+      <button class="clink" type="button" id="paperShare">Copy the front page</button></div>`,
       { close: () => UI.closeModal(), after: () => after && after.go() }, !!after);
     this.bind(p);
+    $('#paperShare').onclick = () => DailyView.copy(this.shareText(p), 'Copied the front page. Paste it in the group chat.');
   },
+  // the front page as text, for the group chat
+  shareText: p => `📰 The Daily Sweep, No. ${p.no}\n${p.lead.head}\n${p.lead.sub}\n(Sweepstakes)`,
   puzzle(p) {
     const z = p.puzzle;
     return `<section class="puzzle"><h5>Spot the mine <small>${fmt(p.prize)} for the right answer</small></h5>
