@@ -112,6 +112,13 @@ async def run(browser, url, shots):
        f'Happy Hour: a bang gives you half the stake back ({r["back"]} of {r["stake"]}, “{r["result"]}”)')
     await pg.wait_for_timeout(1800)
 
+    # --- tap the chalk to read what the special does (there's no hovering on a phone)
+    await pg.evaluate(f"{DEAL}(1, 'happy')")
+    await pg.click('#boards [data-slot="1"] .spectag'); await pg.wait_for_timeout(150)
+    t = await pg.evaluate("[...document.querySelectorAll('.toast')].map(t => t.textContent).pop() || ''")
+    ok(t.startswith('Happy Hour: If this board goes bang'), f'tapping the chalk says what the special does (“{t[:50]}…”)')
+    await pg.evaluate("(() => { const b = __sw.slots[1]; if (b) { b.over = true; __sw.Game.endBoard(b); } })()")
+
     # --- Last Orders: ten digs and that's your lot, +50% on the profit whenever it cashes out
     await pg.evaluate("(() => { __sw.Game.slots.forEach(b => { if (b) { b.over = true; __sw.Game.endBoard(b); } }); __sw.S.stakes.den = 200; })()")  # (small, so the numbers print in full)
     await pg.wait_for_timeout(200)

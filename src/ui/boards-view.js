@@ -35,7 +35,7 @@ export const BoardsView = {
     }
     b.el = holder; holder.className = 'board' + (b.golden ? ' golden' : '') + (b.special ? ' special' : ''); holder.style.setProperty('--tc', b.t.col);
     const sp = b.special && SPECIAL_BY[b.special];
-    holder.innerHTML = `<div class="bh"><span class="tchip">${esc(b.t.name)}</span>${b.golden ? '<span class="goldtag">Golden ×2</span>' : ''}${sp ? `<span class="spectag" title="${esc(sp.blurb)}">${esc(sp.name)}${b.special === 'clock' ? ' <b class="clockct num"></b>' : b.special === 'orders' ? ' <b class="digct num"></b>' : ''}</span>` : ''}
+    holder.innerHTML = `<div class="bh"><span class="tchip">${esc(b.t.name)}</span>${b.golden ? '<span class="goldtag">Golden ×2</span>' : ''}${sp ? `<span class="spectag" role="button" tabindex="0" title="${esc(sp.blurb)}">${esc(sp.name)}${b.special === 'clock' ? ' <b class="clockct num"></b>' : b.special === 'orders' ? ' <b class="digct num"></b>' : ''}</span>` : ''}
         <span class="bot-on" hidden title="Bots are working this board">${ico('bot')}</span>
         <span class="gemct" title="Gems found on this board">${ico('gem')}<b class="num">0/0</b></span>
         <span class="blim">${b.m} mines · limit ×${fmtLim(b.lim)}</span></div>
@@ -58,6 +58,8 @@ export const BoardsView = {
     holder.querySelector('.t-flag').onclick = () => { b.mode = b.mode === 'flag' ? 'dig' : 'flag'; this.tools(b); };
     holder.querySelector('.t-probe').onclick = () => { if (Game.probesFor(b) > 0) { b.mode = b.mode === 'probe' ? 'dig' : 'probe'; this.tools(b); } else UI.toast('No probes left. Buy some in the shop.'); };
     holder.querySelector('.cash').onclick = () => invoke(new CashOutCommand(b, 'manual'));
+    const chalk = holder.querySelector('.spectag'); // tap the chalk to read it (there's no hovering on a phone)
+    if (chalk) { chalk.onclick = () => UI.toast(`${sp.name}: ${sp.blurb}`); chalk.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); chalk.onclick(); } }; }
     b.lastM = 0; this.hud(b); this.tools(b); this.odds(b);
   },
   cell(b, i) {
