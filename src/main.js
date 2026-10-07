@@ -20,7 +20,7 @@ import { $ } from './core/util.js';
 import { TBY } from './data/economy.js';
 import { LINES } from './content/chat-lines.js';
 import { bus } from './core/bus.js';
-import { SaveGame, S, boardCount } from './core/state.js';
+import { SaveGame, S, boardCount, pref } from './core/state.js';
 import { Sound } from './audio/sound.js';
 import { WeirdNoises } from './audio/noises.js';
 import { Board } from './board/board.js';
@@ -126,6 +126,7 @@ const hi = LINES.hello.slice().sort(() => Math.random() - .5);
 setTimeout(() => Chat.post(...hi[0]), 600);
 setTimeout(() => Chat.post(...hi[1]), 2000);
 if (season) { const sh = LINES[season + '_hi'].slice().sort(() => Math.random() - .5); setTimeout(() => Chat.post(...sh[0]), 3800); setTimeout(() => Chat.post(...sh[1]), 5600); }
+else if (Seasons.pancakeDay() && pref('seasons') && !new URLSearchParams(location.search).has('test')) setTimeout(() => Chat.post(...LINES.pancake_day[0]), 3800); // Shrove Tuesday: Nan's on the pancakes
 else if (Specials.friday() && !new URLSearchParams(location.search).has('test')) setTimeout(() => Chat.post(...LINES.friday[Math.floor(Math.random() * LINES.friday.length)]), 3800); // twice the specials on a Friday
 if (!S.life.tut) setTimeout(() => Coach.start(), 900);
 WhatsNew.maybe();

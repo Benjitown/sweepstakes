@@ -214,6 +214,7 @@ export const LINES = {
     ['tash', 'the snow is fake but my joy is real'], ['kev', 'I’ve been put in charge of the music at the office party. this was a mistake'], ['priya', 'all I want for Christmas is a clean sweep']],
   easter_hi:     [['nan', 'Happy Easter love! I’ve got you an egg, the one with the buttons in x'], ['dave', 'four days off and a chocolate egg the size of my head. living'],
     ['kev', 'is it a bank holiday if you work from home'], ['tash', 'hot cross buns for every meal. that’s the law'], ['priya', 'chocolate eggs under some of the tiles this weekend. hunt them down']],
+  pancake_day:   [['nan', 'It’s Pancake Day, love! Lemon and sugar, or are you a golden syrup person? x'], ['dave', 'pancake day. I’m going for the record. eleven'], ['kev', 'tossed one onto the ceiling. it’s still there']],
   easter_egg:    [['tash', 'EGG'], ['nan', 'An Easter egg! Don’t eat it all at once, love x'], ['priya', 'egg hunt champion'], ['dave', 'that’s my egg. I hid that']],
   pumpkin:       [['tash', 'PUMPKIN'], ['kev', 'a pumpkin under a tile. that’s just good farming'], ['nan', 'Ooh a pumpkin! I’ll make you some soup x'], ['dave', 'carve it. carve it now'],
     ['priya', 'treat secured']],
