@@ -36,6 +36,7 @@ import { Hall } from '../game/hall.js';
 export const StatsView = {
   // don't redraw the tab under someone dragging a slider
   busy() { const a = document.activeElement; return !!(a && a.type === 'range' && a.closest('#stats')); },
+  badge: '', // the achievement badge you last tapped
   render() {
     const r = S.run, L = S.life;
     $('#stats').innerHTML = `<h2>This run</h2><dl>
@@ -136,8 +137,10 @@ export const StatsView = {
     $('#btnNews').onclick = () => WhatsNew.show();
     $('#btnKeys').onclick = () => Keys.help();
     $('#btnJukeS').onclick = () => JukeboxView.open();
-    $$('#stats .ach').forEach(el => { el.onclick = () => { const a = ACH_BY[el.dataset.ach], got = Achievements.has(a.id);
-      $('#achCap').textContent = `${got ? '' : 'Locked · '}${a.name}: ${a.desc} (pays ${['', 'a bit', 'well', 'big'][a.tier]})`; }; });
+    const cap = id => { const a = ACH_BY[id]; if (!a) return; const got = Achievements.has(a.id);
+      $('#achCap').textContent = `${got ? '' : 'Locked · '}${a.name}: ${a.desc} (pays ${['', 'a bit', 'well', 'big'][a.tier]})`; };
+    $$('#stats .ach').forEach(el => { el.onclick = () => { this.badge = el.dataset.ach; cap(this.badge); }; });
+    if (this.badge) cap(this.badge); // (the tab redraws every few seconds: the badge you tapped stays explained)
     $('#btnReset').onclick = () => UI.modal(`${ico('skull', 'bigicon')}<h3 class="red">Start over?</h3><p>This wipes the current run. Your rank and all-time stats stay.</p>
       <div class="row"><button class="btn red" type="button" data-a="yes">Wipe it</button><button class="btn ghost" type="button" data-a="no">Keep going</button></div>`,
       { yes: () => { UI.closeModal(); Game.bust('manual'); }, no: () => UI.closeModal() });
