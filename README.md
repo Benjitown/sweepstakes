@@ -19,7 +19,7 @@ What's in each version: [CHANGELOG.md](CHANGELOG.md).
   - `python ports/python/sweepstakes.py`
 
   See [ports/README.md](ports/README.md).
-- **Trying a bit out:** add `?season=halloween` (or `bonfire`, `xmas`, `none`) to the address for that season;
+- **Trying a bit out:** add `?season=halloween` (or `easter`, `bonfire`, `xmas`, `none`) to the address for that season;
   `?try=sunday`, `?try=fete` or `?try=conkers` brings Sunday dinner, the church fete or conkers on in a few seconds
   (`?try=door` knocks at the door: with `?season=bonfire` or `xmas` it's often the Guy or the carol singers);
   `?try=lockin` (or `happy`, `orders`, `trouble`, `rush`, `clock`) chalks that special on every board you deal.
@@ -60,7 +60,7 @@ src/
                     household (the door, the phone, the kitten, the seagull, the smoke detector, the ice cream van,
                     Biscuit the dog), the Banker, power cuts, storms, the duck race, scratchcards, Nan's bingo,
                     the Fruity (fruit machine), the pub quiz, going outside, KEVCOIN, Nan's stars, Nan's biscuit tin,
-                    dares from the group chat, the seasons (Halloween, Bonfire Night, Christmas), the claw machine, the car
+                    dares from the group chat, the seasons (Easter, Halloween, Bonfire Night, Christmas), the claw machine, the car
                     boot sale, darts with Big Dave, quiz night, board styles, the allotment, The Daily Sweep (the paper)
                     and its Sweepstake (a lottery), karaoke at the Red Lion, the landlord's specials, Sunday dinner
                     at Nan's, the church fete (Splat the Rat), conkers with Priya

@@ -10,6 +10,7 @@ import { UI } from './ui.js';
 import { Quips } from './quip-popups.js';
 import { SPECIAL_BY } from '../data/specials.js';
 import { Specials } from '../game/specials.js';
+import { Seasons } from '../game/seasons.js';
 
 export const BoardsView = {
   root: $('#boards'),
@@ -69,7 +70,7 @@ export const BoardsView = {
       const g = b.gem[i];
       const pk = b.pumpkinAt === i;
       c.className = 'c o' + (b.num[i] ? ' n' + b.num[i] : '') + (g ? ' gem t-' + gemTier(g).k : '') + (pk ? ' pk' : '') + (b.probed.has(i) ? ' probed' : '');
-      if (g && !b.num[i]) c.innerHTML = ico('gem'); else if (pk && !b.num[i]) c.innerHTML = ico('pumpkin'); else c.textContent = b.num[i] || '';
+      if (g && !b.num[i]) c.innerHTML = ico('gem'); else if (pk && !b.num[i]) c.innerHTML = ico(Seasons.egg() ? 'egg' : 'pumpkin'); else c.textContent = b.num[i] || '';
       c.removeAttribute('title'); c.setAttribute('aria-label', `Row ${y} column ${x}: ${b.num[i] || 'empty'}${g ? ', gem' : ''}`);
     } else if (b.flag[i]) {
       c.className = 'c f' + (b.defused.has(i) ? ' defused' : '') + (b.probed.has(i) ? ' probed' : '');

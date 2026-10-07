@@ -7,7 +7,7 @@ import { WeirdNoises } from '../audio/noises.js';
 import { Seasons } from '../game/seasons.js';
 import { FX } from './fx.js';
 
-const DECO = { halloween: 'pumpkin', bonfire: 'firework', xmas: 'holly' };
+const DECO = { halloween: 'pumpkin', bonfire: 'firework', xmas: 'holly', easter: 'egg' };
 
 export const SeasonView = {
   batT: 0, fwT: 0, eggT: 0,
