@@ -90,3 +90,21 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center;justify-conten
 .fete .rat.splat{opacity:1;transform:translateY(46px) scale(1.35,.45);transition:transform .07s}
 .splatmsg{min-height:1.4em;font-weight:700}
 .splatgoes{min-height:1.2em;color:var(--ink-dim);font-size:.85rem}
+/* conkers with Priya */
+.conkers{display:grid;justify-items:center;text-align:center;gap:8px}
+.conkers h3,.conkers p{margin:0}
+.conkers h3 small{font-size:.8rem;color:var(--ink-dim);font-family:inherit}
+.cring{display:flex;align-items:flex-end;gap:16px}
+.cside{display:grid;justify-items:center;gap:4px}
+.cside b{font-family:var(--big);font-weight:400;font-size:1.25rem}
+.conker{display:block;width:72px;height:117px;transform-origin:50% 0}
+.conker.shake{animation:conkershake .45s ease-out}
+.cvs{font-family:var(--big);font-size:1.5rem;color:var(--ink-dim);padding-bottom:44px}
+.pips{display:flex;gap:4px;min-height:12px}
+.pips i{width:10px;height:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 2px #141b1d}
+.pips i.gone{background:#3a4448}
+.cmeter{position:relative;width:min(320px,78vw);height:26px;border-radius:13px;background:#222e32;box-shadow:inset 0 0 0 3px #141b1d;overflow:hidden}
+.cmeter .good{position:absolute;top:0;bottom:0;left:calc(50% - var(--hit));width:calc(var(--hit) * 2);background:rgba(63,193,138,.5)}
+.cmeter .sweet{position:absolute;top:0;bottom:0;left:calc(50% - var(--smash));width:calc(var(--smash) * 2);background:#ffd23f}
+.cmeter b{position:absolute;top:0;bottom:0;width:5px;margin-left:-2.5px;background:#fff;box-shadow:0 0 0 2px #141b1d}
+.cmsg{min-height:2.6em;font-weight:700;max-width:30em}

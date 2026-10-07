@@ -40,6 +40,7 @@ export const STORIES = {
   clock: [['IN THE NICK OF TIME', 'BEATS THE CLOCK AT {table}'], ['Forty seconds on the clock, and cashed out with time to spare. The group chat wants a rematch.']],
   sunday: [['SUNDAY DINNER AT NAN’S', 'NAN’S ROAST “BEST IN THE COUNTY”'], ['Seconds were had. Then thirds. Crumble and custard to follow.', 'Our reporter couldn’t get a seat at the table, but the gravy was described as “perfect”.']],
   splat3: [['RAT CATCHER GENERAL', 'THREE OUT OF THREE AT THE FETE'], ['Three splats on Splat the Rat. The rat has asked for a transfer to the tombola.']],
+  conker: [['CONKER CHAMPION CROWNED', 'VINEGAR NO MATCH FOR LOCAL HERO'], ['Priya’s sixer was smashed to bits for {pay}. She says it was “a bad conker”. It was soaked in vinegar.']],
   slugs: [['SLUGS STRIKE ON ALLOTMENTS'], ['A crop of {veg} lost overnight. Police have no leads.']],
   quiet: [['NOTHING HAPPENS IN SWEEPTOWN', 'SLOW NEWS DAY'], ['A board was dealt. Then another one. Our reporter fell asleep.']],
 };
@@ -49,7 +50,7 @@ export const STORY_ART = {
   cashout_big: 'coin', rug: 'kevcoin', whopper: 'veg', night_full: 'brain', karaoke_ovation: 'juke', karaoke_booed: 'juke', scratch_big: 'ticket', duck_long: 'duck', boom_big: 'bomb', darts_won: 'dart',
   banker_beat: 'phone', unlock: 'crown', clear: 'flag', rainbow: 'clover', claw_win: 'claw', banker_deal: 'phone', dare_won: 'dare', storm: 'bolt',
   power: 'bulb', kev_launch: 'kevcoin', darts_lost: 'dart', levelup: 'trophy', gull: 'gull', slugs: 'veg', ghost: 'bat',
-  lockin: 'door', happy: 'bell', clock: 'stopwatch', sunday: 'drumstick', splat3: 'splat', quiet: 'coin',
+  lockin: 'door', happy: 'bell', clock: 'stopwatch', sunday: 'drumstick', splat3: 'splat', conker: 'conker', quiet: 'coin',
 };
 export const SMALL_ADS = [
   'FOR SALE: rubber duck. One careful owner. Won’t stop winning.', 'LOST: smoke detector battery. Answers to “beep”.',

@@ -2228,6 +2228,48 @@
     "Oh, those bangers make me jump too, love. Put the kettle on x"
    ]
   ],
+  "conker_won": [
+   [
+    "priya",
+    "that conker was faulty. I want a rematch"
+   ],
+   [
+    "dave",
+    "you beat the vinegar. respect"
+   ],
+   [
+    "nan",
+    "Well done, love! I was ever so good at conkers when I was little x"
+   ]
+  ],
+  "conker_lost": [
+   [
+    "priya",
+    "vinegar. every time"
+   ],
+   [
+    "tash",
+    "beaten by a conker. iconic"
+   ],
+   [
+    "nan",
+    "Never mind, love. It’s the taking part x"
+   ]
+  ],
+  "conker_nah": [
+   [
+    "priya",
+    "scared of a conker. noted"
+   ],
+   [
+    "dave",
+    "bottled it"
+   ],
+   [
+    "tash",
+    "wise. she’s been training"
+   ]
+  ],
   "fete_open": [
    [
     "nan",

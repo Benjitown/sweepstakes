@@ -68,6 +68,7 @@ import { PaperView } from './ui/paper-view.js';
 import { Karaoke } from './game/karaoke.js';
 import { Requests } from './game/requests.js';
 import { Fete } from './game/fete.js';
+import { Conkers } from './game/conkers.js';
 import { Sunday } from './game/sunday.js';
 import { exposeForTests } from './debug.js';
 
@@ -107,6 +108,7 @@ QuizNight.schedule();
 Karaoke.schedule();
 Requests.schedule();
 Fete.schedule();
+Conkers.schedule();
 Sunday.schedule();
 Chat.ambient();
 const hi = LINES.hello.slice().sort(() => Math.random() - .5);
