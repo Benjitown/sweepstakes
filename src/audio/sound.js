@@ -59,6 +59,8 @@ export const Sound = (() => {
     // the Red Lion's crowd: applause (lots of little claps) or a good-natured boo
     cheer() { for (let k = 0; k < 40; k++) noise(.04, .1 + Math.random() * .12, 1500 + Math.random() * 2000, k * .04 + Math.random() * .05, 'bandpass'); },
     boo() { tone(190, .9, 'sawtooth', .04, 0, 120); tone(160, 1, 'sawtooth', .035, .12, 105); tone(140, .9, 'triangle', .1, .05, 95); },
+    // a friendly ghost: a wobbly whoooo
+    ghost() { tone(560, .7, 'sine', .16, 0, 360); tone(575, .6, 'sine', .08, .05, 380); tone(840, .45, 'triangle', .04, .12, 520); },
     // a dart in the board: a short thunk
     dart() { noise(.03, .45, 900, 0, 'bandpass'); tone(170, .06, 'square', .12, 0, 70); tone(75, .1, 'sine', .3); },
     // the claw machine paying out: an eight-bit arpeggio

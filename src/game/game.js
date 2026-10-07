@@ -73,7 +73,7 @@ export const Game = {
     if (src === 'you' || src === 'probe') b.human = true;
     if (!b.started) {
       b.placeMines(i); b.started = true; const opened = b.flood(i); b.base = b.revealed; b.t0 = Date.now();
-      b.placeGems(b.gemsTotal); b.pumpkin = Seasons.pumpkinFor(b);
+      b.placeGems(b.gemsTotal); b.pumpkin = Seasons.pumpkinFor(b); b.ghost = Seasons.ghostFor(b);
       bus.emit('board:cells', { b, cells: opened });
       this.tileAddons(b, i, opened, 0);
       bus.emit('dig', { b, i, src, risk: 0 });
@@ -117,6 +117,14 @@ export const Game = {
     if (hit !== undefined) { b.starred = true; fire('stars', hit, Stars.BONUS, `Written in the stars ×${Stars.BONUS}`); }
     // Halloween: this board's pumpkin, dug up (game/seasons.js)
     if (b.pumpkin >= 0 && opened.includes(b.pumpkin)) { const j = b.pumpkin; b.pumpkin = -1; b.pumpkinAt = j; b.G *= PUMPKIN.X; Seasons.found(b, j); }
+    // Halloween: the friendly ghost, dug up, points out a mine and it's flagged for you
+    if (b.ghost >= 0 && opened.includes(b.ghost)) {
+      const j = b.ghost, hid = []; b.ghost = -1;
+      for (let k = 0; k < b.n; k++) if (b.mine[k] && !b.flag[k] && !b.open[k]) hid.push(k);
+      const m = hid.length ? hid[Math.floor(Seasons.rng() * hid.length)] : -1;
+      if (m >= 0) this.toggleFlag(b, m, 'ghost');
+      Seasons.boo(b, j, m);
+    }
   },
   defuse(b, i, by) {
     b.flag[i] = 1; b.defused.add(i);

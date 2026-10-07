@@ -365,6 +365,11 @@ bus.on('pumpkin', ({ b, i }) => {
   BoardsView.cell(b, i); BoardsView.float(b, i, `PUMPKIN ×${PUMPKIN.X}`, 'var(--orange)', true); BoardsView.hud(b);
   Sound.gem('ruby'); Haptics.buzz([15, 25, 15]); Chat.say('pumpkin', {}, .6);
 });
+bus.on('ghost', ({ b, i, mine }) => {
+  SeasonView.ghost(b, i); BoardsView.float(b, i, mine >= 0 ? 'BOO! It points at a mine' : 'BOO!', 'var(--purple)', true); Sound.ghost();
+  if (mine >= 0) BoardsView.cell(b, mine); Haptics.buzz([20, 40, 20]); News.note('ghost');
+  setTimeout(() => Chat.say('ghost', {}, .7), 900);
+});
 bus.on('treat', () => {
   HouseholdView.show({ ...TREAT_CARD, buttons: [['Aww', 'green']] }); RunPanel.render(); Sound.buy();
   setTimeout(() => Chat.say('treat', {}, .9), 900);

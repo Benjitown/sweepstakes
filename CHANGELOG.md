@@ -58,6 +58,8 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **Biscuit, next door's dog.** If you hear barking, he trots in along the bottom of the screen and waits ("Woof?").
   Give him a biscuit (3% of the top table's max stake) and he sniffs out a mine on your board and sits on it: flagged,
   glowing orange for a moment. Ignore him and he wanders off. New achievement: Good Boy.
+- **A friendly ghost** at Halloween: one board in five hides one under a safe tile. Dig it up and it rises out of
+  the board, says boo, and points out a mine (flagged for you).
 - **A run card.** Stats has a Run card button: a picture of your run (peak coins, how long you lasted, boards, your
   biggest win, rank and achievements) in the game's own colours, to download or copy into a chat.
 - **The landlord's specials.** About one dealt board in twelve (never a golden one, never the Daily) comes with a

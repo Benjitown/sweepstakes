@@ -149,6 +149,8 @@ export const LINES = {
   special_clock:   [['dave', 'FORTY SECONDS. GO'], ['tash', 'clock’s ticking. no pressure'], ['nan', 'Don’t rush on my account, love. Well, a bit x']],
   special_beat:    [['priya', 'beat the clock. show-off'], ['nan', 'In the nick of time! Well done, love x'], ['dave', 'with seconds to spare. cinema']],
   special_late:    [['dave', 'buzzer. too slow'], ['kev', 'time waits for no man. or Kev'], ['nan', 'Never mind, love. You still got something x']],
+  // Halloween's friendly ghost
+  ghost:         [['dave', 'I am NOT scared. (I am)'], ['priya', 'a helpful ghost. rarest of all ghosts'], ['kev', 'is it a KEVCOIN ghost. asking for me'], ['tash', 'it pointed at a mine and LEFT. iconic']],
   // the jukebox: everyone has an opinion about your record
   juke_lounge:   [['priya', 'very James Bond. are you wearing a bow tie'], ['dave', 'lift music. I love it'], ['nan', 'Ooh very posh. Shall I put my pearls on x'],
     ['kev', 'this is what they play when you’re on hold to the bank']],

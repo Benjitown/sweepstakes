@@ -7,6 +7,7 @@ export const SEASONS = {
   xmas:      { name: 'Christmas', from: [12, 1], to: [12, 26] },
 };
 export const PUMPKIN = { CHANCE: .5, X: 1.15 };  // Halloween: half the boards hide a pumpkin under a safe tile, ×1.15
+export const GHOST = { CHANCE: .2 };            // and one in five a friendly ghost, who points out a mine when you dig it up
 export const TRICK = {
   CHANCE: .5,      // of answering the door in October: trick or treaters
   SWEETS: .02,     // a bag of sweets: this share of your top table's max stake (at least 5)
