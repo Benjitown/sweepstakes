@@ -1,6 +1,6 @@
 """Antics suite (experimental): dares from the group chat (the offer, You're on / Nah / no answer, the clock in the
 header, doing it in time for double, running out of time, the switch, each dare's rule) and the seasons (the calendar,
-Halloween's pumpkins, bats and trick or treaters, Bonfire Night's fireworks and the Guy, Christmas snow and Nan's
+Easter's eggs, Halloween's pumpkins, bats and trick or treaters, Bonfire Night's fireworks and the Guy, Christmas snow and Nan's
 card) and the claw machine (the sixth booth tab, the swing, what it pays back, a win, a drop, a slip, a miss, leaving
 mid-grab) and the car boot sale (his prices, buying, haggling, being sold out from under you, the mystery box, packing
 up) and darts with Big Dave (a real dartboard's scores, the challenge, a win with 180, a loss, a draw, walking away)
@@ -158,6 +158,17 @@ async def run(browser, url, shots):
     none = await pg.evaluate("""(() => { const b = __sw.slots[0], out = {}; __sw.Seasons.rng = () => .99; out.unlucky = __sw.Seasons.pumpkinFor(b);
       __sw.Seasons.rng = () => 0; __sw.Seasons.force = 'none'; out.offSeason = __sw.Seasons.pumpkinFor(b); __sw.Seasons.force = 'halloween'; __sw.Seasons.rng = Math.random; return out; })()""")
     ok(none == {'unlucky': -1, 'offSeason': -1}, 'half the boards have no pumpkin, and none out of season')
+    # Easter: Good Friday to Easter Monday (it moves), and a chocolate egg instead of a pumpkin
+    e = await pg.evaluate("""(() => { const X = __sw.Seasons, f = X.force; X.force = null; const at = d => X.now(new Date(d));
+      const r = [at('2027-03-25T12:00'), at('2027-03-26T09:00'), at('2027-03-28T12:00'), at('2027-03-29T20:00'), at('2027-03-30T09:00'), at('2026-04-05T12:00')]; X.force = f; return r; })()""")
+    ok(e == [None, 'easter', 'easter', 'easter', None, 'easter'], f'Easter: Good Friday to Easter Monday, wherever it lands (in 2027, 26 to 29 March) {e}')
+    await pg.evaluate("(() => { __sw.Seasons.force = 'easter'; __sw.SeasonView.apply(); __sw.S.life.easterEggs = 0; })()")
+    r = await pg.evaluate(PUMP); await pg.wait_for_timeout(150)
+    floats = await pg.evaluate("[...document.querySelectorAll('.float')].map(e => e.textContent).join(' ')")
+    egg = await pg.evaluate("({ n: __sw.S.life.easterEggs, deco: document.querySelector('#seasonDeco use').getAttribute('href') })")
+    ok(r.get('j', -1) >= 0 and abs(r['ratio'] - 1.15) < 1e-9 and 'EASTER EGG ×1.15' in floats and egg == {'n': 1, 'deco': '#i-egg'}, f'Easter: a chocolate egg under a tile instead, ×1.15 ({egg})')
+    await pg.wait_for_timeout(250)
+    await pg.evaluate("(() => { __sw.Seasons.force = 'halloween'; __sw.SeasonView.apply(); })()")
     await pg.evaluate("(() => { const b = __sw.slots[0]; if (b) { b.over = true; __sw.Game.endBoard(b); } __sw.HouseholdView.clear(); })()")
     # trick or treat: sweets for a sugar rush...
     await pg.evaluate("(() => { __sw.Seasons.rng = () => 0; delete __sw.S.life.ach.treat; __sw.S.sugar = 0; __sw.Household.answerDoor(); __sw.Seasons.rng = Math.random; })()"); await pg.wait_for_timeout(300)

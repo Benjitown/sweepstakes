@@ -367,9 +367,9 @@ bus.on('tick', () => { if (S.dare) { Dares.second(); DareView.chip(); } });
 bus.on('reset', () => DareView.chip());
 
 /* ---------- the seasons: pumpkins and trick or treaters at Halloween, fireworks on Bonfire Night, Nan's card at Christmas ---------- */
-bus.on('pumpkin', ({ b, i }) => {
-  BoardsView.cell(b, i); BoardsView.float(b, i, `PUMPKIN ×${PUMPKIN.X}`, 'var(--orange)', true); BoardsView.hud(b);
-  Sound.gem('ruby'); Haptics.buzz([15, 25, 15]); Chat.say('pumpkin', {}, .6);
+bus.on('pumpkin', ({ b, i, egg }) => {
+  BoardsView.cell(b, i); BoardsView.float(b, i, `${egg ? 'EASTER EGG' : 'PUMPKIN'} ×${PUMPKIN.X}`, egg ? 'var(--gold)' : 'var(--orange)', true); BoardsView.hud(b);
+  Sound.gem('ruby'); Haptics.buzz([15, 25, 15]); Chat.say(egg ? 'easter_egg' : 'pumpkin', {}, .6);
 });
 bus.on('ghost', ({ b, i, mine }) => {
   SeasonView.ghost(b, i); BoardsView.float(b, i, mine >= 0 ? 'BOO! It points at a mine' : 'BOO!', 'var(--purple)', true); Sound.ghost();
