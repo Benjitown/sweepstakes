@@ -68,7 +68,7 @@ async def run(browser, url, shots):
     toasts = await pg.evaluate("[...document.querySelectorAll('.toast')].map(t => t.textContent).join(' | ')")
     ok(await pg.evaluate('__sw.S.splat') is None and await pg.evaluate('__sw.S.coins') == c2 and 'church roof' in toasts, f'walk off after one splat: your money back anyway ({toasts[-70:]})')
     await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
-    ok('3 times, best 3 out of 3' in await pg.evaluate("document.getElementById('stats').textContent"), 'Stats: Splat the Rat, 3 times, best 3 out of 3')
+    ok('4 times, best 3 out of 3' in await pg.evaluate("document.getElementById('stats').textContent"), 'Stats: Splat the Rat, 4 times, best 3 out of 3')
     await pg.click('[data-tab="shop"]')
 
     # --- the phone
