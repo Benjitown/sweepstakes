@@ -172,6 +172,15 @@ async def run(browser, url, shots):
     await pg.evaluate("(() => { __sw.S.addons = []; __sw.Game.slots.forEach(b => { if (b) { b.over = true; __sw.Game.endBoard(b); } }); __sw.renderAll(); })()")
     await pg.wait_for_timeout(300)
 
+    # --- Landlord's Favourite: a winning cash-out under every one of his specials
+    reg = await pg.evaluate("""(() => { delete __sw.S.life.ach.regular; __sw.S.life.specials = __sw.SPECIALS.map(s => s.id).filter(id => id !== 'rush');
+      const old = __sw.slots[0]; if (old) { old.over = true; __sw.Game.endBoard(old); }
+      __sw.Specials.force = 'rush'; __sw.Game.deal(0); __sw.Specials.force = ''; const b = __sw.slots[0];
+      __sw.invoke(new __sw.DigCommand(b, Math.floor(b.t.h / 2) * b.t.w + Math.floor(b.t.w / 2))); if (!b.over) { b.G = Math.max(b.G, 2); __sw.Game.cashOut(b, 'manual'); }
+      return [__sw.Achievements.has('regular'), __sw.S.life.specials.length]; })()""")
+    ok(reg[0] and reg[1] == await pg.evaluate('__sw.SPECIALS.length'), 'a winning Gem Rush makes the set: Landlord’s Favourite')
+    await pg.wait_for_timeout(1300)
+
     # --- a special survives a reload
     await pg.evaluate("(() => { __sw.Game.slots.forEach(b => { if (b) { b.over = true; __sw.Game.endBoard(b); } }); })()")
     await pg.wait_for_timeout(200)
