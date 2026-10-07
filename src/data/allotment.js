@@ -18,3 +18,10 @@ export const CROPS = [
   { id: 'pumpkin', mins: 14, share: .15, x: 3.4 },
 ];
 export const CROP_BY = Object.fromEntries(CROPS.map(c => [c.id, c]));
+// the shed: one-off buys for this run's allotment, priced as a share of your top table's max stake
+export const SHED = [
+  { id: 'greenhouse', share: 1, name: 'A greenhouse', blurb: 'Everything grows 20% quicker under glass.', faster: .8 },
+  { id: 'traps', share: .4, name: 'Kev’s beer traps', blurb: 'The slugs go for the beer instead: three quarters fewer lost crops.', slugs: .25 },
+  { id: 'beds', share: .8, name: 'Clear the brambles', blurb: 'Two more beds at the back.', beds: 2 },
+];
+export const SHED_BY = Object.fromEntries(SHED.map(x => [x.id, x]));

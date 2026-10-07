@@ -406,6 +406,7 @@ bus.on('plot:picked', r => {
 bus.on('plot:slugs', ({ id }) => { UI.toast(`Slugs got your ${VEG[id].veg}.`); AllotmentView.render(); setTimeout(() => Chat.say('plot_slugs', {}, 1), 900); });
 bus.on('plot:rain', () => { AllotmentView.render(); UI.toast('The rain’s watered your allotment: everything’s two minutes closer.'); setTimeout(() => Chat.say('plot_rain', {}, .5), 2400); });
 bus.on('storm', e => { if (!e.on) setTimeout(() => Allotment.rain(), 1200); });
+bus.on('plot:shed', ({ id }) => { Sound.buy(); AllotmentView.render(); UI.toast({ greenhouse: 'A greenhouse: everything grows 20% quicker.', traps: 'Beer traps down. The slugs have other plans now.', beds: 'Brambles cleared: two more beds.' }[id]); setTimeout(() => Chat.say('plot_' + id, {}, .8), 900); });
 bus.on('reset', () => { AllotmentView.chip(); if (AllotmentView.showing()) AllotmentView.render(); });
 
 /* ---------- The Daily Sweep: the newsroom notes the run's big moments; the paper comes every twenty minutes ---------- */
