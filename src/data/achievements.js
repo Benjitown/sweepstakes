@@ -91,6 +91,7 @@ export const ACHIEVEMENTS = [
   { id: 'pb',       tier: 1, icon: 'trophy',    name: 'Personal Best',       desc: 'End a run that peaked higher than any before it.' },
   { id: 'regular',  tier: 2, icon: 'bell',      name: 'Landlord’s Favourite', desc: 'Cash out ahead under every one of the landlord’s specials.' },
   { id: 'conker',   tier: 1, icon: 'conker',    name: 'Oner',                desc: 'Beat Priya at conkers, vinegar and all.' },
+  { id: 'hamper',   tier: 1, icon: 'ticket',    name: 'Star Prize',          desc: 'Win the hamper on the tombola at the church fete.' },
   { id: 'rat',      tier: 1, icon: 'splat',     name: 'Rat Catcher',         desc: 'Splat the rat three times out of three at the church fete.' },
   { id: 'lockin',   tier: 1, icon: 'door',      name: 'Stay for One More',   desc: 'Sit out a Lock-in till the doors open, then cash out ahead.' },
   { id: 'roast',    tier: 1, icon: 'drumstick', name: 'Clean Plate',         desc: 'Go round to Nan’s for your Sunday dinner.' },

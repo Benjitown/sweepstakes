@@ -5,7 +5,7 @@ prize, a loser, and what it pays back."""
 from common import Results, open_page
 
 SETUP = """(() => { __sw.Coach.finish(); const S = __sw.S; S.coins = 50000; S.unlocked = ['penny', 'den']; S.sel = 'den'; S.life.lvl = 5; S.life.xp = 0;
-  S.life.ach = Object.fromEntries(__sw.ACHIEVEMENTS.map(a => [a.id, 1])); delete S.life.ach.rat; S.splat = null; S.life.fete = null; __sw.renderAll(); })()"""
+  S.life.ach = Object.fromEntries(__sw.ACHIEVEMENTS.map(a => [a.id, 1])); delete S.life.ach.rat; delete S.life.ach.hamper; S.splat = null; S.sugar = 0; S.life.fete = null; __sw.renderAll(); })()"""
 ST = "({ coins: __sw.S.coins, splat: __sw.S.splat, msg: document.getElementById('splatMsg').textContent, goes: document.getElementById('splatGoes').textContent })"
 
 
@@ -83,14 +83,19 @@ async def run(browser, url, shots):
     t = await pg.evaluate(TOM)
     ok(t['ticket'] == '005' and t['coins'] == c0 and 'bubble bath' in t['msg'], f'ticket 005 ends in 5: a prize ({t["msg"]})')
     await pg.screenshot(path=str(shots / 'tombola.png'))
-    c1 = t['coins']
+    c1 = t['coins']; star = await pg.evaluate("__sw.Achievements.reward(__sw.ACHIEVEMENTS.find(a => a.id === 'hamper'))")
     await pg.evaluate("(() => { let k = 0; __sw.Tombola.rng = () => [.045, .995][k++ % 2]; })()"); await pg.click('#tomBuy'); await pg.wait_for_timeout(150)
     t = await pg.evaluate(TOM)
-    ok(t['ticket'] == '010' and t['coins'] == c1 + 39 * price and 'STAR PRIZE' in t['msg'], f'ticket 010: the star prize, a hamper, forty times the ticket')
+    ok(t['ticket'] == '010' and t['coins'] == c1 + 39 * price + star and 'STAR PRIZE' in t['msg'] and await pg.evaluate("__sw.Achievements.has('hamper')"),
+       f'ticket 010: the star prize, a hamper, forty times the ticket (and Star Prize unlocks)')
     c2 = t['coins']
     await pg.evaluate("__sw.Tombola.rng = () => .03"); await pg.click('#tomBuy'); await pg.wait_for_timeout(150)
     t = await pg.evaluate(TOM)
     ok(t['ticket'] == '007' and t['coins'] == c2 - price and 'Not a winner' in t['msg'], 'ticket 007: not a winner, and the ticket’s gone')
+    # Nan's on the cake stall: a slice, on the house (once a fete)
+    await pg.click('#feteCake'); await pg.wait_for_timeout(900)
+    cake = await pg.evaluate("({ sugar: __sw.S.sugar, btn: document.getElementById('feteCake').disabled, nan: [...document.querySelectorAll('#chat .msg:not(.invite)')].map(m => m.textContent).filter(t => /^Nan/.test(t)).pop() || '' })")
+    ok(cake['sugar'] == 1 and cake['btn'] and cake['nan'].rstrip().endswith(' x'), f'say hello to Nan at the cake stall: a slice on the house, a sugar rush (“{cake["nan"][3:60]}”)')
     pb = await pg.evaluate("(() => { const P = __sw.TOMBOLA.PRIZES, W = P.reduce((t, p) => t + p.w, 0); return .2 * P.reduce((t, p) => t + p.w * p.x, 0) / W; })()")
     ok(.55 < pb < .75, f'a ticket brings back about two thirds of its price on average ({pb:.0%}): it’s for the church roof')
     await pg.evaluate("(() => { __sw.Tombola.rng = Math.random; __sw.UI.closeModal(); })()")

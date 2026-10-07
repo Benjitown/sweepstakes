@@ -1,7 +1,7 @@
 // The church fete on screen: the card that says it's on, and Splat the Rat (the drainpipe, the cord, the rat and the
 // splat). src/game/fete.js keeps the score.
 import { $, fmt, rnd } from '../core/util.js';
-import { S } from '../core/state.js';
+import { S, SaveGame } from '../core/state.js';
 import { FETE } from '../data/fete.js';
 import { FETE_SAYS, FETE_RESULT, TOMBOLA_PRIZES } from '../content/fete.js';
 import { Fete, Tombola } from '../game/fete.js';
@@ -10,6 +10,8 @@ import { Sound } from '../audio/sound.js';
 import { UI } from './ui.js';
 import { Haptics } from './haptics.js';
 import { HouseholdView } from './household-view.js';
+import { RunPanel } from './run-panel.js';
+import { Chat } from './chat.js';
 
 const PIPE_ART = `<svg class="pipeart" viewBox="0 0 120 200" aria-hidden="true">
   <rect x="40" y="0" width="40" height="160" fill="#8d9a9e" stroke="#141b1d" stroke-width="3"/>
@@ -27,7 +29,9 @@ const RAT_ART = `<svg class="ratart" viewBox="0 0 90 44" aria-hidden="true">
 export const FeteView = {
   t: 0, phase: 'idle', // idle, wait (up the pipe), out (splat it!)
   // it's on: a card at the bottom of the screen
+  cake: false, // been to see Nan at the cake stall at this fete?
   invite() {
+    this.cake = false;
     HouseholdView.show({ icon: 'bell', mood: 'good', title: 'The church fete', ms: 15000,
       text: `Bunting up, Nan on the cake stall, and Splat the Rat by the tombola. Three goes for ${fmt(Fete.fee())}.`,
       buttons: [['Splat the Rat', 'gold', () => this.open()], ['Tombola', 'blue', () => this.tombola()], ['Not today', 'ghost']] });
@@ -40,7 +44,8 @@ export const FeteView = {
       <p class="splatmsg" id="splatMsg" aria-live="polite">${S.splat ? 'You’ve still got goes left.' : 'Three goes, then.'}</p>
       <p class="splatgoes" id="splatGoes"></p>
       <div class="row"><button class="btn gold big" type="button" id="splatGo"></button><button class="btn red big" type="button" id="splatHit">Splat!</button></div>
-      <button class="btn ghost" type="button" data-a="close">Leave</button></div>`, { close: () => this.leave() });
+      <button class="btn ghost" type="button" data-a="close">Leave</button>${this.stallLink()}</div>`, { close: () => this.leave() });
+    this.bindStall();
     $('#splatGo').onclick = () => this.pull();
     const hit = $('#splatHit');
     hit.onpointerdown = e => { e.preventDefault(); this.whack(); };
@@ -93,8 +98,9 @@ export const FeteView = {
       <div class="drum" id="tomDrum" aria-hidden="true"><i></i><i></i><i></i></div>
       <p class="ticket num" id="tomTicket">?</p>
       <p class="splatmsg" id="tomMsg" aria-live="polite">Pick a ticket, any ticket.</p>
-      <div class="row"><button class="btn gold big" type="button" id="tomBuy">A ticket (${fmt(Tombola.price())})</button><button class="btn ghost" type="button" data-a="close">Leave</button></div></div>`,
+      <div class="row"><button class="btn gold big" type="button" id="tomBuy">A ticket (${fmt(Tombola.price())})</button><button class="btn ghost" type="button" data-a="close">Leave</button></div>${this.stallLink()}</div>`,
       { close: () => UI.closeModal() });
+    this.bindStall();
     $('#tomBuy').onclick = () => this.draw();
   },
   draw() {
@@ -106,6 +112,16 @@ export const FeteView = {
     if (r.prize) Sound.coin(6); else Sound.unflag();
   },
   sayT(t) { const el = $('#tomMsg'); if (el) el.textContent = t; },
+  // Nan's on the cake stall: say hello and she gives you a slice (and won't take your money): a sugar rush
+  stallLink() { return `<button class="clink" type="button" id="feteCake" ${this.cake ? 'disabled' : ''}>${this.cake ? 'Nan’s waving at you from the cake stall' : 'Say hello to Nan at the cake stall'}</button>`; },
+  bindStall() { const b = $('#feteCake'); if (b) b.onclick = () => this.stall(); },
+  stall() {
+    if (this.cake) return; this.cake = true;
+    S.sugar = (S.sugar || 0) + 1; SaveGame.save(); RunPanel.render(); Sound.buy();
+    UI.toast('Nan cuts you the biggest slice of Victoria sponge and won’t take a penny. Sugar rush: +25% on your next winning cash-out.');
+    setTimeout(() => Chat.post('nan', rnd(['Here you are, love. Put your money away x', 'I saved you the biggest slice, love. Don’t tell the vicar x', 'Eat up, love. There’s plenty x'])), 600);
+    const b = $('#feteCake'); if (b) { b.disabled = true; b.textContent = 'Nan’s waving at you from the cake stall'; }
+  },
   // walking off pays for your splats so far
   leave() {
     clearTimeout(this.t); this.phase = 'idle';

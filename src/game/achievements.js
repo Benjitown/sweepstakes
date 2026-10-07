@@ -65,6 +65,7 @@ export const Achievements = {
     bus.on('board:cashout', ({ b, why, profit }) => { if (b.special === 'clock' && why !== 'clock' && profit > 0 && b.human) u('nick'); });
     bus.on('hall', ({ place, runs }) => { if (place === 1 && runs > 1) u('pb'); });
     bus.on('fete:done', ({ hits }) => { if (hits >= 3) u('rat'); });
+    bus.on('tombola', ({ prize }) => { if (prize === 'hamper') u('hamper'); });
     bus.on('board:cashout', ({ b, profit }) => { // Landlord's Favourite: a winning cash-out under every one of his specials
       if (!b.special || !(profit > 0)) return;
       const got = S.life.specials = Array.isArray(S.life.specials) ? S.life.specials : [];
