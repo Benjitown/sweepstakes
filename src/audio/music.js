@@ -96,7 +96,7 @@ const MIX = {
   lounge: { keys: .055, lead: .1, low: .2, drums: 1 },
   pub: { keys: .05, lead: .085, low: .12, drums: 1 },
   chip: { arp: .016, lead: .036, low: .12, drums: .8 },
-  haunted: { keys: .06, lead: .11, low: .2, drums: 1 },
+  haunted: { keys: .045, lead: .085, low: .17, drums: .9 },
   xmas: { keys: .05, lead: .14, low: .22, drums: 1 },
   bonfire: { keys: .05, lead: .085, low: .2, drums: 1 },
   waltz: { keys: .065, lead: .15, low: .26, drums: 1 },
