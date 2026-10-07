@@ -70,6 +70,7 @@ import { TREAT_CARD, EGGED_CARD } from './content/seasons.js';
 import { Music } from './audio/music.js';
 import { SPECIAL_BY } from './data/specials.js';
 import { Specials } from './game/specials.js';
+import { Requests } from './game/requests.js';
 import { TRACKS } from './data/jukebox.js';
 import { JukeboxView } from './ui/jukebox-view.js';
 import { Karaoke } from './game/karaoke.js';
@@ -475,6 +476,10 @@ bus.on('tick', () => Game.slots.forEach(b => { // Against the Clock: the countdo
 bus.on('board:cashout', ({ b, why, profit }) => { if (b.special === 'clock' && b.human) setTimeout(() => Chat.say(why === 'clock' ? 'special_late' : profit > 0 ? 'special_beat' : '_', {}, .7), 800); });
 
 /* ---------- the jukebox (the Halloween record's only on it in October) ---------- */
+bus.on('request:due', () => { // someone asks for a record (only while the jukebox is playing)
+  if (!pref('music') || !Music.timer || document.hidden || !UI.modalClosed() || Coach.active || Outside.on) return;
+  const o = Requests.make(); if (o) JukeboxView.request(o);
+});
 Music.available = () => TRACKS.filter(t => !t.season || Seasons.is(t.season));
 bus.on('bust', () => Music.scratch()); // the needle comes off the record
 bus.on('board:boom', ({ b, src }) => { if (src !== 'bot' && b.stake >= Math.max(500, S.coins * .25)) Music.scratch(); });
