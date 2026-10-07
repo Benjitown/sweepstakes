@@ -498,6 +498,7 @@ bus.on('board:cashout', ({ b, why, profit }) => { // the landlord's specials in 
   if (b.special === 'lockin') News.note('lockin', { profit: fmt(profit) });
   else if (b.special === 'clock' && why !== 'clock') News.note('clock', { table: b.t.name });
 });
+bus.on('board:cashout', ({ b, why }) => { if (why === 'orders' && b.human) { UI.toast(`Last orders on ${b.t.name}: that’s your lot, and it’s cashed out.`); setTimeout(() => Chat.say('special_time', {}, .7), 800); } });
 bus.on('special:locked', ({ b }) => { Sound.tick(); UI.toast(`The doors are locked on ${b.t.name}. Dig ${Specials.toGo(b)} more and the landlord will let you out.`); });
 bus.on('special:open', ({ b }) => { Sound.select(1); UI.toast(`The doors are open on ${b.t.name}. Cash out whenever you like: the profit’s doubled.`); setTimeout(() => Chat.say('special_open', {}, .6), 700); });
 bus.on('board:boom', ({ b, back }) => { if (!back) return; UI.toast(`Happy Hour: the landlord’s given you ${fmt(back)} back on ${b.t.name}.`); News.note('happy', { back: fmt(back) }); setTimeout(() => Chat.say('special_happy_back', {}, .7), 1500); });

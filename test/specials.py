@@ -1,7 +1,8 @@
 """Specials suite: the landlord's specials. Which boards get one (about 1 in 12, never a golden one), Double Trouble
 (more mines, double the limit, risky digs pay double), Gem Rush (two more gems), Against the Clock (the countdown,
 +50% for beating it, the cash-out when it's up, with no bonus then), the Lock-in (no cashing out till half the board's
-dug, then double the profit, and the Banker can't get in), Happy Hour (half the stake back on a bang), the chalk on
+dug, then double the profit, and the Banker can't get in), Happy Hour (half the stake back on a bang), Last Orders
+(ten digs, then it cashes out; +50% on the profit), the chalk on
 the board, the achievements, a special surviving a reload, and the phone. Also three add-on cards that came with
 them: Doggy Bag, Tea and Toast, Hat Trick, Late-Night Kebab and Bank Holiday."""
 from common import Results, open_page
@@ -28,7 +29,7 @@ async def run(browser, url, shots):
     st = await pg.evaluate("""(() => { __sw.Specials.force = null; let n = 0, g = 0, kinds = {};
       for (let i = 0; i < 12000; i++) { const s = __sw.Specials.roll(false); if (s) { n++; kinds[s] = (kinds[s] || 0) + 1; } if (__sw.Specials.roll(true)) g++; }
       __sw.Specials.force = ''; return { rate: n / 12000, g, kinds }; })()""")
-    ok(.07 < st['rate'] < .097 and st['g'] == 0 and len(st['kinds']) == 5, f'about one board in twelve gets a special ({st["rate"]:.3f}), never a golden one, all five kinds {st["kinds"]}')
+    ok(.07 < st['rate'] < .097 and st['g'] == 0 and len(st['kinds']) == 6, f'about one board in twelve gets a special ({st["rate"]:.3f}), never a golden one, all six kinds {st["kinds"]}')
 
     # --- Double Trouble
     d = await pg.evaluate(f"{DEAL}(0, 'trouble')")
@@ -110,6 +111,23 @@ async def run(browser, url, shots):
     ok(d['tag'] == 'Happy Hour' and r['over'] and r['back'] == r['half'] > 0 and 'Happy Hour: the landlord’s given you' in t,
        f'Happy Hour: a bang gives you half the stake back ({r["back"]} of {r["stake"]}, “{r["result"]}”)')
     await pg.wait_for_timeout(1800)
+
+    # --- Last Orders: ten digs and that's your lot, +50% on the profit whenever it cashes out
+    await pg.evaluate("(() => { __sw.Game.slots.forEach(b => { if (b) { b.over = true; __sw.Game.endBoard(b); } }); })()")
+    await pg.wait_for_timeout(200)
+    d = await pg.evaluate(f"{DEAL}(0, 'orders')")
+    lo = await pg.evaluate("(() => { const b = __sw.slots[0]; b.lim = 1e9; return { left: __sw.Specials.digsLeft(b), tag: b.el.querySelector('.spectag').textContent }; })()")
+    ok(d['special'] == 'orders' and lo['left'] == 9 and 'Last Orders' in lo['tag'] and '9 digs' in lo['tag'], f'Last Orders: “{lo["tag"].strip()}” after the first dig')
+    r = await pg.evaluate("""(() => { const b = __sw.slots[0]; let got = null, extra = 0; __sw.bus.on('board:cashout', e => { if (e.b === b && !got) got = e; });
+      __sw.bus.on('addon:fired', e => { if (e.id === 'orders' && e.b === b) extra = +e.text.replace(/[^0-9]/g, ''); });
+      for (let i = 0; i < b.n && !b.over; i++) if (!b.mine[i] && !b.open[i]) __sw.invoke(new __sw.DigCommand(b, i));
+      return got && { why: got.why, amount: got.amount, stake: b.stake, digs: b.digs, extra }; })()""")
+    if r and r['why'] == 'orders':
+        ok(r['digs'] == 10, f'the tenth dig: that’s your lot, and it cashes out ({r["why"]}, {r["digs"]} digs)')
+    else:
+        ok(bool(r) and r['why'] == 'clear', f'the board cleared before last orders ({r and r["why"]})')
+    ok(bool(r) and r['extra'] > 0 and r['extra'] == (r['amount'] - r['extra'] - r['stake']) // 2, f'+50% on the profit ({r and r["extra"]:,} on top)')
+    await pg.wait_for_timeout(1700)
 
     # --- three more add-on cards: Doggy Bag, Tea and Toast, Hat Trick
     await pg.evaluate("(() => { __sw.Game.slots.forEach(b => { if (b) { b.over = true; __sw.Game.endBoard(b); } }); __sw.S.addons = [{ id: 'doggy', paid: 50 }, { id: 'tea', paid: 50 }, { id: 'hattrick', paid: 110 }]; __sw.renderAll(); })()")

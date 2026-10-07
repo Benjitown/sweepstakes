@@ -78,9 +78,11 @@ Each version is also a save in the built-in version control. Run `python tools/v
   day). Go round for a roast with all the trimmings and pudding after, and you're full of it: your next five winning
   cash-outs get +15% on the profit. Can't make it? She keeps a plate warm for you anyway (two cash-outs' worth).
   New achievement: Clean Plate.
-- **Two more landlord's specials.** **The Lock-in**: the doors are locked till half the board's dug, so there's no
+- **Three more landlord's specials.** **The Lock-in**: the doors are locked till half the board's dug, so there's no
   cashing out before then (and the Banker can't get in), but stay for it and the profit's doubled. **Happy Hour**: if
-  the board goes bang, the landlord gives you half your stake back. New achievement: Stay for One More.
+  the board goes bang, the landlord gives you half your stake back. **Last Orders**: ten digs and that's your lot (it
+  cashes out after the tenth, and the chalk counts them down), but whenever it cashes out it's +50% on the profit.
+  New achievement: Stay for One More.
 - **Your best runs.** Stats keeps your top five runs by peak coins, for good: how long each lasted, how many boards,
   how it ended and when. A run in progress that would make the list says so, and the bust screen says where a run
   landed. New achievement: Personal Best.

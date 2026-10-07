@@ -74,7 +74,7 @@ export const Game = {
     if (b.over || b.open[i] || b.flag[i]) return;
     if (src === 'you' || src === 'probe') b.human = true;
     if (!b.started) {
-      b.placeMines(i); b.started = true; const opened = b.flood(i); b.base = b.revealed; b.t0 = Date.now();
+      b.placeMines(i); b.started = true; const opened = b.flood(i); b.base = b.revealed; b.t0 = Date.now(); b.digs = 1;
       b.placeGems(b.gemsTotal); b.pumpkin = Seasons.pumpkinFor(b); b.ghost = Seasons.ghostFor(b);
       bus.emit('board:cells', { b, cells: opened });
       this.tileAddons(b, i, opened, 0);
@@ -85,7 +85,7 @@ export const Game = {
     let p = 0;
     if (src !== 'probe') { const d = Solver.full(b); if (!d.KS[i]) p = Math.min(.95, d.P[i]); }
     if (b.mine[i]) { b.combo = 0; mineChain.handle(b, i, src); return; }
-    const opened = b.flood(i);
+    const opened = b.flood(i); b.digs = (b.digs || 0) + 1;
     bus.emit('board:cells', { b, cells: opened });
     if (p > 0) {
       let bonus = BOOST * (1 + .25 * asc()) * p / (1 - p);
@@ -163,6 +163,7 @@ export const Game = {
       return this.cashOut(b, 'clear');
     }
     if (b.rawMult() >= b.lim) return this.cashOut(b, 'limit');
+    if (Specials.digsLeft(b) === 0) return this.cashOut(b, 'orders'); // Last Orders (a landlord's special): that's your lot
     // The Lock-in (a landlord's special): half the board's dug, so the landlord unlocks the doors
     if (b.special === 'lockin' && !b.doors && !Specials.locked(b)) { b.doors = true; bus.emit('special:open', { b }); }
     bus.emit('board:hud', { b }); SaveGame.save();
