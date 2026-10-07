@@ -396,7 +396,7 @@ async def run(browser, url, shots):
     await pg.evaluate("(() => { __sw.HouseholdView.clear(); __sw.UI.closeModal(); __sw.S.coins = 30000; __sw.S.life.skins = []; __sw.S.life.skin = 'classic'; delete __sw.S.life.ach.skin; __sw.renderAll(); __sw.bus.emit('skin'); })()")
     await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
     st = await pg.evaluate("({ n: document.querySelectorAll('#stats .skin').length, on: document.querySelector('#stats .skin[aria-pressed=\"true\"]').dataset.skin, body: document.body.dataset.skin })")
-    ok(st == {'n': 5, 'on': 'classic', 'body': 'classic'}, f'Stats: five board styles, Classic on ({st})')
+    ok(st == {'n': 6, 'on': 'classic', 'body': 'classic'}, f'Stats: six board styles, Classic on ({st})')
     await pg.click('#stats [data-skin="neon"]'); await pg.wait_for_timeout(200)
     ok(await pg.evaluate("!__sw.Skins.owned('neon') && __sw.S.coins === 30000") and 'costs' in await toasts(pg), 'Neon costs 250,000: not today')
     await pg.click('#stats [data-skin="felt"]'); await pg.wait_for_timeout(200)

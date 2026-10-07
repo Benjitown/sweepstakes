@@ -58,6 +58,7 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **Biscuit, next door's dog.** If you hear barking, he trots in along the bottom of the screen and waits ("Woof?").
   Give him a biscuit (3% of the top table's max stake) and he sniffs out a mine on your board and sits on it: flagged,
   glowing orange for a moment. Ignore him and he wanders off. New achievement: Good Boy.
+- **A new board style: Pub carpet** (750K, in Stats): red and gold swirls, slightly sticky. Hides a multitude of sins.
 - **Five new add-on cards:** Doggy Bag (common: hit a mine and you still take 20% of the stake home), Tea and Toast
   (common: cash out without a single risky dig for +15% on the profit), Late-Night Kebab (common: +10% on the profit
   of a cash-out between midnight and 5am, by your clock), Hat Trick (uncommon: every third risky dig on a board gives
