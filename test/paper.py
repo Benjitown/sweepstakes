@@ -52,6 +52,10 @@ async def run(browser, url, shots):
     ok('Leo' in fp['stars'] and 'Tell Nan' not in fp['stars'], f'Nan’s stars, for your sign ({fp["stars"][11:60]}…)')
     ok(fp['ads'] == 3 and not fp['chip'], 'three small ads, and the chip goes once you’ve read it')
     await pg.screenshot(path=str(shots / 'paper.png'))
+    share = await pg.evaluate("__sw.PaperView.shareText(__sw.S.paper)")
+    await pg.click('#paperShare'); await pg.wait_for_timeout(300)
+    toasts = await pg.evaluate(TOASTS)
+    ok(share.startswith('📰 The Daily Sweep, No. 1\n') and 'JACKPOT' in share and ('front page' in toasts or 'copy' in toasts), f'Copy the front page: {share.splitlines()[:2]}')
 
     # --- Spot the Mine
     bad = await pg.evaluate(PUZZLES)
