@@ -70,6 +70,8 @@ import { Requests } from './game/requests.js';
 import { Fete } from './game/fete.js';
 import { Conkers } from './game/conkers.js';
 import { Sunday } from './game/sunday.js';
+import { Specials } from './game/specials.js';
+import { SPECIAL_BY } from './data/specials.js';
 import { exposeForTests } from './debug.js';
 
 $('#btnDon').onclick = () => DonLadder.start();
@@ -110,6 +112,13 @@ Requests.schedule();
 Fete.schedule();
 Conkers.schedule();
 Sunday.schedule();
+// ?try=sunday, fete or conkers brings that on in a few seconds; ?try=lockin (or happy, orders, trouble, rush, clock)
+// chalks that special on every board you deal. For trying the new bits out without waiting for them.
+const tryIt = new URLSearchParams(location.search).get('try');
+if (tryIt === 'sunday') { Sunday.force = true; Sunday.life().last = ''; Sunday.later(12); }
+else if (tryIt === 'fete') Fete.schedule(12);
+else if (tryIt === 'conkers') { Conkers.force = true; Conkers.schedule(12); }
+else if (tryIt && SPECIAL_BY[tryIt]) Specials.force = tryIt;
 Chat.ambient();
 const hi = LINES.hello.slice().sort(() => Math.random() - .5);
 setTimeout(() => Chat.post(...hi[0]), 600);

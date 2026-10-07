@@ -21,7 +21,7 @@ export const Sunday = {
     this.timer = this.today() ? setTimeout(() => bus.emit('sunday:due'), (lo + Math.random() * (hi - lo)) * 1000)
       : setTimeout(() => this.schedule(), 3600e3);
   },
-  later() { clearTimeout(this.timer); this.timer = setTimeout(() => bus.emit('sunday:due'), 60e3); }, // busy right now: in a minute
+  later(s = 60) { clearTimeout(this.timer); this.timer = setTimeout(() => bus.emit('sunday:due'), s * 1000); }, // busy right now: in a minute
   ask() { this.life().last = dayKey(); SaveGame.saveNow(); },
   // you went round: a full plate
   go() { this.life().dinners++; S.roast = (S.roast || 0) + SUNDAY.BOARDS; SaveGame.saveNow(); bus.emit('sunday', { went: true }); },
