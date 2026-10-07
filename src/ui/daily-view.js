@@ -70,8 +70,8 @@ export const DailyView = {
       { copy: () => this.copy(text), share: () => navigator.share({ text }).catch(() => {}), close: () => UI.closeModal() });
   },
 
-  copy(text) {
-    const done = () => UI.toast('Copied. Paste it in the group chat and gloat.');
+  copy(text, said = 'Copied. Paste it in the group chat and gloat.') {
+    const done = () => UI.toast(said);
     const fallback = () => {
       const t = document.createElement('textarea'); t.value = text; t.style.position = 'fixed'; t.style.opacity = '0';
       document.body.appendChild(t); t.select();
