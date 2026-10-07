@@ -13,4 +13,5 @@ export const TRICK = {
   SWEETS: .02,     // a bag of sweets: this share of your top table's max stake (at least 5)
   EGGS_MS: 40000,  // say no and the eggs stay on the window this long
 };
+export const GUY = { CHANCE: .5 };  // Bonfire Night: of answering the door, kids with a Guy (a quid costs what a bag of sweets does)
 export const XMAS = { CARD: .5 };  // Nan's Christmas card through the door: this share of your top table's max stake

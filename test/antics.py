@@ -1,11 +1,11 @@
 """Antics suite (experimental): dares from the group chat (the offer, You're on / Nah / no answer, the clock in the
 header, doing it in time for double, running out of time, the switch, each dare's rule) and the seasons (the calendar,
-Halloween's pumpkins, bats and trick or treaters, Bonfire Night's fireworks, Christmas snow and Nan's card) and the claw
-machine (the sixth booth tab, the swing, what it pays back, a win, a drop, a slip, a miss, leaving mid-grab) and the car
-boot sale (his prices, buying, haggling, being sold out from under you, the mystery box, packing up) and darts with
-Big Dave (a real dartboard's scores, the challenge, a win with 180, a loss, a draw, walking away) and quiz night
-(a perfect round, a mixed one, running out of time, leaving half-way) and board styles (buying, wearing, keeping them
-when you go bust)."""
+Halloween's pumpkins, bats and trick or treaters, Bonfire Night's fireworks and the Guy, Christmas snow and Nan's
+card) and the claw machine (the sixth booth tab, the swing, what it pays back, a win, a drop, a slip, a miss, leaving
+mid-grab) and the car boot sale (his prices, buying, haggling, being sold out from under you, the mystery box, packing
+up) and darts with Big Dave (a real dartboard's scores, the challenge, a win with 180, a loss, a draw, walking away)
+and quiz night (a perfect round, a mixed one, running out of time, leaving half-way) and board styles (buying,
+wearing, keeping them when you go bust)."""
 from common import Results, open_page
 
 SETUP = """(() => { __sw.Coach.finish(); const S = __sw.S; S.coins = 50000; S.unlocked = ['penny', 'den']; S.sel = 'den'; S.life.lvl = 5; S.life.xp = 0;
@@ -180,6 +180,23 @@ async def run(browser, url, shots):
     await pg.wait_for_timeout(2000)
     ok(await pg.evaluate("!document.querySelector('#eggs')"), 'the eggs come off in the end')
     await pg.evaluate("(() => { __sw.HouseholdView.clear(); __sw.TRICK.EGGS_MS = 40000; })()")
+    # Bonfire Night: a penny (well, a quid) for the Guy gets you a sparkler, your next board golden...
+    await pg.evaluate("(() => { __sw.Seasons.force = 'bonfire'; __sw.Seasons.rng = () => 0; __sw.S.goldNext = 0; __sw.Household.answerDoor(); __sw.Seasons.rng = Math.random; })()"); await pg.wait_for_timeout(300)
+    card = await text(pg, '.happening'); quid = await pg.evaluate('__sw.Seasons.sweets()')
+    ok('Penny for the Guy?' in card and f'Give them a quid ({quid:,})' in card and 'No change, sorry' in card, f'Bonfire Night at the door: penny for the Guy ({card[:60]}…)')
+    await pg.screenshot(path=str(shots / 'guy.png'))
+    c0 = await pg.evaluate('__sw.S.coins')
+    await pg.click('.happening [data-h="0"]'); await pg.wait_for_timeout(400)
+    ok(await pg.evaluate('__sw.S.coins') == c0 - quid and await pg.evaluate('__sw.S.goldNext') == 1 and 'Cheers!' in await text(pg, '.happening'),
+       f'give them a quid ({quid:,}): a sparkler, and your next board is golden')
+    # ...and no change gets you a banger on the step (and your streak goes)
+    await pg.evaluate("(() => { __sw.HouseholdView.clear(); __sw.S.streak = 4; __sw.Seasons.rng = () => 0; __sw.Household.answerDoor(); __sw.Seasons.rng = Math.random; })()"); await pg.wait_for_timeout(300)
+    await pg.click('.happening [data-h="1"]'); await pg.wait_for_timeout(400)
+    ok(await pg.evaluate('__sw.S.streak') == 0 and 'BANG' in await text(pg, '.happening'), 'no change, sorry: a banger on the step, and your streak’s gone')
+    await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
+    ok('a quid for the Guy once' in await text(pg, '#stats'), 'Stats: a quid for the Guy once')
+    await pg.click('[data-tab="shop"]')
+    await pg.evaluate("(() => { __sw.HouseholdView.clear(); __sw.S.goldNext = 0; })()")
     # Bonfire Night: fireworks over a big win
     fw = await pg.evaluate("""(() => { __sw.Seasons.force = 'bonfire'; __sw.SeasonView.apply(); const real = __sw.FX.fireworks; let n = 0; __sw.FX.fireworks = k => { n += k; };
       const old = __sw.slots[0]; if (old) { old.over = true; __sw.Game.endBoard(old); }

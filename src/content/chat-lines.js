@@ -152,6 +152,8 @@ export const LINES = {
   special_happy:   [['tash', 'happy hour! half your stake back if it goes bang'], ['nan', 'Happy hour! Have a lovely time, love x'], ['priya', 'safety net. go wild']],
   special_open:    [['dave', 'doors are open. RUN'], ['nan', 'You can go home now if you like, love. Or stay a bit, I don’t mind x'], ['tash', 'free at last. cash out or push your luck?']],
   special_happy_back: [['priya', 'ouch. at least it was happy hour'], ['nan', 'Never mind, love. Half back’s better than none x'], ['dave', 'landlord’s a saint']],
+  guy_thanks: [['dave', 'penny for the guy. haven’t heard that in years'], ['nan', 'That was kind of you, love. Wrap up warm if you go to the bonfire x'], ['tash', 'their guy had a better outfit than kev']],
+  guy_bang:   [['kev', 'did you just scream'], ['priya', 'we all heard that'], ['nan', 'Oh, those bangers make me jump too, love. Put the kettle on x']],
   sunday_ask:   [['nan', 'Dinner’s at two, love. Roast chicken and all the trimmings. Come round if you can x'], ['nan', 'I’ve done you your own Yorkshire puddings, love. Come round for your Sunday dinner x'],
     ['nan', 'Sunday dinner’s nearly ready, love. There’s a place set for you if you want it x']],
   sunday_table: [['nan', 'Eat up, love. There’s plenty more where that came from x'], ['nan', 'Have another potato, love. I did extra just for you x'], ['nan', 'It’s so lovely having you round, love. Same time next week? x']],

@@ -58,6 +58,9 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **Biscuit, next door's dog.** If you hear barking, he trots in along the bottom of the screen and waits ("Woof?").
   Give him a biscuit (3% of the top table's max stake) and he sniffs out a mine on your board and sits on it: flagged,
   glowing orange for a moment. Ignore him and he wanders off. New achievement: Good Boy.
+- **Penny for the Guy.** In Bonfire week, half the knocks at the door are two kids with a Guy in a wheelbarrow. Give
+  them a quid (what a bag of sweets costs at Halloween) and they hand you a lit sparkler: your next board's golden.
+  No change, and they let a banger off on the step: there goes your streak.
 - **Sunday dinner at Nan's.** On a Sunday, a little way into playing, Nan asks you round for your dinner (once a
   day). Go round for a roast with all the trimmings and pudding after, and you're full of it: your next five winning
   cash-outs get +15% on the profit. Can't make it? She keeps a plate warm for you anyway (two cash-outs' worth).

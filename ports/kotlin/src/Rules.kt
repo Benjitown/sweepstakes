@@ -240,6 +240,8 @@ object Rules {
         "special_happy" to listOf("tash" to "happy hour! half your stake back if it goes bang", "nan" to "Happy hour! Have a lovely time, love x", "priya" to "safety net. go wild"),
         "special_open" to listOf("dave" to "doors are open. RUN", "nan" to "You can go home now if you like, love. Or stay a bit, I don’t mind x", "tash" to "free at last. cash out or push your luck?"),
         "special_happy_back" to listOf("priya" to "ouch. at least it was happy hour", "nan" to "Never mind, love. Half back’s better than none x", "dave" to "landlord’s a saint"),
+        "guy_thanks" to listOf("dave" to "penny for the guy. haven’t heard that in years", "nan" to "That was kind of you, love. Wrap up warm if you go to the bonfire x", "tash" to "their guy had a better outfit than kev"),
+        "guy_bang" to listOf("kev" to "did you just scream", "priya" to "we all heard that", "nan" to "Oh, those bangers make me jump too, love. Put the kettle on x"),
         "sunday_ask" to listOf("nan" to "Dinner’s at two, love. Roast chicken and all the trimmings. Come round if you can x", "nan" to "I’ve done you your own Yorkshire puddings, love. Come round for your Sunday dinner x", "nan" to "Sunday dinner’s nearly ready, love. There’s a place set for you if you want it x"),
         "sunday_table" to listOf("nan" to "Eat up, love. There’s plenty more where that came from x", "nan" to "Have another potato, love. I did extra just for you x", "nan" to "It’s so lovely having you round, love. Same time next week? x"),
         "sunday_bye" to listOf("nan" to "Take some crumble home with you, love. Mind how you go x", "nan" to "Thank you for coming round, love. It’s made my week x", "nan" to "Text me when you’re home, love. Love you lots x"),
