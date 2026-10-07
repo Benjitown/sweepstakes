@@ -19,6 +19,10 @@ What's in each version: [CHANGELOG.md](CHANGELOG.md).
   - `python ports/python/sweepstakes.py`
 
   See [ports/README.md](ports/README.md).
+- **Trying a bit out:** add `?season=halloween` (or `bonfire`, `xmas`, `none`) to the address for that season;
+  `?try=sunday`, `?try=fete` or `?try=conkers` brings Sunday dinner, the church fete or conkers on in a few seconds
+  (`?try=door` knocks at the door: with `?season=bonfire` or `xmas` it's often the Guy or the carol singers);
+  `?try=lockin` (or `happy`, `orders`, `trouble`, `rush`, `clock`) chalks that special on every board you deal.
 
 ## Build
 
@@ -59,7 +63,7 @@ src/
                     dares from the group chat, the seasons (Halloween, Bonfire Night, Christmas), the claw machine, the car
                     boot sale, darts with Big Dave, quiz night, board styles, the allotment, The Daily Sweep (the paper)
                     and its Sweepstake (a lottery), karaoke at the Red Lion, the landlord's specials, Sunday dinner
-                    at Nan's
+                    at Nan's, the church fete (Splat the Rat), conkers with Priya
   ui/               one file per view: panels, boards, shop, modals, tutorial, daily, keys, coin graph, household, ducks...
 assets/             fonts (+ OFL licence) and the favicon
 tools/              build.py, serve.py, vc.py (version control), export_rules.mjs, sim/ (economy, Fruity and KEVCOIN simulators)
@@ -103,21 +107,27 @@ The suites run against both the ES-module source and the built file:
   when you start a fresh run yourself) and Sunday dinner at hers (only on a Sunday and once a day, going round, the
   roast on a winning cash-out, the plate she keeps warm, Stats)
 - **antics:** dares from the group chat (the offer, You're on, Nah, no answer, the clock in the header and when it
-  stops, doing it in time, running out of time, each dare's rule, the switch) and the seasons (the calendar, Halloween's
-  pumpkins, bats and trick or treaters, Bonfire Night's fireworks, Christmas snow and Nan's card), the claw machine
-  (the swing, what it pays back, a win, a drop, a slip, a miss, leaving mid-grab), the car boot sale (his prices,
-  buying, haggling, being sold out from under you, the mystery box, packing up), darts with Big Dave (a real
-  dartboard's scores, a win with 180, a loss, a draw, walking away), quiz night (a perfect round, a mixed one,
-  running out of time, leaving half-way), board styles (buying, wearing, keeping them when you go bust), plus checks
-  that every icon in the sheet has its own id and the pub quiz never repeats itself
+  stops, doing it in time, running out of time, each dare's rule, the switch) and the seasons (the calendar,
+  Halloween's pumpkins, bats and trick or treaters, Bonfire Night's fireworks and the Guy, Christmas snow and Nan's
+  card), the claw machine (the swing, what it pays back, a win, a drop, a slip, a miss, leaving mid-grab), the car
+  boot sale (his prices, buying, haggling, being sold out from under you, the mystery box, packing up), darts with Big
+  Dave (a real dartboard's scores, a win with 180, a loss, a draw, walking away), quiz night (a perfect round, a mixed
+  one, running out of time, leaving half-way), board styles (buying, wearing, keeping them when you go bust), plus
+  checks that every icon in the sheet has its own id and the pub quiz never repeats itself
 - **allotment:** the tab, the seed packets' prices, planting, growing by the minute, ripe (and the chip), picking,
   a whopper, slugs, a thunderstorm watering the lot, full beds, October pumpkins, the 4 key, Stats, a fresh run and the phone
 - **paper:** The Daily Sweep: the newsroom noting the run's big moments, the paper arriving, the front page (the
-  biggest story leads), Spot the Mine (one or two certain mines; right pays once), the Sweepstake (Lucky Dip lines,
-  the draw, the payouts, about half back), a quiet run, the bust screen's special edition, Stats and the phone
+  biggest story leads, and every kind of story has headlines, a weight and a picture), Spot the Mine (one or two
+  certain mines; right pays once), the Sweepstake (Lucky Dip lines, the draw, the payouts, about half back), a quiet
+  run, the bust screen's special edition, Stats and the phone
 - **specials:** the landlord's specials: how often (about 1 in 12, never golden), Double Trouble's mines, limit and
   risky digs, Gem Rush's gems, Against the Clock's countdown, bonus and cash-out, the Lock-in's locked doors and
-  doubled profit (and no Banker), Happy Hour's half stake back, surviving a reload, and the phone
+  doubled profit (and no Banker), Happy Hour's half stake back, Last Orders' ten digs and bonus, five more add-on
+  cards, surviving a reload, and the phone
+- **fete:** the church fete's Splat the Rat: the card, three goes for the fee, a splat, pulling too early, too slow,
+  what it pays (money back, ×3, ×8), Rat Catcher, walking off half-way, Stats, the paper and the phone
+- **conkers:** conkers with Priya: only in conker season, her challenge, Nah, You're on, the swing meter (a smash, a
+  hit, a miss, strings), her strikes, winning (double, Oner, the paper), losing, walking away, Stats and the phone
 - **karaoke:** the notes timed to the record (swing and all), the scoring (great, good, missed, bum notes), a standing
   ovation and what it pays, the machine's rest, being booed off, singing with the sound muted, and the phone
 - **jukebox:** the records (every note a real note that fits its bar), putting one on, every record playing, shuffle,

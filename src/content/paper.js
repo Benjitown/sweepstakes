@@ -35,6 +35,14 @@ export const STORIES = {
   levelup: [['PROMOTED: NOW A {rank}'], ['Colleagues describe the new title as “a bit much”.']],
   gull: [['SEAGULL MUGGING IN BROAD DAYLIGHT'], ['The suspect was last seen heading for the seafront.']],
   ghost: [['FRIENDLY GHOST SPOTTED ON THE BOARDS'], ['Witnesses say it pointed at a mine, then left. Experts are baffled.']],
+  lockin: [['LOCK-IN LEGEND', 'NOBODY LEAVES THE RED LION'], ['The doors stayed locked till half the board was dug. The regular who sat it out walked off {profit} up.']],
+  happy: [['HAPPY HOUR SOFTENS THE BLOW'], ['A board went bang, but the landlord handed {back} back. “It’s happy hour,” he said, “I’m not a monster.”']],
+  clock: [['IN THE NICK OF TIME', 'BEATS THE CLOCK AT {table}'], ['Forty seconds on the clock, and cashed out with time to spare. The group chat wants a rematch.']],
+  sunday: [['SUNDAY DINNER AT NAN’S', 'NAN’S ROAST “BEST IN THE COUNTY”'], ['Seconds were had. Then thirds. Crumble and custard to follow.', 'Our reporter couldn’t get a seat at the table, but the gravy was described as “perfect”.']],
+  splat3: [['RAT CATCHER GENERAL', 'THREE OUT OF THREE AT THE FETE'], ['Three splats on Splat the Rat. The rat has asked for a transfer to the tombola.']],
+  guy: [['PENNY FOR THE GUY RAISES A QUID', 'GUY FAWKES SPOTTED IN WHEELBARROW'], ['Two local kids thank “the nice one at number {n}”. The Guy declined to comment, having no mouth.']],
+  hamper: [['TOMBOLA STAR PRIZE WON AT LAST', 'HAMPER LEAVES THE FETE'], ['Ham, cheese and a tiny jar of chutney. The vicar says the church roof thanks you.']],
+  conker: [['CONKER CHAMPION CROWNED', 'VINEGAR NO MATCH FOR LOCAL HERO'], ['Priya’s sixer was smashed to bits for {pay}. She says it was “a bad conker”. It was soaked in vinegar.']],
   slugs: [['SLUGS STRIKE ON ALLOTMENTS'], ['A crop of {veg} lost overnight. Police have no leads.']],
   quiet: [['NOTHING HAPPENS IN SWEEPTOWN', 'SLOW NEWS DAY'], ['A board was dealt. Then another one. Our reporter fell asleep.']],
 };
@@ -43,7 +51,8 @@ export const STORY_ART = {
   casino: 'casino', bust: 'skull', bust_don: 'dice', lotto_jackpot: 'ticket', lotto_four: 'ticket', jackpot: 'gem', bingo_house: 'bingo', fruity_jackpot: 'lucky7', ascend: 'asc', don_win: 'dice',
   cashout_big: 'coin', rug: 'kevcoin', whopper: 'veg', night_full: 'brain', karaoke_ovation: 'juke', karaoke_booed: 'juke', scratch_big: 'ticket', duck_long: 'duck', boom_big: 'bomb', darts_won: 'dart',
   banker_beat: 'phone', unlock: 'crown', clear: 'flag', rainbow: 'clover', claw_win: 'claw', banker_deal: 'phone', dare_won: 'dare', storm: 'bolt',
-  power: 'bulb', kev_launch: 'kevcoin', darts_lost: 'dart', levelup: 'trophy', gull: 'gull', slugs: 'veg', ghost: 'bat', quiet: 'coin',
+  power: 'bulb', kev_launch: 'kevcoin', darts_lost: 'dart', levelup: 'trophy', gull: 'gull', slugs: 'veg', ghost: 'bat',
+  lockin: 'door', happy: 'bell', clock: 'stopwatch', sunday: 'drumstick', splat3: 'splat', conker: 'conker', guy: 'firework', hamper: 'ticket', quiet: 'coin',
 };
 export const SMALL_ADS = [
   'FOR SALE: rubber duck. One careful owner. Won’t stop winning.', 'LOST: smoke detector battery. Answers to “beep”.',
@@ -52,6 +61,9 @@ export const SMALL_ADS = [
   'FOUND: one seagull. Not ours. Please collect.', 'FOR HIRE: Biscuit (dog). Finds mines. Paid in biscuits.',
   'PIANO LESSONS on the Red Lion’s old upright. Slightly out of tune, as is the teacher.', 'CAR BOOT: Sunday, end of the road. Haggling encouraged, mostly.',
   'FOR SALE: claw machine prize (crown). Slippery.', 'QUIZ NIGHT: Thursdays. Priya hosts. No phones. She will check.',
+  'CHURCH FETE: Saturday. Cake stall, tombola, Splat the Rat. The rat is a sock.', 'WANTED: vinegar, lots, no questions asked. (P.)',
+  'LOST: one conker, a sixer, last seen in bits. Sentimental value. (P.)', 'FOR SALE: double glazing. Also, apparently, your windows are fine.',
+  'LATE-NIGHT KEBABS: open till 4. Ask for the Kev Special. Don’t ask what’s in it.', 'THANK YOU to whoever took in our parcel. Shortbread on its way. (No. 12)',
 ];
 export const PAPER_WEATHER = {
   storm: 'Thunderstorms, clearing later. Chance of a rainbow: about even.', halloween: 'Foggy evenings, with trick or treaters.',

@@ -79,6 +79,8 @@ async def run(browser, url, shots):
     ok(got >= 1 and await pg.evaluate("document.querySelectorAll('#stats .ach').length") == total, f'Stats shows all {total} badges, {got} earned')
     await pg.click('#stats .ach.got'); await pg.wait_for_timeout(100)
     ok('Pocket Money' in await pg.text_content('#achCap') or got > 1, 'tapping a badge explains it')
+    await pg.click('[data-tab="shop"]'); await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
+    ok('Pocket Money' in await pg.text_content('#achCap') or got > 1, 'and it still does after the tab redraws')
     ok(await pg.evaluate("!!document.querySelector('#tg-vibe')") and ('v' + await pg.evaluate('__sw.VERSION')) in await pg.text_content('#stats .ver'), 'Stats has the vibration switch and the version line')
 
     # --- coin graph
@@ -136,10 +138,11 @@ async def run(browser, url, shots):
     ok(await pg.evaluate("(() => { __sw.Game.bust('manual', true); return [__sw.S.vol, __sw.S.noiseVol]; })()") == [.4, .25], '…and they survive going bust')
 
     # --- your best runs: the top five by peak, kept for good
-    hall = await pg.evaluate("""(() => { __sw.UI.closeModal(); __sw.S.life.hall = []; const peaks = [5e4, 2e6, 8e3, 9e5, 3e7, 1.2e5, 7e5];
+    hall = await pg.evaluate("""(() => { __sw.UI.closeModal(); __sw.S.life.hall = []; delete __sw.S.life.ach.pb; const peaks = [5e4, 2e6, 8e3, 9e5, 3e7, 1.2e5, 7e5];
       for (const p of peaks) { __sw.S.run.peak = p; __sw.S.run.boards = 3; __sw.S.coins = 0; __sw.Game.slots.fill(null); __sw.Game.bust('broke', true); }
       return __sw.Hall.runs().map(h => h.peak); })()""")
     ok(hall == [3e7, 2e6, 9e5, 7e5, 1.2e5], f'your best runs: the top five by peak, best first {hall}')
+    ok(await pg.evaluate("__sw.Achievements.has('pb')"), 'beating your best: Personal Best')
     await pg.click('[data-tab="shop"]'); await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
     rows = await pg.evaluate("[...document.querySelectorAll('#stats .hall li')].map(li => li.textContent)")
     ok(len(rows) == 5 and rows[0].startswith('30M') and 'Ran out of coins' in rows[0], f'Stats lists them ({rows[0][:50]}…)')

@@ -57,6 +57,7 @@ export const Game = {
     let golden = Math.random() < GOLDEN * (hasA('midas') ? 3 : 1);
     if (S.goldNext > 0) { S.goldNext--; golden = true; }
     S.run.boards++; S.life.boards++;
+    if (hasA('bankhol') && S.run.boards % 10 === 0) { golden = true; bus.emit('addon:fired', { id: 'bankhol' }); } // Bank Holiday: every tenth board
     const b = boardFactory().create(slot, t, stake, golden, Specials.roll(golden));
     this.slots[slot] = b;
     this.setCoins(S.coins - stake);
@@ -73,7 +74,7 @@ export const Game = {
     if (b.over || b.open[i] || b.flag[i]) return;
     if (src === 'you' || src === 'probe') b.human = true;
     if (!b.started) {
-      b.placeMines(i); b.started = true; const opened = b.flood(i); b.base = b.revealed; b.t0 = Date.now();
+      b.placeMines(i); b.started = true; const opened = b.flood(i); b.base = b.revealed; b.t0 = Date.now(); b.digs = 1;
       b.placeGems(b.gemsTotal); b.pumpkin = Seasons.pumpkinFor(b); b.ghost = Seasons.ghostFor(b);
       bus.emit('board:cells', { b, cells: opened });
       this.tileAddons(b, i, opened, 0);
@@ -84,7 +85,7 @@ export const Game = {
     let p = 0;
     if (src !== 'probe') { const d = Solver.full(b); if (!d.KS[i]) p = Math.min(.95, d.P[i]); }
     if (b.mine[i]) { b.combo = 0; mineChain.handle(b, i, src); return; }
-    const opened = b.flood(i);
+    const opened = b.flood(i); b.digs = (b.digs || 0) + 1;
     bus.emit('board:cells', { b, cells: opened });
     if (p > 0) {
       let bonus = BOOST * (1 + .25 * asc()) * p / (1 - p);
@@ -111,6 +112,7 @@ export const Game = {
     const fire = (id, cell, k, text) => { b.G *= k; bus.emit('addon:fired', { id, b, i: cell, text }); };
     if (p > 0 && hasA('corner') && b.isCorner(i)) fire('corner', i, 1.25, 'Corner ×1.25');
     if (p > 0 && hasA('nester') && opened.length >= 10) fire('nester', i, 1.3, 'Nester ×1.3');
+    if (p > 0 && hasA('hattrick') && b.combo > 0 && b.combo % 3 === 0) fire('hattrick', i, 1.3, 'Hat trick ×1.3');
     if (hasA('sevens')) { const s = opened.filter(j => b.num[j] === 7); if (s.length) fire('sevens', s[0], 1.77 ** s.length, `Sevens ×${(1.77 ** s.length).toFixed(2)}`); }
     if (hasA('eight')) { const s = opened.filter(j => b.num[j] === 8); if (s.length) fire('eight', s[0], 8 ** s.length, `Eight Ball ×${8 ** s.length}`); }
     // Nan's stars: the first time a board uncovers today's lucky number, ×1.25 (game/horoscope.js)
@@ -161,6 +163,7 @@ export const Game = {
       return this.cashOut(b, 'clear');
     }
     if (b.rawMult() >= b.lim) return this.cashOut(b, 'limit');
+    if (Specials.digsLeft(b) === 0) return this.cashOut(b, 'orders'); // Last Orders (a landlord's special): that's your lot
     // The Lock-in (a landlord's special): half the board's dug, so the landlord unlocks the doors
     if (b.special === 'lockin' && !b.doors && !Specials.locked(b)) { b.doors = true; bus.emit('special:open', { b }); }
     bus.emit('board:hud', { b }); SaveGame.save();
@@ -169,7 +172,10 @@ export const Game = {
     b.over = true; b.result = `Lost ${fmt(b.stake)}`; S.streak = 0; S.run.losses++;
     // Happy Hour (a landlord's special): the landlord gives you half your stake back
     const back = b.special === 'happy' ? Math.floor(b.stake * SPECIAL_BY.happy.back) : 0;
-    if (back) { b.result = `Lost ${fmt(b.stake - back)}`; this.setCoins(S.coins + back); }
+    // the Doggy Bag card: a fifth of the stake comes home with you
+    const bag = hasA('doggy') ? Math.min(b.stake - back, Math.floor(b.stake * .2)) : 0;
+    if (back || bag) { b.result = `Lost ${fmt(b.stake - back - bag)}`; this.setCoins(S.coins + back + bag); }
+    if (bag) bus.emit('addon:fired', { id: 'doggy', b, i, text: `Doggy bag +${fmt(bag)}` });
     bus.emit('board:boom', { b, i, src, left: b.safe - b.revealed, missed: b.hiddenGems(), back }); bus.emit('board:hud', { b }); bus.emit('coins', {});
     SaveGame.saveNow();
     setTimeout(() => this.endBoard(b), 1700);

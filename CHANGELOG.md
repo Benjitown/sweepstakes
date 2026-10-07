@@ -58,20 +58,62 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **Biscuit, next door's dog.** If you hear barking, he trots in along the bottom of the screen and waits ("Woof?").
   Give him a biscuit (3% of the top table's max stake) and he sniffs out a mine on your board and sits on it: flagged,
   glowing orange for a moment. Ignore him and he wanders off. New achievement: Good Boy.
+- **Try the new bits out:** `?try=sunday`, `?try=fete` or `?try=conkers` in the address brings that on in a few
+  seconds, and `?try=lockin` (or any special's name) chalks that special on every board you deal.
+- **A new board style: Pub carpet** (750K, in Stats): red and gold swirls, slightly sticky. Hides a multitude of sins.
+- **Five new add-on cards:** Doggy Bag (common: hit a mine and you still take 20% of the stake home), Tea and Toast
+  (common: cash out without a single risky dig for +15% on the profit), Late-Night Kebab (common: +10% on the profit
+  of a cash-out between midnight and 5am, by your clock), Hat Trick (uncommon: every third risky dig on a board gives
+  an extra ×1.3) and Bank Holiday (rare: every tenth board you deal is golden).
+- **Six more group chat conversations,** about the new bits: Priya's pickled conker, Dave's Splat the Rat title
+  (there isn't one), a Sunday roast with room for one more, Kev's lock-in, Kev's 3am kebab and a milkman nobody's seen
+  since 1994. And six more small ads in the Daily Sweep, and eight more pub quiz questions (conkers, the Gunpowder
+  Plot, what the rat really is).
+- **Conkers with Priya.** In conker season (September to November) she challenges you in the group chat, with some
+  coins on it. Her conker's been soaked in vinegar and baked ("preparation"). Take turns to strike: stop the swing
+  meter in the gold for a smash, the green for a hit; a miss might tangle the strings, and whoever shouts "Strings!"
+  goes again. First conker to crack loses; win and it pays double. New achievement: Oner.
+- **The church fete: Splat the Rat.** Every so often the fete's on (Nan's on the cake stall). Three goes for 3% of
+  your top table's max stake: pull the cord, and when the rat shoots out of the bottom of the drainpipe, splat it.
+  Too early and it's still up the pipe; too slow and it's gone. One splat gets your money back, two pays ×3, all
+  three ×8. Walk off half-way and you're still paid for your splats. New achievement: Rat Catcher. There's a
+  tombola too: tickets ending in 0 or 5 win a prize off the table (bubble bath, travel sweets, a jigsaw with two
+  pieces missing... or the star prize, a hamper: new achievement, Star Prize). It's for the church roof, so it pays
+  back about two thirds. And Nan's on the cake stall: say hello and she gives you the biggest slice of Victoria sponge
+  and won't take a penny (a sugar rush, once a fete).
+- **Carol singers** at Christmas, with a tin for the lifeboats: a quid in it and they sing one more for luck (+1
+  shield); or turn the lights off and hide behind the sofa.
+- **Penny for the Guy.** In Bonfire week, half the knocks at the door are two kids with a Guy in a wheelbarrow. Give
+  them a quid (what a bag of sweets costs at Halloween) and they hand you a lit sparkler: your next board's golden.
+  No change, and they let a banger off on the step: there goes your streak.
+- **More callers:** a parcel for next door (they bring round shortbread), a man selling double glazing, the milkman
+  (gold tops: your next board's golden), the window cleaner, an automated voice about your accident, your mum, and
+  the doctor's surgery ringing back. And knock-down ginger.
+- **The Daily Sweep covers the new bits:** a Lock-in sat out, Happy Hour softening a bang, beating the clock, Sunday
+  dinner at Nan's, three splats out of three, beating Priya at conkers, a quid for the Guy and the tombola's hamper
+  all make the paper.
 - **Sunday dinner at Nan's.** On a Sunday, a little way into playing, Nan asks you round for your dinner (once a
   day). Go round for a roast with all the trimmings and pudding after, and you're full of it: your next five winning
   cash-outs get +15% on the profit. Can't make it? She keeps a plate warm for you anyway (two cash-outs' worth).
   New achievement: Clean Plate.
-- **Two more landlord's specials.** **The Lock-in**: the doors are locked till half the board's dug, so there's no
+- **Three more landlord's specials.** **The Lock-in**: the doors are locked till half the board's dug, so there's no
   cashing out before then (and the Banker can't get in), but stay for it and the profit's doubled. **Happy Hour**: if
-  the board goes bang, the landlord gives you half your stake back. New achievement: Stay for One More.
+  the board goes bang, the landlord gives you half your stake back. **Last Orders**: ten digs and that's your lot (it
+  cashes out after the tenth, and the chalk counts them down), but whenever it cashes out it's +50% on the profit.
+  New achievements: Stay for One More, and Landlord's Favourite (cash out ahead under every one of his specials).
+  On a Friday (by your clock) he chalks twice as many, and the group chat knows it.
 - **Your best runs.** Stats keeps your top five runs by peak coins, for good: how long each lasted, how many boards,
   how it ended and when. A run in progress that would make the list says so, and the bust screen says where a run
-  landed.
+  landed. New achievement: Personal Best.
 - **A friendly ghost** at Halloween: one board in five hides one under a safe tile. Dig it up and it rises out of
   the board, says boo, and points out a mine (flagged for you).
 - **A run card.** Stats has a Run card button: a picture of your run (peak coins, how long you lasted, boards, your
-  biggest win, rank and achievements) in the game's own colours, to download or copy into a chat.
+  biggest win, rank and achievements) in the game's own colours, to download or copy into a chat. It says if it's
+  your best run yet.
+- **Fixed:** the Stats badge you tapped kept losing its caption when the tab redrew (every five seconds), and with
+  every chip showing at once the phone header lost Nan's roast off the bottom (those chips are an icon and a count
+  on a phone now). Stats' house rules cover everything new, and tapping the landlord's chalk on a board says what
+  the special does (there's no hovering on a phone).
 - **The landlord's specials.** About one dealt board in twelve (never a golden one, never the Daily) comes with a
   twist chalked on it, for that board only: **Double Trouble** (half as many mines again, but risky digs pay double
   and the limit's doubled), **Gem Rush** (two extra gems) or **Against the Clock** (forty seconds from your first dig:

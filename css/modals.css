@@ -78,3 +78,42 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center;justify-conten
 .roastplate .steam path{animation:steam 3.2s ease-in-out infinite}
 .roastplate .steam path:nth-child(2){animation-delay:-1.1s}
 .roastplate .steam path:nth-child(3){animation-delay:-2.2s}
+/* the church fete: Splat the Rat */
+.fete{display:grid;justify-items:center;text-align:center;gap:8px}
+.fete h3,.fete p{margin:0}
+.fete .pipe{position:relative;width:170px;height:236px;cursor:pointer;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.fete .pipeart{display:block;width:120px;height:200px;margin:0 auto}
+.fete .rat{position:absolute;left:50%;top:150px;width:90px;margin-left:-45px;opacity:0;transform:translateY(-70px);pointer-events:none}
+.fete .rat svg{display:block;width:90px;height:44px}
+.fete .rat.out{opacity:1;transform:translateY(36px);transition:transform .1s ease-out}
+.fete .rat.gone{opacity:0;transform:translateY(90px);transition:transform .3s ease-in,opacity .3s}
+.fete .rat.splat{opacity:1;transform:translateY(46px) scale(1.35,.45);transition:transform .07s}
+.splatmsg{min-height:1.4em;font-weight:700}
+.splatgoes{min-height:1.2em;color:var(--ink-dim);font-size:.85rem}
+/* conkers with Priya */
+.conkers{display:grid;justify-items:center;text-align:center;gap:8px}
+.conkers h3,.conkers p{margin:0}
+.conkers h3 small{font-size:.8rem;color:var(--ink-dim);font-family:inherit}
+.cring{display:flex;align-items:flex-end;gap:16px}
+.cside{display:grid;justify-items:center;gap:4px}
+.cside b{font-family:var(--big);font-weight:400;font-size:1.25rem}
+.conker{display:block;width:72px;height:117px;transform-origin:50% 0}
+.conker.shake{animation:conkershake .45s ease-out}
+.cvs{font-family:var(--big);font-size:1.5rem;color:var(--ink-dim);padding-bottom:44px}
+.pips{display:flex;gap:4px;min-height:12px}
+.pips i{width:10px;height:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 2px #141b1d}
+.pips i.gone{background:#3a4448}
+.cmeter{position:relative;width:min(320px,78vw);height:26px;border-radius:13px;background:#222e32;box-shadow:inset 0 0 0 3px #141b1d;overflow:hidden}
+.cmeter .good{position:absolute;top:0;bottom:0;left:calc(50% - var(--hit));width:calc(var(--hit) * 2);background:rgba(63,193,138,.5)}
+.cmeter .sweet{position:absolute;top:0;bottom:0;left:calc(50% - var(--smash));width:calc(var(--smash) * 2);background:#ffd23f}
+.cmeter b{position:absolute;top:0;bottom:0;width:5px;margin-left:-2.5px;background:#fff;box-shadow:0 0 0 2px #141b1d}
+.cmsg{min-height:2.6em;font-weight:700;max-width:30em}
+/* the tombola */
+.tombola .drum{position:relative;width:120px;height:84px;border-radius:50%/40%;background:#c8732e;box-shadow:inset 0 0 0 4px #141b1d,inset 0 -10px 0 rgba(0,0,0,.25)}
+.tombola .drum i{position:absolute;width:22px;height:12px;border-radius:3px;background:#ffd23f;box-shadow:0 0 0 2px #141b1d;left:30px;top:30px}
+.tombola .drum i:nth-child(2){left:60px;top:22px;background:#fe5f55;transform:rotate(25deg)}
+.tombola .drum i:nth-child(3){left:48px;top:46px;background:#3fc18a;transform:rotate(-20deg)}
+.tombola .drum.spin{animation:drumspin .5s ease-out}
+.tombola .ticket{font-family:var(--big);font-size:2.6rem;line-height:1;margin:0;padding:6px 18px;border-radius:8px;background:#f4ead5;color:#141b1d;box-shadow:0 0 0 3px #141b1d}
+.tombola .ticket.win{background:#ffd23f}
+.tombola .ticket.pop{animation:ticketpop .35s ease-out}

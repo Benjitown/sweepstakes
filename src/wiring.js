@@ -64,9 +64,13 @@ import { Darts } from './game/darts.js';
 import { QuizNightView } from './ui/quiz-night-view.js';
 import { DartsView } from './ui/darts-view.js';
 import { CarBootView } from './ui/car-boot-view.js';
+import { Fete } from './game/fete.js';
+import { Conkers } from './game/conkers.js';
+import { ConkersView } from './ui/conkers-view.js';
+import { FeteView } from './ui/fete-view.js';
 import { SeasonView } from './ui/season-view.js';
 import { PUMPKIN } from './data/seasons.js';
-import { TREAT_CARD, EGGED_CARD } from './content/seasons.js';
+import { TREAT_CARD, EGGED_CARD, GUY_THANKS, GUY_BANG, CAROL_THANKS, CAROL_NO } from './content/seasons.js';
 import { Music } from './audio/music.js';
 import { SPECIAL_BY } from './data/specials.js';
 import { Specials } from './game/specials.js';
@@ -380,6 +384,15 @@ bus.on('trick', () => {
   SeasonView.eggs(); HouseholdView.show({ ...EGGED_CARD, buttons: [['Charming', 'ghost']] });
   setTimeout(() => Chat.say('egged', {}, .9), 1200);
 });
+bus.on('carol', ({ give }) => {
+  if (give) { HouseholdView.show({ ...CAROL_THANKS, buttons: [['Merry Christmas', 'green']] }); RunPanel.render(); Sound.buy(); setTimeout(() => Chat.say('carol_thanks', {}, .9), 900); return; }
+  HouseholdView.show({ ...CAROL_NO, buttons: [['Shh', 'ghost']] }); setTimeout(() => Chat.say('carol_no', {}, .8), 1200);
+});
+bus.on('guy', ({ give }) => {
+  if (give) { News.note('guy', { n: 1 + Math.floor(Math.random() * 60) }); HouseholdView.show({ ...GUY_THANKS, buttons: [['Ooh', 'green']] }); RunPanel.render(); Sound.buy(); setTimeout(() => Chat.say('guy_thanks', {}, .9), 900); return; }
+  HouseholdView.show({ ...GUY_BANG, buttons: [['Charming', 'ghost']] }); WeirdNoises.play('firework'); RunPanel.render(); Haptics.buzz([60, 30, 60]);
+  setTimeout(() => Chat.say('guy_bang', {}, .9), 1200);
+});
 bus.on('household', ({ o }) => { if (o.fx === 'xmas') setTimeout(() => Chat.say('xmas_card', {}, .8), 1400); });
 bus.on('board:cashout', ({ mult }) => { if (mult >= 5 && Seasons.is('bonfire')) { SeasonView.fireworks(mult >= 50 ? 5 : mult >= 15 ? 3 : 2); setTimeout(() => Chat.say('fireworks', {}, .5), 1600); } });
 
@@ -397,6 +410,19 @@ bus.on('darts:done', m => { DartsView.done(m); RunPanel.render(); Rank.award(m.r
 bus.on('boot:due', () => { if (pref('odd') && !document.hidden && HouseholdView.free() && !Outside.on && S.coins >= 50) { CarBootView.invite(); setTimeout(() => Chat.say('boot_open', {}, .8), 1200); } });
 bus.on('boot:bought', () => setTimeout(() => Chat.say('boot_bought', {}, .5), 800));
 bus.on('boot:box', () => setTimeout(() => Chat.say('boot_box', {}, .8), 800));
+
+/* ---------- conkers with Priya, in conker season (the dares switch covers it) ---------- */
+bus.on('conkers:due', () => { if (pref('dares') && !document.hidden && UI.modalClosed() && !Coach.active && !Outside.on && Conkers.canOffer()) Conkers.make(); });
+bus.on('conkers:offer', o => ConkersView.offer(o));
+bus.on('conkers:declined', ({ why }) => { if (why === 'nah') setTimeout(() => Chat.say('conker_nah', {}, .8), 600); });
+bus.on('conkers:done', m => { RunPanel.render(); if (m.result === 'won') News.note('conker', { pay: fmt(m.pay) }); setTimeout(() => Chat.say(m.result === 'won' ? 'conker_won' : 'conker_lost', {}, .8), 1400); });
+bus.on('modal:closed', () => { if (Conkers.match) { ConkersView.stop(); Conkers.forfeit(); } }); // (closed some other way: she wins)
+
+/* ---------- the church fete: Splat the Rat ---------- */
+bus.on('fete:due', () => { if (pref('odd') && !document.hidden && HouseholdView.free() && UI.modalClosed() && !Coach.active && !Outside.on && S.coins >= Fete.fee() * 2) { FeteView.invite(); setTimeout(() => Chat.say('fete_open', {}, .8), 1200); } });
+bus.on('tombola', ({ prize }) => { RunPanel.render(); if (prize === 'hamper') News.note('hamper'); if (prize === 'hamper' || prize === 'envelope') setTimeout(() => Chat.say(prize === 'hamper' ? 'tombola_hamper' : 'tombola_win', {}, .8), 900); else if (prize === 'sherry') setTimeout(() => Chat.say('tombola_sherry', {}, .8), 900); });
+bus.on('fete:done', ({ hits }) => { RunPanel.render(); if (hits >= 3) News.note('splat3'); setTimeout(() => Chat.say(hits >= 3 ? 'fete_three' : hits ? 'fete_some' : 'fete_none', {}, .7), 900); });
+bus.on('modal:closed', () => { if (Fete.st()) { clearTimeout(FeteView.t); FeteView.phase = 'idle'; Fete.settle(); Game.setCoins(S.coins); } }); // (closed some other way: still paid)
 
 /* ---------- the allotment: it grows by the minute of play; storms water it ---------- */
 bus.on('tick', () => { Allotment.second(); AllotmentView.tick(); });
@@ -481,9 +507,15 @@ bus.on('tick', () => Game.slots.forEach(b => { // Against the Clock: the countdo
   const l = Specials.left(b); if (l === 0) Game.cashOut(b, 'clock'); else if (l !== null) BoardsView.hud(b);
 }));
 bus.on('board:cashout', ({ b, why, profit }) => { if (b.special === 'clock' && b.human) setTimeout(() => Chat.say(why === 'clock' ? 'special_late' : profit > 0 ? 'special_beat' : '_', {}, .7), 800); });
+bus.on('board:cashout', ({ b, why, profit }) => { // the landlord's specials in the paper
+  if (profit <= 0) return;
+  if (b.special === 'lockin') News.note('lockin', { profit: fmt(profit) });
+  else if (b.special === 'clock' && why !== 'clock') News.note('clock', { table: b.t.name });
+});
+bus.on('board:cashout', ({ b, why }) => { if (why === 'orders' && b.human) { UI.toast(`Last orders on ${b.t.name}: that’s your lot, and it’s cashed out.`); setTimeout(() => Chat.say('special_time', {}, .7), 800); } });
 bus.on('special:locked', ({ b }) => { Sound.tick(); UI.toast(`The doors are locked on ${b.t.name}. Dig ${Specials.toGo(b)} more and the landlord will let you out.`); });
 bus.on('special:open', ({ b }) => { Sound.select(1); UI.toast(`The doors are open on ${b.t.name}. Cash out whenever you like: the profit’s doubled.`); setTimeout(() => Chat.say('special_open', {}, .6), 700); });
-bus.on('board:boom', ({ b, back }) => { if (!back) return; UI.toast(`Happy Hour: the landlord’s given you ${fmt(back)} back on ${b.t.name}.`); setTimeout(() => Chat.say('special_happy_back', {}, .7), 1500); });
+bus.on('board:boom', ({ b, back }) => { if (!back) return; UI.toast(`Happy Hour: the landlord’s given you ${fmt(back)} back on ${b.t.name}.`); News.note('happy', { back: fmt(back) }); setTimeout(() => Chat.say('special_happy_back', {}, .7), 1500); });
 
 /* ---------- the jukebox (the Halloween record's only on it in October) ---------- */
 bus.on('request:due', () => { // someone asks for a record (only while the jukebox is playing)
@@ -589,4 +621,4 @@ bus.on('sunday:due', () => {
   if (document.hidden || !UI.modalClosed() || Coach.active || Outside.on) return Sunday.later(); // she'll ask in a minute
   Sunday.ask(); SundayView.invite();
 });
-bus.on('sunday', ({ went }) => { RunPanel.render(); if (went) setTimeout(() => Chat.say('sunday_went', {}, .8), 2600); });
+bus.on('sunday', ({ went }) => { RunPanel.render(); if (went) { News.note('sunday'); setTimeout(() => Chat.say('sunday_went', {}, .8), 2600); } });

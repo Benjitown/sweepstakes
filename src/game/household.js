@@ -6,8 +6,8 @@ import { SaveGame, S, baseCap } from '../core/state.js';
 import { WeirdNoises } from '../audio/noises.js';
 import { Game } from './game.js';
 import { Seasons } from './seasons.js';
-import { TRICK, XMAS } from '../data/seasons.js';
-import { TRICK_CARD, XMAS_CARD } from '../content/seasons.js';
+import { TRICK, XMAS, GUY, CAROL } from '../data/seasons.js';
+import { TRICK_CARD, XMAS_CARD, GUY_CARD, CAROL_CARD } from '../content/seasons.js';
 
 // coins: a share of your top table's max stake when it's good, a share of your coins (capped) when it's bad.
 // fx: card, golden, shield, spin, streak0, streak1, raffle (offers a ticket), duck (offers a race)
@@ -30,6 +30,11 @@ export const DOOR = [
   { w: 1, mood: 'weird', icon: 'door', title: 'You, from the future', text: 'Slowly shaking your head. You ask how it ends. They say “cash out at ×3” and fade away.' },
   { w: 1, mood: 'weird', icon: 'door', title: 'Two police officers', text: 'Someone reported “a lot of explosions”. You explain it’s minesweeper. They stay for one board and leave worse off.' },
   { w: 1, mood: 'weird', icon: 'door', title: 'The council', text: 'They’ve approved a mine under your patio. There was a consultation. It was in a locked filing cabinet in a disused toilet.' },
+  { w: 1.5, mood: 'good', icon: 'door', title: 'A parcel for next door', text: 'You take it in like a good neighbour. An hour later they bring round a tin of shortbread and {coins} “for your trouble”.', coins: .15 },
+  { w: 1, mood: 'weird', icon: 'door', title: 'A man selling double glazing', text: 'Your windows are fine. He disagrees, at length, with a laminated brochure. You say you’ll think about it, which is British for no.' },
+  { w: 1, mood: 'good', icon: 'door', title: 'The milkman', text: 'There hasn’t been a milkman round here since 1994. He leaves two pints with gold tops and winks. Your next board is golden.', fx: 'golden' },
+  { w: 1, mood: 'weird', icon: 'door', title: 'Nobody. Again.', text: 'Knock-down ginger. You hear giggling behind the hedge. You were young once. You were worse.' },
+  { w: 1, mood: 'bad', icon: 'door', title: 'The window cleaner', text: 'He did the windows while you were busy. You didn’t ask him to. He wants {coins}, and he’s already done the conservatory.', coins: -.02 },
 ];
 export const PHONE = [
   { w: 2, mood: 'weird', icon: 'phone', title: 'Your bank', text: 'Unusual activity on your account. It’s you. It’s always been you.' },
@@ -42,6 +47,9 @@ export const PHONE = [
   { w: 1, mood: 'weird', icon: 'phone', title: 'Tech support', text: 'Your computer has a virus, and only gift cards can fix it. You tell him your computer is a minesweeper board. He asks what the odds are.' },
   { w: 1, mood: 'weird', icon: 'phone', title: 'The council', text: 'About the pothole you reported in 2021. They’ve put a cone in it.' },
   { w: 1, mood: 'good', icon: 'phone', title: 'A wrong number', text: 'They’re after “Gaz”. You become Gaz for the afternoon. Gaz had {coins} in his coat.', coins: .2 },
+  { w: 1, mood: 'weird', icon: 'phone', title: 'An automated voice', text: 'You’ve been in an accident that wasn’t your fault. You’ve been sat here all day. It was definitely your fault.' },
+  { w: 1, mood: 'good', icon: 'phone', title: 'Your mum', text: 'Asking how to send a photo. Twenty minutes later she’s sent you {coins} by mistake, and says to keep it.', coins: .2 },
+  { w: 1, mood: 'weird', icon: 'phone', title: 'The doctor’s surgery', text: 'Ringing back about the appointment you asked for in March. They can fit you in next March.' },
 ];
 export const KITTEN = [
   { w: 3, mood: 'good', icon: 'kitten', title: 'It purrs', text: 'You feel protected. +1 shield.', fx: 'shield' },
@@ -110,10 +118,12 @@ export const Household = {
     return { o, coins, card };
   },
   answerDoor(pick) {
-    // in season: trick or treaters all October, and Nan's Christmas card (once a day)
+    // in season: trick or treaters all October, a Guy in Bonfire week, and Nan's Christmas card (once a day)
     const k = pick == null && Seasons.now(), day = new Date().toDateString();
     if (k === 'halloween' && Seasons.rng() < TRICK.CHANCE) return this.resolve('door', [{ ...TRICK_CARD, w: 1 }], 0);
+    if (k === 'bonfire' && Seasons.rng() < GUY.CHANCE) return this.resolve('door', [{ ...GUY_CARD, w: 1 }], 0);
     if (k === 'xmas' && S.life.xmasCard !== day) { S.life.xmasCard = day; return this.resolve('door', [{ ...XMAS_CARD, w: 1, coins: XMAS.CARD }], 0); }
+    if (k === 'xmas' && Seasons.rng() < CAROL.CHANCE) return this.resolve('door', [{ ...CAROL_CARD, w: 1 }], 0);
     return this.resolve('door', DOOR, pick);
   },
   answerPhone(pick) { return this.resolve('phone', PHONE, pick); },

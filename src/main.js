@@ -67,7 +67,11 @@ import { AllotmentView } from './ui/allotment-view.js';
 import { PaperView } from './ui/paper-view.js';
 import { Karaoke } from './game/karaoke.js';
 import { Requests } from './game/requests.js';
+import { Fete } from './game/fete.js';
+import { Conkers } from './game/conkers.js';
 import { Sunday } from './game/sunday.js';
+import { Specials } from './game/specials.js';
+import { SPECIAL_BY } from './data/specials.js';
 import { exposeForTests } from './debug.js';
 
 $('#btnDon').onclick = () => DonLadder.start();
@@ -84,7 +88,7 @@ setInterval(() => { if (document.hidden || Outside.on) return; S.run.time++; Out
 
 (S.boards || []).forEach(o => { if (o && o.slot < boardCount()) { const b = Board.fromMemento(o); if (b) Game.slots[o.slot] = b; } });
 if (!TBY[S.sel] || !S.unlocked.includes(S.sel)) S.sel = 'penny';
-DuckRace.settle(); Scratchcards.settle(); Bingo.settle(); Fruity.settle(); Claw.settle(); // a duck race, scratchcard, bingo ticket, Fruity win or claw prize you left behind still pays out
+DuckRace.settle(); Scratchcards.settle(); Bingo.settle(); Fruity.settle(); Claw.settle(); Fete.settle(); // a duck race, scratchcard, bingo ticket, Fruity win, claw prize or splat you left behind still pays out
 if (!S.rack || !S.rack.length || S.rackAt > S.run.time) Rack.roll();
 renderAll();
 KevView.bind(); DareView.bind(); AllotmentView.chip(); PaperView.chip();
@@ -105,12 +109,24 @@ Darts.schedule();
 QuizNight.schedule();
 Karaoke.schedule();
 Requests.schedule();
+Fete.schedule();
+Conkers.schedule();
 Sunday.schedule();
+// ?try=sunday, fete, conkers or door brings that on in a few seconds (door with ?season=bonfire or xmas: the Guy or
+// the carol singers, often); ?try=lockin (or happy, orders, trouble, rush, clock) chalks that special on every board you
+// deal. For trying the new bits out without waiting for them.
+const tryIt = new URLSearchParams(location.search).get('try');
+if (tryIt === 'sunday') { Sunday.force = true; Sunday.life().last = ''; Sunday.later(12); }
+else if (tryIt === 'fete') Fete.schedule(12);
+else if (tryIt === 'conkers') { Conkers.force = true; Conkers.schedule(12); }
+else if (tryIt === 'door') setTimeout(() => WeirdNoises.surprise('knock'), 8000);
+else if (tryIt && SPECIAL_BY[tryIt]) Specials.force = tryIt;
 Chat.ambient();
 const hi = LINES.hello.slice().sort(() => Math.random() - .5);
 setTimeout(() => Chat.post(...hi[0]), 600);
 setTimeout(() => Chat.post(...hi[1]), 2000);
 if (season) { const sh = LINES[season + '_hi'].slice().sort(() => Math.random() - .5); setTimeout(() => Chat.post(...sh[0]), 3800); setTimeout(() => Chat.post(...sh[1]), 5600); }
+else if (Specials.friday() && !new URLSearchParams(location.search).has('test')) setTimeout(() => Chat.post(...LINES.friday[Math.floor(Math.random() * LINES.friday.length)]), 3800); // twice the specials on a Friday
 if (!S.life.tut) setTimeout(() => Coach.start(), 900);
 WhatsNew.maybe();
 if (S.life.tut) {

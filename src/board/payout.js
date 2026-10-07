@@ -72,6 +72,14 @@ class ClockPayout extends PayoutDecorator {
     return r;
   }
 }
+// Last Orders (a landlord's special): whenever it cashes out, +50% on the profit
+class OrdersPayout extends PayoutDecorator {
+  pay(b, why) {
+    const r = super.pay(b, why), profit = r.amount - b.stake;
+    if (b.special === 'orders' && profit > 0) { const e = Math.floor(profit * SPECIAL_BY.orders.bonus); r.amount += e; r.extras.push(['orders', `Last orders +${fmt(e)}`]); }
+    return r;
+  }
+}
 // The Lock-in (a landlord's special): stay till the doors open and the profit's doubled
 class LockinPayout extends PayoutDecorator {
   pay(b, why) {
@@ -80,8 +88,17 @@ class LockinPayout extends PayoutDecorator {
     return r;
   }
 }
+// Tea and Toast (an add-on): a board cashed out without a single risky dig gets +15% on the profit
+class TeaPayout extends PayoutDecorator {
+  pay(b, why) { const r = super.pay(b, why), profit = r.amount - b.stake; if (!b.guesses && profit > 0) { const e = Math.floor(profit * .15); if (e > 0) { r.amount += e; r.extras.push(['tea', `Tea and toast +${fmt(e)}`]); } } return r; }
+}
+// Late-Night Kebab (an add-on): cash out between midnight and 5am for +10% on the profit (NightOwl.hour is the clock)
+export const NightOwl = { hour: () => new Date().getHours() };
+class KebabPayout extends PayoutDecorator {
+  pay(b, why) { const r = super.pay(b, why), profit = r.amount - b.stake; if (NightOwl.hour() < 5 && profit > 0) { const e = Math.floor(profit * .1); if (e > 0) { r.amount += e; r.extras.push(['kebab', `Kebab +${fmt(e)}`]); } } return r; }
+}
 export const HOUSE_EDGE = .25;
-const PAYOUT_DECORATORS = [['egg', NestEggPayout], ['flagfan', FlagFanaticPayout], ['compound', CompoundPayout], ['dinner', ChickenDinnerPayout]];
+const PAYOUT_DECORATORS = [['egg', NestEggPayout], ['flagfan', FlagFanaticPayout], ['compound', CompoundPayout], ['dinner', ChickenDinnerPayout], ['tea', TeaPayout], ['kebab', KebabPayout]];
 export const buildPayout = () => {
   let p = PAYOUT_DECORATORS.reduce((acc, [id, D]) => hasA(id) ? new D(acc) : acc, new Payout());
   if (S.life.casinos) p = new HouseEdgePayout(p);
@@ -90,5 +107,6 @@ export const buildPayout = () => {
   p = new BankerPayout(p);
   p = new ClockPayout(p);
   p = new LockinPayout(p);
+  p = new OrdersPayout(p);
   return PowerCut.on ? new DarkPayout(p) : p;
 };

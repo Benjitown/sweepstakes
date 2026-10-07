@@ -6,6 +6,7 @@ import { rankName } from '../data/ranks.js';
 import { ACHIEVEMENTS } from '../data/achievements.js';
 import { S, asc } from '../core/state.js';
 import { Achievements } from '../game/achievements.js';
+import { Hall } from '../game/hall.js';
 import { UI } from './ui.js';
 
 const CARD_W = 1200, CARD_H = 630;
@@ -53,7 +54,8 @@ export const RunCard = {
       g.font = `${v.length > 13 ? 40 : 60}px "Jersey 10", sans-serif`; g.fillStyle = '#ffd23f'; g.fillText(v, tx + 22, ty + 96, 290);
     });
     g.font = '22px Tiny5, monospace'; g.fillStyle = '#a9bdc2';
-    g.fillText(`${new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}${asc() ? ` · Ascension ${ROMAN[asc()]}` : ''}`, 90, CARD_H - 72);
+    const place = Hall.runs().length ? Hall.place(run) : 0; // (on course for your best five, if you've got a list yet)
+    g.fillText(`${new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}${asc() ? ` · Ascension ${ROMAN[asc()]}` : ''}${place === 1 ? ' · Best run yet' : place ? ` · Number ${place} of my best five` : ''}`, 90, CARD_H - 72);
     return c;
   },
   async open() {

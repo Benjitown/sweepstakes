@@ -1,5 +1,6 @@
 // Your best runs: when a run ends (bust, Double or Nothing, or a fresh start of your own), it's measured by its peak
 // and the top five are kept for good (they live in S.life, so going bust doesn't touch them).
+import { bus } from '../core/bus.js';
 import { S, asc } from '../core/state.js';
 
 export const HALL_SIZE = 5;
@@ -11,7 +12,9 @@ export const Hall = {
     const rec = { peak: run.peak, time: run.time, boards: run.boards, biggest: run.biggest, why, asc: asc(), at: Date.now() };
     const all = [...this.runs(), rec].sort((a, b) => b.peak - a.peak).slice(0, HALL_SIZE);
     S.life.hall = all;
-    return all.indexOf(rec) + 1;
+    const place = all.indexOf(rec) + 1;
+    bus.emit('hall', { place, runs: all.length });
+    return place;
   },
   // where the run you're on would place right now (0 if it wouldn't)
   place(run = S.run) {

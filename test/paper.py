@@ -78,6 +78,14 @@ async def run(browser, url, shots):
     ok(st['coins'] == c1 and 'Not that one' in st['res'] and st['mine'] and st['wrong'], 'a wrong tile: no prize, and the paper shows where the mine was')
     await pg.evaluate("__sw.UI.closeModal()")
 
+    # --- every story the newsroom notes has headlines, a standfirst, a picture from the sheet and (but the special
+    # editions and the quiet one) a weight; and Sunday dinner at Nan's can lead
+    bad = await pg.evaluate("""Object.keys(__sw.STORIES).filter(k => { const s = __sw.STORIES[k];
+      return !(s[0].length && s[1].length && (k === 'bust_don' || k === 'quiet' || __sw.STORY_WEIGHT[k] > 0) && document.getElementById('i-' + __sw.STORY_ART[k])); })""")
+    ok(not bad and await pg.evaluate("['lockin', 'happy', 'clock', 'sunday'].every(k => __sw.STORIES[k])"), f'every kind of story has headlines, a weight and a picture {bad}')
+    lead = await pg.evaluate("(() => { __sw.News.note('sunday'); return __sw.Paper.compose({ time: 100, news: __sw.S.run.news.slice(-1) }).lead; })()")
+    ok(lead['k'] == 'sunday' and lead['head'] in ('SUNDAY DINNER AT NAN’S', 'NAN’S ROAST “BEST IN THE COUNTY”'), f'Sunday dinner at Nan’s makes the front page: “{lead["head"]}”')
+
     # --- a quiet run
     q = await pg.evaluate("__sw.Paper.compose({ time: 100, news: [] }).lead")
     ok(q['k'] == 'quiet' and q['head'] in ('NOTHING HAPPENS IN SWEEPTOWN', 'SLOW NEWS DAY'), f'a quiet run: “{q["head"]}”')

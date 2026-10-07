@@ -1,5 +1,6 @@
 // Test handle: with ?test in the URL, main.js exposes the game's internals as window.__sw for test/run.py.
 import { TABLES, BOOST } from './data/economy.js';
+import { NightOwl } from './board/payout.js';
 import { bus } from './core/bus.js';
 import { S, SaveGame } from './core/state.js';
 import { AudioEngine } from './audio/engine.js';
@@ -94,7 +95,7 @@ import { VEG } from './content/allotment.js';
 import { News, Paper } from './game/paper.js';
 import { PaperView } from './ui/paper-view.js';
 import { PAPER, STORY_WEIGHT } from './data/paper.js';
-import { STORIES } from './content/paper.js';
+import { STORIES, STORY_ART } from './content/paper.js';
 import { Sweepstake } from './game/sweepstake.js';
 import { DRAW } from './data/sweepstake.js';
 import { Karaoke } from './game/karaoke.js';
@@ -103,6 +104,12 @@ import { KARAOKE } from './data/karaoke.js';
 import { Specials } from './game/specials.js';
 import { RunCard } from './ui/run-card.js';
 import { Requests } from './game/requests.js';
+import { Fete, Tombola } from './game/fete.js';
+import { Conkers } from './game/conkers.js';
+import { ConkersView } from './ui/conkers-view.js';
+import { CONKERS } from './data/conkers.js';
+import { FeteView } from './ui/fete-view.js';
+import { FETE, TOMBOLA } from './data/fete.js';
 import { Hall } from './game/hall.js';
 import { Sunday } from './game/sunday.js';
 import { SundayView } from './ui/sunday-view.js';
@@ -123,8 +130,10 @@ export function exposeForTests() {
   Stars.second = () => {}; // and Nan doesn't read the stars unless a test asks
   clearTimeout(Karaoke.timer); Karaoke.schedule = () => {}; // nor does anyone call you up for karaoke
   clearTimeout(Requests.timer); Requests.schedule = () => {}; // and nobody asks for a record
+  clearTimeout(Fete.timer); Fete.schedule = () => {}; // and the fete's only on when a test says so
+  clearTimeout(Conkers.timer); Conkers.schedule = () => {}; // and Priya only wants a game of conkers when a test does
   clearTimeout(Sunday.timer); Sunday.schedule = () => {}; // and Nan only asks you round when a test says it's Sunday
-  Specials.force = ''; // and no landlord's specials unless a test chalks one up
+  Specials.force = ''; Specials.fri = false; // and no landlord's specials unless a test chalks one up (and it's never Friday)
   Paper.auto = false; // nor does the paper come unless a test delivers it
   Music.hold('test', true); // and the jukebox stays quiet unless a test puts a record on
   Storm.RAINBOW = 0; // no surprise rainbows (they make your next board golden) unless a test asks
@@ -136,7 +145,7 @@ export function exposeForTests() {
     Scratchcards, ScratchView, SCRATCH_CARDS, SCRATCH_PRIZES, Quiz, QUIZ, PowerCut, PowerView, Storm, StormView, Kev, KevView, KEV, IceCream, VanView, Stars, StarsView, Banker, Dog, DogView, Bingo, BingoView, makeTicket, Outside, OutsideView, BINGO_TICKETS, BINGO_PAYS, BINGO_CALLS,
     Fruity, FruityRules, FruityView, FRUITY_REELS, FRUITY_PAYS, FRUITY_STAKES, FRUITY_FEATURES,
     Tin, TIN, Dares, DareView, DARES, DARE, Seasons, SeasonView, SEASONS, PUMPKIN, TRICK, XMAS, Claw, ClawView, CLAW, CLAW_PRIZES, CLAW_BY, CarBoot, CarBootView, BOOT, Darts, DartsView, DARTS, DARTBOARD, QuizNight, QuizNightView, NIGHT, Skins, SKINS, THREADS, RUDE_THREADS, QUIPS, RUDE_QUIPS, SURE, BINGO_END,
-    Music, musicMidi, JukeboxView, MUSIC, TRACKS, TRACK_BY, RECORDS, Allotment, AllotmentView, PLOT, CROPS, CROP_BY, VEG, News, Paper, PaperView, PAPER, STORY_WEIGHT, STORIES, Sweepstake, DRAW, Karaoke, KaraokeView, KARAOKE, Specials, SPECIAL, SPECIALS, SPECIAL_BY, BOOST, RunCard, Requests, Hall, Sunday, SundayView, SUNDAY, ROAST_MENU,
+    Music, musicMidi, JukeboxView, MUSIC, TRACKS, TRACK_BY, RECORDS, Allotment, AllotmentView, PLOT, CROPS, CROP_BY, VEG, News, Paper, PaperView, PAPER, STORY_WEIGHT, STORIES, STORY_ART, Sweepstake, DRAW, Karaoke, KaraokeView, KARAOKE, Specials, SPECIAL, SPECIALS, SPECIAL_BY, BOOST, RunCard, Requests, Fete, FeteView, FETE, Tombola, TOMBOLA, Conkers, ConkersView, CONKERS, Hall, Sunday, SundayView, SUNDAY, ROAST_MENU, NightOwl,
     get slots() { return Game.slots; },
   };
 }
