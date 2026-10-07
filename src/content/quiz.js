@@ -74,6 +74,14 @@ export const QUIZ = [
   ['What colour is the ring around the bullseye on a dartboard?', 'Green', 'Red', 'Black'],
   ['What’s the old nickname for a fruit machine?', 'A one-armed bandit', 'A money pit', 'A cherry picker'],
   ['On the Sweepstake, how many numbers do you need for ×200?', 'Four', 'Three', 'Five'],
+  ['Which tree do conkers come from?', 'The horse chestnut', 'The sweet chestnut', 'The oak'],
+  ['In what year was the Gunpowder Plot?', '1605', '1666', '1588'],
+  ['What goes on a tombola ticket that wins at the fete?', 'A number ending in 0 or 5', 'An even number', 'A number over 100'],
+  ['What does Priya soak her conker in?', 'Vinegar', 'Gravy', 'Tea'],
+  ['How many digs do you get on a Last Orders board?', 'Ten', 'Five', 'Twenty'],
+  ['What’s the rat in Splat the Rat, really?', 'A sock full of sand', 'A real rat', 'A beanbag'],
+  ['What does Nan keep warm for you if you can’t make Sunday dinner?', 'A plate', 'A seat', 'The kettle'],
+  ['What’s a Yorkshire pudding made from?', 'Batter', 'Bread', 'Pastry'],
 ];
 // how a friend opens the round
 export const QUIZ_INTROS = ['QUIZ TIME.', 'pub quiz, round one.', 'quick one for you:', 'settle an argument:', 'right, general knowledge:', 'Quiz question love x'];
