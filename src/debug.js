@@ -133,7 +133,7 @@ export function exposeForTests() {
   clearTimeout(Fete.timer); Fete.schedule = () => {}; // and the fete's only on when a test says so
   clearTimeout(Conkers.timer); Conkers.schedule = () => {}; // and Priya only wants a game of conkers when a test does
   clearTimeout(Sunday.timer); Sunday.schedule = () => {}; // and Nan only asks you round when a test says it's Sunday
-  Specials.force = ''; // and no landlord's specials unless a test chalks one up
+  Specials.force = ''; Specials.fri = false; // and no landlord's specials unless a test chalks one up (and it's never Friday)
   Paper.auto = false; // nor does the paper come unless a test delivers it
   Music.hold('test', true); // and the jukebox stays quiet unless a test puts a record on
   Storm.RAINBOW = 0; // no surprise rainbows (they make your next board golden) unless a test asks

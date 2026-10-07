@@ -31,6 +31,12 @@ async def run(browser, url, shots):
       __sw.Specials.force = ''; return { rate: n / 12000, g, kinds }; })()""")
     ok(.07 < st['rate'] < .097 and st['g'] == 0 and len(st['kinds']) == 6, f'about one board in twelve gets a special ({st["rate"]:.3f}), never a golden one, all six kinds {st["kinds"]}')
 
+    # --- on a Friday he chalks twice as many
+    fr = await pg.evaluate("""(() => { __sw.Specials.force = null; __sw.Specials.fri = true; let n = 0;
+      for (let i = 0; i < 12000; i++) if (__sw.Specials.roll(false)) n++;
+      __sw.Specials.fri = false; __sw.Specials.force = ''; return n / 12000; })()""")
+    ok(.145 < fr < .19, f'on a Friday it’s about one board in six ({fr:.3f})')
+
     # --- Double Trouble
     d = await pg.evaluate(f"{DEAL}(0, 'trouble')")
     gold = 2 if d['golden'] else 1  # (a forced special can land on a golden board, which doubles the limit again)

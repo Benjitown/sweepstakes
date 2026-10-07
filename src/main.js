@@ -124,6 +124,7 @@ const hi = LINES.hello.slice().sort(() => Math.random() - .5);
 setTimeout(() => Chat.post(...hi[0]), 600);
 setTimeout(() => Chat.post(...hi[1]), 2000);
 if (season) { const sh = LINES[season + '_hi'].slice().sort(() => Math.random() - .5); setTimeout(() => Chat.post(...sh[0]), 3800); setTimeout(() => Chat.post(...sh[1]), 5600); }
+else if (Specials.friday() && !new URLSearchParams(location.search).has('test')) setTimeout(() => Chat.post(...LINES.friday[Math.floor(Math.random() * LINES.friday.length)]), 3800); // twice the specials on a Friday
 if (!S.life.tut) setTimeout(() => Coach.start(), 900);
 WhatsNew.maybe();
 if (S.life.tut) {

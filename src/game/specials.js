@@ -7,10 +7,12 @@ import { SPECIAL, SPECIALS, SPECIAL_BY } from '../data/specials.js';
 export const Specials = {
   rng: Math.random,
   force: null, // a special for every board ('' for none): the tests use it
+  fri: null,   // true or false pretends it is or isn't Friday (the tests); null goes by your clock
+  friday() { return this.fri ?? new Date().getDay() === 5; },
   // the special for a board about to be dealt ('' for none); a golden board's special enough already
   roll(golden) {
     if (this.force !== null) return SPECIAL_BY[this.force] ? this.force : '';
-    if (golden || this.rng() >= SPECIAL.CHANCE) return '';
+    if (golden || this.rng() >= SPECIAL.CHANCE * (this.friday() ? SPECIAL.FRIDAY : 1)) return '';
     let x = this.rng() * SPECIALS.reduce((t, s) => t + s.w, 0);
     for (const s of SPECIALS) { x -= s.w; if (x <= 0) return s.id; }
     return SPECIALS[SPECIALS.length - 1].id;

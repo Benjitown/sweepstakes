@@ -253,6 +253,7 @@ namespace Sweepstakes
             { "special_beat", new[] { new[] { "priya", "beat the clock. show-off" }, new[] { "nan", "In the nick of time! Well done, love x" }, new[] { "dave", "with seconds to spare. cinema" } } },
             { "special_orders", new[] { new[] { "dave", "LAST ORDERS. make them count" }, new[] { "nan", "Last orders already? Make every one count, love x" }, new[] { "tash", "ten digs. no pressure" } } },
             { "special_time", new[] { new[] { "dave", "TIME, GENTLEMEN, PLEASE" }, new[] { "kev", "towel’s over the pumps" }, new[] { "nan", "Home time, love. Mind how you go x" } } },
+            { "friday", new[] { new[] { "dave", "it’s friday. the landlord’s gone mad with the chalk" }, new[] { "nan", "Fish and chips tonight, love? My treat x" }, new[] { "tash", "friday specials. dangerous" } } },
             { "special_lockin", new[] { new[] { "dave", "LOCK-IN. nobody leaves" }, new[] { "nan", "Ooh, a lock-in! I’ll put the kettle on, love x" }, new[] { "kev", "trapped in a pub. living the dream" } } },
             { "special_happy", new[] { new[] { "tash", "happy hour! half your stake back if it goes bang" }, new[] { "nan", "Happy hour! Have a lovely time, love x" }, new[] { "priya", "safety net. go wild" } } },
             { "special_open", new[] { new[] { "dave", "doors are open. RUN" }, new[] { "nan", "You can go home now if you like, love. Or stay a bit, I don’t mind x" }, new[] { "tash", "free at last. cash out or push your luck?" } } },
