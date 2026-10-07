@@ -70,7 +70,7 @@ import { ConkersView } from './ui/conkers-view.js';
 import { FeteView } from './ui/fete-view.js';
 import { SeasonView } from './ui/season-view.js';
 import { PUMPKIN } from './data/seasons.js';
-import { TREAT_CARD, EGGED_CARD, GUY_THANKS, GUY_BANG } from './content/seasons.js';
+import { TREAT_CARD, EGGED_CARD, GUY_THANKS, GUY_BANG, CAROL_THANKS, CAROL_NO } from './content/seasons.js';
 import { Music } from './audio/music.js';
 import { SPECIAL_BY } from './data/specials.js';
 import { Specials } from './game/specials.js';
@@ -383,6 +383,10 @@ bus.on('treat', () => {
 bus.on('trick', () => {
   SeasonView.eggs(); HouseholdView.show({ ...EGGED_CARD, buttons: [['Charming', 'ghost']] });
   setTimeout(() => Chat.say('egged', {}, .9), 1200);
+});
+bus.on('carol', ({ give }) => {
+  if (give) { HouseholdView.show({ ...CAROL_THANKS, buttons: [['Merry Christmas', 'green']] }); RunPanel.render(); Sound.buy(); setTimeout(() => Chat.say('carol_thanks', {}, .9), 900); return; }
+  HouseholdView.show({ ...CAROL_NO, buttons: [['Shh', 'ghost']] }); setTimeout(() => Chat.say('carol_no', {}, .8), 1200);
 });
 bus.on('guy', ({ give }) => {
   if (give) { News.note('guy', { n: 1 + Math.floor(Math.random() * 60) }); HouseholdView.show({ ...GUY_THANKS, buttons: [['Ooh', 'green']] }); RunPanel.render(); Sound.buy(); setTimeout(() => Chat.say('guy_thanks', {}, .9), 900); return; }

@@ -43,6 +43,15 @@ export const Seasons = {
   },
   // no sweets: they egg the window
   trick() { S.life.egged = (S.life.egged || 0) + 1; SaveGame.save(); bus.emit('trick'); },
+  // Christmas: a quid in the carol singers' tin gets you a shield (and nothing happens if you hide)
+  carol(give) {
+    if (give) {
+      const cost = this.sweets(); if (S.coins < cost) return false;
+      S.coins -= cost; S.inv.shield = (S.inv.shield || 0) + 1; S.life.carols = (S.life.carols || 0) + 1; SaveGame.saveNow();
+      bus.emit('carol', { give: true, cost }); return true;
+    }
+    bus.emit('carol', { give: false }); return true;
+  },
   // Bonfire Night: a quid for the Guy gets you a sparkler (your next board's golden); no quid and they let a banger off
   guy(give) {
     if (give) {

@@ -6,8 +6,8 @@ import { SaveGame, S, baseCap } from '../core/state.js';
 import { WeirdNoises } from '../audio/noises.js';
 import { Game } from './game.js';
 import { Seasons } from './seasons.js';
-import { TRICK, XMAS, GUY } from '../data/seasons.js';
-import { TRICK_CARD, XMAS_CARD, GUY_CARD } from '../content/seasons.js';
+import { TRICK, XMAS, GUY, CAROL } from '../data/seasons.js';
+import { TRICK_CARD, XMAS_CARD, GUY_CARD, CAROL_CARD } from '../content/seasons.js';
 
 // coins: a share of your top table's max stake when it's good, a share of your coins (capped) when it's bad.
 // fx: card, golden, shield, spin, streak0, streak1, raffle (offers a ticket), duck (offers a race)
@@ -123,6 +123,7 @@ export const Household = {
     if (k === 'halloween' && Seasons.rng() < TRICK.CHANCE) return this.resolve('door', [{ ...TRICK_CARD, w: 1 }], 0);
     if (k === 'bonfire' && Seasons.rng() < GUY.CHANCE) return this.resolve('door', [{ ...GUY_CARD, w: 1 }], 0);
     if (k === 'xmas' && S.life.xmasCard !== day) { S.life.xmasCard = day; return this.resolve('door', [{ ...XMAS_CARD, w: 1, coins: XMAS.CARD }], 0); }
+    if (k === 'xmas' && Seasons.rng() < CAROL.CHANCE) return this.resolve('door', [{ ...CAROL_CARD, w: 1 }], 0);
     return this.resolve('door', DOOR, pick);
   },
   answerPhone(pick) { return this.resolve('phone', PHONE, pick); },
