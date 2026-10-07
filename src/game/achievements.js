@@ -5,6 +5,7 @@ import { SaveGame, S, baseCap, boardCount, asc } from '../core/state.js';
 import { Rank } from './rank.js';
 import { Storm } from './storm.js';
 import { TRACKS } from '../data/jukebox.js';
+import { SPECIALS } from '../data/specials.js';
 
 export const Achievements = {
   has(id) { return !!(S.life.ach && S.life.ach[id]); },
@@ -64,6 +65,12 @@ export const Achievements = {
     bus.on('board:cashout', ({ b, why, profit }) => { if (b.special === 'clock' && why !== 'clock' && profit > 0 && b.human) u('nick'); });
     bus.on('hall', ({ place, runs }) => { if (place === 1 && runs > 1) u('pb'); });
     bus.on('fete:done', ({ hits }) => { if (hits >= 3) u('rat'); });
+    bus.on('board:cashout', ({ b, profit }) => { // Landlord's Favourite: a winning cash-out under every one of his specials
+      if (!b.special || !(profit > 0)) return;
+      const got = S.life.specials = Array.isArray(S.life.specials) ? S.life.specials : [];
+      if (!got.includes(b.special)) { got.push(b.special); SaveGame.save(); }
+      if (SPECIALS.every(s => got.includes(s.id))) u('regular');
+    });
     bus.on('conkers:done', ({ result }) => { if (result === 'won') u('conker'); });
     bus.on('board:cashout', ({ b, why, profit }) => { if (b.special === 'lockin' && why === 'manual' && profit > 0 && b.human) u('lockin'); });
     bus.on('sunday', ({ went }) => { if (went) u('roast'); });
