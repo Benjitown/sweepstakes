@@ -59,7 +59,7 @@ src/
                     dares from the group chat, the seasons (Halloween, Bonfire Night, Christmas), the claw machine, the car
                     boot sale, darts with Big Dave, quiz night, board styles, the allotment, The Daily Sweep (the paper)
                     and its Sweepstake (a lottery), karaoke at the Red Lion, the landlord's specials, Sunday dinner
-                    at Nan's
+                    at Nan's, the church fete (Splat the Rat)
   ui/               one file per view: panels, boards, shop, modals, tutorial, daily, keys, coin graph, household, ducks...
 assets/             fonts (+ OFL licence) and the favicon
 tools/              build.py, serve.py, vc.py (version control), export_rules.mjs, sim/ (economy, Fruity and KEVCOIN simulators)
@@ -119,6 +119,8 @@ The suites run against both the ES-module source and the built file:
 - **specials:** the landlord's specials: how often (about 1 in 12, never golden), Double Trouble's mines, limit and
   risky digs, Gem Rush's gems, Against the Clock's countdown, bonus and cash-out, the Lock-in's locked doors and
   doubled profit (and no Banker), Happy Hour's half stake back, surviving a reload, and the phone
+- **fete:** the church fete's Splat the Rat: the card, three goes for the fee, a splat, pulling too early, too slow,
+  what it pays (money back, ×3, ×8), Rat Catcher, walking off half-way, Stats, the paper and the phone
 - **karaoke:** the notes timed to the record (swing and all), the scoring (great, good, missed, bum notes), a standing
   ovation and what it pays, the machine's rest, being booed off, singing with the sound muted, and the phone
 - **jukebox:** the records (every note a real note that fits its bar), putting one on, every record playing, shuffle,

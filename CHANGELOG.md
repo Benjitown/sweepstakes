@@ -58,6 +58,10 @@ Each version is also a save in the built-in version control. Run `python tools/v
 - **Biscuit, next door's dog.** If you hear barking, he trots in along the bottom of the screen and waits ("Woof?").
   Give him a biscuit (3% of the top table's max stake) and he sniffs out a mine on your board and sits on it: flagged,
   glowing orange for a moment. Ignore him and he wanders off. New achievement: Good Boy.
+- **The church fete: Splat the Rat.** Every so often the fete's on (Nan's on the cake stall). Three goes for 3% of
+  your top table's max stake: pull the cord, and when the rat shoots out of the bottom of the drainpipe, splat it.
+  Too early and it's still up the pipe; too slow and it's gone. One splat gets your money back, two pays ×3, all
+  three ×8. Walk off half-way and you're still paid for your splats. New achievement: Rat Catcher.
 - **Penny for the Guy.** In Bonfire week, half the knocks at the door are two kids with a Guy in a wheelbarrow. Give
   them a quid (what a bag of sweets costs at Halloween) and they hand you a lit sparkler: your next board's golden.
   No change, and they let a banger off on the step: there goes your streak.

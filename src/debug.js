@@ -103,6 +103,9 @@ import { KARAOKE } from './data/karaoke.js';
 import { Specials } from './game/specials.js';
 import { RunCard } from './ui/run-card.js';
 import { Requests } from './game/requests.js';
+import { Fete } from './game/fete.js';
+import { FeteView } from './ui/fete-view.js';
+import { FETE } from './data/fete.js';
 import { Hall } from './game/hall.js';
 import { Sunday } from './game/sunday.js';
 import { SundayView } from './ui/sunday-view.js';
@@ -123,6 +126,7 @@ export function exposeForTests() {
   Stars.second = () => {}; // and Nan doesn't read the stars unless a test asks
   clearTimeout(Karaoke.timer); Karaoke.schedule = () => {}; // nor does anyone call you up for karaoke
   clearTimeout(Requests.timer); Requests.schedule = () => {}; // and nobody asks for a record
+  clearTimeout(Fete.timer); Fete.schedule = () => {}; // and the fete's only on when a test says so
   clearTimeout(Sunday.timer); Sunday.schedule = () => {}; // and Nan only asks you round when a test says it's Sunday
   Specials.force = ''; // and no landlord's specials unless a test chalks one up
   Paper.auto = false; // nor does the paper come unless a test delivers it
@@ -136,7 +140,7 @@ export function exposeForTests() {
     Scratchcards, ScratchView, SCRATCH_CARDS, SCRATCH_PRIZES, Quiz, QUIZ, PowerCut, PowerView, Storm, StormView, Kev, KevView, KEV, IceCream, VanView, Stars, StarsView, Banker, Dog, DogView, Bingo, BingoView, makeTicket, Outside, OutsideView, BINGO_TICKETS, BINGO_PAYS, BINGO_CALLS,
     Fruity, FruityRules, FruityView, FRUITY_REELS, FRUITY_PAYS, FRUITY_STAKES, FRUITY_FEATURES,
     Tin, TIN, Dares, DareView, DARES, DARE, Seasons, SeasonView, SEASONS, PUMPKIN, TRICK, XMAS, Claw, ClawView, CLAW, CLAW_PRIZES, CLAW_BY, CarBoot, CarBootView, BOOT, Darts, DartsView, DARTS, DARTBOARD, QuizNight, QuizNightView, NIGHT, Skins, SKINS, THREADS, RUDE_THREADS, QUIPS, RUDE_QUIPS, SURE, BINGO_END,
-    Music, musicMidi, JukeboxView, MUSIC, TRACKS, TRACK_BY, RECORDS, Allotment, AllotmentView, PLOT, CROPS, CROP_BY, VEG, News, Paper, PaperView, PAPER, STORY_WEIGHT, STORIES, STORY_ART, Sweepstake, DRAW, Karaoke, KaraokeView, KARAOKE, Specials, SPECIAL, SPECIALS, SPECIAL_BY, BOOST, RunCard, Requests, Hall, Sunday, SundayView, SUNDAY, ROAST_MENU,
+    Music, musicMidi, JukeboxView, MUSIC, TRACKS, TRACK_BY, RECORDS, Allotment, AllotmentView, PLOT, CROPS, CROP_BY, VEG, News, Paper, PaperView, PAPER, STORY_WEIGHT, STORIES, STORY_ART, Sweepstake, DRAW, Karaoke, KaraokeView, KARAOKE, Specials, SPECIAL, SPECIALS, SPECIAL_BY, BOOST, RunCard, Requests, Fete, FeteView, FETE, Hall, Sunday, SundayView, SUNDAY, ROAST_MENU,
     get slots() { return Game.slots; },
   };
 }
