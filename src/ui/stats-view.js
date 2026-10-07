@@ -30,6 +30,7 @@ import { StarsView } from './stars-view.js';
 import { SIGNS } from '../content/horoscopes.js';
 import { Music } from '../audio/music.js';
 import { JukeboxView } from './jukebox-view.js';
+import { RunCard } from './run-card.js';
 
 export const StatsView = {
   // don't redraw the tab under someone dragging a slider
@@ -101,7 +102,7 @@ export const StatsView = {
         <label class="sw"><input type="checkbox" id="tg-seasons" ${pref('seasons') ? 'checked' : ''}> Seasonal bits</label>
         <label class="sw"><input type="checkbox" id="tg-nanvoice" ${pref('nanvoice') ? 'checked' : ''}> Nan reads the bingo</label>
         <label class="sw"><input type="checkbox" id="tg-music" ${pref('music') ? 'checked' : ''}> Music (the jukebox)</label></div>
-      <div class="row-btns"><button class="btn green" type="button" id="btnGrass">Go outside</button><button class="btn blue" type="button" id="btnTut">Replay tutorial</button><button class="btn ghost" type="button" id="btnReset">Declare bankruptcy</button></div>
+      <div class="row-btns"><button class="btn green" type="button" id="btnGrass">Go outside</button><button class="btn gold" type="button" id="btnCard">Run card</button><button class="btn blue" type="button" id="btnTut">Replay tutorial</button><button class="btn ghost" type="button" id="btnReset">Declare bankruptcy</button></div>
       <p class="ver">Sweepstakes v${VERSION} · <button class="clink" type="button" id="btnNews">What’s new</button> · <button class="clink" type="button" id="btnKeys">Shortcuts</button> · <button class="clink" type="button" id="btnJukeS">Jukebox</button></p>`;
     ['crt', 'quips', 'odd', 'vibe', 'rude', 'quiz', 'dares', 'seasons', 'nanvoice', 'music'].forEach(k => { $('#tg-' + k).onchange = e => {
       S[k] = e.target.checked; Sound.toggle(e.target.checked); RunPanel.render(); SaveGame.saveNow();
@@ -125,6 +126,7 @@ export const StatsView = {
     });
     $('#btnTut').onclick = () => Coach.start(true);
     $('#btnGrass').onclick = () => OutsideView.open();
+    $('#btnCard').onclick = () => RunCard.open();
     const sg = $('#btnSign'); if (sg) sg.onclick = () => { StarsView.ask(); UI.toast('Nan’s asking in the group chat.'); };
     $('#btnNews').onclick = () => WhatsNew.show();
     $('#btnKeys').onclick = () => Keys.help();

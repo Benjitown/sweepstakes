@@ -135,6 +135,17 @@ async def run(browser, url, shots):
        f'volume sliders: master gain {g[2]:.3f} (.22 at 40%), a duck plays at {g[3]:.3f} (25% of {g[4]})')
     ok(await pg.evaluate("(() => { __sw.Game.bust('manual', true); return [__sw.S.vol, __sw.S.noiseVol]; })()") == [.4, .25], '…and they survive going bust')
 
+    # --- the run card: a picture of your run to share
+    await pg.evaluate("__sw.UI.closeModal()")
+    await pg.click('[data-tab="stats"]'); await pg.wait_for_timeout(200)
+    await pg.click('#btnCard'); await pg.wait_for_timeout(1200)
+    st = await pg.evaluate("""(() => { const i = document.getElementById('runCard'), a = document.getElementById('runCardSave');
+      return i ? { w: i.naturalWidth, h: i.naturalHeight, png: i.src.startsWith('data:image/png') && i.src.length > 20000, dl: a.getAttribute('download'), alt: i.alt } : null; })()""")
+    ok(st and st['w'] == 1200 and st['h'] == 630 and st['png'] and st['dl'] == 'sweepstakes-run.png' and 'Peak coins' in st['alt'] and 'Achievements' in st['alt'],
+       f'Stats: Run card draws a 1200×630 picture of your run, ready to download ({st and st["alt"][:70]}…)')
+    await pg.screenshot(path=str(shots / 'run_card.png'))
+    await pg.evaluate("__sw.UI.closeModal()")
+
     ok(not errs, 'no console errors' + (': ' + '; '.join(errs[:3]) if errs else ''))
     await ctx.close()
     return R
