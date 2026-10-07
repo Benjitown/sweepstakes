@@ -8,6 +8,8 @@ import { Game } from '../game/game.js';
 import { DigCommand, FlagCommand, ChordCommand, ProbeCommand, CashOutCommand, invoke } from '../game/commands.js';
 import { UI } from './ui.js';
 import { Quips } from './quip-popups.js';
+import { SPECIAL_BY } from '../data/specials.js';
+import { Specials } from '../game/specials.js';
 
 export const BoardsView = {
   root: $('#boards'),
@@ -31,8 +33,9 @@ export const BoardsView = {
       holder.querySelector('button').onclick = () => Game.deal(s);
       return;
     }
-    b.el = holder; holder.className = 'board' + (b.golden ? ' golden' : ''); holder.style.setProperty('--tc', b.t.col);
-    holder.innerHTML = `<div class="bh"><span class="tchip">${esc(b.t.name)}</span>${b.golden ? '<span class="goldtag">Golden ×2</span>' : ''}
+    b.el = holder; holder.className = 'board' + (b.golden ? ' golden' : '') + (b.special ? ' special' : ''); holder.style.setProperty('--tc', b.t.col);
+    const sp = b.special && SPECIAL_BY[b.special];
+    holder.innerHTML = `<div class="bh"><span class="tchip">${esc(b.t.name)}</span>${b.golden ? '<span class="goldtag">Golden ×2</span>' : ''}${sp ? `<span class="spectag" title="${esc(sp.blurb)}">${esc(sp.name)}${b.special === 'clock' ? ' <b class="clockct num"></b>' : ''}</span>` : ''}
         <span class="bot-on" hidden title="Bots are working this board">${ico('bot')}</span>
         <span class="gemct" title="Gems found on this board">${ico('gem')}<b class="num">0/0</b></span>
         <span class="blim">${b.m} mines · limit ×${fmtLim(b.lim)}</span></div>
@@ -108,6 +111,8 @@ export const BoardsView = {
     b.el.querySelector('.pot b').textContent = fmt(b.pot());
     b.el.querySelector('.bprog i').style.width = (b.frac() * 100).toFixed(1) + '%';
     b.el.querySelector('.gemct b').textContent = `${b.gemsFound}/${b.gemsTotal}`;
+    const ck = b.el.querySelector('.clockct');
+    if (ck) { const l = Specials.left(b), s = Math.ceil(l ?? SPECIAL_BY.clock.secs); ck.textContent = `${s}s`; ck.classList.toggle('hurry', l !== null && l <= 10 && !b.over); }
     b.el.querySelector('.gemct').classList.toggle('all', b.started && b.gemsFound >= b.gemsTotal && b.gemsTotal > 0);
     const cash = b.el.querySelector('.cash');
     cash.disabled = !b.started || b.over;

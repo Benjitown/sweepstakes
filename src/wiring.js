@@ -68,6 +68,8 @@ import { SeasonView } from './ui/season-view.js';
 import { PUMPKIN } from './data/seasons.js';
 import { TREAT_CARD, EGGED_CARD } from './content/seasons.js';
 import { Music } from './audio/music.js';
+import { SPECIAL_BY } from './data/specials.js';
+import { Specials } from './game/specials.js';
 import { TRACKS } from './data/jukebox.js';
 import { JukeboxView } from './ui/jukebox-view.js';
 import { Karaoke } from './game/karaoke.js';
@@ -457,6 +459,19 @@ bus.on('karaoke:done', r => {
   setTimeout(() => Chat.say(r.x >= 2 ? 'karaoke_great' : 'karaoke_bad', {}, 1), 1500);
   if (r.x >= 3) News.note('karaoke_ovation', { score: Math.round(r.score * 100) }); else if (!r.x) News.note('karaoke_booed', { score: Math.round(r.score * 100) });
 });
+
+/* ---------- the landlord's specials: a twist chalked on a board now and then ---------- */
+bus.on('board:dealt', ({ b, quiet }) => {
+  if (!b.special) return;
+  const sp = SPECIAL_BY[b.special];
+  if (!quiet) UI.toast(`The landlord’s special on ${b.t.name}: ${sp.name}. ${sp.blurb}`);
+  setTimeout(() => Chat.say('special_' + b.special, {}, .5), 900);
+});
+bus.on('tick', () => Game.slots.forEach(b => { // Against the Clock: the countdown, and the cash-out when it's up
+  if (!b || b.over || b.special !== 'clock') return;
+  const l = Specials.left(b); if (l === 0) Game.cashOut(b, 'clock'); else if (l !== null) BoardsView.hud(b);
+}));
+bus.on('board:cashout', ({ b, why, profit }) => { if (b.special === 'clock' && b.human) setTimeout(() => Chat.say(why === 'clock' ? 'special_late' : profit > 0 ? 'special_beat' : '_', {}, .7), 800); });
 
 /* ---------- the jukebox (the Halloween record's only on it in October) ---------- */
 Music.available = () => TRACKS.filter(t => !t.season || Seasons.is(t.season));

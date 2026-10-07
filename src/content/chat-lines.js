@@ -140,6 +140,12 @@ export const LINES = {
   karaoke_great: [['dave', 'GOOSEBUMPS. actual goosebumps'], ['nan', 'What a lovely voice! You get that from me, love x'], ['priya', 'the whole pub joined in on the last line'],
     ['tash', 'ok that was genuinely good. I hate it']],
   karaoke_bad:   [['dave', 'I’ve heard better from the fruit machine'], ['tash', 'my ears'], ['nan', 'You were brilliant to me, love x'], ['kev', 'I recorded it. minting it as a KEVCOIN']],
+  // the landlord's specials, chalked on a board
+  special_trouble: [['dave', 'Double Trouble. I’ve seen grown men cry at that board'], ['nan', 'Be careful on that one, love x'], ['kev', 'more mines, more money. that’s just maths']],
+  special_rush:    [['priya', 'gem rush! dig dig dig'], ['nan', 'Ooh, sparkly! Good luck, love x'], ['tash', 'two extra gems. go on then']],
+  special_clock:   [['dave', 'FORTY SECONDS. GO'], ['tash', 'clock’s ticking. no pressure'], ['nan', 'Don’t rush on my account, love. Well, a bit x']],
+  special_beat:    [['priya', 'beat the clock. show-off'], ['nan', 'In the nick of time! Well done, love x'], ['dave', 'with seconds to spare. cinema']],
+  special_late:    [['dave', 'buzzer. too slow'], ['kev', 'time waits for no man. or Kev'], ['nan', 'Never mind, love. You still got something x']],
   // the jukebox: everyone has an opinion about your record
   juke_lounge:   [['priya', 'very James Bond. are you wearing a bow tie'], ['dave', 'lift music. I love it'], ['nan', 'Ooh very posh. Shall I put my pearls on x'],
     ['kev', 'this is what they play when you’re on hold to the bank']],

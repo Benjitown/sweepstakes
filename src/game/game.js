@@ -20,6 +20,8 @@ import { Stars } from './horoscope.js';
 import { Tin } from './biscuit-tin.js';
 import { Seasons } from './seasons.js';
 import { PUMPKIN } from '../data/seasons.js';
+import { SPECIAL_BY } from '../data/specials.js';
+import { Specials } from './specials.js';
 import { UI } from '../ui/ui.js';
 
 /* =====================================================================================
@@ -54,7 +56,7 @@ export const Game = {
     let golden = Math.random() < GOLDEN * (hasA('midas') ? 3 : 1);
     if (S.goldNext > 0) { S.goldNext--; golden = true; }
     S.run.boards++; S.life.boards++;
-    const b = boardFactory().create(slot, t, stake, golden);
+    const b = boardFactory().create(slot, t, stake, golden, Specials.roll(golden));
     this.slots[slot] = b;
     this.setCoins(S.coins - stake);
     bus.emit('board:dealt', { b, quiet, big: !quiet && stake >= Math.max(500, (S.coins + stake) * .4) });
@@ -87,6 +89,7 @@ export const Game = {
       let bonus = BOOST * (1 + .25 * asc()) * p / (1 - p);
       if (hasA('daredevil')) { bonus *= 1.3; bus.emit('addon:fired', { id: 'daredevil' }); }
       if (hasA('glass')) { bonus *= 2; bus.emit('addon:fired', { id: 'glass' }); }
+      if (b.special === 'trouble') bonus *= SPECIAL_BY.trouble.risky; // the landlord's special: risky digs pay double
       const k = 1 + bonus; b.G *= k; b.guesses++; b.combo++;
       bus.emit('board:risky', { b, i, k, p, src, combo: b.combo });
     }
